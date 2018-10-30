@@ -84,6 +84,16 @@ SimpleEmail requires at least Android 6 Marshmallow.
 SimpleEmail might occasionally crash on Motorola/Lenovo devices with Android 7 Nougat or earlier
 because of a [bug in Android](https://issuetracker.google.com/issues/63377371).
 
+## Frequently asked questions
+
+See [here](https://framagit.org/dystopia-project/simple-email/blob/master/FAQ.md) for a list of often asked questions.
+
+## Support
+
+* For support on SimpleEmail, please open a [issue](https://framagit.org/dystopia-project/simple-email/issues)
+
+For support on authorizing accounts you should contact your provider.
+
 ## Contributing
 
 *Documentation*

@@ -1,16 +1,12 @@
-# Question
-
-* For questions, please use [this forum](https://forum.xda-developers.com/android/apps-games/source-email-t3824168).
-
 # Feature request
 
-* Did you check if there wasn't a similar feature request?
-* Did you read [this FAQ](https://github.com/M66B/open-source-email/blob/master/FAQ.md#FAQ15)?
+* Did you check if there wasn't a similar feature request or open a PR with similar feature?
+* Did you read [this FAQ](https://framagit.org/dystopia-project/simple-email/blob/master/FAQ.md#FAQ15)?
 
 # Bug report
 
-* Did you check if there wasn't a similar bug report?
-* Are you using the [latest version](https://github.com/M66B/open-source-email/releases) of the app?
+* Did you check if there wasn't a similar bug report or PR open to fix similar bug?
+* Are you using the [latest version](https://framagit.org/dystopia-project/simple-email/releases) of the app?
 
 ## Expected behavior
 
@@ -21,8 +17,8 @@
 ## Steps to reproduce the problem
 
 1.
-1.
-1.
+2.
+3.
 
 ## Version
 

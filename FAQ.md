@@ -1,4 +1,4 @@
-# FairEmail
+# SimpleEmail
 
 If you have a question, please check the frequently asked questions below first.
 At the bottom you can find how to ask other questions, request features and report bugs.
@@ -55,7 +55,7 @@ Valid security certificates are officially signed (not self signed) and have mat
 
 ~~Without [IMAP IDLE](https://en.wikipedia.org/wiki/IMAP_IDLE) emails need to be periodically fetched,~~
 ~~which is a waste of battery power and internet bandwidth and will delay notification of new emails.~~
-~~Since the goal of FairEmail is to offer safe and fast email, providers without IMAP IDLE are not supported.~~
+~~Since the goal of SimpleEmail is to offer safe and fast email, providers without IMAP IDLE are not supported.~~
 ~~You should consider this a problem of the provider, not of the app.~~
 ~~Almost all email providers offer IMAP IDLE, with as notable exception Yahoo!~~
 
@@ -97,7 +97,7 @@ You can configure these by setting the email address field to the alias address 
 
 The error message *UIDPLUS not supported* means that your email provider does not provide the IMAP [UIDPLUS extension](https://tools.ietf.org/html/rfc4315).
 This IMAP extension is required to implement two way synchronization, which is not an optional feature.
-So, unless your provider can enable this extension, you cannot use FairEmail for this provider.
+So, unless your provider can enable this extension, you cannot use SimpleEmail for this provider.
 
 <a name="FAQ11"></a>
 ~~**(11) Why is STARTTLS for IMAP not supported?**~~
@@ -163,34 +163,6 @@ If the *Synchronize now* menu is dimmed, there is no connection to the account.
 
 See the previous question for more information.
 
-<a name="FAQ19"></a>
-**(19) Why are the pro features so expensive?**
-
-The right question is "*why are there so many taxes and fees?*":
-
-* VAT: 25% (depending on your country)
-* Google fee: 30%
-* Income tax: 50%
-
-So, what is left for the developer is just a fraction of what you pay.
-
-Note that only some convenience and advanced features need to be purchased, which means that FairEmail is basically free to use.
-
-Also note that most free apps will appear not to be sustainable in the end, whereas FairEmail is properly maintained and supported,
-and that free apps may have a catch, like sending privacy sensitive information to the internet.
-
-<a name="FAQ20"></a>
-**(20) Can I get a refund?**
-
-If a purchased pro feature doesn't work as intended
-and this isn't caused by a problem in the free features
-and I cannot fix the problem in a timely manner, you can get a refund.
-In all other cases there is no refund possible.
-In no circumstances there is a refund possible for any problem related to the free features,
-since there wasn't paid anything for them and because they can be evaluated without any limitation.
-I take my responsibility as seller to deliver what has been promised
-and I expect that you take responsibility for informing yourself of what you are buying.
-
 <a name="FAQ21"></a>
 **(21) How do I enable the notification light?**
 
@@ -201,7 +173,7 @@ Android 8 Oreo and later: see [here](https://developer.android.com/training/noti
 <a name="FAQ22"></a>
 **(22) Why do I get 'Couldn't connect to host' ?**
 
-The message *Couldn't connect to host ...* means that FairEmail was not able to connect to the email server.
+The message *Couldn't connect to host ...* means that SimpleEmail was not able to connect to the email server.
 
 Possible causes are:
 
@@ -237,16 +209,15 @@ If a menu item to select a file is disabled (dimmed),
 likely the [storage access framework](https://developer.android.com/guide/topics/providers/document-provider),
 a standard Android component, is not present,
 for example because your custom ROM does not include it or because it was removed.
-FairEmail does not request storage permissions, so this framework is required to select files and folders.
+SimpleEmail does not request storage permissions, so this framework is required to select files and folders.
 No app, except maybe file managers, targetting Android 4.4 KitKat or later should ask for storage permissions because it would allow access to *all* files.
 
 <a name="FAQ26"></a>
-**(26) Can I help to translate FairEmail in my own language?**
+**(26) Can I help to translate SimpleEmail in my own language?**
 
-Yes, you can translate the texts of FairEmail in your own language [here](https://crowdin.com/project/open-source-email).
+Yes, you can translate the texts of SimpleEmail in your own language [here](https://crowdin.com/project/open-source-email).
 Registration is free.
 
 <br>
 
-If you have another question, want to request a feature or report a bug, you can use [this forum](https://forum.xda-developers.com/android/apps-games/source-email-t3824168).
-Registration is free.
+If you have another question, want to request a feature or report a bug, you can send a [email](distopico@riseup.net) or open PR.

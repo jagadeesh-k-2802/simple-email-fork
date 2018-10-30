@@ -1,4 +1,4 @@
 # Important
 
-* Did you read the [contributing section](https://github.com/M66B/open-source-email#contributing)?
-* Do you agree to [the license and the copyright](https://github.com/M66B/open-source-email#license)?
+* Did you read the [contributing section](https://framagit.org/dystopia-project/simple-email#contributing)?
+* Do you agree to [the license and the copyright](https://framagit.org/dystopia-project/simple-email#license)?
