@@ -178,14 +178,8 @@ public class ActivityView extends ActivityBase implements FragmentManager.OnBack
                     case R.string.menu_about:
                         onMenuAbout();
                         break;
-                    case R.string.menu_rate:
-                        onMenuRate();
-                        break;
                     case R.string.menu_invite:
                         onMenuInvite();
-                        break;
-                    case R.string.menu_other:
-                        onMenuOtherApps();
                         break;
                 }
 
@@ -241,12 +235,6 @@ public class ActivityView extends ActivityBase implements FragmentManager.OnBack
                 if (getIntentInvite().resolveActivity(getPackageManager()) != null)
                     drawerArray.add(new DrawerItem(ActivityView.this, R.layout.item_drawer, R.drawable.baseline_people_24, R.string.menu_invite));
 
-                if (getIntentRate().resolveActivity(getPackageManager()) != null)
-                    drawerArray.add(new DrawerItem(ActivityView.this, R.layout.item_drawer, R.drawable.baseline_star_24, R.string.menu_rate));
-
-                if (getIntentOtherApps().resolveActivity(getPackageManager()) != null)
-                    drawerArray.add(new DrawerItem(ActivityView.this, R.layout.item_drawer, R.drawable.baseline_get_app_24, R.string.menu_other));
-
                 drawerList.setAdapter(drawerArray);
             }
         });
@@ -268,8 +256,8 @@ public class ActivityView extends ActivityBase implements FragmentManager.OnBack
 
         checkFirst();
         checkCrash();
-        if (!Helper.isPlayStoreInstall(this))
-            checkUpdate();
+        // TODO: check update from menu
+        // checkUpdate();
 
         pgpService = new OpenPgpServiceConnection(this, "org.sufficientlysecure.keychain");
         pgpService.bindToService();
@@ -636,13 +624,6 @@ public class ActivityView extends ActivityBase implements FragmentManager.OnBack
         return intent;
     }
 
-    private Intent getIntentRate() {
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + BuildConfig.APPLICATION_ID));
-        if (intent.resolveActivity(getPackageManager()) == null)
-            intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID));
-        return intent;
-    }
-
     private Intent getIntentInvite() {
         Intent intent = new Intent("com.google.android.gms.appinvite.ACTION_APP_INVITE");
         intent.setPackage("com.google.android.gms");
@@ -650,12 +631,6 @@ public class ActivityView extends ActivityBase implements FragmentManager.OnBack
         intent.putExtra("com.google.android.gms.appinvite.MESSAGE", getString(R.string.title_try));
         intent.putExtra("com.google.android.gms.appinvite.BUTTON_TEXT", getString(R.string.title_try));
         // com.google.android.gms.appinvite.DEEP_LINK_URL
-        return intent;
-    }
-
-    private Intent getIntentOtherApps() {
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse("https://play.google.com/store/apps/dev?id=8420080860664580239"));
         return intent;
     }
 
@@ -709,35 +684,8 @@ public class ActivityView extends ActivityBase implements FragmentManager.OnBack
         fragmentTransaction.commit();
     }
 
-    private void onMenuRate() {
-        Intent faq = getIntentFAQ();
-        if (faq.resolveActivity(getPackageManager()) == null)
-            Helper.view(this, getIntentRate());
-        else {
-            new DialogBuilderLifecycle(this, this)
-                    .setMessage(R.string.title_issue)
-                    .setPositiveButton(R.string.title_yes, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Helper.view(ActivityView.this, getIntentFAQ());
-                        }
-                    })
-                    .setNegativeButton(R.string.title_no, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Helper.view(ActivityView.this, getIntentRate());
-                        }
-                    })
-                    .show();
-        }
-    }
-
     private void onMenuInvite() {
         startActivityForResult(getIntentInvite(), REQUEST_INVITE);
-    }
-
-    private void onMenuOtherApps() {
-        Helper.view(this, getIntentOtherApps());
     }
 
     private class DrawerItem {

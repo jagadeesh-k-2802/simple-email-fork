@@ -185,7 +185,7 @@ public class Helper {
     }
 
     static Address myAddress() throws UnsupportedEncodingException {
-        return new InternetAddress("marcel+fairemail@faircode.eu", "FairCode");
+        return new InternetAddress("distopico@riseup.net", "Distopico");
     }
 
     static String canonicalAddress(String address) {
@@ -258,17 +258,6 @@ public class Helper {
         return null;
     }
 
-    static boolean isPlayStoreInstall(Context context) {
-        if (false && BuildConfig.DEBUG)
-            return true;
-        try {
-            return "com.android.vending".equals(context.getPackageManager().getInstallerPackageName(context.getPackageName()));
-        } catch (Throwable ex) {
-            Log.e(TAG, Log.getStackTraceString(ex));
-            return false;
-        }
-    }
-
     static String sha256(String data) throws NoSuchAlgorithmException {
         return sha256(data.getBytes());
     }
@@ -279,57 +268,6 @@ public class Helper {
         for (byte b : bytes)
             sb.append(String.format("%02x", b));
         return sb.toString();
-    }
-
-    static String getBillingResponseText(@BillingClient.BillingResponse int responseCode) {
-        switch (responseCode) {
-            case BillingClient.BillingResponse.BILLING_UNAVAILABLE:
-                // Billing API version is not supported for the type requested
-                return "BILLING_UNAVAILABLE";
-
-            case BillingClient.BillingResponse.DEVELOPER_ERROR:
-                // Invalid arguments provided to the API.
-                return "DEVELOPER_ERROR";
-
-            case BillingClient.BillingResponse.ERROR:
-                // Fatal error during the API action
-                return "ERROR";
-
-            case BillingClient.BillingResponse.FEATURE_NOT_SUPPORTED:
-                // Requested feature is not supported by Play Store on the current device.
-                return "FEATURE_NOT_SUPPORTED";
-
-            case BillingClient.BillingResponse.ITEM_ALREADY_OWNED:
-                // Failure to purchase since item is already owned
-                return "ITEM_ALREADY_OWNED";
-
-            case BillingClient.BillingResponse.ITEM_NOT_OWNED:
-                // Failure to consume since item is not owned
-                return "ITEM_NOT_OWNED";
-
-            case BillingClient.BillingResponse.ITEM_UNAVAILABLE:
-                // Requested product is not available for purchase
-                return "ITEM_UNAVAILABLE";
-
-            case BillingClient.BillingResponse.OK:
-                // Success
-                return "OK";
-
-            case BillingClient.BillingResponse.SERVICE_DISCONNECTED:
-                // Play Store service is not connected now - potentially transient state.
-                return "SERVICE_DISCONNECTED";
-
-            case BillingClient.BillingResponse.SERVICE_UNAVAILABLE:
-                // Network connection is down
-                return "SERVICE_UNAVAILABLE";
-
-            case BillingClient.BillingResponse.USER_CANCELED:
-                // User pressed back or canceled a dialog
-                return "USER_CANCELED";
-
-            default:
-                return Integer.toString(responseCode);
-        }
     }
 
     public static String getFingerprint(Context context) {
@@ -354,12 +292,6 @@ public class Helper {
         String signed = getFingerprint(context);
         String expected = context.getString(R.string.fingerprint);
         return (signed != null && signed.equals(expected));
-    }
-
-    static boolean isPro(Context context) {
-        if (false && BuildConfig.DEBUG)
-            return true;
-        return PreferenceManager.getDefaultSharedPreferences(context).getBoolean("pro", false);
     }
 
     static long[] toLongArray(List<Long> list) {
