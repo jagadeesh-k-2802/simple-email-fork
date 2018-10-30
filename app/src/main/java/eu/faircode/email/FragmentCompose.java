@@ -17,6 +17,7 @@ package eu.faircode.email;
     along with FairEmail.  If not, see <http://www.gnu.org/licenses/>.
 
     Copyright 2018 by Marcel Bokhorst (M66B)
+    Copyright 2019 by Distopico <distopico@riseup.net>
 */
 
 import android.Manifest;
@@ -496,45 +497,41 @@ public class FragmentCompose extends FragmentEx {
     }
 
     private void onEncrypt() {
-        if (Helper.isPro(getContext())) {
-            if (pgpService.isBound())
-                try {
-                    String to = etTo.getText().toString();
-                    InternetAddress ato[] = (TextUtils.isEmpty(to) ? new InternetAddress[0] : InternetAddress.parse(to));
-                    if (ato.length == 0)
-                        throw new IllegalArgumentException(getString(R.string.title_to_missing));
+        if (pgpService.isBound()) {
+            try {
+                String to = etTo.getText().toString();
+                InternetAddress ato[] = (TextUtils.isEmpty(to) ? new InternetAddress[0] : InternetAddress.parse(to));
+                if (ato.length == 0)
+                    throw new IllegalArgumentException(getString(R.string.title_to_missing));
 
-                    String[] tos = new String[ato.length];
-                    for (int i = 0; i < ato.length; i++)
-                        tos[i] = ato[i].getAddress();
+                String[] tos = new String[ato.length];
+                for (int i = 0; i < ato.length; i++)
+                    tos[i] = ato[i].getAddress();
 
-                    Intent data = new Intent();
-                    data.setAction(OpenPgpApi.ACTION_SIGN_AND_ENCRYPT);
-                    data.putExtra(OpenPgpApi.EXTRA_USER_IDS, tos);
-                    data.putExtra(OpenPgpApi.EXTRA_REQUEST_ASCII_ARMOR, true);
+                Intent data = new Intent();
+                data.setAction(OpenPgpApi.ACTION_SIGN_AND_ENCRYPT);
+                data.putExtra(OpenPgpApi.EXTRA_USER_IDS, tos);
+                data.putExtra(OpenPgpApi.EXTRA_REQUEST_ASCII_ARMOR, true);
 
-                    encrypt(data);
-                } catch (Throwable ex) {
-                    if (ex instanceof IllegalArgumentException)
-                        Snackbar.make(view, ex.getMessage(), Snackbar.LENGTH_LONG).show();
-                    else
-                        Helper.unexpectedError(getContext(), ex);
+                encrypt(data);
+            } catch (Throwable ex) {
+                if (ex instanceof IllegalArgumentException) {
+                    Snackbar.make(view, ex.getMessage(), Snackbar.LENGTH_LONG).show();
+                } else {
+                    Helper.unexpectedError(getContext(), ex);
                 }
-            else {
-                Snackbar snackbar = Snackbar.make(view, R.string.title_no_openpgp, Snackbar.LENGTH_LONG);
-                if (Helper.getIntentOpenKeychain().resolveActivity(getContext().getPackageManager()) != null)
-                    snackbar.setAction(R.string.title_fix, new View.OnClickListener() {
+            }
+        } else {
+            Snackbar snackbar = Snackbar.make(view, R.string.title_no_openpgp, Snackbar.LENGTH_LONG);
+            if (Helper.getIntentOpenKeychain().resolveActivity(getContext().getPackageManager()) != null) {
+                snackbar.setAction(R.string.title_fix, new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             startActivity(Helper.getIntentOpenKeychain());
                         }
                     });
-                snackbar.show();
             }
-        } else {
-            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.content_frame, new FragmentPro()).addToBackStack("pro");
-            fragmentTransaction.commit();
+            snackbar.show();
         }
     }
 
@@ -962,7 +959,6 @@ public class FragmentCompose extends FragmentEx {
             long id = args.getLong("id", -1);
             long reference = args.getLong("reference", -1);
             long answer = args.getLong("answer", -1);
-            boolean pro = Helper.isPro(getContext());
 
             Log.i(Helper.TAG, "Load draft action=" + action + " id=" + id + " reference=" + reference);
 
@@ -1076,8 +1072,9 @@ public class FragmentCompose extends FragmentEx {
                     else
                         body = body.replaceAll("\\r?\\n", "<br />");
 
-                    if (pro && !TextUtils.isEmpty(account.signature))
+                    if (!TextUtils.isEmpty(account.signature)) {
                         body += account.signature;
+                    }
                 } else {
                     draft.thread = ref.thread;
 
@@ -1125,8 +1122,9 @@ public class FragmentCompose extends FragmentEx {
                                 HtmlHelper.sanitize(ref.read(context)));
                     }
 
-                    if (pro && !TextUtils.isEmpty(account.signature))
+                    if (!TextUtils.isEmpty(account.signature)) {
                         body = account.signature + body;
+                    }
 
                     if (answer > 0 && ("reply".equals(action) || "reply_all".equals(action))) {
                         String text = db.answer().getAnswer(answer).text;

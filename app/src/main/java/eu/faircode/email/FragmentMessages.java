@@ -17,6 +17,7 @@ package eu.faircode.email;
     along with FairEmail.  If not, see <http://www.gnu.org/licenses/>.
 
     Copyright 2018 by Marcel Bokhorst (M66B)
+    Copyright 2019 by Distopico <distopico@riseup.net>
 */
 
 import android.content.Context;
@@ -173,15 +174,6 @@ public class FragmentMessages extends FragmentEx {
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
 
         // Wire controls
-
-        tvSupport.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.content_frame, new FragmentPro()).addToBackStack("pro");
-                fragmentTransaction.commit();
-            }
-        });
 
         ibHintSwipe.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -549,56 +541,58 @@ public class FragmentMessages extends FragmentEx {
         fabMove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Helper.isPro(getContext())) {
-                    Bundle args = new Bundle();
-                    args.putLong("folder", folder);
+                Bundle args = new Bundle();
+                args.putLong("folder", folder);
 
-                    new SimpleTask<List<EntityFolder>>() {
-                        @Override
-                        protected List<EntityFolder> onLoad(Context context, Bundle args) {
-                            long folder = args.getLong("folder");
-                            DB db = DB.getInstance(context);
+                new SimpleTask<List<EntityFolder>>() {
+                    @Override
+                    protected List<EntityFolder> onLoad(Context context, Bundle args) {
+                        long folder = args.getLong("folder");
+                        DB db = DB.getInstance(context);
 
-                            EntityFolder source = db.folder().getFolder(folder);
-                            List<EntityFolder> folders = db.folder().getFolders(source.account);
-                            List<EntityFolder> targets = new ArrayList<>();
-                            for (EntityFolder f : folders)
-                                if (!f.id.equals(folder) && !EntityFolder.DRAFTS.equals(f.type))
-                                    targets.add(f);
+                        EntityFolder source = db.folder().getFolder(folder);
+                        List<EntityFolder> folders = db.folder().getFolders(source.account);
+                        List<EntityFolder> targets = new ArrayList<>();
+                        for (EntityFolder f : folders) {
+                            if (!f.id.equals(folder) && !EntityFolder.DRAFTS.equals(f.type)) {
+                                targets.add(f);
+                            }
+                        }
 
-                            final Collator collator = Collator.getInstance(Locale.getDefault());
-                            collator.setStrength(Collator.SECONDARY); // Case insensitive, process accents etc
+                        final Collator collator = Collator.getInstance(Locale.getDefault());
+                        collator.setStrength(Collator.SECONDARY); // Case insensitive, process accents etc
 
-                            Collections.sort(targets, new Comparator<EntityFolder>() {
+                        Collections.sort(targets, new Comparator<EntityFolder>() {
                                 @Override
                                 public int compare(EntityFolder f1, EntityFolder f2) {
                                     int s = Integer.compare(
                                             EntityFolder.FOLDER_SORT_ORDER.indexOf(f1.type),
                                             EntityFolder.FOLDER_SORT_ORDER.indexOf(f2.type));
-                                    if (s != 0)
+                                    if (s != 0) {
                                         return s;
+                                    }
                                     return collator.compare(
                                             f1.name == null ? "" : f1.name,
                                             f2.name == null ? "" : f2.name);
                                 }
                             });
 
-                            return targets;
+                        return targets;
+                    }
+
+                    @Override
+                    protected void onLoaded(final Bundle args, List<EntityFolder> folders) {
+                        PopupMenu popupMenu = new PopupMenu(getContext(), popupAnchor);
+
+                        int order = 0;
+                        for (EntityFolder folder : folders) {
+                            String name = (folder.display == null
+                                           ? Helper.localizeFolderName(getContext(), folder.name)
+                                           : folder.display);
+                            popupMenu.getMenu().add(Menu.NONE, folder.id.intValue(), order++, name);
                         }
 
-                        @Override
-                        protected void onLoaded(final Bundle args, List<EntityFolder> folders) {
-                            PopupMenu popupMenu = new PopupMenu(getContext(), popupAnchor);
-
-                            int order = 0;
-                            for (EntityFolder folder : folders) {
-                                String name = (folder.display == null
-                                        ? Helper.localizeFolderName(getContext(), folder.name)
-                                        : folder.display);
-                                popupMenu.getMenu().add(Menu.NONE, folder.id.intValue(), order++, name);
-                            }
-
-                            popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                                 @Override
                                 public boolean onMenuItemClick(final MenuItem target) {
                                     MutableSelection<Long> selection = new MutableSelection<>();
@@ -656,19 +650,14 @@ public class FragmentMessages extends FragmentEx {
                                 }
                             });
 
-                            popupMenu.show();
-                        }
+                        popupMenu.show();
+                    }
 
-                        @Override
-                        protected void onException(Bundle args, Throwable ex) {
-                            Helper.unexpectedError(getContext(), ex);
-                        }
-                    }.load(FragmentMessages.this, args);
-                } else {
-                    FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.content_frame, new FragmentPro()).addToBackStack("pro");
-                    fragmentTransaction.commit();
-                }
+                    @Override
+                    protected void onException(Bundle args, Throwable ex) {
+                        Helper.unexpectedError(getContext(), ex);
+                    }
+                }.load(FragmentMessages.this, args);
             }
         });
 
@@ -857,7 +846,7 @@ public class FragmentMessages extends FragmentEx {
     @Override
     public void onResume() {
         super.onResume();
-        grpSupport.setVisibility(Helper.isPro(getContext()) ? View.GONE : View.VISIBLE);
+        grpSupport.setVisibility(View.GONE);
     }
 
     @Override
@@ -872,33 +861,27 @@ public class FragmentMessages extends FragmentEx {
             public boolean onQueryTextSubmit(String query) {
                 menuSearch.collapseActionView();
 
-                if (Helper.isPro(getContext())) {
-                    Bundle args = new Bundle();
-                    args.putLong("folder", folder);
-                    args.putString("search", query);
+                Bundle args = new Bundle();
+                args.putLong("folder", folder);
+                args.putString("search", query);
 
-                    new SimpleTask<Void>() {
-                        @Override
-                        protected Void onLoad(Context context, Bundle args) {
-                            DB.getInstance(context).message().deleteFoundMessages();
-                            return null;
-                        }
+                new SimpleTask<Void>() {
+                    @Override
+                    protected Void onLoad(Context context, Bundle args) {
+                        DB.getInstance(context).message().deleteFoundMessages();
+                        return null;
+                    }
 
-                        @Override
-                        protected void onLoaded(Bundle args, Void data) {
-                            FragmentMessages fragment = new FragmentMessages();
-                            fragment.setArguments(args);
+                    @Override
+                    protected void onLoaded(Bundle args, Void data) {
+                        FragmentMessages fragment = new FragmentMessages();
+                        fragment.setArguments(args);
 
-                            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                            fragmentTransaction.replace(R.id.content_frame, fragment).addToBackStack("search");
-                            fragmentTransaction.commit();
-                        }
-                    }.load(FragmentMessages.this, args);
-                } else {
-                    FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.content_frame, new FragmentPro()).addToBackStack("pro");
-                    fragmentTransaction.commit();
-                }
+                        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                        fragmentTransaction.replace(R.id.content_frame, fragment).addToBackStack("search");
+                        fragmentTransaction.commit();
+                    }
+                }.load(FragmentMessages.this, args);
 
                 return true;
             }
@@ -945,15 +928,9 @@ public class FragmentMessages extends FragmentEx {
 
             case R.id.menu_sort_on_unread:
             case R.id.menu_sort_on_starred:
-                if (Helper.isPro(getContext())) {
-                    prefs.edit().putString("sort", item.getItemId() == R.id.menu_sort_on_unread ? "unread" : "starred").apply();
-                    item.setChecked(true);
-                    loadMessages();
-                } else {
-                    FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.content_frame, new FragmentPro()).addToBackStack("pro");
-                    fragmentTransaction.commit();
-                }
+                prefs.edit().putString("sort", item.getItemId() == R.id.menu_sort_on_unread ? "unread" : "starred").apply();
+                item.setChecked(true);
+                loadMessages();
                 return true;
 
             case R.id.menu_folders:

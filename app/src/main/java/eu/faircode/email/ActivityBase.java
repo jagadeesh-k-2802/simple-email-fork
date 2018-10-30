@@ -17,6 +17,7 @@ package eu.faircode.email;
     along with FairEmail.  If not, see <http://www.gnu.org/licenses/>.
 
     Copyright 2018 by Marcel Bokhorst (M66B)
+    Copyright 2019 by Distopico <distopico@riseup.net>
 */
 
 import android.content.SharedPreferences;
@@ -35,7 +36,7 @@ abstract class ActivityBase extends AppCompatActivity implements SharedPreferenc
     protected void onCreate(Bundle savedInstanceState) {
         Log.i(Helper.TAG, "Create " + this.getClass().getName() + " version=" + BuildConfig.VERSION_NAME);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        String theme = (Helper.isPro(this) ? prefs.getString("theme", "light") : "light");
+        String theme = prefs.getString("theme", "light");
         setTheme("light".equals(theme) ? R.style.AppThemeLight : R.style.AppThemeDark);
         prefs.registerOnSharedPreferenceChangeListener(this);
         super.onCreate(savedInstanceState);

@@ -17,6 +17,7 @@ package eu.faircode.email;
     along with FairEmail.  If not, see <http://www.gnu.org/licenses/>.
 
     Copyright 2018 by Marcel Bokhorst (M66B)
+    Copyright 2019 by Distopico <distopico@riseup.net>
 */
 
 import android.Manifest;
@@ -948,15 +949,10 @@ public class AdapterMessage extends PagedListAdapter<TupleMessageEx, AdapterMess
                         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                             @Override
                             public boolean onMenuItemClick(MenuItem target) {
-                                if (Helper.isPro(context))
-                                    context.startActivity(new Intent(context, ActivityCompose.class)
-                                            .putExtra("action", "reply")
-                                            .putExtra("reference", data.message.id)
-                                            .putExtra("answer", (long) target.getItemId()));
-                                else {
-                                    LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(context);
-                                    lbm.sendBroadcast(new Intent(ActivityView.ACTION_SHOW_PRO));
-                                }
+                                context.startActivity(new Intent(context, ActivityCompose.class)
+                                                      .putExtra("action", "reply")
+                                                      .putExtra("reference", data.message.id)
+                                                      .putExtra("answer", (long) target.getItemId()));
                                 return true;
                             }
                         });

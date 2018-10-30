@@ -17,6 +17,7 @@ package eu.faircode.email;
     along with FairEmail.  If not, see <http://www.gnu.org/licenses/>.
 
     Copyright 2018 by Marcel Bokhorst (M66B)
+    Copyright 2019 by Distopico <distopico@riseup.net>
 */
 
 import android.app.Activity;
@@ -117,7 +118,6 @@ public class ActivityView extends ActivityBilling implements FragmentManager.OnB
     static final String ACTION_EDIT_ANSWER = BuildConfig.APPLICATION_ID + ".EDIT_ANSWER";
     static final String ACTION_STORE_ATTACHMENT = BuildConfig.APPLICATION_ID + ".STORE_ATTACHMENT";
     static final String ACTION_DECRYPT = BuildConfig.APPLICATION_ID + ".DECRYPT";
-    static final String ACTION_SHOW_PRO = BuildConfig.APPLICATION_ID + ".SHOW_PRO";
 
     static final String UPDATE_LATEST_API = "https://api.github.com/repos/M66B/open-source-email/releases/latest";
     static final long UPDATE_INTERVAL = 12 * 3600 * 1000L; // milliseconds
@@ -171,9 +171,6 @@ public class ActivityView extends ActivityBilling implements FragmentManager.OnB
                         break;
                     case R.string.menu_faq:
                         onMenuFAQ();
-                        break;
-                    case R.string.menu_pro:
-                        onMenuPro();
                         break;
                     case R.string.menu_privacy:
                         onMenuPrivacy();
@@ -313,7 +310,6 @@ public class ActivityView extends ActivityBilling implements FragmentManager.OnB
         iff.addAction(ACTION_EDIT_ANSWER);
         iff.addAction(ACTION_STORE_ATTACHMENT);
         iff.addAction(ACTION_DECRYPT);
-        iff.addAction(ACTION_SHOW_PRO);
         lbm.registerReceiver(receiver, iff);
 
         if (!pgpService.isBound())
@@ -339,48 +335,43 @@ public class ActivityView extends ActivityBilling implements FragmentManager.OnB
             intent.removeExtra(Intent.EXTRA_PROCESS_TEXT);
             setIntent(intent);
 
-            if (Helper.isPro(this)) {
-                Bundle args = new Bundle();
-                args.putString("search", search);
+            Bundle args = new Bundle();
+            args.putString("search", search);
 
-                new SimpleTask<Long>() {
-                    @Override
-                    protected Long onLoad(Context context, Bundle args) {
-                        DB db = DB.getInstance(context);
+            new SimpleTask<Long>() {
+                @Override
+                protected Long onLoad(Context context, Bundle args) {
+                    DB db = DB.getInstance(context);
 
-                        EntityFolder archive = db.folder().getPrimaryArchive();
-                        if (archive == null)
-                            throw new IllegalArgumentException(getString(R.string.title_no_primary_archive));
-
-                        db.message().deleteFoundMessages();
-
-                        return archive.id;
+                    EntityFolder archive = db.folder().getPrimaryArchive();
+                    if (archive == null) {
+                        throw new IllegalArgumentException(getString(R.string.title_no_primary_archive));
                     }
 
-                    @Override
-                    protected void onLoaded(Bundle args, Long archive) {
-                        Bundle sargs = new Bundle();
-                        sargs.putLong("folder", archive);
-                        sargs.putString("search", args.getString("search"));
+                    db.message().deleteFoundMessages();
 
-                        FragmentMessages fragment = new FragmentMessages();
-                        fragment.setArguments(sargs);
+                    return archive.id;
+                }
 
-                        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                        fragmentTransaction.replace(R.id.content_frame, fragment).addToBackStack("search");
-                        fragmentTransaction.commit();
-                    }
+                @Override
+                protected void onLoaded(Bundle args, Long archive) {
+                    Bundle sargs = new Bundle();
+                    sargs.putLong("folder", archive);
+                    sargs.putString("search", args.getString("search"));
 
-                    @Override
-                    protected void onException(Bundle args, Throwable ex) {
-                        Helper.unexpectedError(ActivityView.this, ex);
-                    }
-                }.load(this, args);
-            } else {
-                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.content_frame, new FragmentPro()).addToBackStack("pro");
-                fragmentTransaction.commit();
-            }
+                    FragmentMessages fragment = new FragmentMessages();
+                    fragment.setArguments(sargs);
+
+                    FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(R.id.content_frame, fragment).addToBackStack("search");
+                    fragmentTransaction.commit();
+                }
+
+                @Override
+                protected void onException(Bundle args, Throwable ex) {
+                    Helper.unexpectedError(ActivityView.this, ex);
+                }
+            }.load(this, args);
         }
     }
 
@@ -712,12 +703,6 @@ public class ActivityView extends ActivityBilling implements FragmentManager.OnB
         Helper.view(this, getIntentFAQ());
     }
 
-    private void onMenuPro() {
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.content_frame, new FragmentPro()).addToBackStack("pro");
-        fragmentTransaction.commit();
-    }
-
     private void onMenuPrivacy() {
         Helper.view(this, Helper.getIntentPrivacy());
     }
@@ -833,8 +818,6 @@ public class ActivityView extends ActivityBilling implements FragmentManager.OnB
                 onStoreAttachment(intent);
             else if (ACTION_DECRYPT.equals(intent.getAction()))
                 onDecrypt(intent);
-            else if (ACTION_SHOW_PRO.equals(intent.getAction()))
-                onShowPro(intent);
         }
     };
 
@@ -901,33 +884,25 @@ public class ActivityView extends ActivityBilling implements FragmentManager.OnB
     }
 
     private void onDecrypt(Intent intent) {
-        if (Helper.isPro(this)) {
-            if (pgpService.isBound()) {
-                Intent data = new Intent();
-                data.setAction(OpenPgpApi.ACTION_DECRYPT_VERIFY);
-                data.putExtra(OpenPgpApi.EXTRA_USER_IDS, new String[]{intent.getStringExtra("to")});
-                data.putExtra(OpenPgpApi.EXTRA_REQUEST_ASCII_ARMOR, true);
+        if (pgpService.isBound()) {
+            Intent data = new Intent();
+            data.setAction(OpenPgpApi.ACTION_DECRYPT_VERIFY);
+            data.putExtra(OpenPgpApi.EXTRA_USER_IDS, new String[]{intent.getStringExtra("to")});
+            data.putExtra(OpenPgpApi.EXTRA_REQUEST_ASCII_ARMOR, true);
 
-                decrypt(data, intent.getLongExtra("id", -1));
-            } else {
-                Snackbar snackbar = Snackbar.make(view, R.string.title_no_openpgp, Snackbar.LENGTH_LONG);
-                if (Helper.getIntentOpenKeychain().resolveActivity(getPackageManager()) != null)
-                    snackbar.setAction(R.string.title_fix, new View.OnClickListener() {
+            decrypt(data, intent.getLongExtra("id", -1));
+        } else {
+            Snackbar snackbar = Snackbar.make(view, R.string.title_no_openpgp, Snackbar.LENGTH_LONG);
+            if (Helper.getIntentOpenKeychain().resolveActivity(getPackageManager()) != null) {
+                snackbar.setAction(R.string.title_fix, new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             startActivity(Helper.getIntentOpenKeychain());
                         }
                     });
-                snackbar.show();
             }
-        } else
-            onShowPro(intent);
-    }
-
-    private void onShowPro(Intent intent) {
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.content_frame, new FragmentPro()).addToBackStack("pro");
-        fragmentTransaction.commit();
+            snackbar.show();
+        }
     }
 
     private void decrypt(Intent data, long id) {

@@ -17,6 +17,7 @@ package eu.faircode.email;
     along with FairEmail.  If not, see <http://www.gnu.org/licenses/>.
 
     Copyright 2018 by Marcel Bokhorst (M66B)
+    Copyright 2019 by Distopico <distopico@riseup.net>
 */
 
 import android.Manifest;
@@ -347,7 +348,6 @@ public class ServiceSynchronize extends LifecycleService {
         if (messages.size() == 0)
             return notifications;
 
-        boolean pro = Helper.isPro(this);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         // Build pending intent
@@ -392,19 +392,17 @@ public class ServiceSynchronize extends LifecycleService {
             builder.setLights(0xff00ff00, 1000, 1000);
         }
 
-        if (pro) {
-            DateFormat df = SimpleDateFormat.getDateTimeInstance(SimpleDateFormat.SHORT, SimpleDateFormat.SHORT);
-            StringBuilder sb = new StringBuilder();
-            for (EntityMessage message : messages) {
-                sb.append("<strong>").append(MessageHelper.getFormattedAddresses(message.from, false)).append("</strong>");
-                if (!TextUtils.isEmpty(message.subject))
-                    sb.append(": ").append(message.subject);
-                sb.append(" ").append(df.format(new Date(message.sent == null ? message.received : message.sent)));
-                sb.append("<br>");
-            }
-
-            builder.setStyle(new Notification.BigTextStyle().bigText(Html.fromHtml(sb.toString())));
+        DateFormat df = SimpleDateFormat.getDateTimeInstance(SimpleDateFormat.SHORT, SimpleDateFormat.SHORT);
+        StringBuilder sb = new StringBuilder();
+        for (EntityMessage message : messages) {
+            sb.append("<strong>").append(MessageHelper.getFormattedAddresses(message.from, false)).append("</strong>");
+            if (!TextUtils.isEmpty(message.subject))
+                sb.append(": ").append(message.subject);
+            sb.append(" ").append(df.format(new Date(message.sent == null ? message.received : message.sent)));
+            sb.append("<br>");
         }
+
+        builder.setStyle(new Notification.BigTextStyle().bigText(Html.fromHtml(sb.toString())));
 
         notifications.add(builder.build());
 
@@ -465,12 +463,13 @@ public class ServiceSynchronize extends LifecycleService {
                     .addAction(actionSeen.build())
                     .addAction(actionTrash.build());
 
-            if (pro)
-                if (!TextUtils.isEmpty(message.subject))
-                    mbuilder.setContentText(message.subject);
+            if (!TextUtils.isEmpty(message.subject)) {
+                mbuilder.setContentText(message.subject);
+            }
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 mbuilder.setGroupAlertBehavior(Notification.GROUP_ALERT_CHILDREN);
+            }
 
             notifications.add(mbuilder.build());
         }

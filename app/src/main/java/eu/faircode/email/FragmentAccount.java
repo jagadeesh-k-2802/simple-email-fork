@@ -17,6 +17,7 @@ package eu.faircode.email;
     along with FairEmail.  If not, see <http://www.gnu.org/licenses/>.
 
     Copyright 2018 by Marcel Bokhorst (M66B)
+    Copyright 2019 by Distopico <distopico@riseup.net>
 */
 
 import android.Manifest;
@@ -116,7 +117,6 @@ public class FragmentAccount extends FragmentEx {
     private View vwColor;
     private ImageView ibColorDefault;
     private EditText etSignature;
-    private ImageButton ibPro;
 
     private CheckBox cbSynchronize;
     private CheckBox cbPrimary;
@@ -190,7 +190,6 @@ public class FragmentAccount extends FragmentEx {
         vwColor = view.findViewById(R.id.vwColor);
         ibColorDefault = view.findViewById(R.id.ibColorDefault);
         etSignature = view.findViewById(R.id.etSignature);
-        ibPro = view.findViewById(R.id.ibPro);
 
         cbSynchronize = view.findViewById(R.id.cbSynchronize);
         cbPrimary = view.findViewById(R.id.cbPrimary);
@@ -362,23 +361,16 @@ public class FragmentAccount extends FragmentEx {
         btnColor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Helper.isPro(getContext())) {
-                    int[] colors = getContext().getResources().getIntArray(R.array.colorPicker);
-                    ColorPickerDialog colorPickerDialog = new ColorPickerDialog();
-                    colorPickerDialog.initialize(R.string.title_account_color, colors, color, 4, colors.length);
-                    colorPickerDialog.setOnColorSelectedListener(new ColorPickerSwatch.OnColorSelectedListener() {
+                int[] colors = getContext().getResources().getIntArray(R.array.colorPicker);
+                ColorPickerDialog colorPickerDialog = new ColorPickerDialog();
+                colorPickerDialog.initialize(R.string.title_account_color, colors, color, 4, colors.length);
+                colorPickerDialog.setOnColorSelectedListener(new ColorPickerSwatch.OnColorSelectedListener() {
                         @Override
                         public void onColorSelected(int color) {
                             setColor(color);
                         }
                     });
-                    colorPickerDialog.show(getFragmentManager(), "colorpicker");
-                } else {
-                    FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                    fragmentTransaction.hide(FragmentAccount.this);
-                    fragmentTransaction.add(R.id.content_frame, new FragmentPro()).addToBackStack("pro");
-                    fragmentTransaction.commit();
-                }
+                colorPickerDialog.show(getFragmentManager(), "colorpicker");
             }
         });
 
@@ -386,16 +378,6 @@ public class FragmentAccount extends FragmentEx {
             @Override
             public void onClick(View v) {
                 setColor(Color.TRANSPARENT);
-            }
-        });
-
-        ibPro.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                fragmentTransaction.hide(FragmentAccount.this);
-                fragmentTransaction.add(R.id.content_frame, new FragmentPro()).addToBackStack("pro");
-                fragmentTransaction.commit();
             }
         });
 
@@ -979,15 +961,8 @@ public class FragmentAccount extends FragmentEx {
 
                 setColor(color);
 
-                boolean pro = Helper.isPro(getContext());
-                etSignature.setHint(pro ? R.string.title_optional : R.string.title_pro_feature);
-                etSignature.setEnabled(pro);
-                if (pro) {
-                    ViewGroup.LayoutParams lp = ibPro.getLayoutParams();
-                    lp.height = 0;
-                    lp.width = 0;
-                    ibPro.setLayoutParams(lp);
-                }
+                etSignature.setHint(R.string.title_optional);
+                etSignature.setEnabled(true);
 
                 cbPrimary.setEnabled(cbSynchronize.isChecked());
 

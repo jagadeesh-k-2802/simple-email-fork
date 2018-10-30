@@ -17,6 +17,7 @@ package eu.faircode.email;
     along with FairEmail.  If not, see <http://www.gnu.org/licenses/>.
 
     Copyright 2018 by Marcel Bokhorst (M66B)
+    Copyright 2019 by Distopico <distopico@riseup.net>
 */
 
 import android.Manifest;
@@ -231,31 +232,21 @@ public class FragmentSetup extends FragmentEx {
         tbDarkTheme.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton button, boolean checked) {
-                if (Helper.isPro(getContext())) {
-                    if (checked != (Boolean) button.getTag()) {
-                        button.setTag(checked);
-                        tbDarkTheme.setChecked(checked);
-                        prefs.edit().putString("theme", checked ? "dark" : "light").apply();
-                    }
-                } else {
-                    prefs.edit().remove("theme").apply();
-                    if (checked) {
-                        tbDarkTheme.setChecked(false);
-                        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                        fragmentTransaction.replace(R.id.content_frame, new FragmentPro()).addToBackStack("pro");
-                        fragmentTransaction.commit();
-                    }
+                if (checked != (Boolean) button.getTag()) {
+                    button.setTag(checked);
+                    tbDarkTheme.setChecked(checked);
+                    prefs.edit().putString("theme", checked ? "dark" : "light").apply();
                 }
             }
         });
 
         btnOptions.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.content_frame, new FragmentOptions()).addToBackStack("options");
-                fragmentTransaction.commit();
-            }
+                @Override
+                public void onClick(View view) {
+                    FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(R.id.content_frame, new FragmentOptions()).addToBackStack("options");
+                    fragmentTransaction.commit();
+                }
         });
 
         // Initialize
@@ -445,26 +436,18 @@ public class FragmentSetup extends FragmentEx {
     }
 
     private void onMenuExport() {
-        if (Helper.isPro(getContext()))
-            new DialogBuilderLifecycle(getContext(), getViewLifecycleOwner())
-                    .setMessage(R.string.title_setup_export_do)
-                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            try {
-                                startActivityForResult(getIntentExport(), ActivitySetup.REQUEST_EXPORT);
-                            } catch (Throwable ex) {
-                                Log.e(Helper.TAG, ex + "\n" + Log.getStackTraceString(ex));
-                            }
+        new DialogBuilderLifecycle(getContext(), getViewLifecycleOwner())
+            .setMessage(R.string.title_setup_export_do)
+            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        try {
+                            startActivityForResult(getIntentExport(), ActivitySetup.REQUEST_EXPORT);
+                        } catch (Throwable ex) {
+                            Log.e(Helper.TAG, ex + "\n" + Log.getStackTraceString(ex));
                         }
-                    })
-                    .create()
-                    .show();
-        else {
-            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.content_frame, new FragmentPro()).addToBackStack("pro");
-            fragmentTransaction.commit();
-        }
+                    }
+                }).create().show();
     }
 
     private void onMenuImport() {

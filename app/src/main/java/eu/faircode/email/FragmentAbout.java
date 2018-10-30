@@ -17,6 +17,7 @@ package eu.faircode.email;
     along with FairEmail.  If not, see <http://www.gnu.org/licenses/>.
 
     Copyright 2018 by Marcel Bokhorst (M66B)
+    Copyright 2019 by Distopico <distopico@riseup.net>
 */
 
 import android.app.usage.UsageStatsManager;
@@ -95,7 +96,7 @@ public class FragmentAbout extends FragmentEx {
                                 BuildConfig.APPLICATION_ID,
                                 BuildConfig.VERSION_NAME,
                                 Helper.hasValidFingerprint(context) ? "1" : "3",
-                                Helper.isPro(context) ? "+" : ""));
+                                "+"));
                         sb.append(String.format("Android: %s (SDK %d)\r\n", Build.VERSION.RELEASE, Build.VERSION.SDK_INT));
                         sb.append("\r\n");
 
