@@ -21,8 +21,8 @@
 -renamesourcefileattribute SourceFile
 
 #App
--keep class eu.faircode.email.** {*;}
--keepnames class eu.faircode.email.** {*;}
+-keep class org.dystopia.email.** {*;}
+-keepnames class org.dystopia.email.** {*;}
 
 #AndroidX
 -keep class androidx.appcompat.widget.** {*;}

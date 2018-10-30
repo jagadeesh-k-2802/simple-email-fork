@@ -1,4 +1,4 @@
-package eu.faircode.email;
+package org.dystopia.email;
 
 import android.content.Context;
 import android.database.Cursor;

@@ -1,4 +1,4 @@
-package eu.faircode.email;
+package org.dystopia.email;
 
 /*
     This file is part of FairEmail.

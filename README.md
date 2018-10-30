@@ -1,6 +1,7 @@
-# FairEmail
+# SimpleEmail
 
-*Open source, privacy friendly email app*
+*SimpleEmail is Free Software, minimalistic and privacy friendly email app*
+This project has been forked from [FairEmail](https://github.com/M66B/open-source-email).
 
 This email app might be for you if your current email app:
 
@@ -19,7 +20,7 @@ This app starts a foreground service with a low priority status bar notification
 
 ## Features
 
-* 100 % open source
+* 100% Free Software
 * Multiple accounts (inboxes)
 * Multiple identities (outboxes)
 * Unified inbox
@@ -31,7 +32,7 @@ This app starts a foreground service with a low priority status bar notification
 * Folder management
 * Material design
 
-## Pro features
+## Other features
 
 * Signatures
 * Dark theme
@@ -68,8 +69,7 @@ This app starts a foreground service with a low priority status bar notification
 
 ## Downloads
 
-* [GitHub](https://github.com/M66B/open-source-email/releases)
-* [Play store](https://play.google.com/apps/testing/eu.faircode.email)
+* [GitLab](https://framagit.org/dystopia-project/simple-email/releases)
 
 Certificate fingerprints:
 
@@ -79,53 +79,43 @@ Certificate fingerprints:
 
 ## Compatibility
 
-FairEmail requires at least Android 6 Marshmallow.
+SimpleEmail requires at least Android 6 Marshmallow.
 
-FairEmail might occasionally crash on Motorola/Lenovo devices with Android 7 Nougat or earlier
+SimpleEmail might occasionally crash on Motorola/Lenovo devices with Android 7 Nougat or earlier
 because of a [bug in Android](https://issuetracker.google.com/issues/63377371).
-
-## Frequently asked questions
-
-See [here](https://github.com/M66B/open-source-email/blob/master/FAQ.md) for a list of often asked questions.
-
-## Support
-
-* For support on FairEmail, please go [here](https://forum.xda-developers.com/android/apps-games/source-email-t3824168)
 
 ## Contributing
 
 *Documentation*
 
 Contributions to this document and the frequently asked questions
-are preferred in the form of [pull requests](https://help.github.com/articles/creating-a-pull-request/).
+are preferred in the form of [pull requests](https://framagit.org/dystopia-project/simple-email/merge_requests).
 
 *Translations*
 
-* You can translate the in-app texts of FairEmail [here](https://crowdin.com/project/open-source-email)
-* If your language is not listed, please send a message through [this contact form](https://contact.faircode.eu/)
+* You can translate the in-app texts of SimpleEmail [here](https://crowdin.com/project/open-source-email)
+* If your language is not listed, please open a issue or send a message through [email](distopico@riseup.net)
 
 *Source code*
 
-Building FairEmail from source code is straightforward with [Android Studio](http://developer.android.com/sdk/).
-It is expected that you can solve build problems yourself, so there is no support on building.
+Building SimpleEmail from source code is straightforward with [Android Studio](http://developer.android.com/sdk/).
 
-Source code contributions are preferred in the form of [pull requests](https://help.github.com/articles/creating-a-pull-request/).
-Please [contact me](https://contact.faircode.eu/) first to tell me what your plans are.
+Source code contributions are welcome, please open a [pull requests](https://framagit.org/dystopia-project/simple-email/merge_requests).
 
-Please note that you agree to the license below by contributing, including the copyright.
+Please note that you agree to the license below by contributing.
 
 ## Attribution
 
-FairEmail uses:
+SimpleEmail uses:
 
-* [JavaMail](https://javaee.github.io/javamail/). Copyright (c) 1997-2018 Oracle® and/or its affiliates. All rights reserved. [GPLv2+CE license](https://javaee.github.io/javamail/JavaMail-License).
-* [jsoup](https://jsoup.org/). Copyright © 2009 - 2017 Jonathan Hedley. [MIT license](https://jsoup.org/license).
-* [JCharset](http://www.freeutils.net/source/jcharset/). Copyright © 2005-2015 Amichai Rothman. [GNU General Public License](http://www.freeutils.net/source/jcharset/#license)
-* [Android Support Library](https://developer.android.com/tools/support-library/). Copyright (C) 2011 The Android Open Source Project. [Apache license](https://android.googlesource.com/platform/frameworks/support/+/master/LICENSE.txt).
-* [Android Architecture Components](https://developer.android.com/topic/libraries/architecture/). Copyright 2018 The Android Open Source Project, Inc. [Apache license](https://github.com/googlesamples/android-architecture-components/blob/master/LICENSE).
-* [colorpicker](https://android.googlesource.com/platform/frameworks/opt/colorpicker). Copyright (C) 2013 The Android Open Source Project. [Apache license](https://android.googlesource.com/platform/frameworks/opt/colorpicker/+/master/src/com/android/colorpicker/ColorPickerDialog.java).
-* [dnsjava](http://www.xbill.org/dnsjava/). Copyright (c) 1998-2011, Brian Wellington. [BSD License](https://sourceforge.net/p/dnsjava/code/HEAD/tree/trunk/LICENSE).
-* [OpenPGP API library](https://github.com/open-keychain/openpgp-api). Copyright (C) 2014-2015 Dominik Schürmann. [Apache License 2.0](https://github.com/open-keychain/openpgp-api/blob/master/LICENSE).
+* [JavaMail](https://javaee.github.io/javamail/). under [GPLv2+CE license](https://javaee.github.io/javamail/JavaMail-License).
+* [jsoup](https://jsoup.org/). under [MIT license](https://jsoup.org/license).
+* [JCharset](http://www.freeutils.net/source/jcharset/). under [GNU General Public License](http://www.freeutils.net/source/jcharset/#license)
+* [Android Support Library](https://developer.android.com/tools/support-library/). under [Apache license](https://android.googlesource.com/platform/frameworks/support/+/master/LICENSE.txt).
+* [Android Architecture Components](https://developer.android.com/topic/libraries/architecture/). under [Apache license](https://github.com/googlesamples/android-architecture-components/blob/master/LICENSE).
+* [colorpicker](https://android.googlesource.com/platform/frameworks/opt/colorpicker). under [Apache license](https://android.googlesource.com/platform/frameworks/opt/colorpicker/+/master/src/com/android/colorpicker/ColorPickerDialog.java).
+* [dnsjava](http://www.xbill.org/dnsjava/). under [BSD License](https://sourceforge.net/p/dnsjava/code/HEAD/tree/trunk/LICENSE).
+* [OpenPGP API library](https://github.com/open-keychain/openpgp-api). under [Apache License 2.0](https://github.com/open-keychain/openpgp-api/blob/master/LICENSE).
 
 ## License
 

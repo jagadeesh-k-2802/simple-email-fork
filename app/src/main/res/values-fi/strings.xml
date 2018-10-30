@@ -245,16 +245,7 @@
   <string name="title_yes">Yes</string>
   <string name="title_no">No</string>
   <string name="title_undo">Undo</string>
-  <string name="title_try">Try FairEmail, an open source, privacy friendly email app for Android</string>
-  <string name="title_pro_feature">This is a pro feature</string>
-  <string name="title_pro_list">List of pro features</string>
-  <string name="title_pro_purchase">Buy</string>
-  <string name="title_pro_hint">Buying pro features will allow you to use all current and future pro features, will keep this app maintained, and supported</string>
-  <string name="title_pro_price">Please see <a href="https://github.com/M66B/open-source-email/blob/master/FAQ.md#FAQ19">this FAQ</a> about the price of the pro features</string>
-  <string name="title_pro_activated">All pro features are activated</string>
-  <string name="title_pro_valid">All pro features activated</string>
-  <string name="title_pro_invalid">Invalid response</string>
-  <string name="title_pro_support">FairEmail needs your help. Tap to purchase pro features to keep the project going.</string>
+  <string name="title_try">Try SimpleEmail, an simple, free software,, privacy friendly email app for Android</string>
   <string name="title_unexpected_error">Unexpected error</string>
   <string name="title_log">Log</string>
   <string name="title_debug_info">Debug info</string>
