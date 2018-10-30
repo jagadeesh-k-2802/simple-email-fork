@@ -749,34 +749,26 @@ public class AdapterMessage extends PagedListAdapter<TupleMessageEx, AdapterMess
                         return true;
                     }
 
-                    if (BuildConfig.APPLICATION_ID.equals(uri.getHost()) && "/activate/".equals(uri.getPath())) {
-                        LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(context);
-                        lbm.sendBroadcast(
-                                new Intent(ActivityView.ACTION_ACTIVATE_PRO)
-                                        .putExtra("uri", uri));
+                    View view = LayoutInflater.from(context).inflate(R.layout.dialog_link, null);
+                    final EditText etLink = view.findViewById(R.id.etLink);
+                    etLink.setText(url);
+                    new DialogBuilderLifecycle(context, owner)
+                        .setView(view)
+                        .setPositiveButton(R.string.title_yes, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Uri uri = Uri.parse(etLink.getText().toString());
 
-                    } else {
-                        View view = LayoutInflater.from(context).inflate(R.layout.dialog_link, null);
-                        final EditText etLink = view.findViewById(R.id.etLink);
-                        etLink.setText(url);
-                        new DialogBuilderLifecycle(context, owner)
-                                .setView(view)
-                                .setPositiveButton(R.string.title_yes, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        Uri uri = Uri.parse(etLink.getText().toString());
-
-                                        if (!"http".equals(uri.getScheme()) && !"https".equals(uri.getScheme())) {
-                                            Toast.makeText(context, context.getString(R.string.title_no_viewer, uri.toString()), Toast.LENGTH_LONG).show();
-                                            return;
-                                        }
-
-                                        Helper.view(context, uri);
+                                    if (!"http".equals(uri.getScheme()) && !"https".equals(uri.getScheme())) {
+                                        Toast.makeText(context, context.getString(R.string.title_no_viewer, uri.toString()), Toast.LENGTH_LONG).show();
+                                        return;
                                     }
-                                })
-                                .setNegativeButton(R.string.title_no, null)
-                                .show();
-                    }
+
+                                    Helper.view(context, uri);
+                                }
+                            })
+                        .setNegativeButton(R.string.title_no, null)
+                        .show();
                 }
 
                 return true;

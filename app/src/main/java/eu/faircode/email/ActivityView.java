@@ -90,7 +90,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
-public class ActivityView extends ActivityBilling implements FragmentManager.OnBackStackChangedListener {
+public class ActivityView extends ActivityBase implements FragmentManager.OnBackStackChangedListener {
     private View view;
     private DrawerLayout drawerLayout;
     private ListView drawerList;
@@ -230,10 +230,6 @@ public class ActivityView extends ActivityBilling implements FragmentManager.OnB
 
                 if (getIntentFAQ().resolveActivity(getPackageManager()) != null)
                     drawerArray.add(new DrawerItem(ActivityView.this, R.layout.item_drawer, R.drawable.baseline_question_answer_24, R.string.menu_faq));
-
-                Intent pro = getIntentPro();
-                if (pro == null || pro.resolveActivity(getPackageManager()) != null)
-                    drawerArray.add(new DrawerItem(ActivityView.this, R.layout.item_drawer, R.drawable.baseline_monetization_on_24, R.string.menu_pro));
 
                 if (Helper.getIntentPrivacy().resolveActivity(getPackageManager()) != null)
                     drawerArray.add(new DrawerItem(ActivityView.this, R.layout.item_drawer, R.drawable.baseline_account_box_24, R.string.menu_privacy));
