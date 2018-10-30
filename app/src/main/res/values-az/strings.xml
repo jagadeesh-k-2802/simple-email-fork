@@ -245,16 +245,7 @@
   <string name="title_yes">Bəli</string>
   <string name="title_no">Xeyr</string>
   <string name="title_undo">Geri qaytar</string>
-  <string name="title_try">Android üçün açıq mənbəli, gizlilik dostu, e-poçt tətbiqi olan FairEmail-ı sınayın</string>
-  <string name="title_pro_feature">Bu Pro xüsusiyyətidir</string>
-  <string name="title_pro_list">Pro xüsusiyyətlərinin siyahısı</string>
-  <string name="title_pro_purchase">Satın al</string>
-  <string name="title_pro_hint">Pro xüsusiyyətlərinin alınması sizə, mövcud və gələcəkdəki pro xüsusiyyətləri istifadə etməyinizə icazə verəcək və tətbiqin uzunömürlü olması üçün bizə dəstək olacaq</string>
-  <string name="title_pro_price">Zəhmət olmasa pro xüsusiyyətlərin qiyməti haqqında <a href="https://github.com/M66B/open-source-email/blob/master/FAQ.md#FAQ19">bu TSS</a> səhifəsinə baxın</string>
-  <string name="title_pro_activated">Bütün pro xüsusiyyətlər aktivləşdirildi</string>
-  <string name="title_pro_valid">Bütün pro xüsusiyyətlər aktivləşdirildi</string>
-  <string name="title_pro_invalid">Etibarsız cavab</string>
-  <string name="title_pro_support">FairEmail-in sizin köməyinizə ehtiyacı var. Pro xüsusiyyətləri satın alaraq layihəni davam etdirmək üçün toxunun.</string>
+  <string name="title_try">Android üçün açıq mənbəli, gizlilik dostu, e-poçt tətbiqi olan SimpleEmail-ı sınayın</string>
   <string name="title_unexpected_error">Gözlənilməz xəta</string>
   <string name="title_log">Qeyd jurnalı</string>
   <string name="title_debug_info">Sazlama məlumatı</string>

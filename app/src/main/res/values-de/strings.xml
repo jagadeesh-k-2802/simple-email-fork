@@ -55,7 +55,7 @@
   <string name="title_setup_identity_remark">Um E-Mails zu senden</string>
   <string name="title_setup_doze">Deaktiviere Akku-Optimierung</string>
   <string name="title_setup_doze_remark">Um kontinuierlich E-Mails zu empfangen (optional)</string>
-  <string name="title_setup_doze_instructions">Rufen Sie im folgendem Auswahldialog (oben) \"Alle Apps\" auf; wählen Sie anschließend FairEmail aus und bestätigen Sie die Option \"Nicht optimieren\" mit Fertig.</string>
+  <string name="title_setup_doze_instructions">Rufen Sie im folgendem Auswahldialog (oben) \"Alle Apps\" auf; wählen Sie anschließend SimpleEmail aus und bestätigen Sie die Option \"Nicht optimieren\" mit Fertig.</string>
   <string name="title_setup_data">Deaktivere Datenreduzierung</string>
   <string name="title_setup_permissions">Berechtigungen erteilen</string>
   <string name="title_setup_permissions_remark">Um Kontaktinformationen zu erhalten (optional)</string>
@@ -245,16 +245,7 @@
   <string name="title_yes">Ja</string>
   <string name="title_no">Nein</string>
   <string name="title_undo">Rückgängig</string>
-  <string name="title_try">Testen Sie FairEmail, eine opensource und datenschutzfreundliche E-Mail-App für Android</string>
-  <string name="title_pro_feature">Dies ist eine Pro-Funktion</string>
-  <string name="title_pro_list">Liste der Pro-Funktionen</string>
-  <string name="title_pro_purchase">Kaufen</string>
-  <string name="title_pro_hint">Der Erwerb der Pro-Funktionen erlaubt es Ihnen alle momentan und zukünftig verfügbaren Pro-Funktionen zu nutzen und ermöglicht die Weiterentwicklung und Pflege der App</string>
-  <string name="title_pro_price">Informationen zum Preis der Pro-Funktionen finden Sie in den <a href="https://github.com/M66B/open-source-email/blob/master/FAQ.md#FAQ19">FAQ</a></string>
-  <string name="title_pro_activated">Alle Pro-Funktionen sind aktiviert</string>
-  <string name="title_pro_valid">Alle Pro-Funktionen aktiviert</string>
-  <string name="title_pro_invalid">Ungültige Antwort</string>
-  <string name="title_pro_support">FairEmail benötigt Ihre Unterstützung. Erwerben Sie die Pro-Funktionen, um das Projekt am laufen zu halten.</string>
+  <string name="title_try">Testen Sie SimpleEmail, eine opensource und datenschutzfreundliche E-Mail-App für Android</string>
   <string name="title_unexpected_error">Unerwarteter Fehler</string>
   <string name="title_log">Protokoll</string>
   <string name="title_debug_info">Debuginformationen</string>

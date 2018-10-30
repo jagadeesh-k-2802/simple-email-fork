@@ -63,7 +63,7 @@
   <string name="title_setup_identity_remark">Do wysłania poczty</string>
   <string name="title_setup_doze">Wyłącz optymalizację baterii</string>
   <string name="title_setup_doze_remark">Do ciągłego sprawdzania e-mail (opcjonalnie)</string>
-  <string name="title_setup_doze_instructions">W następnym oknie dialogowym, na górze wybierz \"Wszystkie aplikacje\", odszukaj i dotknij FairEmail, wybierz \"Nie optymalizuj\"</string>
+  <string name="title_setup_doze_instructions">W następnym oknie dialogowym, na górze wybierz \"Wszystkie aplikacje\", odszukaj i dotknij SimpleEmail, wybierz \"Nie optymalizuj\"</string>
   <string name="title_setup_data">Wyłącz oszczędzanie danych</string>
   <string name="title_setup_permissions">Przyznaj uprawnienia</string>
   <string name="title_setup_permissions_remark">Aby uzyskać informacje kontaktowe (opcjonalnie)</string>
@@ -253,16 +253,7 @@
   <string name="title_yes">Tak</string>
   <string name="title_no">Nie</string>
   <string name="title_undo">Cofnij</string>
-  <string name="title_try">Wypróbuj FairEmail, przyjazna prywatności aplikacja pocztowa dla Android o otwartym kodzie</string>
-  <string name="title_pro_feature">Jest to funkcja pro</string>
-  <string name="title_pro_list">Lista funkcji pro</string>
-  <string name="title_pro_purchase">Kup</string>
-  <string name="title_pro_hint">Kupno funkcji pro pozwoli Ci używać wszystkich obecnych i przyszłych funkcji pro oraz będzie utrzymywać i wspierać aplikację</string>
-  <string name="title_pro_price">Po więcej informacji nt cen wejdź <a href="https://github.com/M66B/open-source-email/blob/master/FAQ.md#FAQ19">w ten FAQ</a></string>
-  <string name="title_pro_activated">Wszystkie funkcje pro są aktywowane</string>
-  <string name="title_pro_valid">Wszystkie funkcje pro aktywne</string>
-  <string name="title_pro_invalid">Nieprawidłowa odpowiedź</string>
-  <string name="title_pro_support">FairEmail potrzebuje Twojej pomocy. Dotknij, aby zakupić funkcje pro i utrzymać projekt.</string>
+  <string name="title_try">Wypróbuj SimpleEmail, przyjazna prywatności aplikacja pocztowa dla Android o otwartym kodzie</string>
   <string name="title_unexpected_error">Nieoczekiwany błąd</string>
   <string name="title_log">Log</string>
   <string name="title_debug_info">Info debugowania</string>

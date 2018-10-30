@@ -245,16 +245,7 @@
   <string name="title_yes">Sí</string>
   <string name="title_no">No</string>
   <string name="title_undo">Desfés</string>
-  <string name="title_try">Prova FairEmail, una aplicació de correu-e per a Android, de codi obert i que respecta la privacitat</string>
-  <string name="title_pro_feature">Això es una característica Pro</string>
-  <string name="title_pro_list">Llista de característiques Pro</string>
-  <string name="title_pro_purchase">Comprar</string>
-  <string name="title_pro_hint">Comprar característiques Pro et permet utilitzar tota la funcionalitat Pro actual i futura i mantindrà el desenvolupament de l\'aplicació</string>
-  <string name="title_pro_price">Dona un cop d\'ull <a href="https://github.com/M66B/open-source-email/blob/master/FAQ.md#FAQ19">a les preguntes freqüents</a> per saber el preu de les característiques Pro</string>
-  <string name="title_pro_activated">Totes les característiques Pro estan activades</string>
-  <string name="title_pro_valid">Totes les característiques Pro estan activades</string>
-  <string name="title_pro_invalid">Resposta no vàlida</string>
-  <string name="title_pro_support">FairEmail necessita el teu ajut. Prem per comprar característiques Pro per mantenir el projecte en marxa.</string>
+  <string name="title_try">Prova SimpleEmail, una aplicació de correu-e per a Android, de codi obert i que respecta la privacitat</string>
   <string name="title_unexpected_error">S\'ha produït un error inesperat</string>
   <string name="title_log">Registre</string>
   <string name="title_debug_info">Informació de depuració</string>

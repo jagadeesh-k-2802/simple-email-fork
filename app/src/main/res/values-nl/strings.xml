@@ -245,16 +245,7 @@
   <string name="title_yes">Ja</string>
   <string name="title_no">Nee</string>
   <string name="title_undo">Ongedaan maken</string>
-  <string name="title_try">Probeer FairEmail, een open source, privacy vriendelijke e-mail app voor Android</string>
-  <string name="title_pro_feature">Dit is een pro-functie</string>
-  <string name="title_pro_list">Lijst van pro-functies</string>
-  <string name="title_pro_purchase">Koop</string>
-  <string name="title_pro_hint">Het kopen van pro functies geeft toegang tot alle huidige en toekomstige pro functies en zorgt voor onderhoud en ondersteuning van deze app</string>
-  <string name="title_pro_price">Raadpleeg <a href="https://github.com/M66B/open-source-email/blob/master/FAQ.md#FAQ19">deze FAQ</a> over de prijs van de pro-functies</string>
-  <string name="title_pro_activated">Alle pro-functies zijn geactiveerd</string>
-  <string name="title_pro_valid">Alle pro-functies geactiveerd</string>
-  <string name="title_pro_invalid">Ongeldige reactie</string>
-  <string name="title_pro_support">FairEmail heeft uw hulp nodig. Tik hier om pro functies te kopen om het project gaande te houden.</string>
+  <string name="title_try">Probeer SimpleEmail, een open source, privacy vriendelijke e-mail app voor Android</string>
   <string name="title_unexpected_error">Onverwachte fout</string>
   <string name="title_log">Logboek</string>
   <string name="title_debug_info">Foutopsporing</string>

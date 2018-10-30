@@ -249,16 +249,7 @@
   <string name="title_yes">Da</string>
   <string name="title_no">Nu</string>
   <string name="title_undo">Anulează</string>
-  <string name="title_try">Încearcă FairEmail, o aplicație de e-mail pentru Android cu sursă deschisă, ce protejează intimitatea și confidențialitatea</string>
-  <string name="title_pro_feature">Aceasta este o caracteristică Pro</string>
-  <string name="title_pro_list">Lista de caracteristici Pro</string>
-  <string name="title_pro_purchase">Cumpără</string>
-  <string name="title_pro_hint">Cumpărarea caracteristicilor Pro vă va permite să utilizați toate caracteristicile actuale cât și cele viitoare, și ajută la dezvoltarea acestei aplicații</string>
-  <string name="title_pro_price">Vizitați <a href="https://github.com/M66B/open-source-email/blob/master/FAQ.md#FAQ19">acestă pagină</a> pentru a afla prețurile caracteristicilor Pro</string>
-  <string name="title_pro_activated">Sunt activate toate caracteristicile Pro</string>
-  <string name="title_pro_valid">Au fost activate toate caracteristicile Pro</string>
-  <string name="title_pro_invalid">Răspunsul nu este valid</string>
-  <string name="title_pro_support">FairEmail are nevoie de ajutorul dumneavoastră. Atingeți pentru a achiziționa caracteristici pro și a putea dezvolta proiectul în continuare.</string>
+  <string name="title_try">Încearcă SimpleEmail, o aplicație de e-mail pentru Android cu sursă deschisă, ce protejează intimitatea și confidențialitatea</string>
   <string name="title_unexpected_error">Eroare neașteptată</string>
   <string name="title_log">Raport</string>
   <string name="title_debug_info">Depanare</string>

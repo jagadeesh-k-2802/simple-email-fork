@@ -245,16 +245,7 @@
   <string name="title_yes">Oui</string>
   <string name="title_no">Non</string>
   <string name="title_undo">Annuler</string>
-  <string name="title_try">Essayez FairEmail, une application de messagerie pour Android, open source, respectant la vie privée</string>
-  <string name="title_pro_feature">Il s’agit d’une fonctionnalité Pro</string>
-  <string name="title_pro_list">Liste des fonctionnalités Pro</string>
-  <string name="title_pro_purchase">Acheter</string>
-  <string name="title_pro_hint">L\'achat des fonctionnalités Pro vous autorisera l\'utilisation de toutes les fonctionnalités Pro actuelles et futures et permettra de maintenir et de supporter cette appli</string>
-  <string name="title_pro_price">Veuillez voir <a href="https://github.com/M66B/open-source-email/blob/master/FAQ.md#FAQ19">cette FAQ</a> sur le prix des fonctionnalités Pro</string>
-  <string name="title_pro_activated">Toutes les fonctionnalités Pro sont activées</string>
-  <string name="title_pro_valid">Toutes les fonctionnalités Pro activées</string>
-  <string name="title_pro_invalid">Réponse non valide</string>
-  <string name="title_pro_support">FairEmail a besoin de votre aide. Appuyez pour acheter des fonctionnalités Pro pour continuer à faire avancer le projet.</string>
+  <string name="title_try">Essayez SimpleEmail, une application de messagerie pour Android, open source, respectant la vie privée</string>
   <string name="title_unexpected_error">Erreur inattendue</string>
   <string name="title_log">Journal</string>
   <string name="title_debug_info">Information de débogage</string>

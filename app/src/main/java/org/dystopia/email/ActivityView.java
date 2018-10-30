@@ -119,7 +119,7 @@ public class ActivityView extends ActivityBase implements FragmentManager.OnBack
     static final String ACTION_STORE_ATTACHMENT = BuildConfig.APPLICATION_ID + ".STORE_ATTACHMENT";
     static final String ACTION_DECRYPT = BuildConfig.APPLICATION_ID + ".DECRYPT";
 
-    static final String UPDATE_LATEST_API = "https://api.github.com/repos/M66B/open-source-email/releases/latest";
+    static final String UPDATE_LATEST_API = "https://framagit.org/api/v4/projects/dystopia-project%2Fsimple-email/repository/tags";
     static final long UPDATE_INTERVAL = 12 * 3600 * 1000L; // milliseconds
 
     @Override
@@ -632,7 +632,7 @@ public class ActivityView extends ActivityBase implements FragmentManager.OnBack
 
     private Intent getIntentFAQ() {
         Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse("https://github.com/M66B/open-source-email/blob/master/FAQ.md"));
+        intent.setData(Uri.parse("https://framagit.org/dystopia-project/simple-email/blob/a1c207ed9c3a15dacdf179717a0874bdf5d60ba5/FAQ.md"));
         return intent;
     }
 

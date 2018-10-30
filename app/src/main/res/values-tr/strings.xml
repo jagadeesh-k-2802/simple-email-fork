@@ -246,15 +246,6 @@
   <string name="title_no">Hayır</string>
   <string name="title_undo">Geri Al</string>
   <string name="title_try">Try SimpleEmail, an simple, free software,, privacy friendly email app for Android</string>
-  <string name="title_pro_feature">Bu Pro özelliğidir</string>
-  <string name="title_pro_list">Pro özelliklerin listesi</string>
-  <string name="title_pro_purchase">Satın al</string>
-  <string name="title_pro_hint">Pro özelliklerin satın alınması, mevcut ve gelecekteki tüm pro özelliklerin kullanılmasına izin verecek ve bu uygulamayı ayakta tutup destekleyecek</string>
-  <string name="title_pro_price">Lütfen pro özelliklerin fiyatı için <a href="https://github.com/M66B/open-source-email/blob/master/FAQ.md#FAQ19">bu SSS sayfasını</a> görün</string>
-  <string name="title_pro_activated">Tüm pro özellikleri etkinleştirildi</string>
-  <string name="title_pro_valid">Tüm pro özellikleri etkinleştirildi</string>
-  <string name="title_pro_invalid">Geçersiz yanıt</string>
-  <string name="title_pro_support">FairEmail\'in yardımınıza ihtiyacı var. Pro özellikleri satın alarak projeyi devam ettirmek için dokunun.</string>
   <string name="title_unexpected_error">Beklenmedik hata</string>
   <string name="title_log">Kayıt defteri</string>
   <string name="title_debug_info">Hata ayıklama bilgisi</string>

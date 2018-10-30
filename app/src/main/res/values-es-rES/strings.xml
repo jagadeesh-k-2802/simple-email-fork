@@ -245,16 +245,7 @@
   <string name="title_yes">Sí</string>
   <string name="title_no">No</string>
   <string name="title_undo">Deshacer</string>
-  <string name="title_try">Pruebe FairEmail, un cliente de correo electrónico para Android de código abierto y enfocado en la privacidad</string>
-  <string name="title_pro_feature">Esta es una característica Pro</string>
-  <string name="title_pro_list">Lista de características Pro</string>
-  <string name="title_pro_purchase">Comprar</string>
-  <string name="title_pro_hint">Comprar las características Pro le permitirá usar todas las características Pro que existen y las futuras, mantendrá esta app en mantenimiento y soportada</string>
-  <string name="title_pro_price">Por favor lea <a href="https://github.com/M66B/open-source-email/blob/master/FAQ.md#FAQ19">estas Preguntas Frecuentas</a> acerca del precio de las características Pro</string>
-  <string name="title_pro_activated">Todas las características Pro están activadas</string>
-  <string name="title_pro_valid">Todas las características Pro activadas</string>
-  <string name="title_pro_invalid">Respuesta inválida</string>
-  <string name="title_pro_support">FairEmail necesita su ayuda. Toque para comprar las características Pro y mantener el proyecto en marcha.</string>
+  <string name="title_try">Pruebe SimpleEmail, un cliente de correo electrónico para Android de código abierto y enfocado en la privacidad</string>
   <string name="title_unexpected_error">Error inesperado</string>
   <string name="title_log">Log</string>
   <string name="title_debug_info">Información de depuración</string>

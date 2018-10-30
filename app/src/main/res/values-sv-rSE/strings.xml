@@ -245,16 +245,7 @@
   <string name="title_yes">Ja</string>
   <string name="title_no">Nej</string>
   <string name="title_undo">Ångra</string>
-  <string name="title_try">Prova FairEmail, en e-postapp för Android med öppen källkod som respekterar din integritet</string>
-  <string name="title_pro_feature">Detta är en pro-funktion</string>
-  <string name="title_pro_list">Lista över pro-funktioner</string>
-  <string name="title_pro_purchase">Köp</string>
-  <string name="title_pro_hint">Att köpa pro-funktioner gör att du kan använda alla aktuella och framtida pro-funktioner, kommer att göra att denna app underhålls och stöds</string>
-  <string name="title_pro_price">Se <a href="https://github.com/M66B/open-source-email/blob/master/FAQ.md#FAQ19">Vanliga frågor</a> om pris på pro-funktionerna</string>
-  <string name="title_pro_activated">Alla pro-funktioner aktiverades</string>
-  <string name="title_pro_valid">Alla pro-funktioner aktiverade</string>
-  <string name="title_pro_invalid">Ogiltigt svar</string>
-  <string name="title_pro_support">FairEmail behöver din hjälp. Tryck för att köpa pro-funktioner för att hålla projektet igång.</string>
+  <string name="title_try">Prova SimpleEmail, en e-postapp för Android med öppen källkod som respekterar din integritet</string>
   <string name="title_unexpected_error">Oväntat fel</string>
   <string name="title_log">Logg</string>
   <string name="title_debug_info">Felsökningsinformation</string>
