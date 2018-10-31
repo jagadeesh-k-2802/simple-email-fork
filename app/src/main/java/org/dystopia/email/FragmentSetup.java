@@ -485,7 +485,7 @@ public class FragmentSetup extends FragmentEx {
         Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("*/*");
-        intent.putExtra(Intent.EXTRA_TITLE, "fairemail_backup_" +
+        intent.putExtra(Intent.EXTRA_TITLE, "simpleemail_backup_" +
                 new SimpleDateFormat("yyyyMMdd").format(new Date().getTime()) + ".json");
         return intent;
     }

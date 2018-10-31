@@ -577,8 +577,7 @@ public class ServiceSynchronize extends LifecycleService {
                 Properties props = MessageHelper.getSessionProperties(account.auth_type, account.insecure);
                 final Session isession = Session.getInstance(props, null);
                 isession.setDebug(debug);
-                // adb -t 1 logcat | grep "fairemail\|System.out"
-
+                
                 final IMAPStore istore = (IMAPStore) isession.getStore(account.starttls ? "imap" : "imaps");
                 final Map<EntityFolder, IMAPFolder> folders = new HashMap<>();
                 List<Thread> syncs = new ArrayList<>();

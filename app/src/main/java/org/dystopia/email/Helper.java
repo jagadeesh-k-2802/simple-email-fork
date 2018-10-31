@@ -66,7 +66,7 @@ import androidx.browser.customtabs.CustomTabsIntent;
 import static android.os.Process.THREAD_PRIORITY_BACKGROUND;
 
 public class Helper {
-    static final String TAG = "fairemail";
+    static final String TAG = "simpleemail";
 
     static final int JOB_DAILY = 1001;
 
