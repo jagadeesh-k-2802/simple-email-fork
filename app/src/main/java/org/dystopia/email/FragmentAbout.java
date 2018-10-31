@@ -276,10 +276,6 @@ public class FragmentAbout extends FragmentEx {
             }
         });
 
-        //boolean debug = PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean("debug", false);
-        //btnLog.setVisibility(debug || BuildConfig.DEBUG ? View.VISIBLE : View.GONE);
-        //btnDebugInfo.setVisibility(debug || BuildConfig.DEBUG ? View.VISIBLE : View.GONE);
-
         return view;
     }
 }

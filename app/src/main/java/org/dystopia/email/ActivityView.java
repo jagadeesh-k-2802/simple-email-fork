@@ -225,8 +225,7 @@ public class ActivityView extends ActivityBase implements FragmentManager.OnBack
                 if (getIntentFAQ().resolveActivity(getPackageManager()) != null)
                     drawerArray.add(new DrawerItem(ActivityView.this, R.layout.item_drawer, R.drawable.baseline_question_answer_24, R.string.menu_faq));
 
-                if (Helper.getIntentPrivacy().resolveActivity(getPackageManager()) != null)
-                    drawerArray.add(new DrawerItem(ActivityView.this, R.layout.item_drawer, R.drawable.baseline_account_box_24, R.string.menu_privacy));
+                drawerArray.add(new DrawerItem(ActivityView.this, R.layout.item_drawer, R.drawable.baseline_account_box_24, R.string.menu_privacy));
 
                 drawerArray.add(new DrawerItem(ActivityView.this, R.layout.item_drawer, R.drawable.baseline_info_24, R.string.menu_about));
 
@@ -675,7 +674,9 @@ public class ActivityView extends ActivityBase implements FragmentManager.OnBack
     }
 
     private void onMenuPrivacy() {
-        Helper.view(this, Helper.getIntentPrivacy());
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.content_frame, new FragmentPrivacy()).addToBackStack("privacy");
+        fragmentTransaction.commit();
     }
 
     private void onMenuAbout() {

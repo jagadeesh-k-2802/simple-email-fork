@@ -426,7 +426,9 @@ public class FragmentSetup extends FragmentEx {
     }
 
     private void onMenuPrivacy() {
-        Helper.view(getContext(), Helper.getIntentPrivacy());
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.content_frame, new FragmentPrivacy()).addToBackStack("privacy");
+        fragmentTransaction.commit();
     }
 
     private void onMenuLegend() {

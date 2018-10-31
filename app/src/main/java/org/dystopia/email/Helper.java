@@ -27,7 +27,6 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
 import android.net.Uri;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
@@ -39,7 +38,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 
-import com.android.billingclient.api.BillingClient;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.sun.mail.imap.IMAPStore;
 
@@ -101,12 +99,6 @@ public class Helper {
 
         CustomTabsIntent customTabsIntent = builder.build();
         customTabsIntent.launchUrl(context, uri);
-    }
-
-    static Intent getIntentPrivacy() {
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse("https://email.faircode.eu/privacy/"));
-        return intent;
     }
 
     static Intent getIntentOpenKeychain() {
