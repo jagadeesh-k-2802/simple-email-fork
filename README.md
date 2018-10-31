@@ -1,7 +1,8 @@
 # SimpleEmail
 
-*SimpleEmail is Free Software, minimalistic and privacy friendly email app*
-This project has been forked from [FairEmail](https://github.com/M66B/open-source-email).
+SimpleEmail is Free Software, minimalistic and privacy friendly email app for Android.
+
+*This project has been forked from [FairEmail](https://github.com/M66B/open-source-email).*
 
 This email app might be for you if your current email app:
 
@@ -129,19 +130,4 @@ SimpleEmail uses:
 
 ## License
 
-[GNU General Public License version 3](https://www.gnu.org/licenses/gpl.txt)
-
-Copyright (c) 2018 Marcel Bokhorst. All rights reserved
-
-FairEmail is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-FairEmail is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with FairEmail. If not, see [https://www.gnu.org/licenses/](https://www.gnu.org/licenses/).
+[GNU General Public License version 3](https://framagit.org/dystopia-project/simple-email/blob/master/LICENSE)
