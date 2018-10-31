@@ -158,12 +158,6 @@
             app:menu="@menu/action_messages" />
 
         <androidx.constraintlayout.widget.Group
-            android:id="@+id/grpSupport"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:constraint_referenced_ids="tvSupport,vSeparatorSupport" />
-
-        <androidx.constraintlayout.widget.Group
             android:id="@+id/grpHintSupport"
             android:layout_width="0dp"
             android:layout_height="0dp"

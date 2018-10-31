@@ -84,7 +84,6 @@ public class FragmentMessages extends FragmentEx {
     private RecyclerView rvMessage;
     private BottomNavigationView bottom_navigation;
     private ProgressBar pbWait;
-    private Group grpSupport;
     private Group grpHintSupport;
     private Group grpHintSwipe;
     private Group grpHintSelect;
@@ -161,7 +160,6 @@ public class FragmentMessages extends FragmentEx {
         rvMessage = view.findViewById(R.id.rvFolder);
         bottom_navigation = view.findViewById(R.id.bottom_navigation);
         pbWait = view.findViewById(R.id.pbWait);
-        grpSupport = view.findViewById(R.id.grpSupport);
         grpHintSupport = view.findViewById(R.id.grpHintSupport);
         grpHintSwipe = view.findViewById(R.id.grpHintSwipe);
         grpHintSelect = view.findViewById(R.id.grpHintSelect);
@@ -839,12 +837,6 @@ public class FragmentMessages extends FragmentEx {
                 }
             }.load(this, args);
         }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        grpSupport.setVisibility(View.GONE);
     }
 
     @Override

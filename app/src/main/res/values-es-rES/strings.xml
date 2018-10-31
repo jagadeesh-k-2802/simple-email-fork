@@ -250,8 +250,8 @@
   <string name="title_debug_info">Información de depuración</string>
   <string name="title_debug_info_remark">Por favor describa el problema e indique el momento del mismo:</string>
   <string name="title_crash_info_remark">Por favor describa que estaba haciendo cuando la app falló:</string>
-    <string name="title_privacy">Política de privacidad</string>
-    <string name="title_privacy_description"><b>SimpleEmail</b> no recopila ninguna información, no requiere permisos innecesarios y es <b>100% software libre</b>.</string>
-    <string name="title_permissions"><b>Se necesitan permisos y por qué</b></string>
+  <string name="title_privacy">Política de privacidad</string>
+  <string name="title_privacy_description"><b>SimpleEmail</b> no recopila ninguna información, no requiere permisos innecesarios y es <b>100\% software libre</b>.</string>
+  <string name="title_permissions"><b>Se necesitan permisos y por qué</b></string>
   <string name="title_permissions_list"><b> • tiene acceso completo a la red </b> (INTERNET): para enviar y recibir correo electrónico <b> • ver conexiones de red </b> (ACCESS_NETWORK_STATE): para monitorear los cambios de conectividad a internet <b> • ejecutar al inicio </b> (RECEIVE_BOOT_COMPLETED): para iniciar el monitoreo en el inicio del dispositivo <b> • Servicio de primer plano </b> (FOREGROUND_SERVICE): para ejecutar un servicio de primer plano en Android 9 Pie y posterior <b> • evitar que el dispositivo entre en suspensión </b> (WAKE_LOCK): para mantener el dispositivo despierto mientras se sincronizan los mensajes <b> • [Opcional] lee tus contactos </b> (READ_CONTACTS): autocompletar direcciones y mostrar fotos <b> • [Opcional] encuentre cuentas en el dispositivo </b> (GET_ACCOUNTS): usar OAuth en lugar de contraseñas</string>
 </resources>
