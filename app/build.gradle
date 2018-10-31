@@ -6,8 +6,8 @@ android {
         applicationId "org.dystopia.email"
         minSdkVersion 23
         targetSdkVersion 28
-        versionCode 120
-        versionName "1.120"
+        versionCode 100
+        versionName "1.0"
         archivesBaseName = "SimpleEmail-v$versionName"
 
         javaCompileOptions {
