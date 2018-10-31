@@ -23,8 +23,7 @@
   <string name="menu_operations">操作</string>
   <string name="menu_legend">图例</string>
   <string name="menu_faq">常见问题/支持</string>
-  <string name="menu_pro">专业版功能</string>
-  <string name="menu_privacy">隐私</string>
+    <string name="menu_privacy">隐私</string>
   <string name="menu_about">关于</string>
   <string name="menu_invite">Invite</string>
   <string name="menu_rate">给这个应用打分</string>
@@ -247,4 +246,8 @@
   <string name="title_debug_info">调试信息</string>
   <string name="title_debug_info_remark">请描述问题及问题发生的时间：</string>
   <string name="title_crash_info_remark">请描述应用崩溃时您的操作</string>
+    <string name="title_privacy">Privacy policy</string>
+    <string name="title_privacy_description"><b>SimpleEmail</b> does not collect any information, does not require unnecessary permissions and is <b>100% Free Software</b>.</string>
+    <string name="title_permissions"><b>Permissions are needed and why</b></string>
+    <string name="title_permissions_list"><b>• have full network access</b> (INTERNET):  to send and receive email <b> • view network connections</b> (ACCESS_NETWORK_STATE):  to monitor internet connectivity changes <b> • run at startup</b> (RECEIVE_BOOT_COMPLETED):  to start monitoring on device start <b> • foreground service</b> (FOREGROUND_SERVICE):  to run a foreground service on Android 9 Pie and later <b> • prevent device from sleeping</b> (WAKE_LOCK):  to keep the device awake while synchronizing messages <b> • [Optional] read your contacts</b> (READ_CONTACTS):  to autocomplete addresses and to show photos <b> • [Optional] find accounts on the device</b> (GET_ACCOUNTS):  to use OAuth instead of passwords</string>
 </resources>

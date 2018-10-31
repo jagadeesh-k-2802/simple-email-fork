@@ -27,8 +27,7 @@
   <string name="menu_operations">Műveletek</string>
   <string name="menu_legend">Jelmagyarázat</string>
   <string name="menu_faq">GyIK/támogatás</string>
-  <string name="menu_pro">Pro funkciók</string>
-  <string name="menu_privacy">Adatvédelem</string>
+    <string name="menu_privacy">Adatvédelem</string>
   <string name="menu_about">Névjegy</string>
   <string name="menu_invite">Meghívás</string>
   <string name="menu_rate">Alkalmazás értékelése</string>
@@ -251,4 +250,8 @@
   <string name="title_debug_info">Debug info</string>
   <string name="title_debug_info_remark">Please describe the problem and indicate the time of the problem:</string>
   <string name="title_crash_info_remark">Please describe what you were doing when the app crashed:</string>
+    <string name="title_privacy">Privacy policy</string>
+    <string name="title_privacy_description"><b>SimpleEmail</b> does not collect any information, does not require unnecessary permissions and is <b>100% Free Software</b>.</string>
+    <string name="title_permissions"><b>Permissions are needed and why</b></string>
+    <string name="title_permissions_list"><b>• have full network access</b> (INTERNET):  to send and receive email <b> • view network connections</b> (ACCESS_NETWORK_STATE):  to monitor internet connectivity changes <b> • run at startup</b> (RECEIVE_BOOT_COMPLETED):  to start monitoring on device start <b> • foreground service</b> (FOREGROUND_SERVICE):  to run a foreground service on Android 9 Pie and later <b> • prevent device from sleeping</b> (WAKE_LOCK):  to keep the device awake while synchronizing messages <b> • [Optional] read your contacts</b> (READ_CONTACTS):  to autocomplete addresses and to show photos <b> • [Optional] find accounts on the device</b> (GET_ACCOUNTS):  to use OAuth instead of passwords</string>
 </resources>

@@ -77,7 +77,6 @@ import androidx.recyclerview.widget.RecyclerView;
 public class FragmentMessages extends FragmentEx {
     private ViewGroup view;
     private View popupAnchor;
-    private TextView tvSupport;
     private ImageButton ibHintSupport;
     private ImageButton ibHintSwipe;
     private ImageButton ibHintSelect;
@@ -155,7 +154,6 @@ public class FragmentMessages extends FragmentEx {
 
         // Get controls
         popupAnchor = view.findViewById(R.id.popupAnchor);
-        tvSupport = view.findViewById(R.id.tvSupport);
         ibHintSupport = view.findViewById(R.id.ibHintSupport);
         ibHintSwipe = view.findViewById(R.id.ibHintSwipe);
         ibHintSelect = view.findViewById(R.id.ibHintSelect);
