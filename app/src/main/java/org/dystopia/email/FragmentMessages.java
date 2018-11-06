@@ -1055,7 +1055,7 @@ public class FragmentMessages extends FragmentEx {
                     break;
             }
         } else {
-            if (searchCallback == null)
+            if (searchCallback == null) {
                 searchCallback = new BoundaryCallbackMessages(this, model,
                         new BoundaryCallbackMessages.IBoundaryCallbackMessages() {
                             @Override
@@ -1067,8 +1067,9 @@ public class FragmentMessages extends FragmentEx {
                             @Override
                             public void onLoaded() {
                                 pbWait.setVisibility(View.GONE);
-                                if (messages.getValue().size() == 0)
+                                if (messages.getValue() == null || messages.getValue().size() == 0) {
                                     tvNoEmail.setVisibility(View.VISIBLE);
+                                }
                             }
 
                             @Override
@@ -1081,7 +1082,7 @@ public class FragmentMessages extends FragmentEx {
                                             .show();
                             }
                         });
-
+            }
             PagedList.Config config = new PagedList.Config.Builder()
                     .setPageSize(LOCAL_PAGE_SIZE)
                     .setInitialLoadSizeHint(LOCAL_PAGE_SIZE)
