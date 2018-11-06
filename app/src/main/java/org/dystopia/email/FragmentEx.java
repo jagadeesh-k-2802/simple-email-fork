@@ -17,6 +17,7 @@ package org.dystopia.email;
     along with FairEmail.  If not, see <http://www.gnu.org/licenses/>.
 
     Copyright 2018 by Marcel Bokhorst (M66B)
+    Copyright 2019 by Distopico <distopico@riseup.net>
 */
 
 import android.content.res.Configuration;
