@@ -33,7 +33,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 public class FragmentOptions extends FragmentEx {
-    private Switch optEnabled;
+    private Switch optSyncEnabled;
     private Switch optAvatars;
     private Switch optLight;
     private Switch optBrowse;
@@ -50,7 +50,7 @@ public class FragmentOptions extends FragmentEx {
         View view = inflater.inflate(R.layout.fragment_options, container, false);
 
         // Get controls
-        optEnabled = view.findViewById(R.id.optEnabled);
+        optSyncEnabled = view.findViewById(R.id.optSyncEnabled);
         optAvatars = view.findViewById(R.id.optAvatars);
         optLight = view.findViewById(R.id.optLight);
         optBrowse = view.findViewById(R.id.optBrowse);
@@ -63,15 +63,16 @@ public class FragmentOptions extends FragmentEx {
 
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
 
-        optEnabled.setChecked(prefs.getBoolean("enabled", true));
-        optEnabled.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        optSyncEnabled.setChecked(prefs.getBoolean("enabled", true));
+        optSyncEnabled.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
                 prefs.edit().putBoolean("enabled", checked).apply();
                 if (checked)
                     ServiceSynchronize.start(getContext());
-                else
+                else {
                     ServiceSynchronize.stop(getContext());
+                }
             }
         });
 
