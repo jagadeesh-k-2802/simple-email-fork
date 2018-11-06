@@ -26,6 +26,11 @@
         android:title="@string/title_flag" />
 
     <item
+        android:id="@+id/menu_show_details"
+        android:checkable="true"
+        android:title="@string/title_show_details" />
+
+    <item
         android:id="@+id/menu_show_headers"
         android:checkable="true"
         android:title="@string/title_show_headers" />

@@ -255,4 +255,5 @@
   <string name="title_permissions"><b>Permissions are needed and why</b></string>
   <string name="title_permissions_list"><b>• have full network access</b> (INTERNET):  to send and receive email <b>\n• view network connections</b> (ACCESS_NETWORK_STATE):  to monitor internet connectivity changes <b>\n• run at startup</b> (RECEIVE_BOOT_COMPLETED):  to start monitoring on device start <b>\n• foreground service</b> (FOREGROUND_SERVICE):  to run a foreground service on Android 9 Pie and later <b>\n• prevent device from sleeping</b> (WAKE_LOCK):  to keep the device awake while synchronizing messages <b>\n• [Optional] read your contacts</b> (READ_CONTACTS):  to autocomplete addresses and to show photos <b>\n• [Optional] find accounts on the device</b> (GET_ACCOUNTS):  to use OAuth instead of passwords</string>
   <string name="title_no_storage_framework">Storage framework not available</string>
+  <string name="title_show_details">See details</string>
 </resources>

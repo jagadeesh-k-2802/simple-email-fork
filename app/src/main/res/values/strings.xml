@@ -321,4 +321,5 @@
 
   <string name="fingerprint" translatable="false">BCB07BD93B29C1959C15F1CF6C3A2619BAF7A17</string>
   <string name="title_no_storage_framework">Storage framework not available</string>
+    <string name="title_show_details">See details</string>
 </resources>

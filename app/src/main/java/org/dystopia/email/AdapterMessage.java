@@ -139,6 +139,7 @@ public class AdapterMessage extends PagedListAdapter<TupleMessageEx, AdapterMess
         private ImageView ivAttachments;
         private TextView tvSubject;
         private TextView tvFolder;
+        private TextView tvAccount;
         private TextView tvCount;
         private ImageView ivThread;
         private TextView tvError;
@@ -164,6 +165,7 @@ public class AdapterMessage extends PagedListAdapter<TupleMessageEx, AdapterMess
         private RecyclerView rvAttachment;
         private AdapterAttachment adapter;
 
+        private Group grpDetails;
         private Group grpHeaders;
         private Group grpAttachments;
         private Group grpExpanded;
@@ -185,6 +187,7 @@ public class AdapterMessage extends PagedListAdapter<TupleMessageEx, AdapterMess
             tvTimeEx = itemView.findViewById(R.id.tvTimeEx);
             ivAttachments = itemView.findViewById(R.id.ivAttachments);
             tvSubject = itemView.findViewById(R.id.tvSubject);
+            tvAccount = itemView.findViewById(R.id.tvAccount);
             tvFolder = itemView.findViewById(R.id.tvFolder);
             tvCount = itemView.findViewById(R.id.tvCount);
             ivThread = itemView.findViewById(R.id.ivThread);
@@ -217,6 +220,7 @@ public class AdapterMessage extends PagedListAdapter<TupleMessageEx, AdapterMess
             adapter = new AdapterAttachment(context, owner, true);
             rvAttachment.setAdapter(adapter);
 
+            grpDetails = itemView.findViewById(R.id.grpDetails);
             grpHeaders = itemView.findViewById(R.id.grpHeaders);
             grpAttachments = itemView.findViewById(R.id.grpAttachments);
             grpExpanded = itemView.findViewById(R.id.grpExpanded);
@@ -250,6 +254,7 @@ public class AdapterMessage extends PagedListAdapter<TupleMessageEx, AdapterMess
             ivAttachments.setVisibility(View.GONE);
             tvSubject.setText(null);
             tvFolder.setText(null);
+            tvAccount.setText(null);
             tvCount.setText(null);
             ivThread.setVisibility(View.GONE);
             tvError.setVisibility(View.GONE);
@@ -259,6 +264,7 @@ public class AdapterMessage extends PagedListAdapter<TupleMessageEx, AdapterMess
             vSeparatorBody.setVisibility(View.GONE);
             btnImages.setVisibility(View.GONE);
             pbBody.setVisibility(View.GONE);
+            grpDetails.setVisibility(View.GONE);
             grpHeaders.setVisibility(View.GONE);
             grpAttachments.setVisibility(View.GONE);
             grpExpanded.setVisibility(View.GONE);
@@ -267,6 +273,7 @@ public class AdapterMessage extends PagedListAdapter<TupleMessageEx, AdapterMess
         private void bindTo(int position, final TupleMessageEx message) {
             final DB db = DB.getInstance(context);
             final boolean show_expanded = properties.isExpanded(message.id);
+            boolean show_details = properties.showDetails(message.id);
             boolean show_headers = properties.showHeaders(message.id);
 
             pbLoading.setVisibility(View.GONE);
@@ -281,17 +288,24 @@ public class AdapterMessage extends PagedListAdapter<TupleMessageEx, AdapterMess
                 }
             }
             ivAvatar.setVisibility(photo ? View.VISIBLE : View.GONE);
+            vwColor.setVisibility(View.GONE);
+            vwColor.setBackgroundColor(Color.TRANSPARENT);
 
-            vwColor.setBackgroundColor(message.accountColor == null ? Color.TRANSPARENT : message.accountColor);
-            vwColor.setVisibility(viewType == ViewType.UNIFIED && message.accountColor != null ? View.VISIBLE : View.GONE);
+            if (message.accountColor != null && (viewType == ViewType.UNIFIED || viewType == ViewType.FOLDER)) {
+                vwColor.setVisibility(View.VISIBLE);
+                vwColor.setBackgroundColor(message.accountColor);
+            } else {
+                tvFolder.setBackgroundColor(message.accountColor == null ? Color.GRAY : message.accountColor);
+            }
 
             ivExpander.setImageResource(show_expanded ? R.drawable.baseline_expand_less_24 : R.drawable.baseline_expand_more_24);
             ivExpander.setVisibility(viewType == ViewType.THREAD ? View.VISIBLE : View.GONE);
 
             if (viewType == ViewType.THREAD)
                 ivFlagged.setVisibility(message.unflagged == 1 ? View.GONE : View.VISIBLE);
-            else
+            else {
                 ivFlagged.setVisibility(message.count - message.unflagged > 0 ? View.VISIBLE : View.GONE);
+            }
 
             if (EntityFolder.DRAFTS.equals(message.folderType) ||
                     EntityFolder.OUTBOX.equals(message.folderType) ||
@@ -310,13 +324,18 @@ public class AdapterMessage extends PagedListAdapter<TupleMessageEx, AdapterMess
             ivAttachments.setVisibility(message.attachments > 0 ? View.VISIBLE : View.GONE);
             tvSubject.setText(message.subject);
 
-            if (viewType == ViewType.UNIFIED)
-                tvFolder.setText(message.accountName);
-            else
+            tvFolder.setVisibility(View.GONE);
+            tvAccount.setVisibility(View.GONE);
+            
+            if (viewType == ViewType.UNIFIED || viewType == ViewType.FOLDER) {
+                tvAccount.setText(message.accountName);
+                tvAccount.setVisibility(View.VISIBLE);
+            } else {
                 tvFolder.setText(message.folderDisplay == null
-                        ? Helper.localizeFolderName(context, message.folderName)
-                        : message.folderDisplay);
-            tvFolder.setVisibility(viewType == ViewType.FOLDER ? View.GONE : View.VISIBLE);
+                                 ? Helper.localizeFolderName(context, message.folderName)
+                                 : message.folderDisplay);
+                tvFolder.setVisibility(View.VISIBLE);
+            }
 
             if (viewType == ViewType.THREAD) {
                 tvCount.setVisibility(View.GONE);
@@ -363,8 +382,12 @@ public class AdapterMessage extends PagedListAdapter<TupleMessageEx, AdapterMess
 
             grpExpanded.setVisibility(viewType == ViewType.THREAD && show_expanded ? View.VISIBLE : View.GONE);
             ivAddContact.setVisibility(viewType == ViewType.THREAD && show_expanded && contacts && message.from != null ? View.VISIBLE : View.GONE);
+            
+            grpDetails.setVisibility(show_details && show_expanded ? View.VISIBLE : View.GONE);
+
             pbHeaders.setVisibility(View.GONE);
             grpHeaders.setVisibility(show_headers && show_expanded ? View.VISIBLE : View.GONE);
+
             bnvActions.setVisibility(View.GONE);
             vSeparatorBody.setVisibility(View.GONE);
             btnImages.setVisibility(View.GONE);
@@ -785,8 +808,9 @@ public class AdapterMessage extends PagedListAdapter<TupleMessageEx, AdapterMess
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             ActionData data = (ActionData) bnvActions.getTag();
-            if (data == null)
+            if (data == null) {
                 return false;
+            }
 
             switch (item.getItemId()) {
                 case R.id.action_more:
@@ -1019,6 +1043,16 @@ public class AdapterMessage extends PagedListAdapter<TupleMessageEx, AdapterMess
             }.load(context, owner, args);
         }
 
+        private void onShowDetails(ActionData data) {
+            boolean show_details = !properties.showDetails(data.message.id);
+            properties.setDetails(data.message.id, show_details);
+            if (show_details) {
+                grpDetails.setVisibility(View.VISIBLE);
+            } else {
+                notifyDataSetChanged();
+            }
+        }
+        
         private void onShowHeaders(ActionData data) {
             boolean show_headers = !properties.showHeaders(data.message.id);
             properties.setHeaders(data.message.id, show_headers);
@@ -1045,8 +1079,9 @@ public class AdapterMessage extends PagedListAdapter<TupleMessageEx, AdapterMess
                         Helper.unexpectedError(context, ex);
                     }
                 }.load(context, owner, args);
-            } else
+            } else {
                 notifyDataSetChanged();
+            }
         }
 
         private void onShowHtml(ActionData data) {
@@ -1067,6 +1102,7 @@ public class AdapterMessage extends PagedListAdapter<TupleMessageEx, AdapterMess
 
         private void onMore(final ActionData data) {
             boolean inOutbox = EntityFolder.OUTBOX.equals(data.message.folderType);
+            boolean show_details = properties.showDetails(data.message.id);
             boolean show_headers = properties.showHeaders(data.message.id);
 
             View anchor = bnvActions.findViewById(R.id.action_more);
@@ -1087,6 +1123,9 @@ public class AdapterMessage extends PagedListAdapter<TupleMessageEx, AdapterMess
 
             popupMenu.getMenu().findItem(R.id.menu_flag).setChecked(data.message.unflagged != 1);
             popupMenu.getMenu().findItem(R.id.menu_flag).setVisible(data.message.uid != null && !inOutbox);
+
+            popupMenu.getMenu().findItem(R.id.menu_show_details).setChecked(show_details);
+            popupMenu.getMenu().findItem(R.id.menu_show_details).setVisible(data.message.uid != null);
 
             popupMenu.getMenu().findItem(R.id.menu_show_headers).setChecked(show_headers);
             popupMenu.getMenu().findItem(R.id.menu_show_headers).setVisible(data.message.uid != null);
@@ -1116,6 +1155,9 @@ public class AdapterMessage extends PagedListAdapter<TupleMessageEx, AdapterMess
                             return true;
                         case R.id.menu_flag:
                             onFlag(data);
+                            return true;
+                        case R.id.menu_show_details:
+                            onShowDetails(data);
                             return true;
                         case R.id.menu_show_headers:
                             onShowHeaders(data);
@@ -1418,12 +1460,16 @@ public class AdapterMessage extends PagedListAdapter<TupleMessageEx, AdapterMess
     interface IProperties {
         void setExpanded(long id, boolean expand);
 
+        void setDetails(long id, boolean show);
+        
         void setHeaders(long id, boolean show);
 
         void setImages(long id, boolean show);
 
         boolean isExpanded(long id);
 
+        boolean showDetails(long id);
+        
         boolean showHeaders(long id);
 
         boolean showImages(long id);
