@@ -33,8 +33,18 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Lifecycle;
 
 public class FragmentEx extends Fragment {
+    private String title = "";
     private String subtitle = " ";
     private boolean finish = false;
+
+    protected void setTitle(int resid) {
+        setTitle(getString(resid));
+    }
+
+    protected void setTitle(String subtitle) {
+        this.title = subtitle;
+        updateTitle();
+    }
 
     protected void setSubtitle(int resid) {
         setSubtitle(getString(resid));
@@ -116,6 +126,15 @@ public class FragmentEx extends Fragment {
     public void onDestroy() {
         Log.i(Helper.TAG, "Destroy " + this);
         super.onDestroy();
+    }
+
+    private void updateTitle() {
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+        if (activity != null) {
+            ActionBar actionbar = activity.getSupportActionBar();
+            if (actionbar != null)
+                actionbar.setTitle(title);
+        }
     }
 
     private void updateSubtitle() {

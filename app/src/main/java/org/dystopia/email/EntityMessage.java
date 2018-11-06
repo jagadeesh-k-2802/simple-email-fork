@@ -73,6 +73,7 @@ public class EntityMessage implements Serializable {
     @PrimaryKey(autoGenerate = true)
     public Long id;
     public Long account; // performance
+    public String account_name;
     @NonNull
     public Long folder;
     public Long identity;

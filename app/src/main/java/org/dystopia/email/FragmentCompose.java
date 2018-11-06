@@ -136,8 +136,7 @@ public class FragmentCompose extends FragmentEx {
     @Override
     @Nullable
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        setSubtitle(R.string.title_compose);
-
+        setTitle(R.string.title_compose);
         view = (ViewGroup) inflater.inflate(R.layout.fragment_compose, container, false);
 
         // Get controls
@@ -962,9 +961,10 @@ public class FragmentCompose extends FragmentEx {
 
             Log.i(Helper.TAG, "Load draft action=" + action + " id=" + id + " reference=" + reference);
 
-            EntityMessage draft;
-
             DB db = DB.getInstance(context);
+            EntityMessage draft;
+            EntityAccount account;
+
             try {
                 db.beginTransaction();
 
@@ -972,10 +972,14 @@ public class FragmentCompose extends FragmentEx {
                 if (draft == null || draft.ui_hide) {
                     if ("edit".equals(action))
                         throw new IllegalStateException("Message to edit not found");
-                } else
+                } else {
+                    if (draft.account_name == null) {
+                        account = db.account().getAccount(draft.account);
+                        draft.account_name = account.name;
+                    }
                     return draft;
+                }
 
-                EntityAccount account;
                 EntityMessage ref = db.message().getMessage(reference);
                 if (ref == null) {
                     long aid = args.getLong("account", -1);
@@ -983,8 +987,9 @@ public class FragmentCompose extends FragmentEx {
                         account = db.account().getPrimaryAccount();
                         if (account == null)
                             throw new IllegalArgumentException(context.getString(R.string.title_no_account));
-                    } else
+                    } else {
                         account = db.account().getAccount(aid);
+                    }
                 } else {
                     account = db.account().getAccount(ref.account);
 
@@ -1038,6 +1043,7 @@ public class FragmentCompose extends FragmentEx {
 
                 draft = new EntityMessage();
                 draft.account = account.id;
+                draft.account_name = account.name;
                 draft.folder = drafts.id;
                 draft.msgid = EntityMessage.generateMessageId();
 
@@ -1202,6 +1208,8 @@ public class FragmentCompose extends FragmentEx {
 
             final String action = getArguments().getString("action");
             Log.i(Helper.TAG, "Loaded draft id=" + draft.id + " action=" + action);
+
+            setSubtitle(draft.account_name);
 
             etTo.setText(MessageHelper.getFormattedAddresses(draft.to, true));
             etCc.setText(MessageHelper.getFormattedAddresses(draft.cc, true));
