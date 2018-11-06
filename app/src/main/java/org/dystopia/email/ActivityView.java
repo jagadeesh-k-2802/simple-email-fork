@@ -825,7 +825,11 @@ public class ActivityView extends ActivityBase implements FragmentManager.OnBack
         create.addCategory(Intent.CATEGORY_OPENABLE);
         create.setType(intent.getStringExtra("type"));
         create.putExtra(Intent.EXTRA_TITLE, intent.getStringExtra("name"));
-        startActivityForResult(create, REQUEST_ATTACHMENT);
+        if (create.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(create, REQUEST_ATTACHMENT);   
+        } else {
+            Snackbar.make(view, R.string.title_no_storage_framework, Snackbar.LENGTH_LONG).show();
+        }
     }
 
     private void onDecrypt(Intent intent) {
