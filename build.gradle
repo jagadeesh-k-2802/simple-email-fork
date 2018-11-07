@@ -1,5 +1,4 @@
 buildscript {
-    
     repositories {
         google()
         jcenter()
@@ -14,6 +13,10 @@ allprojects {
         google()
         jcenter()
     }
+}
+
+ext {
+    ci = project.hasProperty("ci")
 }
 
 task clean(type: Delete) {
