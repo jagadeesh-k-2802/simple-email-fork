@@ -17,7 +17,7 @@ package org.dystopia.email;
     along with FairEmail.  If not, see <http://www.gnu.org/licenses/>.
 
     Copyright 2018 by Marcel Bokhorst (M66B)
-    Copyright 2019 by Distopico <distopico@riseup.net>
+    Copyright 2018 by Distopico <distopico@riseup.net>
 */
 
 import android.content.Context;
@@ -1129,8 +1129,8 @@ public class FragmentMessages extends FragmentEx {
                         for (int i = 0; i < messages.size(); i++) {
                             TupleMessageEx message = messages.get(i);
                             if (!EntityFolder.ARCHIVE.equals(message.folderType) &&
-                                    !EntityFolder.SENT.equals(message.folderType) &&
-                                    !EntityFolder.OUTBOX.equals(message.folderType)) {
+                                !EntityFolder.SENT.equals(message.folderType) &&
+                                !EntityFolder.OUTBOX.equals(message.folderType)) {
                                 autoCount++;
                                 single = message;
                                 if (!message.ui_seen) {
@@ -1146,34 +1146,33 @@ public class FragmentMessages extends FragmentEx {
                         // - sole message
 
                         TupleMessageEx expand = null;
-                        if (autoCount == 1)
+                        if (autoCount == 1) {
                             expand = single;
-                        else if (unseen == 1)
+                        } else if (unseen == 1) {
                             expand = see;
-                        else if (messages.size() == 1)
+                        } else if (messages.size() == 1) {
                             expand = messages.get(0);
-
+                        }
                         if (expand != null) {
                             expanded.add(expand.id);
                             handleExpand(expand.id);
                         }
-                    } else {
-                        if (autoCount > 0) {
-                            int count = 0;
-                            for (int i = 0; i < messages.size(); i++) {
-                                TupleMessageEx message = messages.get(i);
-                                if (!EntityFolder.ARCHIVE.equals(message.folderType) &&
-                                        !EntityFolder.SENT.equals(message.folderType) &&
-                                        !EntityFolder.OUTBOX.equals(message.folderType)) {
-                                    count++;
-                                }
+                    } else if (autoCount > 0) {
+                        int count = 0;
+                        for (int i = 0; i < messages.size(); i++) {
+                            TupleMessageEx message = messages.get(i);
+                            if (!EntityFolder.ARCHIVE.equals(message.folderType) &&
+                                !EntityFolder.SENT.equals(message.folderType) &&
+                                !EntityFolder.OUTBOX.equals(message.folderType)) {
+                                count++;
                             }
+                        }
 
-                            // Auto close when:
-                            // - no more non archived/sent messages
+                        // Auto close when:
+                        // - no more non archived/sent messages
 
-                            if (count == 0)
-                                finish();
+                        if (count == 0) {
+                            finish();
                         }
                     }
                 } else {
@@ -1186,13 +1185,15 @@ public class FragmentMessages extends FragmentEx {
 
                 boolean searching = (searchCallback != null && searchCallback.isSearching());
 
-                if (!searching)
+                if (!searching) {
                     pbWait.setVisibility(View.GONE);
+                }
                 grpReady.setVisibility(View.VISIBLE);
 
                 if (messages.size() == 0) {
-                    if (searchCallback == null)
+                    if (searchCallback == null) {
                         tvNoEmail.setVisibility(View.VISIBLE);
+                    }
                     rvMessage.setVisibility(View.GONE);
                 } else {
                     tvNoEmail.setVisibility(View.GONE);
