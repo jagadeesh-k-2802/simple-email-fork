@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'changelog'
 
 android {
     compileSdkVersion 28
@@ -7,7 +8,7 @@ android {
         minSdkVersion 23
         targetSdkVersion 28
         versionCode 100
-        versionName "1.0"
+        versionName "1.0.0"
         archivesBaseName = "SimpleEmail-v$versionName"
 
         proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -47,6 +48,10 @@ android {
     packagingOptions {
         pickFirst 'META-INF/LICENSE.txt'
     }
+}
+
+changelog {
+    versionNum "v$android.defaultConfig.versionName"
 }
 
 repositories {
