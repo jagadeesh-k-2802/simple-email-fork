@@ -1,5 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <providers>
+    <provider name="disroot.org">
+        <imap
+            host="Disroot.org"
+            port="993" />
+        <smtp
+            host="disroot.org"
+            port="587"
+            starttls="true" />
+    </provider>
+    <provider name="Riseup">
+        <imap
+            host="mail.riseup.net"
+            port="993" />
+        <smtp
+            host="mail.riseup.net"
+            port="465"
+            starttls="true" />
+    </provider>
     <provider
         name="Gmail"
         link="https://support.google.com/mail/answer/7126229"
@@ -120,15 +138,6 @@
             port="993" />
         <smtp
             host="mail.gmx.com"
-            port="587"
-            starttls="true" />
-    </provider>
-    <provider name="disroot.org">
-        <imap
-            host="disroot.org"
-            port="993" />
-        <smtp
-            host="disroot.org"
             port="587"
             starttls="true" />
     </provider>
