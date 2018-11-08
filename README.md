@@ -92,27 +92,27 @@ See [here](https://framagit.org/dystopia-project/simple-email/blob/master/FAQ.md
 
 ## Support
 
-* For support on SimpleEmail, please open a [issue](https://framagit.org/dystopia-project/simple-email/issues)
+* For support on SimpleEmail, please open a [issue][]
 
-For support on authorizing accounts you should contact your provider.
+* For support on authorizing accounts you should contact your provider.
 
 ## Contributing
 
 *Documentation*
 
 Contributions to this document and the frequently asked questions
-are preferred in the form of [pull requests](https://framagit.org/dystopia-project/simple-email/merge_requests).
+are preferred in the form of [pull requests][pull-requests]).
 
 *Translations*
 
-* You can translate the in-app texts of SimpleEmail [here](https://crowdin.com/project/open-source-email)
-* If your language is not listed, please open a issue or send a message through [email](distopico@riseup.net)
+* You can translate the in-app texts of SimpleEmail please open a [pull requests][pull-requests] (looking for a web service).
+* If your language is not listed, please open a [issue][] or send a message through [email](distopico@riseup.net)
 
 *Source code*
 
 Building SimpleEmail from source code is straightforward with [Android Studio](http://developer.android.com/sdk/).
 
-Source code contributions are welcome, please open a [pull requests](https://framagit.org/dystopia-project/simple-email/merge_requests).
+Source code contributions are welcome, please open a [pull requests][pull-requests].
 
 Please note that you agree to the license below by contributing.
 
@@ -151,3 +151,5 @@ SimpleEmail uses:
 
 
  [free-software]: https://www.gnu.org/philosophy/free-sw.html
+ [issue]: https://framagit.org/dystopia-project/simple-email/issues
+ [pull-requests]: https://framagit.org/dystopia-project/simple-email/merge_requests
