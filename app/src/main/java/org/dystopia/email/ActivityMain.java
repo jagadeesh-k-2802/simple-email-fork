@@ -33,56 +33,31 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 
-public class ActivityMain extends AppCompatActivity implements FragmentManager.OnBackStackChangedListener, SharedPreferences.OnSharedPreferenceChangeListener {
+public class ActivityMain extends AppCompatActivity implements FragmentManager.OnBackStackChangedListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getSupportFragmentManager().addOnBackStackChangedListener(this);
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        prefs.registerOnSharedPreferenceChangeListener(this);
-
-        if (prefs.getBoolean("eula", false)) {
-            super.onCreate(savedInstanceState);
-            DB.getInstance(this).account().liveAccounts(true).observe(this, new Observer<List<EntityAccount>>() {
-                @Override
-                public void onChanged(@Nullable List<EntityAccount> accounts) {
-                    if (accounts == null || accounts.size() == 0)
-                        startActivity(new Intent(ActivityMain.this, ActivitySetup.class));
-                    else {
-                        startActivity(new Intent(ActivityMain.this, ActivityView.class));
-                        ServiceSynchronize.init(ActivityMain.this);
-                    }
-                    finish();
+        super.onCreate(savedInstanceState);
+        DB.getInstance(this).account().liveAccounts(true).observe(this, new Observer<List<EntityAccount>>() {
+            @Override
+            public void onChanged(@Nullable List<EntityAccount> accounts) {
+                if (accounts == null || accounts.size() == 0) {
+                    startActivity(new Intent(ActivityMain.this, ActivitySetup.class));
+                } else {
+                    startActivity(new Intent(ActivityMain.this, ActivityView.class));
+                    ServiceSynchronize.init(ActivityMain.this);
                 }
-            });
-        } else {
-            setTheme(R.style.AppThemeLight);
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_main);
-
-            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.content_frame, new FragmentEula()).addToBackStack("eula");
-            fragmentTransaction.commit();
-        }
+                finish();
+            }
+        });
     }
-
-    @Override
-    protected void onDestroy() {
-        PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
-        super.onDestroy();
-    }
-
+    
     @Override
     public void onBackStackChanged() {
         int count = getSupportFragmentManager().getBackStackEntryCount();
-        if (count == 0)
+        if (count == 0) {
             finish();
-    }
-
-    @Override
-    public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
-        if ("eula".equals(key))
-            if (prefs.getBoolean(key, false))
-                recreate();
+        }
     }
 }
