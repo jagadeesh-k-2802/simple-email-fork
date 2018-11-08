@@ -52,7 +52,7 @@ public class ActivityMain extends AppCompatActivity implements FragmentManager.O
             }
         });
     }
-    
+
     @Override
     public void onBackStackChanged() {
         int count = getSupportFragmentManager().getBackStackEntryCount();

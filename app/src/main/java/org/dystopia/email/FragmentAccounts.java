@@ -24,6 +24,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -40,6 +41,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class FragmentAccounts extends FragmentEx {
     private RecyclerView rvAccount;
+    private TextView tvNoAccounts;
     private ProgressBar pbWait;
     private Group grpReady;
     private FloatingActionButton fab;
@@ -55,6 +57,7 @@ public class FragmentAccounts extends FragmentEx {
 
         // Get controls
         rvAccount = view.findViewById(R.id.rvAccount);
+        tvNoAccounts = view.findViewById(R.id.tvNoAccounts);
         pbWait = view.findViewById(R.id.pbWait);
         grpReady = view.findViewById(R.id.grpReady);
         fab = view.findViewById(R.id.fab);
@@ -81,6 +84,7 @@ public class FragmentAccounts extends FragmentEx {
 
         // Initialize
         grpReady.setVisibility(View.GONE);
+        tvNoAccounts.setVisibility(View.GONE);
         pbWait.setVisibility(View.VISIBLE);
 
         return view;
@@ -94,8 +98,11 @@ public class FragmentAccounts extends FragmentEx {
         DB.getInstance(getContext()).account().liveAccounts().observe(getViewLifecycleOwner(), new Observer<List<EntityAccount>>() {
             @Override
             public void onChanged(@Nullable List<EntityAccount> accounts) {
-                if (accounts == null)
+                if (accounts == null) {
                     accounts = new ArrayList<>();
+                } else if (accounts.size() == 0) {
+                    tvNoAccounts.setVisibility(View.VISIBLE);
+                }
 
                 adapter.set(accounts);
 
