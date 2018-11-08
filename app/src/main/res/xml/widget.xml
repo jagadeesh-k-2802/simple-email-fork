@@ -3,6 +3,6 @@
     android:initialLayout="@layout/widget"
     android:minWidth="40dp"
     android:minHeight="40dp"
-    android:previewImage="@drawable/baseline_mail_24"
+    android:previewImage="@drawable/ic_shortcut_icon"
     android:resizeMode="none"
     android:updatePeriodMillis="0" />

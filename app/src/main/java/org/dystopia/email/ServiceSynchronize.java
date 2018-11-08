@@ -368,12 +368,13 @@ public class ServiceSynchronize extends LifecycleService {
             builder = new Notification.Builder(this, "notification");
 
         builder
-                .setSmallIcon(R.drawable.baseline_email_white_24)
+                .setSmallIcon(R.drawable.ic_mail_icon)
                 .setContentTitle(getResources().getQuantityString(R.plurals.title_notification_unseen, messages.size(), messages.size()))
                 .setContentText("")
                 .setContentIntent(piView)
                 .setNumber(messages.size())
                 .setShowWhen(false)
+                .setColor(ContextCompat.getColor(getBaseContext(), R.color.colorPrimary))
                 .setDeleteIntent(piClear)
                 .setPriority(Notification.PRIORITY_DEFAULT)
                 .setCategory(Notification.CATEGORY_STATUS)
@@ -449,7 +450,7 @@ public class ServiceSynchronize extends LifecycleService {
 
             mbuilder
                     .addExtras(args)
-                    .setSmallIcon(R.drawable.baseline_mail_24)
+                    .setSmallIcon(R.drawable.ic_stat_name)
                     .setContentTitle(MessageHelper.getFormattedAddresses(message.from, true))
                     .setContentIntent(piContent)
                     .setSound(uri)

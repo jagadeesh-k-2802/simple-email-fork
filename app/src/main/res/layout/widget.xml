@@ -4,14 +4,15 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@color/colorWidgetBackground"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:padding="6dp">
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingRight="@dimen/widget_padding"
         android:layout_gravity="center_horizontal"
-        android:src="@drawable/baseline_mail_24"
+        android:src="@drawable/ic_action_name"
         android:tint="@color/colorWidgetForeground" />
 
     <TextView
@@ -19,7 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="?"
+        android:text="--"
         android:textColor="@color/colorWidgetForeground"
         android:textSize="15sp"
         android:textStyle="bold" />
