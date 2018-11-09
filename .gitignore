@@ -31,9 +31,7 @@ proguard/
 *.log
 
 # IDE and OS files
-.idea/libraries
-.idea/modules.xml
-.idea/workspace.xml
+.idea/
 *.iml
 
 .DS_Store
