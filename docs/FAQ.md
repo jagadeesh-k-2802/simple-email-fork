@@ -45,7 +45,7 @@ See also [this FAQ](#FAQ16).
 
 Valid security certificates are officially signed (not self signed) and have matching a host name.
 
-~~What does 'no IDLE support' mean?~~
+#### ~~What does 'no IDLE support' mean?~~
 
 ~~Without [IMAP IDLE](https://en.wikipedia.org/wiki/IMAP_IDLE) emails need to be periodically fetched,~~
 ~~which is a waste of battery power and internet bandwidth and will delay notification of new emails.~~
@@ -88,7 +88,7 @@ The error message *UIDPLUS not supported* means that your email provider does no
 This IMAP extension is required to implement two way synchronization, which is not an optional feature.
 So, unless your provider can enable this extension, you cannot use SimpleEmail for this provider.
 
-~~Why is STARTTLS for IMAP not supported?~~
+#### ~~Why is STARTTLS for IMAP not supported?~~
 
 ~~STARTTLS starts with a not encrypted connection and is therefore not secure.~~
 ~~All well known IMAP servers support IMAP with a plain SSL connection, so there is no need to support STARTTLS for IMAP.~~

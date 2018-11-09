@@ -1,7 +1,7 @@
 # Feature request
 
 * Did you check if there wasn't a similar feature request or open a PR with similar feature?
-* Did you read [this FAQ](https://framagit.org/dystopia-project/simple-email/blob/8f7296ddc2275471d4190df1dd55dee4025a5114/docs/FAQ.md#FAQ15)?
+* Did you read [this FAQ](https://framagit.org/dystopia-project/simple-email/blob/master/docs/FAQ.md#can-you-add-)?
 
 # Bug report
 

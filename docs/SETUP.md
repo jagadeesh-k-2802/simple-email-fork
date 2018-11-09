@@ -32,7 +32,7 @@ Similarly, to add an identity, tap on *Manage identity* and tap on the orange *a
 Enter the name you want to appear in de from address of the emails you send and select a linked account.
 Tap *Save* to add the identity.
 
-See [this FAQ](https://framagit.org/dystopia-project/simple-email/blob/8f7296ddc2275471d4190df1dd55dee4025a5114/docs/FAQ.md) about using aliases.
+See [this FAQ](https://framagit.org/dystopia-project/simple-email/blob/1fe638b880e9dfa8346d437e3b0c02036928cf03/docs/FAQ.md#what-are-identities) about using aliases.
 
 ## Permissions
 
