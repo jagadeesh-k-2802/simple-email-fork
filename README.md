@@ -78,7 +78,7 @@ because of a [bug in Android](https://issuetracker.google.com/issues/63377371).
 
 ## Frequently asked questions
 
-See [here](https://framagit.org/dystopia-project/simple-email/blob/master/FAQ.md) for a list of often asked questions.
+See [here][faqs] for a list of often asked questions.
 
 ## Support
 
@@ -122,3 +122,4 @@ SimpleEmail uses:
  [free-software]: https://www.gnu.org/philosophy/free-sw.html
  [issue]: https://framagit.org/dystopia-project/simple-email/issues
  [pull-requests]: https://framagit.org/dystopia-project/simple-email/merge_requests
+ [faqs]: https://framagit.org/dystopia-project/simple-email/blob/master/docs/FAQ.md

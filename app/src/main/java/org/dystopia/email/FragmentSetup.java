@@ -477,7 +477,7 @@ public class FragmentSetup extends FragmentEx {
 
     private Intent getIntentHelp() {
         Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse("https://framagit.org/dystopia-project/simple-email/blob/a1c207ed9c3a15dacdf179717a0874bdf5d60ba5/SETUP.md"));
+        intent.setData(Uri.parse("https://framagit.org/dystopia-project/simple-email/blob/8f7296ddc2275471d4190df1dd55dee4025a5114/docs/SETUP.md"));
         return intent;
     }
 
