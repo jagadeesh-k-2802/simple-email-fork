@@ -1,7 +1,7 @@
 ## Bug report
 
 * [ ] I checked if there wasn't a similar bug report or PR open to fix a similar bug
-* [ ] I'm using the [latest version](https://framagit.org/dystopia-project/simple-email/tags) of the app?
+* [ ] I'm using the [latest version](https://framagit.org/dystopia-project/simple-email/tags) of the app
 
 -------------------------------------------
 
