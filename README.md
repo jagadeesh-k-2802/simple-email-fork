@@ -60,7 +60,7 @@ service with a low priority status bar notification to make sure you'll never mi
 
 ## Downloads
 
-* [GitLab](https://framagit.org/dystopia-project/simple-email/releases)
+* [GitLab](https://framagit.org/dystopia-project/simple-email/tags)
 
 Certificate fingerprints:
 ```
