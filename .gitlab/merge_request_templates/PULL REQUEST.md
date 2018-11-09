@@ -1,4 +1,4 @@
-### Comments/Description:
+## Comments/Description:
 
 Thank you for taking the time to submit your changes to SimpleEmail and help us
 making it better step by step! :+1: :clap:
@@ -9,7 +9,7 @@ Thank you for contributing.
 
 -------------------------------------------
 
-# Important
+### Important
 
 * [ ] Added description to PR
 * [ ] Linked issue ticket(s) to PR
