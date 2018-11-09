@@ -2,6 +2,11 @@
 
 SimpleEmail is [Free Software][free-software], minimalistic and privacy friendly email app for Android.
 
+* Easy navigation
+* No unnecessary settings
+* No bells and whistles
+* Simple design
+
 *This project has been forked from [FairEmail](https://github.com/M66B/open-source-email).*
 
 This email app might be for you if your current email app:
@@ -14,10 +19,10 @@ This email app might be for you if your current email app:
 * is not maintained
 * stores your email on their servers
 * is closed source, potentially violating your privacy
+* has "pro" features for basic things and hasn't transparent way to purchase that features
 
-This app is minimalistic by design, so you can concentrate on reading and writing messages.
-
-This app starts a foreground service with a low priority status bar notification to make sure you'll never miss new email.
+SimpleEmail is minimalistic by design, so you can concentrate on reading and writing messages, it starts a foreground 
+service with a low priority status bar notification to make sure you'll never miss new email.
 
 ## Features
 
@@ -31,26 +36,11 @@ This app starts a foreground service with a low priority status bar notification
 * Battery friendly
 * Low data usage
 * Folder management
-* Material design
-
-## Other features
-
 * Signatures
 * Dark theme
 * Account colors
-* Multiple select
-* Standard replies
-* Sort on time, unread or starred
-* Search on server
-* Preview sender/subject in new messages status bar notification
 * Encryption/decryption
 * Export settings
-
-## Simple
-
-* Easy navigation
-* No unnecessary settings
-* No bells and whistles
 
 ## Secure
 
@@ -93,28 +83,7 @@ See [here](https://framagit.org/dystopia-project/simple-email/blob/master/FAQ.md
 ## Support
 
 * For support on SimpleEmail, please open a [issue][]
-
 * For support on authorizing accounts you should contact your provider.
-
-## Contributing
-
-*Documentation*
-
-Contributions to this document and the frequently asked questions
-are preferred in the form of [pull requests][pull-requests]).
-
-*Translations*
-
-* You can translate the in-app texts of SimpleEmail please open a [pull requests][pull-requests] (looking for a web service).
-* If your language is not listed, please open a [issue][] or send a message through [email](distopico@riseup.net)
-
-*Source code*
-
-Building SimpleEmail from source code is straightforward with [Android Studio](http://developer.android.com/sdk/).
-
-Source code contributions are welcome, please open a [pull requests][pull-requests].
-
-Please note that you agree to the license below by contributing.
 
 ## Attribution
 
