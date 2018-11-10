@@ -173,7 +173,7 @@
             android:maxLines="1"
             android:text="123 KB"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            app:layout_constraintEnd_toStartOf="@+id/paddingEnd"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvSubject" />
 
         <TextView
@@ -189,7 +189,7 @@
             android:textIsSelectable="true"
             app:layout_constraintEnd_toStartOf="@+id/paddingEnd"
             app:layout_constraintStart_toEndOf="@id/paddingStart"
-            app:layout_constraintTop_toBottomOf="@id/tvSize" />
+            app:layout_constraintTop_toBottomOf="@id/tvCount" />
 
         <View
             android:id="@+id/paddingEnd"
