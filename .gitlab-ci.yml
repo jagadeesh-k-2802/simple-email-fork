@@ -99,4 +99,4 @@ release:
   script:
     - npm install -g semantic-release @semantic-release/commit-analyzer @semantic-release/release-notes-generator @semantic-release/changelog @semantic-release/gitlab 
     - git checkout $CI_COMMIT_SHA
-    - semantic-release -p @semantic-release/commit-analyzer @semantic-release/release-notes-generator @semantic-release/changelog @semantic-release/gitlab --debug
+    - semantic-release -p @semantic-release/commit-analyzer @semantic-release/release-notes-generator @semantic-release/changelog @semantic-release/gitlab

@@ -319,14 +319,13 @@ public class AdapterMessage extends PagedListAdapter<TupleMessageEx, AdapterMess
 
             tvSize.setText(message.size == null ? null : Helper.humanReadableByteCount(message.size, true));
             tvSize.setAlpha(message.content ? 1.0f : 0.5f);
-            tvSize.setVisibility(message.size == null ? View.GONE : View.VISIBLE);
 
             ivAttachments.setVisibility(message.attachments > 0 ? View.VISIBLE : View.GONE);
             tvSubject.setText(message.subject);
 
             tvFolder.setVisibility(View.GONE);
             tvAccount.setVisibility(View.GONE);
-            
+
             if (viewType == ViewType.UNIFIED || viewType == ViewType.FOLDER) {
                 tvAccount.setText(message.accountName);
                 tvAccount.setVisibility(View.VISIBLE);
@@ -382,7 +381,7 @@ public class AdapterMessage extends PagedListAdapter<TupleMessageEx, AdapterMess
 
             grpExpanded.setVisibility(viewType == ViewType.THREAD && show_expanded ? View.VISIBLE : View.GONE);
             ivAddContact.setVisibility(viewType == ViewType.THREAD && show_expanded && contacts && message.from != null ? View.VISIBLE : View.GONE);
-            
+
             grpDetails.setVisibility(show_details && show_expanded ? View.VISIBLE : View.GONE);
 
             pbHeaders.setVisibility(View.GONE);
@@ -1052,7 +1051,7 @@ public class AdapterMessage extends PagedListAdapter<TupleMessageEx, AdapterMess
                 notifyDataSetChanged();
             }
         }
-        
+
         private void onShowHeaders(ActionData data) {
             boolean show_headers = !properties.showHeaders(data.message.id);
             properties.setHeaders(data.message.id, show_headers);
@@ -1461,7 +1460,7 @@ public class AdapterMessage extends PagedListAdapter<TupleMessageEx, AdapterMess
         void setExpanded(long id, boolean expand);
 
         void setDetails(long id, boolean show);
-        
+
         void setHeaders(long id, boolean show);
 
         void setImages(long id, boolean show);
@@ -1469,7 +1468,7 @@ public class AdapterMessage extends PagedListAdapter<TupleMessageEx, AdapterMess
         boolean isExpanded(long id);
 
         boolean showDetails(long id);
-        
+
         boolean showHeaders(long id);
 
         boolean showImages(long id);
