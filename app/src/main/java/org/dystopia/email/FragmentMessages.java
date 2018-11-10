@@ -93,6 +93,7 @@ public class FragmentMessages extends FragmentEx {
 
     private long folder = -1;
     private long account = -1;
+    private String folderType = null;
     private String thread = null;
     private String search = null;
 
@@ -130,6 +131,7 @@ public class FragmentMessages extends FragmentEx {
         Bundle args = getArguments();
         account = args.getLong("account", -1);
         folder = args.getLong("folder", -1);
+        folderType = args.getString("folderType");
         thread = args.getString("thread");
         search = args.getString("search");
 
@@ -200,7 +202,7 @@ public class FragmentMessages extends FragmentEx {
         LinearLayoutManager llm = new LinearLayoutManager(getContext());
         rvMessage.setLayoutManager(llm);
 
-        adapter = new AdapterMessage(getContext(), getViewLifecycleOwner(), getFragmentManager(), viewType, new AdapterMessage.IProperties() {
+        adapter = new AdapterMessage(getContext(), getViewLifecycleOwner(), getFragmentManager(), viewType, folder, new AdapterMessage.IProperties() {
             @Override
             public void setExpanded(long id, boolean expand) {
                 if (expand) {
@@ -1060,14 +1062,14 @@ public class FragmentMessages extends FragmentEx {
                             .setPrefetchDistance(REMOTE_PAGE_SIZE)
                             .build();
                     LivePagedListBuilder<Integer, TupleMessageEx> builder = new LivePagedListBuilder<>(
-                            db.message().pagedFolder(folder, sort, false, debug), config);
+                            db.message().pagedFolder(folder, folderType, sort, false, debug), config);
                     if (browse)
                         builder.setBoundaryCallback(searchCallback);
                     messages = builder.build();
 
                     break;
                 case THREAD:
-                    messages = new LivePagedListBuilder<>(db.message().pagedThread(account, thread, sort, debug), LOCAL_PAGE_SIZE).build();
+                    messages = new LivePagedListBuilder<>(db.message().pagedThread(account, folder, thread, sort, debug), LOCAL_PAGE_SIZE).build();
                     break;
             }
         } else {
@@ -1105,7 +1107,7 @@ public class FragmentMessages extends FragmentEx {
                     .setPrefetchDistance(REMOTE_PAGE_SIZE)
                     .build();
             LivePagedListBuilder<Integer, TupleMessageEx> builder = new LivePagedListBuilder<>(
-                    db.message().pagedFolder(folder, "time", true, false), config);
+                    db.message().pagedFolder(folder, folderType,"time", true, false), config);
             builder.setBoundaryCallback(searchCallback);
             messages = builder.build();
         }

@@ -34,6 +34,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.graphics.drawable.Icon;
 import android.media.RingtoneManager;
 import android.net.ConnectivityManager;
@@ -412,6 +413,8 @@ public class ServiceSynchronize extends LifecycleService {
         for (EntityMessage message : messages) {
             Bundle args = new Bundle();
             args.putLong("id", message.id);
+            //final DB db = DB.getInstance(getBaseContext());
+            //TupleMessageEx messageEx = db.message().getAccountByMessage(message.id);
 
             Intent thread = new Intent(this, ActivityView.class);
             thread.setAction("thread:" + message.thread);
@@ -461,8 +464,16 @@ public class ServiceSynchronize extends LifecycleService {
                     .setVisibility(Notification.VISIBILITY_PRIVATE)
                     .setGroup(BuildConfig.APPLICATION_ID)
                     .setGroupSummary(false)
+                    .setSortKey(message.account_name)
                     .addAction(actionSeen.build())
                     .addAction(actionTrash.build());
+
+            //if (messageEx != null && messageEx.accountColor != null) {
+            //    mbuilder.setColor(ContextCompat.getColor(getBaseContext(), messageEx.accountColor));
+            //}
+            if (messages.size() == 1) {
+                mbuilder.setColor(ContextCompat.getColor(getBaseContext(), R.color.colorPrimary));
+            }
 
             if (!TextUtils.isEmpty(message.subject)) {
                 mbuilder.setContentText(message.subject);

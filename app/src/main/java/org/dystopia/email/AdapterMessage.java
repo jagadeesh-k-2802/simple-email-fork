@@ -109,6 +109,7 @@ public class AdapterMessage extends PagedListAdapter<TupleMessageEx, AdapterMess
     private LifecycleOwner owner;
     private FragmentManager fragmentManager;
     private ViewType viewType;
+    private long folder;
     private IProperties properties;
 
     private boolean contacts;
@@ -511,17 +512,20 @@ public class AdapterMessage extends PagedListAdapter<TupleMessageEx, AdapterMess
                 else
                     onExpandMessage(pos, message);
             } else {
-                if (EntityFolder.DRAFTS.equals(message.folderType))
-                    context.startActivity(
-                            new Intent(context, ActivityCompose.class)
-                                    .putExtra("action", "edit")
-                                    .putExtra("id", message.id));
-                else {
+                if (EntityFolder.DRAFTS.equals(message.folderType)) {
+                    context.startActivity(new Intent(context, ActivityCompose.class)
+                                          .putExtra("action", "edit")
+                                          .putExtra("id", message.id));
+                } else {
                     LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(context);
-                    lbm.sendBroadcast(
-                            new Intent(ActivityView.ACTION_VIEW_THREAD)
+                    Intent intent = new Intent(ActivityView.ACTION_VIEW_THREAD)
                                     .putExtra("account", message.account)
-                                    .putExtra("thread", message.thread));
+                                    .putExtra("thread", message.thread);
+
+                    if (viewType == ViewType.FOLDER) {
+                        intent.putExtra("folder", folder);
+                    }
+                    lbm.sendBroadcast(intent);
                 }
             }
         }
@@ -534,10 +538,12 @@ public class AdapterMessage extends PagedListAdapter<TupleMessageEx, AdapterMess
 
                 // https://developer.android.com/training/contacts-provider/modify-data
                 Intent edit = new Intent();
-                if (!TextUtils.isEmpty(name))
+                if (!TextUtils.isEmpty(name)) {
                     edit.putExtra(ContactsContract.Intents.Insert.NAME, name);
-                if (!TextUtils.isEmpty(email))
+                }
+                if (!TextUtils.isEmpty(email)) {
                     edit.putExtra(ContactsContract.Intents.Insert.EMAIL, email);
+                }
 
                 Cursor cursor = null;
                 try {
@@ -1398,12 +1404,13 @@ public class AdapterMessage extends PagedListAdapter<TupleMessageEx, AdapterMess
         }
     }
 
-    AdapterMessage(Context context, LifecycleOwner owner, FragmentManager fragmentManager, ViewType viewType, IProperties properties) {
+    AdapterMessage(Context context, LifecycleOwner owner, FragmentManager fragmentManager, ViewType viewType, long folder, IProperties properties) {
         super(DIFF_CALLBACK);
         this.context = context;
         this.owner = owner;
         this.fragmentManager = fragmentManager;
         this.viewType = viewType;
+        this.folder = folder;
         this.properties = properties;
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);

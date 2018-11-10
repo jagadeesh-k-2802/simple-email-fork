@@ -54,6 +54,7 @@ public interface DaoMessage {
             " WHERE account.`synchronize`" +
             " AND (NOT message.ui_hide OR :debug)" +
             " AND NOT ui_found" +
+            " AND folder.unified " +
             " GROUP BY account.id, CASE WHEN message.thread IS NULL THEN message.id ELSE message.thread END" +
             " HAVING SUM(unified) > 0" +
             " ORDER BY CASE" +
@@ -81,6 +82,11 @@ public interface DaoMessage {
             " JOIN folder ON folder.id = message.folder" +
             " JOIN folder f ON f.id = :folder" +
             " WHERE (message.account = f.account OR folder.type = '" + EntityFolder.OUTBOX + "')" +
+            " AND CASE WHEN (:folderType = '" + EntityFolder.TRASH + "' " +
+            "                 OR :folderType = '" + EntityFolder.OUTBOX + "') " +
+            "        THEN 1" +
+            "        ELSE folder.id = :folder" +
+            "      END" +
             " AND (NOT message.ui_hide OR :debug)" +
             " AND ui_found = :found" +
             " GROUP BY CASE WHEN message.thread IS NULL THEN message.id ELSE message.thread END" +
@@ -90,7 +96,7 @@ public interface DaoMessage {
             "  WHEN 'starred' = :sort THEN message.ui_flagged" +
             "  ELSE 0" +
             " END DESC, message.received DESC, message.sent DESC")
-    DataSource.Factory<Integer, TupleMessageEx> pagedFolder(long folder, String sort, boolean found, boolean debug);
+    DataSource.Factory<Integer, TupleMessageEx> pagedFolder(long folder, String folderType, String sort, boolean found, boolean debug);
 
     @Query("SELECT message.*" +
             ", account.name AS accountName, account.color AS accountColor" +
@@ -105,12 +111,13 @@ public interface DaoMessage {
             " WHERE message.account = :account" +
             " AND message.thread = :thread" +
             " AND (NOT message.ui_hide OR :debug)" +
+            " AND NOT (folder.type = '" + EntityFolder.TRASH + "' AND folder.id <> :folder)" +
             " ORDER BY CASE" +
             "  WHEN 'unread' = :sort THEN NOT message.ui_seen" +
             "  WHEN 'starred' = :sort THEN message.ui_flagged" +
             "  ELSE 0" +
             " END DESC, message.received DESC, message.sent DESC")
-    DataSource.Factory<Integer, TupleMessageEx> pagedThread(long account, String thread, String sort, boolean debug);
+    DataSource.Factory<Integer, TupleMessageEx> pagedThread(long account, long folder, String thread, String sort, boolean debug);
 
     @Query("SELECT COUNT(id)" +
             " FROM message" +
@@ -141,6 +148,19 @@ public interface DaoMessage {
             " AND thread = :thread" +
             " AND NOT ui_found")
     List<EntityMessage> getMessageByThread(long account, String thread);
+
+    @Query("SELECT message.*" +
+            ", account.name AS accountName, account.color AS accountColor" +
+            ", folder.name AS folderName, folder.display AS folderDisplay, folder.type AS folderType" +
+            ", (SELECT COUNT(m1.id) FROM message m1 WHERE m1.account = message.account AND m1.thread = message.thread AND NOT m1.ui_hide) AS count" +
+            ", CASE WHEN message.ui_seen THEN 0 ELSE 1 END AS unseen" +
+            ", CASE WHEN message.ui_flagged THEN 0 ELSE 1 END AS unflagged" +
+            ", (SELECT COUNT(a.id) FROM attachment a WHERE a.message = message.id) AS attachments" +
+            " FROM message" +
+            " JOIN account ON account.id = message.account" +
+            " JOIN folder ON folder.id = message.folder" +
+            " WHERE message.id = :id")
+    TupleMessageEx getAccountByMessage(long id);
 
     @Query("SELECT message.* FROM message" +
             " JOIN folder ON folder.id = message.folder" +

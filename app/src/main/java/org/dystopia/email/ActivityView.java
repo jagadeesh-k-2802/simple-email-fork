@@ -770,6 +770,7 @@ public class ActivityView extends ActivityBase implements FragmentManager.OnBack
         Bundle args = new Bundle();
         args.putLong("account", intent.getLongExtra("account", -1));
         args.putLong("folder", intent.getLongExtra("folder", -1));
+        args.putString("folderType", intent.getStringExtra("folderType"));
 
         FragmentMessages fragment = new FragmentMessages();
         fragment.setArguments(args);
@@ -784,6 +785,7 @@ public class ActivityView extends ActivityBase implements FragmentManager.OnBack
 
         Bundle args = new Bundle();
         args.putLong("account", intent.getLongExtra("account", -1));
+        args.putLong("folder", intent.getLongExtra("folder", -1));
         args.putString("thread", intent.getStringExtra("thread"));
 
         FragmentMessages fragment = new FragmentMessages();
