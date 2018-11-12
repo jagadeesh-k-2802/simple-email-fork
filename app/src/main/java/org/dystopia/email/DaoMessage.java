@@ -17,6 +17,7 @@ package org.dystopia.email;
     along with FairEmail.  If not, see <http://www.gnu.org/licenses/>.
 
     Copyright 2018, Marcel Bokhorst (M66B)
+    Copyright 2018, Distopico (dystopia project) <distopico@riseup.net> and contributors
 */
 
 import java.util.List;
@@ -69,34 +70,34 @@ public interface DaoMessage {
             ", folder.name AS folderName, folder.display AS folderDisplay, folder.type AS folderType" +
             ", COUNT(message.id) AS count" +
             ", SUM(CASE WHEN message.ui_seen" +
-            "    OR (folder.id <> :folder AND folder.type = '" + EntityFolder.ARCHIVE + "')" +
-            "    OR (folder.id <> :folder AND folder.type = '" + EntityFolder.OUTBOX + "')" +
-            "    OR (folder.id <> :folder AND folder.type = '" + EntityFolder.DRAFTS + "') THEN 0 ELSE 1 END) AS unseen" +
+            "    OR (folder.id <> :folderId AND folder.type = '" + EntityFolder.ARCHIVE + "')" +
+            "    OR (folder.id <> :folderId AND folder.type = '" + EntityFolder.OUTBOX + "')" +
+            "    OR (folder.id <> :folderId AND folder.type = '" + EntityFolder.DRAFTS + "') THEN 0 ELSE 1 END) AS unseen" +
             ", SUM(CASE WHEN message.ui_flagged" +
-            "    AND NOT (folder.id <> :folder AND folder.type = '" + EntityFolder.ARCHIVE + "')" +
-            "    AND NOT (folder.id <> :folder AND folder.type = '" + EntityFolder.OUTBOX + "')" +
-            "    AND NOT (folder.id <> :folder AND folder.type = '" + EntityFolder.DRAFTS + "') THEN 0 ELSE 1 END) AS unflagged" +
+            "    AND NOT (folder.id <> :folderId AND folder.type = '" + EntityFolder.ARCHIVE + "')" +
+            "    AND NOT (folder.id <> :folderId AND folder.type = '" + EntityFolder.OUTBOX + "')" +
+            "    AND NOT (folder.id <> :folderId AND folder.type = '" + EntityFolder.DRAFTS + "') THEN 0 ELSE 1 END) AS unflagged" +
             ", (SELECT COUNT(a.id) FROM attachment a WHERE a.message = message.id) AS attachments" +
             " FROM message" +
             " JOIN account ON account.id = message.account" +
             " JOIN folder ON folder.id = message.folder" +
-            " JOIN folder f ON f.id = :folder" +
+            " JOIN folder f ON f.id = :folderId" +
             " WHERE (message.account = f.account OR folder.type = '" + EntityFolder.OUTBOX + "')" +
             " AND CASE WHEN (:folderType = '" + EntityFolder.TRASH + "' " +
             "                 OR :folderType = '" + EntityFolder.OUTBOX + "') " +
             "        THEN 1" +
-            "        ELSE folder.id = :folder" +
+            "        ELSE folder.id = :folderId" +
             "      END" +
             " AND (NOT message.ui_hide OR :debug)" +
             " AND ui_found = :found" +
             " GROUP BY CASE WHEN message.thread IS NULL THEN message.id ELSE message.thread END" +
-            " HAVING SUM(CASE WHEN folder.id = :folder THEN 1 ELSE 0 END) > 0" +
+            " HAVING SUM(CASE WHEN folder.id = :folderId THEN 1 ELSE 0 END) > 0" +
             " ORDER BY CASE" +
             "  WHEN 'unread' = :sort THEN NOT message.ui_seen" +
             "  WHEN 'starred' = :sort THEN message.ui_flagged" +
             "  ELSE 0" +
             " END DESC, message.received DESC, message.sent DESC")
-    DataSource.Factory<Integer, TupleMessageEx> pagedFolder(long folder, String folderType, String sort, boolean found, boolean debug);
+    DataSource.Factory<Integer, TupleMessageEx> pagedFolder(long folderId, String folderType, String sort, boolean found, boolean debug);
 
     @Query("SELECT message.*" +
             ", account.name AS accountName, account.color AS accountColor" +
@@ -111,13 +112,13 @@ public interface DaoMessage {
             " WHERE message.account = :account" +
             " AND message.thread = :thread" +
             " AND (NOT message.ui_hide OR :debug)" +
-            " AND NOT (folder.type = '" + EntityFolder.TRASH + "' AND folder.id <> :folder)" +
+            " AND NOT (folder.type = '" + EntityFolder.TRASH + "' AND folder.id <> :folderId)" +
             " ORDER BY CASE" +
             "  WHEN 'unread' = :sort THEN NOT message.ui_seen" +
             "  WHEN 'starred' = :sort THEN message.ui_flagged" +
             "  ELSE 0" +
             " END DESC, message.received DESC, message.sent DESC")
-    DataSource.Factory<Integer, TupleMessageEx> pagedThread(long account, long folder, String thread, String sort, boolean debug);
+    DataSource.Factory<Integer, TupleMessageEx> pagedThread(long account, long folderId, String thread, String sort, boolean debug);
 
     @Query("SELECT COUNT(id)" +
             " FROM message" +
@@ -131,16 +132,16 @@ public interface DaoMessage {
 
     @Query("SELECT *" +
             " FROM message" +
-            " WHERE folder = :folder" +
+            " WHERE folder = :folderId" +
             " AND uid = :uid" +
             " AND ui_found = :found")
-    EntityMessage getMessageByUid(long folder, long uid, boolean found);
+    EntityMessage getMessageByUid(long folderId, long uid, boolean found);
 
     @Query("SELECT *" +
             " FROM message" +
-            " WHERE folder = :folder" +
+            " WHERE folder = :folderId" +
             " AND NOT ui_found")
-    List<EntityMessage> getMessageByFolder(long folder);
+    List<EntityMessage> getMessageByFolder(long folderId);
 
     @Query("SELECT *" +
             " FROM message" +
@@ -148,19 +149,6 @@ public interface DaoMessage {
             " AND thread = :thread" +
             " AND NOT ui_found")
     List<EntityMessage> getMessageByThread(long account, String thread);
-
-    @Query("SELECT message.*" +
-            ", account.name AS accountName, account.color AS accountColor" +
-            ", folder.name AS folderName, folder.display AS folderDisplay, folder.type AS folderType" +
-            ", (SELECT COUNT(m1.id) FROM message m1 WHERE m1.account = message.account AND m1.thread = message.thread AND NOT m1.ui_hide) AS count" +
-            ", CASE WHEN message.ui_seen THEN 0 ELSE 1 END AS unseen" +
-            ", CASE WHEN message.ui_flagged THEN 0 ELSE 1 END AS unflagged" +
-            ", (SELECT COUNT(a.id) FROM attachment a WHERE a.message = message.id) AS attachments" +
-            " FROM message" +
-            " JOIN account ON account.id = message.account" +
-            " JOIN folder ON folder.id = message.folder" +
-            " WHERE message.id = :id")
-    TupleMessageEx getAccountByMessage(long id);
 
     @Query("SELECT message.* FROM message" +
             " JOIN folder ON folder.id = message.folder" +
@@ -171,9 +159,9 @@ public interface DaoMessage {
     List<EntityMessage> getMessageByMsgId(long account, String msgid, String reference, boolean found);
 
     @Query("SELECT * FROM message" +
-            " WHERE folder = :folder" +
+            " WHERE folder = :folderId" +
             " AND ui_seen")
-    List<EntityMessage> getMessageSeen(long folder);
+    List<EntityMessage> getMessageSeen(long folderId);
 
     @Query("SELECT message.*" +
             ", account.name AS accountName, account.color AS accountColor" +
@@ -188,7 +176,10 @@ public interface DaoMessage {
             " WHERE message.id = :id")
     LiveData<TupleMessageEx> liveMessage(long id);
 
-    @Query("SELECT message.* FROM message" +
+    @Query("SELECT message.*" +
+            ", account.name AS accountName, account.color AS accountColor" +
+            ", folder.name AS folderName, folder.display AS folderDisplay, folder.type AS folderType" +
+            " FROM message" +
             " JOIN account ON account.id = message.account" +
             " JOIN folder ON folder.id = message.folder" +
             " WHERE account.`synchronize`" +
@@ -198,14 +189,14 @@ public interface DaoMessage {
             " AND NOT message.ui_found" +
             " AND NOT message.ui_ignored" +
             " ORDER BY message.received")
-    LiveData<List<EntityMessage>> liveUnseenUnified();
+    LiveData<List<TupleNotification>> liveUnseenUnified();
 
     @Query("SELECT uid FROM message" +
-            " WHERE folder = :folder" +
+            " WHERE folder = :folderId" +
             " AND received >= :received" +
             " AND NOT uid IS NULL" +
             " AND NOT ui_found" /* keep found messages */)
-    List<Long> getUids(long folder, long received);
+    List<Long> getUids(long folderId, long received);
 
     @Insert
     long insertMessage(EntityMessage message);
@@ -254,17 +245,17 @@ public interface DaoMessage {
     @Query("DELETE FROM message WHERE id = :id")
     int deleteMessage(long id);
 
-    @Query("DELETE FROM message WHERE folder = :folder AND uid = :uid")
-    int deleteMessage(long folder, long uid);
+    @Query("DELETE FROM message WHERE folder = :folderId AND uid = :uid")
+    int deleteMessage(long folderId, long uid);
 
-    @Query("DELETE FROM message WHERE folder = :folder AND NOT uid IS NULL")
-    int deleteLocalMessages(long folder);
+    @Query("DELETE FROM message WHERE folder = :folderId AND NOT uid IS NULL")
+    int deleteLocalMessages(long folderId);
 
-    @Query("DELETE FROM message WHERE folder = :folder AND seen")
-    int deleteSeenMessages(long folder);
+    @Query("DELETE FROM message WHERE folder = :folderId AND seen")
+    int deleteSeenMessages(long folderId);
 
-    @Query("DELETE FROM message WHERE folder = :folder AND received < :received AND NOT uid IS NULL")
-    int deleteMessagesBefore(long folder, long received);
+    @Query("DELETE FROM message WHERE folder = :folderId AND received < :received AND NOT uid IS NULL")
+    int deleteMessagesBefore(long folderId, long received);
 
     @Query("DELETE FROM message WHERE ui_found")
     int deleteFoundMessages();

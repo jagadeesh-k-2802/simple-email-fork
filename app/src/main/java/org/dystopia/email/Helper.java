@@ -17,16 +17,19 @@ package org.dystopia.email;
     along with FairEmail.  If not, see <http://www.gnu.org/licenses/>.
 
     Copyright 2018, Marcel Bokhorst (M66B)
+    Copyright 2018, Distopico (dystopia project) <distopico@riseup.net> and contributors
 */
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.app.Notification;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
 import android.net.Uri;
+import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -201,6 +204,15 @@ public class Helper {
             }
         } finally {
             in.close();
+        }
+    }
+
+    static Notification.Builder getNotificationBuilder(Context context, String channelId) {
+        Notification.Builder pbuilder;
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            return new Notification.Builder(context);
+        } else {
+            return new Notification.Builder(context, channelId);
         }
     }
 
