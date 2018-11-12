@@ -21,7 +21,6 @@ package org.dystopia.email;
 
 import android.view.MotionEvent;
 import android.view.View;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.selection.ItemDetailsLookup;
@@ -40,8 +39,9 @@ public class ItemDetailsLookupMessage extends ItemDetailsLookup<Long> {
         View view = recyclerView.findChildViewUnder(motionEvent.getX(), motionEvent.getY());
         if (view != null) {
             RecyclerView.ViewHolder viewHolder = recyclerView.getChildViewHolder(view);
-            if (viewHolder instanceof AdapterMessage.ViewHolder)
+            if (viewHolder instanceof AdapterMessage.ViewHolder) {
                 return ((AdapterMessage.ViewHolder) viewHolder).getItemDetails(motionEvent);
+            }
         }
         return null;
     }

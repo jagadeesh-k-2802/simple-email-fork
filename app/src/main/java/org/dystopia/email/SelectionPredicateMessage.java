@@ -36,12 +36,14 @@ public class SelectionPredicateMessage extends SelectionTracker.SelectionPredica
     public boolean canSetStateForKey(@NonNull Long key, boolean nextState) {
         AdapterMessage adapter = (AdapterMessage) recyclerView.getAdapter();
         PagedList<TupleMessageEx> messages = adapter.getCurrentList();
-        if (messages != null)
+        if (messages != null) {
             for (int i = 0; i < messages.size(); i++) {
                 TupleMessageEx message = messages.get(i);
-                if (message != null && message.id.equals(key))
+                if (message != null && message.id.equals(key)) {
                     return (message.uid != null);
+                }
             }
+        }
         return false;
     }
 

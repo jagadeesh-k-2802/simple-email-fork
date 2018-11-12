@@ -21,32 +21,38 @@ package org.dystopia.email;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import java.util.List;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
+import java.util.List;
 
-public class ActivityMain extends AppCompatActivity implements FragmentManager.OnBackStackChangedListener {
+public class ActivityMain extends AppCompatActivity
+        implements FragmentManager.OnBackStackChangedListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getSupportFragmentManager().addOnBackStackChangedListener(this);
 
         super.onCreate(savedInstanceState);
-        DB.getInstance(this).account().liveAccounts(true).observe(this, new Observer<List<EntityAccount>>() {
-            @Override
-            public void onChanged(@Nullable List<EntityAccount> accounts) {
-                if (accounts == null || accounts.size() == 0) {
-                    startActivity(new Intent(ActivityMain.this, ActivitySetup.class));
-                } else {
-                    startActivity(new Intent(ActivityMain.this, ActivityView.class));
-                    ServiceSynchronize.init(ActivityMain.this);
-                }
-                finish();
-            }
-        });
+        DB.getInstance(this)
+                .account()
+                .liveAccounts(true)
+                .observe(
+                        this,
+                        new Observer<List<EntityAccount>>() {
+                            @Override
+                            public void onChanged(@Nullable List<EntityAccount> accounts) {
+                                if (accounts == null || accounts.size() == 0) {
+                                    startActivity(
+                                            new Intent(ActivityMain.this, ActivitySetup.class));
+                                } else {
+                                    startActivity(
+                                            new Intent(ActivityMain.this, ActivityView.class));
+                                    ServiceSynchronize.init(ActivityMain.this);
+                                }
+                                finish();
+                            }
+                        });
     }
 
     @Override

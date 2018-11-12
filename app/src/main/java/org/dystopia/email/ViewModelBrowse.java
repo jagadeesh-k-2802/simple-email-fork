@@ -21,15 +21,13 @@ package org.dystopia.email;
 
 import android.content.Context;
 import android.util.Log;
-
+import androidx.lifecycle.ViewModel;
 import com.sun.mail.imap.IMAPFolder;
 import com.sun.mail.imap.IMAPMessage;
 import com.sun.mail.imap.IMAPStore;
 import com.sun.mail.util.FolderClosedIOException;
-
 import java.util.Arrays;
 import java.util.Properties;
-
 import javax.mail.FetchProfile;
 import javax.mail.Folder;
 import javax.mail.FolderClosedException;
@@ -43,8 +41,6 @@ import javax.mail.search.FromStringTerm;
 import javax.mail.search.OrTerm;
 import javax.mail.search.RecipientStringTerm;
 import javax.mail.search.SubjectTerm;
-
-import androidx.lifecycle.ViewModel;
 
 public class ViewModelBrowse extends ViewModel {
     private Context context;
@@ -83,11 +79,14 @@ public class ViewModelBrowse extends ViewModel {
         DB db = DB.getInstance(context);
         EntityFolder folder = db.folder().getFolder(fid);
         if (folder.account == null) // outbox
+        {
             return;
+        }
         EntityAccount account = db.account().getAccount(folder.account);
 
         if (imessages == null) {
-            Properties props = MessageHelper.getSessionProperties(account.auth_type, account.insecure);
+            Properties props =
+                    MessageHelper.getSessionProperties(account.auth_type, account.insecure);
             props.setProperty("mail.imap.throwsearchexception", "true");
             Session isession = Session.getInstance(props, null);
 
@@ -100,21 +99,18 @@ public class ViewModelBrowse extends ViewModel {
             ifolder.open(Folder.READ_WRITE);
 
             Log.i(Helper.TAG, "Boundary searching=" + search);
-            if (search == null)
+            if (search == null) {
                 imessages = ifolder.getMessages();
-            else
-                imessages = ifolder.search(
-                        new OrTerm(
+            } else {
+                imessages =
+                        ifolder.search(
                                 new OrTerm(
-                                        new FromStringTerm(search),
-                                        new RecipientStringTerm(Message.RecipientType.TO, search)
-                                ),
-                                new OrTerm(
-                                        new SubjectTerm(search),
-                                        new BodyTerm(search)
-                                )
-                        )
-                );
+                                        new OrTerm(
+                                                new FromStringTerm(search),
+                                                new RecipientStringTerm(
+                                                        Message.RecipientType.TO, search)),
+                                        new OrTerm(new SubjectTerm(search), new BodyTerm(search))));
+            }
             Log.i(Helper.TAG, "Boundary found messages=" + imessages.length);
 
             index = imessages.length - 1;
@@ -140,13 +136,19 @@ public class ViewModelBrowse extends ViewModel {
             try {
                 db.beginTransaction();
 
-                for (int j = isub.length - 1; j >= 0; j--)
+                for (int j = isub.length - 1; j >= 0; j--) {
                     try {
                         long uid = ifolder.getUID(isub[j]);
                         Log.i(Helper.TAG, "Boundary sync uid=" + uid);
-                        EntityMessage message = db.message().getMessageByUid(fid, uid, search != null);
+                        EntityMessage message =
+                                db.message().getMessageByUid(fid, uid, search != null);
                         if (message == null) {
-                            ServiceSynchronize.synchronizeMessage(context, folder, ifolder, (IMAPMessage) isub[j], search != null);
+                            ServiceSynchronize.synchronizeMessage(
+                                    context,
+                                    folder,
+                                    ifolder,
+                                    (IMAPMessage) isub[j],
+                                    search != null);
                             count++;
                         }
                     } catch (MessageRemovedException ex) {
@@ -160,6 +162,7 @@ public class ViewModelBrowse extends ViewModel {
                     } finally {
                         ((IMAPMessage) isub[j]).invalidateHeaders();
                     }
+                }
 
                 db.setTransactionSuccessful();
             } finally {
@@ -173,8 +176,9 @@ public class ViewModelBrowse extends ViewModel {
     void clear() {
         Log.i(Helper.TAG, "Boundary clear");
         try {
-            if (istore != null)
+            if (istore != null) {
                 istore.close();
+            }
         } catch (Throwable ex) {
             Log.e(Helper.TAG, "Boundary " + ex + "\n" + Log.getStackTraceString(ex));
         } finally {

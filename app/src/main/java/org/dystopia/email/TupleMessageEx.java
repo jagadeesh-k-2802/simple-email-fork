@@ -35,16 +35,22 @@ public class TupleMessageEx extends EntityMessage {
     public boolean equals(Object obj) {
         if (obj instanceof TupleMessageEx) {
             TupleMessageEx other = (TupleMessageEx) obj;
-            return (super.equals(obj) &&
-                    (this.accountName == null ? other.accountName == null : this.accountName.equals(other.accountName)) &&
-                    (this.accountColor == null ? other.accountColor == null : this.accountColor.equals(other.accountColor)) &&
-                    this.folderName.equals(other.folderName) &&
-                    (this.folderDisplay == null ? other.folderDisplay == null : this.folderDisplay.equals(other.folderDisplay)) &&
-                    this.folderType.equals(other.folderType) &&
-                    this.count == other.count &&
-                    this.unseen == other.unseen &&
-                    this.unflagged == other.unflagged &&
-                    this.attachments == other.attachments);
+            return (super.equals(obj)
+                    && (this.accountName == null
+                            ? other.accountName == null
+                            : this.accountName.equals(other.accountName))
+                    && (this.accountColor == null
+                            ? other.accountColor == null
+                            : this.accountColor.equals(other.accountColor))
+                    && this.folderName.equals(other.folderName)
+                    && (this.folderDisplay == null
+                            ? other.folderDisplay == null
+                            : this.folderDisplay.equals(other.folderDisplay))
+                    && this.folderType.equals(other.folderType)
+                    && this.count == other.count
+                    && this.unseen == other.unseen
+                    && this.unflagged == other.unflagged
+                    && this.attachments == other.attachments);
         }
         return super.equals(obj);
     }

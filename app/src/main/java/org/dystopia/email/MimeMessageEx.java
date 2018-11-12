@@ -20,7 +20,6 @@ package org.dystopia.email;
 */
 
 import android.util.Log;
-
 import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.internet.MimeMessage;
@@ -35,9 +34,9 @@ public class MimeMessageEx extends MimeMessage {
 
     @Override
     protected void updateMessageID() throws MessagingException {
-        if (msgid == null)
+        if (msgid == null) {
             super.updateMessageID();
-        else {
+        } else {
             setHeader("Message-ID", msgid);
             Log.v(Helper.TAG, "Override Message-ID=" + msgid);
         }

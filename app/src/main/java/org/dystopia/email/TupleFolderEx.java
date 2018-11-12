@@ -29,12 +29,15 @@ public class TupleFolderEx extends EntityFolder {
     public boolean equals(Object obj) {
         if (obj instanceof TupleFolderEx) {
             TupleFolderEx other = (TupleFolderEx) obj;
-            return (super.equals(obj) &&
-                    (this.accountName == null ? other.accountName == null : accountName.equals(other.accountName)) &&
-                    this.messages == other.messages &&
-                    this.content == other.content &&
-                    this.unseen == other.unseen);
-        } else
+            return (super.equals(obj)
+                    && (this.accountName == null
+                            ? other.accountName == null
+                            : accountName.equals(other.accountName))
+                    && this.messages == other.messages
+                    && this.content == other.content
+                    && this.unseen == other.unseen);
+        } else {
             return false;
+        }
     }
 }

@@ -19,13 +19,12 @@ package org.dystopia.email;
     Copyright 2018, Marcel Bokhorst (M66B)
 */
 
-import java.util.List;
-
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
+import java.util.List;
 
 @Dao
 public interface DaoAccount {
@@ -56,17 +55,22 @@ public interface DaoAccount {
     @Query("SELECT * FROM account WHERE id = :id")
     LiveData<EntityAccount> liveAccount(long id);
 
-    @Query("SELECT" +
-            " (SELECT COUNT(account.id) FROM account WHERE synchronize AND state = 'connected') AS accounts" +
-            ", (SELECT COUNT(operation.id) FROM operation" +
-            "     JOIN message ON message.id = operation.message" +
-            "     JOIN account ON account.id = message.account" +
-            "     WHERE synchronize) AS operations" +
-            ", (SELECT COUNT(message.id) FROM message" +
-            "     JOIN folder ON folder.id = message.folder" +
-            "     JOIN operation ON operation.message = message.id AND operation.name = '" + EntityOperation.SEND + "'" +
-            "     WHERE NOT message.ui_seen" +
-            "     AND folder.type = '" + EntityFolder.OUTBOX + "') AS unsent")
+    @Query(
+            "SELECT"
+                    + " (SELECT COUNT(account.id) FROM account WHERE synchronize AND state = 'connected') AS accounts"
+                    + ", (SELECT COUNT(operation.id) FROM operation"
+                    + "     JOIN message ON message.id = operation.message"
+                    + "     JOIN account ON account.id = message.account"
+                    + "     WHERE synchronize) AS operations"
+                    + ", (SELECT COUNT(message.id) FROM message"
+                    + "     JOIN folder ON folder.id = message.folder"
+                    + "     JOIN operation ON operation.message = message.id AND operation.name = '"
+                    + EntityOperation.SEND
+                    + "'"
+                    + "     WHERE NOT message.ui_seen"
+                    + "     AND folder.type = '"
+                    + EntityFolder.OUTBOX
+                    + "') AS unsent")
     LiveData<TupleAccountStats> liveStats();
 
     @Insert
@@ -90,4 +94,3 @@ public interface DaoAccount {
     @Query("DELETE FROM account WHERE id = :id")
     void deleteAccount(long id);
 }
-

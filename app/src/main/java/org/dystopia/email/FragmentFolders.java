@@ -29,11 +29,6 @@ import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.ToggleButton;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.Group;
@@ -41,6 +36,8 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import java.util.List;
 
 public class FragmentFolders extends FragmentEx {
     private ImageButton ibHintActions;
@@ -65,7 +62,10 @@ public class FragmentFolders extends FragmentEx {
 
     @Override
     @Nullable
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(
+            @NonNull LayoutInflater inflater,
+            @Nullable ViewGroup container,
+            @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_folders, container, false);
 
         // Get controls
@@ -80,20 +80,22 @@ public class FragmentFolders extends FragmentEx {
         // Wire controls
 
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-        ibHintActions.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                prefs.edit().putBoolean("folder_actions", true).apply();
-                grpHintActions.setVisibility(View.GONE);
-            }
-        });
+        ibHintActions.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        prefs.edit().putBoolean("folder_actions", true).apply();
+                        grpHintActions.setVisibility(View.GONE);
+                    }
+                });
 
-        tbShowHidden.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                adapter.showHidden(isChecked);
-            }
-        });
+        tbShowHidden.setOnCheckedChangeListener(
+                new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        adapter.showHidden(isChecked);
+                    }
+                });
 
         rvFolder.setHasFixedSize(false);
         LinearLayoutManager llm = new LinearLayoutManager(getContext());
@@ -102,18 +104,22 @@ public class FragmentFolders extends FragmentEx {
         adapter = new AdapterFolder(getContext(), getViewLifecycleOwner());
         rvFolder.setAdapter(adapter);
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Bundle args = new Bundle();
-                args.putLong("account", account);
-                FragmentFolder fragment = new FragmentFolder();
-                fragment.setArguments(args);
-                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.content_frame, fragment).addToBackStack("folder");
-                fragmentTransaction.commit();
-            }
-        });
+        fab.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Bundle args = new Bundle();
+                        args.putLong("account", account);
+                        FragmentFolder fragment = new FragmentFolder();
+                        fragment.setArguments(args);
+                        FragmentTransaction fragmentTransaction =
+                                getFragmentManager().beginTransaction();
+                        fragmentTransaction
+                                .replace(R.id.content_frame, fragment)
+                                .addToBackStack("folder");
+                        fragmentTransaction.commit();
+                    }
+                });
 
         // Initialize
         tbShowHidden.setVisibility(View.GONE);
@@ -128,41 +134,51 @@ public class FragmentFolders extends FragmentEx {
         super.onActivityCreated(savedInstanceState);
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-        grpHintActions.setVisibility(prefs.getBoolean("folder_actions", false) ? View.GONE : View.VISIBLE);
+        grpHintActions.setVisibility(
+                prefs.getBoolean("folder_actions", false) ? View.GONE : View.VISIBLE);
 
         DB db = DB.getInstance(getContext());
 
         // Observe account
-        db.account().liveAccount(account).observe(getViewLifecycleOwner(), new Observer<EntityAccount>() {
-            @Override
-            public void onChanged(@Nullable EntityAccount account) {
-                setSubtitle(account == null ? null : account.name);
-                adapter.setAccountState(account.state);
-            }
-        });
+        db.account()
+                .liveAccount(account)
+                .observe(
+                        getViewLifecycleOwner(),
+                        new Observer<EntityAccount>() {
+                            @Override
+                            public void onChanged(@Nullable EntityAccount account) {
+                                setSubtitle(account == null ? null : account.name);
+                                adapter.setAccountState(account.state);
+                            }
+                        });
 
         // Observe folders
-        db.folder().liveFolders(account).observe(getViewLifecycleOwner(), new Observer<List<TupleFolderEx>>() {
-            @Override
-            public void onChanged(@Nullable List<TupleFolderEx> folders) {
-                if (folders == null) {
-                    finish();
-                    return;
-                }
+        db.folder()
+                .liveFolders(account)
+                .observe(
+                        getViewLifecycleOwner(),
+                        new Observer<List<TupleFolderEx>>() {
+                            @Override
+                            public void onChanged(@Nullable List<TupleFolderEx> folders) {
+                                if (folders == null) {
+                                    finish();
+                                    return;
+                                }
 
-                boolean hidden = false;
-                for (TupleFolderEx folder : folders)
-                    if (folder.hide) {
-                        hidden = true;
-                        break;
-                    }
-                tbShowHidden.setVisibility(hidden ? View.VISIBLE : View.GONE);
+                                boolean hidden = false;
+                                for (TupleFolderEx folder : folders) {
+                                    if (folder.hide) {
+                                        hidden = true;
+                                        break;
+                                    }
+                                }
+                                tbShowHidden.setVisibility(hidden ? View.VISIBLE : View.GONE);
 
-                adapter.set(folders);
+                                adapter.set(folders);
 
-                pbWait.setVisibility(View.GONE);
-                grpReady.setVisibility(View.VISIBLE);
-            }
-        });
+                                pbWait.setVisibility(View.GONE);
+                                grpReady.setVisibility(View.VISIBLE);
+                            }
+                        });
     }
 }

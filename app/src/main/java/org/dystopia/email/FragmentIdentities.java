@@ -24,12 +24,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.Group;
@@ -37,6 +31,9 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FragmentIdentities extends FragmentEx {
     private RecyclerView rvIdentity;
@@ -48,7 +45,10 @@ public class FragmentIdentities extends FragmentEx {
 
     @Override
     @Nullable
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(
+            @NonNull LayoutInflater inflater,
+            @Nullable ViewGroup container,
+            @Nullable Bundle savedInstanceState) {
         setSubtitle(R.string.title_list_identities);
 
         View view = inflater.inflate(R.layout.fragment_identities, container, false);
@@ -68,16 +68,20 @@ public class FragmentIdentities extends FragmentEx {
         adapter = new AdapterIdentity(getContext());
         rvIdentity.setAdapter(adapter);
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FragmentIdentity fragment = new FragmentIdentity();
-                fragment.setArguments(new Bundle());
-                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.content_frame, fragment).addToBackStack("identity");
-                fragmentTransaction.commit();
-            }
-        });
+        fab.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        FragmentIdentity fragment = new FragmentIdentity();
+                        fragment.setArguments(new Bundle());
+                        FragmentTransaction fragmentTransaction =
+                                getFragmentManager().beginTransaction();
+                        fragmentTransaction
+                                .replace(R.id.content_frame, fragment)
+                                .addToBackStack("identity");
+                        fragmentTransaction.commit();
+                    }
+                });
 
         // Initialize
         grpReady.setVisibility(View.GONE);
@@ -91,14 +95,22 @@ public class FragmentIdentities extends FragmentEx {
         super.onActivityCreated(savedInstanceState);
 
         // Observe identities
-        DB.getInstance(getContext()).identity().liveIdentities().observe(getViewLifecycleOwner(), new Observer<List<TupleIdentityEx>>() {
-            @Override
-            public void onChanged(@Nullable List<TupleIdentityEx> identities) {
-                adapter.set(identities == null ? new ArrayList<TupleIdentityEx>() : identities);
+        DB.getInstance(getContext())
+                .identity()
+                .liveIdentities()
+                .observe(
+                        getViewLifecycleOwner(),
+                        new Observer<List<TupleIdentityEx>>() {
+                            @Override
+                            public void onChanged(@Nullable List<TupleIdentityEx> identities) {
+                                adapter.set(
+                                        identities == null
+                                                ? new ArrayList<TupleIdentityEx>()
+                                                : identities);
 
-                pbWait.setVisibility(View.GONE);
-                grpReady.setVisibility(View.VISIBLE);
-            }
-        });
+                                pbWait.setVisibility(View.GONE);
+                                grpReady.setVisibility(View.VISIBLE);
+                            }
+                        });
     }
 }

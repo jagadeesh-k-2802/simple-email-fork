@@ -20,6 +20,8 @@ package org.dystopia.email;
     Copyright 2018, Distopico (dystopia project) <distopico@riseup.net> and contributors
 */
 
+import static android.app.Activity.RESULT_OK;
+
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.content.ContentResolver;
@@ -49,12 +51,12 @@ import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.ToggleButton;
-
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
 import com.google.android.material.snackbar.Snackbar;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -63,14 +65,8 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.Observer;
-
-import static android.app.Activity.RESULT_OK;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class FragmentSetup extends FragmentEx {
     private ViewGroup view;
@@ -99,24 +95,18 @@ public class FragmentSetup extends FragmentEx {
 
     private Drawable check;
 
-    private static final String[] permissions = new String[]{
-            Manifest.permission.READ_CONTACTS
-    };
+    private static final String[] permissions = new String[] {Manifest.permission.READ_CONTACTS};
 
-    static final List<String> EXPORT_SETTINGS = Arrays.asList(
-            "enabled",
-            "avatars",
-            "light",
-            "browse",
-            "swipe",
-            "compat",
-            "insecure",
-            "sort"
-    );
+    static final List<String> EXPORT_SETTINGS =
+            Arrays.asList(
+                    "enabled", "avatars", "light", "browse", "swipe", "compat", "insecure", "sort");
 
     @Override
     @Nullable
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(
+            @NonNull LayoutInflater inflater,
+            @Nullable ViewGroup container,
+            @Nullable Bundle savedInstanceState) {
         setSubtitle(R.string.title_setup);
         setHasOptionsMenu(true);
 
@@ -148,80 +138,108 @@ public class FragmentSetup extends FragmentEx {
 
         // Wire controls
 
-        ibHelp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(getIntentHelp());
-            }
-        });
+        ibHelp.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivity(getIntentHelp());
+                    }
+                });
 
-        btnAccount.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.content_frame, new FragmentAccounts()).addToBackStack("accounts");
-                fragmentTransaction.commit();
-            }
-        });
+        btnAccount.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        FragmentTransaction fragmentTransaction =
+                                getFragmentManager().beginTransaction();
+                        fragmentTransaction
+                                .replace(R.id.content_frame, new FragmentAccounts())
+                                .addToBackStack("accounts");
+                        fragmentTransaction.commit();
+                    }
+                });
 
-        btnIdentity.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.content_frame, new FragmentIdentities()).addToBackStack("identities");
-                fragmentTransaction.commit();
-            }
-        });
+        btnIdentity.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        FragmentTransaction fragmentTransaction =
+                                getFragmentManager().beginTransaction();
+                        fragmentTransaction
+                                .replace(R.id.content_frame, new FragmentIdentities())
+                                .addToBackStack("identities");
+                        fragmentTransaction.commit();
+                    }
+                });
 
-        btnPermissions.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                btnPermissions.setEnabled(false);
-                requestPermissions(permissions, 1);
-            }
-        });
+        btnPermissions.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        btnPermissions.setEnabled(false);
+                        requestPermissions(permissions, 1);
+                    }
+                });
 
-        btnDoze.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new DialogBuilderLifecycle(getContext(), getViewLifecycleOwner())
-                        .setMessage(R.string.title_setup_doze_instructions)
-                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                try {
-                                    startActivity(new Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS));
-                                } catch (Throwable ex) {
-                                    Log.e(Helper.TAG, ex + "\n" + Log.getStackTraceString(ex));
-                                }
-                            }
-                        })
-                        .create()
-                        .show();
-            }
-        });
+        btnDoze.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        new DialogBuilderLifecycle(getContext(), getViewLifecycleOwner())
+                                .setMessage(R.string.title_setup_doze_instructions)
+                                .setPositiveButton(
+                                        android.R.string.ok,
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                try {
+                                                    startActivity(
+                                                            new Intent(
+                                                                    Settings
+                                                                            .ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS));
+                                                } catch (Throwable ex) {
+                                                    Log.e(
+                                                            Helper.TAG,
+                                                            ex
+                                                                    + "\n"
+                                                                    + Log.getStackTraceString(ex));
+                                                }
+                                            }
+                                        })
+                                .create()
+                                .show();
+                    }
+                });
 
-        btnData.setOnClickListener(new View.OnClickListener() {
-            @Override
-            @TargetApi(Build.VERSION_CODES.N)
-            public void onClick(View v) {
-                try {
-                    startActivity(new Intent(Settings.ACTION_IGNORE_BACKGROUND_DATA_RESTRICTIONS_SETTINGS,
-                            Uri.parse("package:" + BuildConfig.APPLICATION_ID)));
-                } catch (Throwable ex) {
-                    Log.e(Helper.TAG, ex + "\n" + Log.getStackTraceString(ex));
-                }
-            }
-        });
+        btnData.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    @TargetApi(Build.VERSION_CODES.N)
+                    public void onClick(View v) {
+                        try {
+                            startActivity(
+                                    new Intent(
+                                            Settings
+                                                    .ACTION_IGNORE_BACKGROUND_DATA_RESTRICTIONS_SETTINGS,
+                                            Uri.parse("package:" + BuildConfig.APPLICATION_ID)));
+                        } catch (Throwable ex) {
+                            Log.e(Helper.TAG, ex + "\n" + Log.getStackTraceString(ex));
+                        }
+                    }
+                });
 
         PackageManager pm = getContext().getPackageManager();
-        btnNotifications.setVisibility(getIntentNotifications(getContext()).resolveActivity(pm) == null ? View.GONE : View.VISIBLE);
-        btnNotifications.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(getIntentNotifications(getContext()));
-            }
-        });
+        btnNotifications.setVisibility(
+                getIntentNotifications(getContext()).resolveActivity(pm) == null
+                        ? View.GONE
+                        : View.VISIBLE);
+        btnNotifications.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivity(getIntentNotifications(getContext()));
+                    }
+                });
 
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
 
@@ -229,25 +247,30 @@ public class FragmentSetup extends FragmentEx {
         boolean dark = "dark".equals(theme);
         tbDarkTheme.setTag(dark);
         tbDarkTheme.setChecked(dark);
-        tbDarkTheme.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton button, boolean checked) {
-                if (checked != (Boolean) button.getTag()) {
-                    button.setTag(checked);
-                    tbDarkTheme.setChecked(checked);
-                    prefs.edit().putString("theme", checked ? "dark" : "light").apply();
-                }
-            }
-        });
+        tbDarkTheme.setOnCheckedChangeListener(
+                new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton button, boolean checked) {
+                        if (checked != (Boolean) button.getTag()) {
+                            button.setTag(checked);
+                            tbDarkTheme.setChecked(checked);
+                            prefs.edit().putString("theme", checked ? "dark" : "light").apply();
+                        }
+                    }
+                });
 
-        btnOptions.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.content_frame, new FragmentOptions()).addToBackStack("options");
-                    fragmentTransaction.commit();
-                }
-        });
+        btnOptions.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        FragmentTransaction fragmentTransaction =
+                                getFragmentManager().beginTransaction();
+                        fragmentTransaction
+                                .replace(R.id.content_frame, new FragmentOptions())
+                                .addToBackStack("options");
+                        fragmentTransaction.commit();
+                    }
+                });
 
         // Initialize
         ibHelp.setVisibility(View.GONE);
@@ -269,8 +292,9 @@ public class FragmentSetup extends FragmentEx {
         btnData.setVisibility(View.GONE);
 
         int[] grantResults = new int[permissions.length];
-        for (int i = 0; i < permissions.length; i++)
+        for (int i = 0; i < permissions.length; i++) {
             grantResults[i] = ContextCompat.checkSelfPermission(getActivity(), permissions[i]);
+        }
 
         onRequestPermissionsResult(0, permissions, grantResults);
 
@@ -314,28 +338,45 @@ public class FragmentSetup extends FragmentEx {
         super.onActivityCreated(savedInstanceState);
 
         PackageManager pm = getContext().getPackageManager();
-        ibHelp.setVisibility(getIntentHelp().resolveActivity(pm) == null ? View.GONE : View.VISIBLE);
+        ibHelp.setVisibility(
+                getIntentHelp().resolveActivity(pm) == null ? View.GONE : View.VISIBLE);
 
         DB db = DB.getInstance(getContext());
 
-        db.account().liveAccounts(true).observe(getViewLifecycleOwner(), new Observer<List<EntityAccount>>() {
-            @Override
-            public void onChanged(@Nullable List<EntityAccount> accounts) {
-                boolean done = (accounts != null && accounts.size() > 0);
-                btnIdentity.setEnabled(done);
-                tvAccountDone.setText(done ? R.string.title_setup_done : R.string.title_setup_to_do);
-                tvAccountDone.setCompoundDrawablesWithIntrinsicBounds(done ? check : null, null, null, null);
-            }
-        });
+        db.account()
+                .liveAccounts(true)
+                .observe(
+                        getViewLifecycleOwner(),
+                        new Observer<List<EntityAccount>>() {
+                            @Override
+                            public void onChanged(@Nullable List<EntityAccount> accounts) {
+                                boolean done = (accounts != null && accounts.size() > 0);
+                                btnIdentity.setEnabled(done);
+                                tvAccountDone.setText(
+                                        done
+                                                ? R.string.title_setup_done
+                                                : R.string.title_setup_to_do);
+                                tvAccountDone.setCompoundDrawablesWithIntrinsicBounds(
+                                        done ? check : null, null, null, null);
+                            }
+                        });
 
-        db.identity().liveIdentities(true).observe(getViewLifecycleOwner(), new Observer<List<EntityIdentity>>() {
-            @Override
-            public void onChanged(@Nullable List<EntityIdentity> identities) {
-                boolean done = (identities != null && identities.size() > 0);
-                tvIdentityDone.setText(done ? R.string.title_setup_done : R.string.title_setup_to_do);
-                tvIdentityDone.setCompoundDrawablesWithIntrinsicBounds(done ? check : null, null, null, null);
-            }
-        });
+        db.identity()
+                .liveIdentities(true)
+                .observe(
+                        getViewLifecycleOwner(),
+                        new Observer<List<EntityIdentity>>() {
+                            @Override
+                            public void onChanged(@Nullable List<EntityIdentity> identities) {
+                                boolean done = (identities != null && identities.size() > 0);
+                                tvIdentityDone.setText(
+                                        done
+                                                ? R.string.title_setup_done
+                                                : R.string.title_setup_to_do);
+                                tvIdentityDone.setCompoundDrawablesWithIntrinsicBounds(
+                                        done ? check : null, null, null, null);
+                            }
+                        });
     }
 
     @Override
@@ -346,11 +387,14 @@ public class FragmentSetup extends FragmentEx {
         boolean ignoring = pm.isIgnoringBatteryOptimizations(BuildConfig.APPLICATION_ID);
         btnDoze.setEnabled(!ignoring);
         tvDozeDone.setText(ignoring ? R.string.title_setup_done : R.string.title_setup_to_do);
-        tvDozeDone.setCompoundDrawablesWithIntrinsicBounds(ignoring ? check : null, null, null, null);
+        tvDozeDone.setCompoundDrawablesWithIntrinsicBounds(
+                ignoring ? check : null, null, null, null);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             ConnectivityManager cm = getContext().getSystemService(ConnectivityManager.class);
-            boolean saving = (cm.getRestrictBackgroundStatus() == ConnectivityManager.RESTRICT_BACKGROUND_STATUS_ENABLED);
+            boolean saving =
+                    (cm.getRestrictBackgroundStatus()
+                            == ConnectivityManager.RESTRICT_BACKGROUND_STATUS_ENABLED);
             btnData.setVisibility(saving ? View.VISIBLE : View.GONE);
         }
     }
@@ -398,17 +442,20 @@ public class FragmentSetup extends FragmentEx {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(
+            int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         boolean has = (grantResults.length > 0);
-        for (int result : grantResults)
+        for (int result : grantResults) {
             if (result != PackageManager.PERMISSION_GRANTED) {
                 has = false;
                 break;
             }
+        }
 
         btnPermissions.setEnabled(!has);
         tvPermissionsDone.setText(has ? R.string.title_setup_done : R.string.title_setup_to_do);
-        tvPermissionsDone.setCompoundDrawablesWithIntrinsicBounds(has ? check : null, null, null, null);
+        tvPermissionsDone.setCompoundDrawablesWithIntrinsicBounds(
+                has ? check : null, null, null, null);
     }
 
     @Override
@@ -416,68 +463,86 @@ public class FragmentSetup extends FragmentEx {
         Log.i(Helper.TAG, "Request=" + requestCode + " result=" + resultCode + " data=" + data);
 
         if (requestCode == ActivitySetup.REQUEST_EXPORT) {
-            if (resultCode == RESULT_OK && data != null)
+            if (resultCode == RESULT_OK && data != null) {
                 handleExport(data);
+            }
 
         } else if (requestCode == ActivitySetup.REQUEST_IMPORT) {
-            if (resultCode == RESULT_OK && data != null)
+            if (resultCode == RESULT_OK && data != null) {
                 handleImport(data);
+            }
         }
     }
 
     private void onMenuPrivacy() {
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.content_frame, new FragmentPrivacy()).addToBackStack("privacy");
+        fragmentTransaction
+                .replace(R.id.content_frame, new FragmentPrivacy())
+                .addToBackStack("privacy");
         fragmentTransaction.commit();
     }
 
     private void onMenuLegend() {
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.content_frame, new FragmentLegend()).addToBackStack("legend");
+        fragmentTransaction
+                .replace(R.id.content_frame, new FragmentLegend())
+                .addToBackStack("legend");
         fragmentTransaction.commit();
     }
 
     private void onMenuExport() {
         new DialogBuilderLifecycle(getContext(), getViewLifecycleOwner())
-            .setMessage(R.string.title_setup_export_do)
-            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        try {
-                            startActivityForResult(getIntentExport(), ActivitySetup.REQUEST_EXPORT);
-                        } catch (Throwable ex) {
-                            Log.e(Helper.TAG, ex + "\n" + Log.getStackTraceString(ex));
-                        }
-                    }
-                }).create().show();
+                .setMessage(R.string.title_setup_export_do)
+                .setPositiveButton(
+                        android.R.string.ok,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                try {
+                                    startActivityForResult(
+                                            getIntentExport(), ActivitySetup.REQUEST_EXPORT);
+                                } catch (Throwable ex) {
+                                    Log.e(Helper.TAG, ex + "\n" + Log.getStackTraceString(ex));
+                                }
+                            }
+                        })
+                .create()
+                .show();
     }
 
     private void onMenuImport() {
         new DialogBuilderLifecycle(getContext(), getViewLifecycleOwner())
                 .setMessage(R.string.title_setup_import_do)
-                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        try {
-                            startActivityForResult(getIntentImport(), ActivitySetup.REQUEST_IMPORT);
-                        } catch (Throwable ex) {
-                            Log.e(Helper.TAG, ex + "\n" + Log.getStackTraceString(ex));
-                        }
-                    }
-                })
+                .setPositiveButton(
+                        android.R.string.ok,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                try {
+                                    startActivityForResult(
+                                            getIntentImport(), ActivitySetup.REQUEST_IMPORT);
+                                } catch (Throwable ex) {
+                                    Log.e(Helper.TAG, ex + "\n" + Log.getStackTraceString(ex));
+                                }
+                            }
+                        })
                 .create()
                 .show();
     }
 
     private void onMenuAbout() {
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.content_frame, new FragmentAbout()).addToBackStack("about");
+        fragmentTransaction
+                .replace(R.id.content_frame, new FragmentAbout())
+                .addToBackStack("about");
         fragmentTransaction.commit();
     }
 
     private Intent getIntentHelp() {
         Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse("https://framagit.org/dystopia-project/simple-email/blob/8f7296ddc2275471d4190df1dd55dee4025a5114/docs/SETUP.md"));
+        intent.setData(
+                Uri.parse(
+                        "https://framagit.org/dystopia-project/simple-email/blob/8f7296ddc2275471d4190df1dd55dee4025a5114/docs/SETUP.md"));
         return intent;
     }
 
@@ -485,8 +550,11 @@ public class FragmentSetup extends FragmentEx {
         Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("*/*");
-        intent.putExtra(Intent.EXTRA_TITLE, "simpleemail_backup_" +
-                new SimpleDateFormat("yyyyMMdd").format(new Date().getTime()) + ".json");
+        intent.putExtra(
+                Intent.EXTRA_TITLE,
+                "simpleemail_backup_"
+                        + new SimpleDateFormat("yyyyMMdd").format(new Date().getTime())
+                        + ".json");
         return intent;
     }
 
@@ -528,14 +596,16 @@ public class FragmentSetup extends FragmentEx {
 
                         // Identities
                         JSONArray jidentities = new JSONArray();
-                        for (EntityIdentity identity : db.identity().getIdentities(account.id))
+                        for (EntityIdentity identity : db.identity().getIdentities(account.id)) {
                             jidentities.put(identity.toJSON());
+                        }
                         jaccount.put("identities", jidentities);
 
                         // Folders
                         JSONArray jfolders = new JSONArray();
-                        for (EntityFolder folder : db.folder().getFolders(account.id))
+                        for (EntityFolder folder : db.folder().getFolders(account.id)) {
                             jfolders.put(folder.toJSON());
+                        }
                         jaccount.put("folders", jfolders);
 
                         jaccounts.put(jaccount);
@@ -543,19 +613,22 @@ public class FragmentSetup extends FragmentEx {
 
                     // Answers
                     JSONArray janswers = new JSONArray();
-                    for (EntityAnswer answer : db.answer().getAnswers())
+                    for (EntityAnswer answer : db.answer().getAnswers()) {
                         janswers.put(answer.toJSON());
+                    }
 
                     // Settings
-                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+                    SharedPreferences prefs =
+                            PreferenceManager.getDefaultSharedPreferences(context);
                     JSONArray jsettings = new JSONArray();
-                    for (String key : prefs.getAll().keySet())
+                    for (String key : prefs.getAll().keySet()) {
                         if (EXPORT_SETTINGS.contains(key)) {
                             JSONObject jsetting = new JSONObject();
                             jsetting.put("key", key);
                             jsetting.put("value", prefs.getAll().get(key));
                             jsettings.put(jsetting);
                         }
+                    }
 
                     JSONObject jexport = new JSONObject();
                     jexport.put("accounts", jaccounts);
@@ -566,8 +639,9 @@ public class FragmentSetup extends FragmentEx {
 
                     Log.i(Helper.TAG, "Exported data");
                 } finally {
-                    if (out != null)
+                    if (out != null) {
                         out.close();
+                    }
                 }
 
                 return null;
@@ -598,14 +672,16 @@ public class FragmentSetup extends FragmentEx {
                 try {
                     Log.i(Helper.TAG, "Reading URI=" + uri);
                     ContentResolver resolver = getContext().getContentResolver();
-                    AssetFileDescriptor descriptor = resolver.openTypedAssetFileDescriptor(uri, "*/*", null);
+                    AssetFileDescriptor descriptor =
+                            resolver.openTypedAssetFileDescriptor(uri, "*/*", null);
                     in = descriptor.createInputStream();
 
                     BufferedReader reader = new BufferedReader(new InputStreamReader(in));
                     StringBuilder response = new StringBuilder();
                     String line;
-                    while ((line = reader.readLine()) != null)
+                    while ((line = reader.readLine()) != null) {
                         response.append(line);
+                    }
                     Log.i(Helper.TAG, "Importing " + resolver.toString());
 
                     JSONObject jimport = new JSONObject(response.toString());
@@ -649,7 +725,8 @@ public class FragmentSetup extends FragmentEx {
                             Log.i(Helper.TAG, "Imported answer=" + answer.name);
                         }
 
-                        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+                        SharedPreferences prefs =
+                                PreferenceManager.getDefaultSharedPreferences(context);
                         SharedPreferences.Editor editor = prefs.edit();
                         JSONArray jsettings = jimport.getJSONArray("settings");
                         for (int s = 0; s < jsettings.length(); s++) {
@@ -657,12 +734,14 @@ public class FragmentSetup extends FragmentEx {
                             String key = jsetting.getString("key");
                             if (EXPORT_SETTINGS.contains(key)) {
                                 Object value = jsetting.get("value");
-                                if (value instanceof Boolean)
+                                if (value instanceof Boolean) {
                                     editor.putBoolean(key, (Boolean) value);
-                                else if (value instanceof String)
+                                } else if (value instanceof String) {
                                     editor.putString(key, (String) value);
-                                else
-                                    throw new IllegalArgumentException("Unknown settings type key=" + key);
+                                } else {
+                                    throw new IllegalArgumentException(
+                                            "Unknown settings type key=" + key);
+                                }
                                 Log.i(Helper.TAG, "Imported setting=" + key);
                             }
                         }
@@ -675,8 +754,9 @@ public class FragmentSetup extends FragmentEx {
 
                     Log.i(Helper.TAG, "Imported data");
                 } finally {
-                    if (in != null)
+                    if (in != null) {
                         in.close();
+                    }
                 }
 
                 return null;

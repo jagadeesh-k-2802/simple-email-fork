@@ -24,17 +24,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.Group;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class FragmentLogs extends FragmentEx {
     private RecyclerView rvLog;
@@ -45,7 +43,10 @@ public class FragmentLogs extends FragmentEx {
 
     @Override
     @Nullable
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(
+            @NonNull LayoutInflater inflater,
+            @Nullable ViewGroup container,
+            @Nullable Bundle savedInstanceState) {
         setSubtitle(R.string.title_log);
 
         View view = inflater.inflate(R.layout.fragment_logs, container, false);
@@ -78,17 +79,22 @@ public class FragmentLogs extends FragmentEx {
         long from = new Date().getTime() - 24 * 3600 * 1000L;
 
         DB db = DB.getInstance(getContext());
-        db.log().liveLogs(from).observe(getViewLifecycleOwner(), new Observer<List<EntityLog>>() {
-            @Override
-            public void onChanged(List<EntityLog> logs) {
-                if (logs == null)
-                    logs = new ArrayList<>();
+        db.log()
+                .liveLogs(from)
+                .observe(
+                        getViewLifecycleOwner(),
+                        new Observer<List<EntityLog>>() {
+                            @Override
+                            public void onChanged(List<EntityLog> logs) {
+                                if (logs == null) {
+                                    logs = new ArrayList<>();
+                                }
 
-                adapter.set(logs);
+                                adapter.set(logs);
 
-                pbWait.setVisibility(View.GONE);
-                grpReady.setVisibility(View.VISIBLE);
-            }
-        });
+                                pbWait.setVisibility(View.GONE);
+                                grpReady.setVisibility(View.VISIBLE);
+                            }
+                        });
     }
 }

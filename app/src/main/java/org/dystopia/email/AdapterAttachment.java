@@ -35,13 +35,6 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.core.content.FileProvider;
 import androidx.lifecycle.LifecycleOwner;
@@ -49,6 +42,11 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListUpdateCallback;
 import androidx.recyclerview.widget.RecyclerView;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 public class AdapterAttachment extends RecyclerView.Adapter<AdapterAttachment.ViewHolder> {
     private Context context;
@@ -98,8 +96,9 @@ public class AdapterAttachment extends RecyclerView.Adapter<AdapterAttachment.Vi
             ivDelete.setVisibility(readonly ? View.GONE : View.VISIBLE);
             tvName.setText(attachment.name);
 
-            if (attachment.size != null)
+            if (attachment.size != null) {
                 tvSize.setText(Helper.humanReadableByteCount(attachment.size, true));
+            }
             tvSize.setVisibility(attachment.size == null ? View.GONE : View.VISIBLE);
 
             if (attachment.available) {
@@ -109,14 +108,16 @@ public class AdapterAttachment extends RecyclerView.Adapter<AdapterAttachment.Vi
                 if (attachment.progress == null) {
                     ivStatus.setImageResource(R.drawable.baseline_cloud_download_24);
                     ivStatus.setVisibility(View.VISIBLE);
-                } else
+                } else {
                     ivStatus.setVisibility(View.GONE);
+                }
             }
 
             ivSave.setVisibility(readonly && attachment.available ? View.VISIBLE : View.GONE);
 
-            if (attachment.progress != null)
+            if (attachment.progress != null) {
                 progressbar.setProgress(attachment.progress);
+            }
             progressbar.setVisibility(
                     attachment.progress == null || attachment.available ? View.GONE : View.VISIBLE);
 
@@ -127,8 +128,9 @@ public class AdapterAttachment extends RecyclerView.Adapter<AdapterAttachment.Vi
         @Override
         public void onClick(View view) {
             int pos = getAdapterPosition();
-            if (pos == RecyclerView.NO_POSITION)
+            if (pos == RecyclerView.NO_POSITION) {
                 return;
+            }
             final EntityAttachment attachment = filtered.get(pos);
 
             if (view.getId() == R.id.ivDelete) {
@@ -165,21 +167,33 @@ public class AdapterAttachment extends RecyclerView.Adapter<AdapterAttachment.Vi
                     final Intent intent = new Intent(Intent.ACTION_VIEW);
                     intent.setDataAndType(uri, attachment.type);
                     intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                    if (!TextUtils.isEmpty(attachment.name))
+                    if (!TextUtils.isEmpty(attachment.name)) {
                         intent.putExtra(Intent.EXTRA_TITLE, attachment.name);
+                    }
                     Log.i(Helper.TAG, "Sharing " + file + " type=" + attachment.type);
                     Log.i(Helper.TAG, "Intent=" + intent);
 
                     // Set permissions
-                    List<ResolveInfo> targets = context.getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
+                    List<ResolveInfo> targets =
+                            context.getPackageManager()
+                                    .queryIntentActivities(
+                                            intent, PackageManager.MATCH_DEFAULT_ONLY);
                     for (ResolveInfo resolveInfo : targets) {
                         Log.i(Helper.TAG, "Target=" + resolveInfo);
-                        context.grantUriPermission(resolveInfo.activityInfo.packageName, uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                        context.grantUriPermission(
+                                resolveInfo.activityInfo.packageName,
+                                uri,
+                                Intent.FLAG_GRANT_READ_URI_PERMISSION);
                     }
 
                     // Check if viewer available
                     if (targets.size() == 0) {
-                        Toast.makeText(context, context.getString(R.string.title_no_viewer, attachment.type), Toast.LENGTH_LONG).show();
+                        Toast.makeText(
+                                        context,
+                                        context.getString(
+                                                R.string.title_no_viewer, attachment.type),
+                                        Toast.LENGTH_LONG)
+                                .show();
                         return;
                     }
 
@@ -205,7 +219,8 @@ public class AdapterAttachment extends RecyclerView.Adapter<AdapterAttachment.Vi
                                     db.attachment().setProgress(id, 0);
 
                                     EntityMessage msg = db.message().getMessage(message);
-                                    EntityOperation.queue(db, msg, EntityOperation.ATTACHMENT, sequence);
+                                    EntityOperation.queue(
+                                            db, msg, EntityOperation.ATTACHMENT, sequence);
 
                                     db.setTransactionSuccessful();
                                 } finally {
@@ -227,19 +242,22 @@ public class AdapterAttachment extends RecyclerView.Adapter<AdapterAttachment.Vi
         this.context = context;
         this.owner = owner;
         this.readonly = readonly;
-        this.debug = PreferenceManager.getDefaultSharedPreferences(context).getBoolean("debug", false);
+        this.debug =
+                PreferenceManager.getDefaultSharedPreferences(context).getBoolean("debug", false);
         setHasStableIds(true);
     }
 
     public void set(@NonNull List<EntityAttachment> attachments) {
         Log.i(Helper.TAG, "Set attachments=" + attachments.size());
 
-        Collections.sort(attachments, new Comparator<EntityAttachment>() {
-            @Override
-            public int compare(EntityAttachment a1, EntityAttachment a2) {
-                return a1.sequence.compareTo(a2.sequence);
-            }
-        });
+        Collections.sort(
+                attachments,
+                new Comparator<EntityAttachment>() {
+                    @Override
+                    public int compare(EntityAttachment a1, EntityAttachment a2) {
+                        return a1.sequence.compareTo(a2.sequence);
+                    }
+                });
 
         all = attachments;
 
@@ -248,27 +266,28 @@ public class AdapterAttachment extends RecyclerView.Adapter<AdapterAttachment.Vi
         filtered.clear();
         filtered.addAll(all);
 
-        diff.dispatchUpdatesTo(new ListUpdateCallback() {
-            @Override
-            public void onInserted(int position, int count) {
-                Log.i(Helper.TAG, "Inserted @" + position + " #" + count);
-            }
+        diff.dispatchUpdatesTo(
+                new ListUpdateCallback() {
+                    @Override
+                    public void onInserted(int position, int count) {
+                        Log.i(Helper.TAG, "Inserted @" + position + " #" + count);
+                    }
 
-            @Override
-            public void onRemoved(int position, int count) {
-                Log.i(Helper.TAG, "Removed @" + position + " #" + count);
-            }
+                    @Override
+                    public void onRemoved(int position, int count) {
+                        Log.i(Helper.TAG, "Removed @" + position + " #" + count);
+                    }
 
-            @Override
-            public void onMoved(int fromPosition, int toPosition) {
-                Log.i(Helper.TAG, "Moved " + fromPosition + ">" + toPosition);
-            }
+                    @Override
+                    public void onMoved(int fromPosition, int toPosition) {
+                        Log.i(Helper.TAG, "Moved " + fromPosition + ">" + toPosition);
+                    }
 
-            @Override
-            public void onChanged(int position, int count, Object payload) {
-                Log.i(Helper.TAG, "Changed @" + position + " #" + count);
-            }
-        });
+                    @Override
+                    public void onChanged(int position, int count, Object payload) {
+                        Log.i(Helper.TAG, "Changed @" + position + " #" + count);
+                    }
+                });
         diff.dispatchUpdatesTo(this);
     }
 
@@ -319,7 +338,8 @@ public class AdapterAttachment extends RecyclerView.Adapter<AdapterAttachment.Vi
     @Override
     @NonNull
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_attachment, parent, false));
+        return new ViewHolder(
+                LayoutInflater.from(context).inflate(R.layout.item_attachment, parent, false));
     }
 
     @Override

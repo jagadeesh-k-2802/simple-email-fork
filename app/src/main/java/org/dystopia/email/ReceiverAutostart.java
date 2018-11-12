@@ -27,17 +27,24 @@ import android.util.Log;
 public class ReceiverAutostart extends BroadcastReceiver {
     @Override
     public void onReceive(final Context context, Intent intent) {
-        if (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction()) ||
-                Intent.ACTION_MY_PACKAGE_REPLACED.equals(intent.getAction()))
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    int synchronizing = DB.getInstance(context).account().getSynchronizingAccountCount();
-                    Log.i(Helper.TAG, "Synchronizing accounts=" + synchronizing);
-                    if (synchronizing > 0)
-                        ServiceSynchronize.init(context);
-                    JobDaily.schedule(context);
-                }
-            }).start();
+        if (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())
+                || Intent.ACTION_MY_PACKAGE_REPLACED.equals(intent.getAction())) {
+            new Thread(
+                            new Runnable() {
+                                @Override
+                                public void run() {
+                                    int synchronizing =
+                                            DB.getInstance(context)
+                                                    .account()
+                                                    .getSynchronizingAccountCount();
+                                    Log.i(Helper.TAG, "Synchronizing accounts=" + synchronizing);
+                                    if (synchronizing > 0) {
+                                        ServiceSynchronize.init(context);
+                                    }
+                                    JobDaily.schedule(context);
+                                }
+                            })
+                    .start();
+        }
     }
 }

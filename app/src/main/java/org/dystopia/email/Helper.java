@@ -20,6 +20,8 @@ package org.dystopia.email;
     Copyright 2018, Distopico (dystopia project) <distopico@riseup.net> and contributors
 */
 
+import static android.os.Process.THREAD_PRIORITY_BACKGROUND;
+
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.Notification;
@@ -39,10 +41,11 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
-
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.browser.customtabs.CustomTabsIntent;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.sun.mail.imap.IMAPStore;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -56,17 +59,10 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadFactory;
-
 import javax.mail.Address;
 import javax.mail.AuthenticationFailedException;
 import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.browser.customtabs.CustomTabsIntent;
-
-import static android.os.Process.THREAD_PRIORITY_BACKGROUND;
 
 public class Helper {
     static final String TAG = "simpleemail";
@@ -76,21 +72,23 @@ public class Helper {
     static final int AUTH_TYPE_PASSWORD = 1;
     static final int AUTH_TYPE_GMAIL = 2;
 
-    static ThreadFactory backgroundThreadFactory = new ThreadFactory() {
-        @Override
-        public Thread newThread(@NonNull Runnable runnable) {
-            Thread thread = new Thread(runnable);
-            thread.setPriority(THREAD_PRIORITY_BACKGROUND);
-            return thread;
-        }
-    };
+    static ThreadFactory backgroundThreadFactory =
+            new ThreadFactory() {
+                @Override
+                public Thread newThread(@NonNull Runnable runnable) {
+                    Thread thread = new Thread(runnable);
+                    thread.setPriority(THREAD_PRIORITY_BACKGROUND);
+                    return thread;
+                }
+            };
 
     static void view(Context context, Intent intent) {
         Uri uri = intent.getData();
-        if ("http".equals(uri.getScheme()) || "https".equals(uri.getScheme()))
+        if ("http".equals(uri.getScheme()) || "https".equals(uri.getScheme())) {
             view(context, intent.getData());
-        else
+        } else {
             context.startActivity(intent);
+        }
     }
 
     static void view(Context context, Uri uri) {
@@ -106,12 +104,13 @@ public class Helper {
 
     static Intent getIntentOpenKeychain() {
         Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse("https://f-droid.org/en/packages/org.sufficientlysecure.keychain/"));
+        intent.setData(
+                Uri.parse("https://f-droid.org/en/packages/org.sufficientlysecure.keychain/"));
         return intent;
     }
 
     static int resolveColor(Context context, int attr) {
-        int[] attrs = new int[]{attr};
+        int[] attrs = new int[] {attr};
         TypedArray a = context.getTheme().obtainStyledAttributes(attrs);
         int color = a.getColor(0, 0xFF0000);
         a.recycle();
@@ -121,26 +120,29 @@ public class Helper {
     static void setViewsEnabled(ViewGroup view, boolean enabled) {
         for (int i = 0; i < view.getChildCount(); i++) {
             View child = view.getChildAt(i);
-            if (child instanceof Spinner ||
-                    child instanceof EditText ||
-                    child instanceof CheckBox ||
-                    child instanceof ImageView /* =ImageButton */)
+            if (child instanceof Spinner
+                    || child instanceof EditText
+                    || child instanceof CheckBox
+                    || child instanceof ImageView /* =ImageButton */) {
                 child.setEnabled(enabled);
+            }
             if (child instanceof BottomNavigationView) {
                 Menu menu = ((BottomNavigationView) child).getMenu();
                 menu.setGroupEnabled(0, enabled);
-            } else if (child instanceof ViewGroup)
+            } else if (child instanceof ViewGroup) {
                 setViewsEnabled((ViewGroup) child, enabled);
+            }
         }
     }
 
     static String localizeFolderName(Context context, String name) {
-        if ("INBOX".equals(name))
+        if ("INBOX".equals(name)) {
             return context.getString(R.string.title_folder_inbox);
-        else if ("OUTBOX".equals(name))
+        } else if ("OUTBOX".equals(name)) {
             return context.getString(R.string.title_folder_outbox);
-        else
+        } else {
             return name;
+        }
     }
 
     static String formatThrowable(Throwable ex) {
@@ -148,7 +150,11 @@ public class Helper {
         sb.append(ex.getMessage() == null ? ex.getClass().getName() : ex.getMessage());
         Throwable cause = ex.getCause();
         while (cause != null) {
-            sb.append(" ").append(cause.getMessage() == null ? cause.getClass().getName() : cause.getMessage());
+            sb.append(" ")
+                    .append(
+                            cause.getMessage() == null
+                                    ? cause.getClass().getName()
+                                    : cause.getMessage());
             cause = cause.getCause();
         }
         return sb.toString();
@@ -164,7 +170,9 @@ public class Helper {
 
     static String humanReadableByteCount(long bytes, boolean si) {
         int unit = si ? 1000 : 1024;
-        if (bytes < unit) return bytes + " B";
+        if (bytes < unit) {
+            return bytes + " B";
+        }
         int exp = (int) (Math.log(bytes) / Math.log(unit));
         String pre = (si ? "kMGTPE" : "KMGTPE").charAt(exp - 1) + (si ? "" : "i");
         return new DecimalFormat("@@").format(bytes / Math.pow(unit, exp)) + " " + pre + "B";
@@ -185,8 +193,9 @@ public class Helper {
 
     static String canonicalAddress(String address) {
         String[] a = address.split("\\@");
-        if (a.length > 0)
+        if (a.length > 0) {
             a[0] = a[0].split("\\+")[0];
+        }
         return TextUtils.join("@", a);
     }
 
@@ -197,8 +206,9 @@ public class Helper {
             try {
                 byte[] buf = new byte[4096];
                 int len;
-                while ((len = in.read(buf)) > 0)
+                while ((len = in.read(buf)) > 0) {
                     out.write(buf, 0, len);
+                }
             } finally {
                 out.close();
             }
@@ -217,24 +227,29 @@ public class Helper {
     }
 
     static String getExtension(String filename) {
-        if (filename == null)
+        if (filename == null) {
             return null;
+        }
         int index = filename.lastIndexOf(".");
-        if (index < 0)
+        if (index < 0) {
             return null;
+        }
         return filename.substring(index + 1);
     }
 
-    static void connect(Context context, IMAPStore istore, EntityAccount account) throws MessagingException {
+    static void connect(Context context, IMAPStore istore, EntityAccount account)
+            throws MessagingException {
         try {
             istore.connect(account.host, account.port, account.user, account.password);
         } catch (AuthenticationFailedException ex) {
             if (account.auth_type == Helper.AUTH_TYPE_GMAIL) {
-                account.password = Helper.refreshToken(context, "com.google", account.user, account.password);
+                account.password =
+                        Helper.refreshToken(context, "com.google", account.user, account.password);
                 DB.getInstance(context).account().setAccountPassword(account.id, account.password);
                 istore.connect(account.host, account.port, account.user, account.password);
-            } else
+            } else {
                 throw ex;
+            }
         }
     }
 
@@ -242,14 +257,16 @@ public class Helper {
         try {
             AccountManager am = AccountManager.get(context);
             Account[] accounts = am.getAccountsByType(type);
-            for (Account account : accounts)
+            for (Account account : accounts) {
                 if (name.equals(account.name)) {
                     Log.i(Helper.TAG, "Refreshing token");
                     am.invalidateAuthToken(type, current);
-                    String refreshed = am.blockingGetAuthToken(account, getAuthTokenType(type), true);
+                    String refreshed =
+                            am.blockingGetAuthToken(account, getAuthTokenType(type), true);
                     Log.i(Helper.TAG, "Refreshed token");
                     return refreshed;
                 }
+            }
         } catch (Throwable ex) {
             Log.w(TAG, ex + "\n" + Log.getStackTraceString(ex));
         }
@@ -257,8 +274,9 @@ public class Helper {
     }
 
     static String getAuthTokenType(String type) {
-        if ("com.google".equals(type))
+        if ("com.google".equals(type)) {
             return "oauth2:https://mail.google.com/";
+        }
         return null;
     }
 
@@ -269,8 +287,9 @@ public class Helper {
     static String sha256(byte[] data) throws NoSuchAlgorithmException {
         byte[] bytes = MessageDigest.getInstance("SHA-256").digest(data);
         StringBuilder sb = new StringBuilder();
-        for (byte b : bytes)
+        for (byte b : bytes) {
             sb.append(String.format("%02x", b));
+        }
         return sb.toString();
     }
 
@@ -283,8 +302,9 @@ public class Helper {
             MessageDigest digest = MessageDigest.getInstance("SHA1");
             byte[] bytes = digest.digest(cert);
             StringBuilder sb = new StringBuilder();
-            for (byte b : bytes)
+            for (byte b : bytes) {
                 sb.append(Integer.toString(b & 0xff, 16).toUpperCase());
+            }
             return sb.toString();
         } catch (Throwable ex) {
             Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
@@ -300,15 +320,17 @@ public class Helper {
 
     static long[] toLongArray(List<Long> list) {
         long[] result = new long[list.size()];
-        for (int i = 0; i < list.size(); i++)
+        for (int i = 0; i < list.size(); i++) {
             result[i] = list.get(i);
+        }
         return result;
     }
 
     static List<Long> fromLongArray(long[] array) {
         List<Long> result = new ArrayList<>();
-        for (int i = 0; i < array.length; i++)
+        for (int i = 0; i < array.length; i++) {
             result.add(array[i]);
+        }
         return result;
     }
 }

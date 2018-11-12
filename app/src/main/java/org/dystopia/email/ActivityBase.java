@@ -25,16 +25,17 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
-
+import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-abstract class ActivityBase extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
+abstract class ActivityBase extends AppCompatActivity
+        implements SharedPreferences.OnSharedPreferenceChangeListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.i(Helper.TAG, "Create " + this.getClass().getName() + " version=" + BuildConfig.VERSION_NAME);
+        Log.i(
+                Helper.TAG,
+                "Create " + this.getClass().getName() + " version=" + BuildConfig.VERSION_NAME);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         String theme = prefs.getString("theme", "light");
         setTheme("light".equals(theme) ? R.style.AppThemeLight : R.style.AppThemeDark);
@@ -63,7 +64,8 @@ abstract class ActivityBase extends AppCompatActivity implements SharedPreferenc
     @Override
     protected void onDestroy() {
         Log.i(Helper.TAG, "Destroy " + this.getClass().getName());
-        PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
+        PreferenceManager.getDefaultSharedPreferences(this)
+                .unregisterOnSharedPreferenceChangeListener(this);
         super.onDestroy();
     }
 
@@ -73,8 +75,10 @@ abstract class ActivityBase extends AppCompatActivity implements SharedPreferenc
         if ("theme".equals(key)) {
             finish();
             startActivity(getIntent());
-        } else if (!this.getClass().equals(ActivitySetup.class) && ("compact".equals(key) || "debug".equals(key)))
+        } else if (!this.getClass().equals(ActivitySetup.class)
+                && ("compact".equals(key) || "debug".equals(key))) {
             finish();
+        }
     }
 
     private List<IBackPressedListener> backPressedListeners = new ArrayList<>();
@@ -85,9 +89,11 @@ abstract class ActivityBase extends AppCompatActivity implements SharedPreferenc
 
     @Override
     public void onBackPressed() {
-        for (IBackPressedListener listener : backPressedListeners)
-            if (listener.onBackPressed())
+        for (IBackPressedListener listener : backPressedListeners) {
+            if (listener.onBackPressed()) {
                 return;
+            }
+        }
         super.onBackPressed();
     }
 

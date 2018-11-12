@@ -29,12 +29,18 @@ public class TupleNotification extends EntityMessage {
     public boolean equals(Object obj) {
         if (obj instanceof TupleMessageEx) {
             TupleMessageEx other = (TupleMessageEx) obj;
-            return (super.equals(obj) &&
-                    (this.accountName == null ? other.accountName == null : this.accountName.equals(other.accountName)) &&
-                    (this.accountColor == null ? other.accountColor == null : this.accountColor.equals(other.accountColor)) &&
-                    this.folderName.equals(other.folderName) &&
-                    (this.folderDisplay == null ? other.folderDisplay == null : this.folderDisplay.equals(other.folderDisplay)) &&
-                    this.folderType.equals(other.folderType));
+            return (super.equals(obj)
+                    && (this.accountName == null
+                            ? other.accountName == null
+                            : this.accountName.equals(other.accountName))
+                    && (this.accountColor == null
+                            ? other.accountColor == null
+                            : this.accountColor.equals(other.accountColor))
+                    && this.folderName.equals(other.folderName)
+                    && (this.folderDisplay == null
+                            ? other.folderDisplay == null
+                            : this.folderDisplay.equals(other.folderDisplay))
+                    && this.folderType.equals(other.folderType));
         }
         return super.equals(obj);
     }

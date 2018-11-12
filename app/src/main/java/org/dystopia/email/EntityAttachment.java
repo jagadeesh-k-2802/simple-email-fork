@@ -19,61 +19,61 @@ package org.dystopia.email;
     Copyright 2018, Marcel Bokhorst (M66B)
 */
 
+import static androidx.room.ForeignKey.CASCADE;
+
 import android.content.Context;
 import android.util.Log;
-
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-
-import javax.mail.BodyPart;
-import javax.mail.MessagingException;
-
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
-
-import static androidx.room.ForeignKey.CASCADE;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import javax.mail.BodyPart;
+import javax.mail.MessagingException;
 
 @Entity(
         tableName = EntityAttachment.TABLE_NAME,
         foreignKeys = {
-                @ForeignKey(childColumns = "message", entity = EntityMessage.class, parentColumns = "id", onDelete = CASCADE)
+            @ForeignKey(
+                    childColumns = "message",
+                    entity = EntityMessage.class,
+                    parentColumns = "id",
+                    onDelete = CASCADE)
         },
         indices = {
-                @Index(value = {"message"}),
-                @Index(value = {"message", "sequence"}, unique = true),
-                @Index(value = {"message", "cid"}, unique = true)
-        }
-)
+            @Index(value = {"message"}),
+            @Index(
+                    value = {"message", "sequence"},
+                    unique = true),
+            @Index(
+                    value = {"message", "cid"},
+                    unique = true)
+        })
 public class EntityAttachment {
     static final String TABLE_NAME = "attachment";
     static final int ATTACHMENT_BUFFER_SIZE = 8192; // bytes
 
     @PrimaryKey(autoGenerate = true)
     public Long id;
-    @NonNull
-    public Long message;
-    @NonNull
-    public Integer sequence;
+
+    @NonNull public Long message;
+    @NonNull public Integer sequence;
     public String name;
-    @NonNull
-    public String type;
+    @NonNull public String type;
     public String cid; // Content-ID
     public Integer size;
 
     public Integer progress;
-    @NonNull
-    public Boolean available = false;
+    @NonNull public Boolean available = false;
 
-    @Ignore
-    BodyPart part;
+    @Ignore BodyPart part;
 
     static File getFile(Context context, Long id) {
         File dir = new File(context.getFilesDir(), "attachments");
@@ -102,8 +102,9 @@ public class EntityAttachment {
                 os.write(buffer, 0, len);
 
                 // Update progress
-                if (this.size != null)
+                if (this.size != null) {
                     db.attachment().setProgress(this.id, size * 100 / this.size);
+                }
             }
 
             // Store attachment data
@@ -120,11 +121,13 @@ public class EntityAttachment {
             throw ex;
         } finally {
             try {
-                if (is != null)
+                if (is != null) {
                     is.close();
+                }
             } finally {
-                if (os != null)
+                if (os != null) {
                     os.close();
+                }
             }
         }
     }
@@ -133,15 +136,17 @@ public class EntityAttachment {
     public boolean equals(Object obj) {
         if (obj instanceof EntityAttachment) {
             EntityAttachment other = (EntityAttachment) obj;
-            return (this.message.equals(other.message) &&
-                    this.sequence.equals(other.sequence) &&
-                    (this.name == null ? other.name == null : this.name.equals(other.name)) &&
-                    this.type.equals(other.type) &&
-                    (this.size == null ? other.size == null : this.size.equals(other.size)) &&
-                    (this.progress == null ? other.progress == null : this.progress.equals(other.progress)) &&
-                    this.available.equals(other.available));
-        } else
+            return (this.message.equals(other.message)
+                    && this.sequence.equals(other.sequence)
+                    && (this.name == null ? other.name == null : this.name.equals(other.name))
+                    && this.type.equals(other.type)
+                    && (this.size == null ? other.size == null : this.size.equals(other.size))
+                    && (this.progress == null
+                            ? other.progress == null
+                            : this.progress.equals(other.progress))
+                    && this.available.equals(other.available));
+        } else {
             return false;
+        }
     }
-
 }

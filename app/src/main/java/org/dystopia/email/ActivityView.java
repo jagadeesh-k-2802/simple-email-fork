@@ -47,15 +47,17 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import com.google.android.material.snackbar.Snackbar;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.openintents.openpgp.OpenPgpError;
-import org.openintents.openpgp.util.OpenPgpApi;
-import org.openintents.openpgp.util.OpenPgpServiceConnection;
-
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -73,24 +75,18 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
-
 import javax.mail.Address;
 import javax.mail.Session;
 import javax.mail.internet.MimeMessage;
 import javax.net.ssl.HttpsURLConnection;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.openintents.openpgp.OpenPgpError;
+import org.openintents.openpgp.util.OpenPgpApi;
+import org.openintents.openpgp.util.OpenPgpServiceConnection;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.Lifecycle;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-
-public class ActivityView extends ActivityBase implements FragmentManager.OnBackStackChangedListener {
+public class ActivityView extends ActivityBase
+        implements FragmentManager.OnBackStackChangedListener {
     private View view;
     private DrawerLayout drawerLayout;
     private ListView drawerList;
@@ -119,7 +115,8 @@ public class ActivityView extends ActivityBase implements FragmentManager.OnBack
     static final String ACTION_STORE_ATTACHMENT = BuildConfig.APPLICATION_ID + ".STORE_ATTACHMENT";
     static final String ACTION_DECRYPT = BuildConfig.APPLICATION_ID + ".DECRYPT";
 
-    static final String UPDATE_LATEST_API = "https://framagit.org/api/v4/projects/dystopia-project%2Fsimple-email/repository/tags";
+    static final String UPDATE_LATEST_API =
+            "https://framagit.org/api/v4/projects/dystopia-project%2Fsimple-email/repository/tags";
     static final long UPDATE_INTERVAL = 12 * 3600 * 1000L; // milliseconds
 
     @Override
@@ -135,108 +132,175 @@ public class ActivityView extends ActivityBase implements FragmentManager.OnBack
         drawerLayout = findViewById(R.id.drawer_layout);
         drawerLayout.setScrimColor(Helper.resolveColor(this, R.attr.colorDrawerScrim));
 
-        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.app_name, R.string.app_name) {
-            public void onDrawerClosed(View view) {
-                super.onDrawerClosed(view);
-                getSupportActionBar().setTitle(getString(R.string.app_name));
-            }
+        drawerToggle =
+                new ActionBarDrawerToggle(
+                        this, drawerLayout, R.string.app_name, R.string.app_name) {
+                    public void onDrawerClosed(View view) {
+                        super.onDrawerClosed(view);
+                        getSupportActionBar().setTitle(getString(R.string.app_name));
+                    }
 
-            public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
-                getSupportActionBar().setTitle(getString(R.string.app_name));
-            }
-        };
+                    public void onDrawerOpened(View drawerView) {
+                        super.onDrawerOpened(drawerView);
+                        getSupportActionBar().setTitle(getString(R.string.app_name));
+                    }
+                };
         drawerLayout.addDrawerListener(drawerToggle);
 
         drawerList = findViewById(R.id.drawer_list);
-        drawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                DrawerItem item = (DrawerItem) parent.getAdapter().getItem(position);
-                switch (item.getId()) {
-                    case -1:
-                        onMenuFolders((long) item.getData());
-                        break;
-                    case R.string.menu_setup:
-                        onMenuSetup();
-                        break;
-                    case R.string.menu_answers:
-                        onMenuAnswers();
-                        break;
-                    case R.string.menu_operations:
-                        onMenuOperations();
-                        break;
-                    case R.string.menu_legend:
-                        onMenuLegend();
-                        break;
-                    case R.string.menu_faq:
-                        onMenuFAQ();
-                        break;
-                    case R.string.menu_privacy:
-                        onMenuPrivacy();
-                        break;
-                    case R.string.menu_about:
-                        onMenuAbout();
-                        break;
-                    case R.string.menu_invite:
-                        onMenuInvite();
-                        break;
-                }
-
-                drawerLayout.closeDrawer(drawerList);
-            }
-        });
-
-        getSupportFragmentManager().addOnBackStackChangedListener(this);
-
-        DB.getInstance(this).account().liveAccounts(true).observe(this, new Observer<List<EntityAccount>>() {
-            @Override
-            public void onChanged(@Nullable List<EntityAccount> accounts) {
-                if (accounts == null)
-                    accounts = new ArrayList<>();
-
-                ArrayAdapterDrawer drawerArray = new ArrayAdapterDrawer(ActivityView.this);
-
-                final Collator collator = Collator.getInstance(Locale.getDefault());
-                collator.setStrength(Collator.SECONDARY); // Case insensitive, process accents etc
-
-                Collections.sort(accounts, new Comparator<EntityAccount>() {
+        drawerList.setOnItemClickListener(
+                new AdapterView.OnItemClickListener() {
                     @Override
-                    public int compare(EntityAccount a1, EntityAccount a2) {
-                        return collator.compare(a1.name, a2.name);
+                    public void onItemClick(
+                            AdapterView<?> parent, View view, int position, long id) {
+                        DrawerItem item = (DrawerItem) parent.getAdapter().getItem(position);
+                        switch (item.getId()) {
+                            case -1:
+                                onMenuFolders((long) item.getData());
+                                break;
+                            case R.string.menu_setup:
+                                onMenuSetup();
+                                break;
+                            case R.string.menu_answers:
+                                onMenuAnswers();
+                                break;
+                            case R.string.menu_operations:
+                                onMenuOperations();
+                                break;
+                            case R.string.menu_legend:
+                                onMenuLegend();
+                                break;
+                            case R.string.menu_faq:
+                                onMenuFAQ();
+                                break;
+                            case R.string.menu_privacy:
+                                onMenuPrivacy();
+                                break;
+                            case R.string.menu_about:
+                                onMenuAbout();
+                                break;
+                            case R.string.menu_invite:
+                                onMenuInvite();
+                                break;
+                        }
+
+                        drawerLayout.closeDrawer(drawerList);
                     }
                 });
 
-                for (EntityAccount account : accounts)
-                    drawerArray.add(new DrawerItem(R.layout.item_drawer, -1, R.drawable.baseline_folder_24, account.name, account.id));
+        getSupportFragmentManager().addOnBackStackChangedListener(this);
 
-                drawerArray.add(new DrawerItem(R.layout.item_drawer_separator));
+        DB.getInstance(this)
+                .account()
+                .liveAccounts(true)
+                .observe(
+                        this,
+                        new Observer<List<EntityAccount>>() {
+                            @Override
+                            public void onChanged(@Nullable List<EntityAccount> accounts) {
+                                if (accounts == null) {
+                                    accounts = new ArrayList<>();
+                                }
 
-                drawerArray.add(new DrawerItem(ActivityView.this, R.layout.item_drawer, R.drawable.baseline_settings_applications_24, R.string.menu_setup));
-                drawerArray.add(new DrawerItem(ActivityView.this, R.layout.item_drawer, R.drawable.baseline_reply_24, R.string.menu_answers));
+                                ArrayAdapterDrawer drawerArray =
+                                        new ArrayAdapterDrawer(ActivityView.this);
 
-                drawerArray.add(new DrawerItem(R.layout.item_drawer_separator));
+                                final Collator collator = Collator.getInstance(Locale.getDefault());
+                                collator.setStrength(
+                                        Collator.SECONDARY); // Case insensitive, process accents
+                                // etc
 
-                if (PreferenceManager.getDefaultSharedPreferences(ActivityView.this).getBoolean("debug", false))
-                    drawerArray.add(new DrawerItem(ActivityView.this, R.layout.item_drawer, R.drawable.baseline_list_24, R.string.menu_operations));
+                                Collections.sort(
+                                        accounts,
+                                        new Comparator<EntityAccount>() {
+                                            @Override
+                                            public int compare(EntityAccount a1, EntityAccount a2) {
+                                                return collator.compare(a1.name, a2.name);
+                                            }
+                                        });
 
-                drawerArray.add(new DrawerItem(ActivityView.this, R.layout.item_drawer, R.drawable.baseline_help_24, R.string.menu_legend));
+                                for (EntityAccount account : accounts) {
+                                    drawerArray.add(
+                                            new DrawerItem(
+                                                    R.layout.item_drawer,
+                                                    -1,
+                                                    R.drawable.baseline_folder_24,
+                                                    account.name,
+                                                    account.id));
+                                }
 
-                if (getIntentFAQ().resolveActivity(getPackageManager()) != null)
-                    drawerArray.add(new DrawerItem(ActivityView.this, R.layout.item_drawer, R.drawable.baseline_question_answer_24, R.string.menu_faq));
+                                drawerArray.add(new DrawerItem(R.layout.item_drawer_separator));
 
-                drawerArray.add(new DrawerItem(ActivityView.this, R.layout.item_drawer, R.drawable.baseline_account_box_24, R.string.menu_privacy));
+                                drawerArray.add(
+                                        new DrawerItem(
+                                                ActivityView.this,
+                                                R.layout.item_drawer,
+                                                R.drawable.baseline_settings_applications_24,
+                                                R.string.menu_setup));
+                                drawerArray.add(
+                                        new DrawerItem(
+                                                ActivityView.this,
+                                                R.layout.item_drawer,
+                                                R.drawable.baseline_reply_24,
+                                                R.string.menu_answers));
 
-                drawerArray.add(new DrawerItem(ActivityView.this, R.layout.item_drawer, R.drawable.baseline_info_24, R.string.menu_about));
+                                drawerArray.add(new DrawerItem(R.layout.item_drawer_separator));
 
-                drawerArray.add(new DrawerItem(R.layout.item_drawer_separator));
+                                if (PreferenceManager.getDefaultSharedPreferences(ActivityView.this)
+                                        .getBoolean("debug", false)) {
+                                    drawerArray.add(
+                                            new DrawerItem(
+                                                    ActivityView.this,
+                                                    R.layout.item_drawer,
+                                                    R.drawable.baseline_list_24,
+                                                    R.string.menu_operations));
+                                }
 
-                if (getIntentInvite().resolveActivity(getPackageManager()) != null)
-                    drawerArray.add(new DrawerItem(ActivityView.this, R.layout.item_drawer, R.drawable.baseline_people_24, R.string.menu_invite));
+                                drawerArray.add(
+                                        new DrawerItem(
+                                                ActivityView.this,
+                                                R.layout.item_drawer,
+                                                R.drawable.baseline_help_24,
+                                                R.string.menu_legend));
 
-                drawerList.setAdapter(drawerArray);
-            }
-        });
+                                if (getIntentFAQ().resolveActivity(getPackageManager()) != null) {
+                                    drawerArray.add(
+                                            new DrawerItem(
+                                                    ActivityView.this,
+                                                    R.layout.item_drawer,
+                                                    R.drawable.baseline_question_answer_24,
+                                                    R.string.menu_faq));
+                                }
+
+                                drawerArray.add(
+                                        new DrawerItem(
+                                                ActivityView.this,
+                                                R.layout.item_drawer,
+                                                R.drawable.baseline_account_box_24,
+                                                R.string.menu_privacy));
+
+                                drawerArray.add(
+                                        new DrawerItem(
+                                                ActivityView.this,
+                                                R.layout.item_drawer,
+                                                R.drawable.baseline_info_24,
+                                                R.string.menu_about));
+
+                                drawerArray.add(new DrawerItem(R.layout.item_drawer_separator));
+
+                                if (getIntentInvite().resolveActivity(getPackageManager())
+                                        != null) {
+                                    drawerArray.add(
+                                            new DrawerItem(
+                                                    ActivityView.this,
+                                                    R.layout.item_drawer,
+                                                    R.drawable.baseline_people_24,
+                                                    R.string.menu_invite));
+                                }
+
+                                drawerList.setAdapter(drawerArray);
+                            }
+                        });
 
         if (getSupportFragmentManager().getFragments().size() == 0) {
             Bundle args = new Bundle();
@@ -245,13 +309,15 @@ public class ActivityView extends ActivityBase implements FragmentManager.OnBack
             FragmentMessages fragment = new FragmentMessages();
             fragment.setArguments(args);
 
-            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            FragmentTransaction fragmentTransaction =
+                    getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.content_frame, fragment).addToBackStack("unified");
             fragmentTransaction.commit();
         }
 
-        if (savedInstanceState != null)
+        if (savedInstanceState != null) {
             drawerToggle.setDrawerIndicatorEnabled(savedInstanceState.getBoolean("toggle"));
+        }
 
         checkFirst();
         checkCrash();
@@ -295,8 +361,9 @@ public class ActivityView extends ActivityBase implements FragmentManager.OnBack
         iff.addAction(ACTION_DECRYPT);
         lbm.registerReceiver(receiver, iff);
 
-        if (!pgpService.isBound())
+        if (!pgpService.isBound()) {
             pgpService.bindToService();
+        }
 
         Intent intent = getIntent();
         String action = intent.getAction();
@@ -328,7 +395,8 @@ public class ActivityView extends ActivityBase implements FragmentManager.OnBack
 
                     EntityFolder archive = db.folder().getPrimaryArchive();
                     if (archive == null) {
-                        throw new IllegalArgumentException(getString(R.string.title_no_primary_archive));
+                        throw new IllegalArgumentException(
+                                getString(R.string.title_no_primary_archive));
                     }
 
                     db.message().deleteFoundMessages();
@@ -345,8 +413,11 @@ public class ActivityView extends ActivityBase implements FragmentManager.OnBack
                     FragmentMessages fragment = new FragmentMessages();
                     fragment.setArguments(sargs);
 
-                    FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.content_frame, fragment).addToBackStack("search");
+                    FragmentTransaction fragmentTransaction =
+                            getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction
+                            .replace(R.id.content_frame, fragment)
+                            .addToBackStack("search");
                     fragmentTransaction.commit();
                 }
 
@@ -367,8 +438,9 @@ public class ActivityView extends ActivityBase implements FragmentManager.OnBack
 
     @Override
     protected void onDestroy() {
-        if (pgpService != null)
+        if (pgpService != null) {
             pgpService.unbindFromService();
+        }
 
         super.onDestroy();
     }
@@ -381,33 +453,37 @@ public class ActivityView extends ActivityBase implements FragmentManager.OnBack
 
     @Override
     public void onBackPressed() {
-        if (drawerLayout.isDrawerOpen(drawerList))
+        if (drawerLayout.isDrawerOpen(drawerList)) {
             drawerLayout.closeDrawer(drawerList);
-        else
+        } else {
             super.onBackPressed();
+        }
     }
 
     @Override
     public void onBackStackChanged() {
         int count = getSupportFragmentManager().getBackStackEntryCount();
-        if (count == 0)
+        if (count == 0) {
             finish();
-        else {
-            if (drawerLayout.isDrawerOpen(drawerList))
+        } else {
+            if (drawerLayout.isDrawerOpen(drawerList)) {
                 drawerLayout.closeDrawer(drawerList);
+            }
             drawerToggle.setDrawerIndicatorEnabled(count == 1);
         }
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (drawerToggle.onOptionsItemSelected(item))
+        if (drawerToggle.onOptionsItemSelected(item)) {
             return true;
+        }
 
         switch (item.getItemId()) {
             case android.R.id.home:
-                if (getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.RESUMED))
+                if (getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.RESUMED)) {
                     getSupportFragmentManager().popBackStack();
+                }
                 return true;
             default:
                 return false;
@@ -419,12 +495,14 @@ public class ActivityView extends ActivityBase implements FragmentManager.OnBack
         if (prefs.getBoolean("first", true)) {
             new DialogBuilderLifecycle(this, this)
                     .setMessage(getString(R.string.title_hint_sync))
-                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            prefs.edit().putBoolean("first", false).apply();
-                        }
-                    })
+                    .setPositiveButton(
+                            android.R.string.ok,
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    prefs.edit().putBoolean("first", false).apply();
+                                }
+                            })
                     .show();
         }
     }
@@ -438,14 +516,20 @@ public class ActivityView extends ActivityBase implements FragmentManager.OnBack
                     // Get version info
                     StringBuilder sb = new StringBuilder();
 
-                    sb.append(context.getString(R.string.title_crash_info_remark)).append("\n\n\n\n");
+                    sb.append(context.getString(R.string.title_crash_info_remark))
+                            .append("\n\n\n\n");
 
-                    sb.append(String.format("%s: %s %s/%s\r\n",
-                            context.getString(R.string.app_name),
-                            BuildConfig.APPLICATION_ID,
-                            BuildConfig.VERSION_NAME,
-                            Helper.hasValidFingerprint(context) ? "1" : "3"));
-                    sb.append(String.format("Android: %s (SDK %d)\r\n", Build.VERSION.RELEASE, Build.VERSION.SDK_INT));
+                    sb.append(
+                            String.format(
+                                    "%s: %s %s/%s\r\n",
+                                    context.getString(R.string.app_name),
+                                    BuildConfig.APPLICATION_ID,
+                                    BuildConfig.VERSION_NAME,
+                                    Helper.hasValidFingerprint(context) ? "1" : "3"));
+                    sb.append(
+                            String.format(
+                                    "Android: %s (SDK %d)\r\n",
+                                    Build.VERSION.RELEASE, Build.VERSION.SDK_INT));
                     sb.append("\r\n");
 
                     // Get device info
@@ -463,16 +547,19 @@ public class ActivityView extends ActivityBase implements FragmentManager.OnBack
                     try {
                         String line;
                         in = new BufferedReader(new FileReader(file));
-                        while ((line = in.readLine()) != null)
+                        while ((line = in.readLine()) != null) {
                             sb.append(line).append("\r\n");
+                        }
                     } finally {
-                        if (in != null)
+                        if (in != null) {
                             in.close();
+                        }
                     }
 
                     file.delete();
 
-                    String body = "<pre>" + sb.toString().replaceAll("\\r?\\n", "<br />") + "</pre>";
+                    String body =
+                            "<pre>" + sb.toString().replaceAll("\\r?\\n", "<br />") + "</pre>";
 
                     EntityMessage draft = null;
 
@@ -486,8 +573,12 @@ public class ActivityView extends ActivityBase implements FragmentManager.OnBack
                             draft.account = drafts.account;
                             draft.folder = drafts.id;
                             draft.msgid = EntityMessage.generateMessageId();
-                            draft.to = new Address[]{Helper.myAddress()};
-                            draft.subject = context.getString(R.string.app_name) + " " + BuildConfig.VERSION_NAME + " crash log";
+                            draft.to = new Address[] {Helper.myAddress()};
+                            draft.subject =
+                                    context.getString(R.string.app_name)
+                                            + " "
+                                            + BuildConfig.VERSION_NAME
+                                            + " crash log";
                             draft.content = true;
                             draft.received = new Date().getTime();
                             draft.seen = false;
@@ -518,12 +609,12 @@ public class ActivityView extends ActivityBase implements FragmentManager.OnBack
 
             @Override
             protected void onLoaded(Bundle args, Long id) {
-                if (id != null)
+                if (id != null) {
                     startActivity(
                             new Intent(ActivityView.this, ActivityCompose.class)
                                     .putExtra("action", "edit")
                                     .putExtra("id", id));
-
+                }
             }
         }.load(this, new Bundle());
     }
@@ -536,8 +627,9 @@ public class ActivityView extends ActivityBase implements FragmentManager.OnBack
     private void checkUpdate() {
         final long now = new Date().getTime();
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        if (prefs.getLong("last_update_check", 0) + UPDATE_INTERVAL > now)
+        if (prefs.getLong("last_update_check", 0) + UPDATE_INTERVAL > now) {
             return;
+        }
 
         new SimpleTask<UpdateInfo>() {
             @Override
@@ -547,23 +639,25 @@ public class ActivityView extends ActivityBase implements FragmentManager.OnBack
                 try {
                     URL latest = new URL(UPDATE_LATEST_API);
                     urlConnection = (HttpsURLConnection) latest.openConnection();
-                    BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+                    BufferedReader br =
+                            new BufferedReader(
+                                    new InputStreamReader(urlConnection.getInputStream()));
 
                     String line;
-                    while ((line = br.readLine()) != null)
+                    while ((line = br.readLine()) != null) {
                         json.append(line);
+                    }
 
                     JSONObject jroot = new JSONObject(json.toString());
-                    if (jroot.has("tag_name") &&
-                            jroot.has("html_url") &&
-                            jroot.has("assets")) {
+                    if (jroot.has("tag_name") && jroot.has("html_url") && jroot.has("assets")) {
                         prefs.edit().putLong("last_update_check", now).apply();
 
                         UpdateInfo info = new UpdateInfo();
                         info.tag_name = jroot.getString("tag_name");
                         info.html_url = jroot.getString("html_url");
-                        if (TextUtils.isEmpty(info.html_url))
+                        if (TextUtils.isEmpty(info.html_url)) {
                             return null;
+                        }
 
                         JSONArray jassets = jroot.getJSONArray("assets");
                         for (int i = 0; i < jassets.length(); i++) {
@@ -571,21 +665,24 @@ public class ActivityView extends ActivityBase implements FragmentManager.OnBack
                             if (jasset.has("name")) {
                                 String name = jasset.getString("name");
                                 if (name != null && name.endsWith(".apk")) {
-                                    if (TextUtils.isEmpty(info.tag_name))
+                                    if (TextUtils.isEmpty(info.tag_name)) {
                                         info.tag_name = name;
+                                    }
 
                                     Log.i(Helper.TAG, "Latest version=" + info.tag_name);
-                                    if (BuildConfig.VERSION_NAME.equals(info.tag_name))
+                                    if (BuildConfig.VERSION_NAME.equals(info.tag_name)) {
                                         break;
-                                    else
+                                    } else {
                                         return info;
+                                    }
                                 }
                             }
                         }
                     }
                 } finally {
-                    if (urlConnection != null)
+                    if (urlConnection != null) {
                         urlConnection.disconnect();
+                    }
                 }
 
                 return null;
@@ -593,33 +690,40 @@ public class ActivityView extends ActivityBase implements FragmentManager.OnBack
 
             @Override
             protected void onLoaded(Bundle args, UpdateInfo info) {
-                if (info == null)
+                if (info == null) {
                     return;
+                }
 
                 final Intent update = new Intent(Intent.ACTION_VIEW, Uri.parse(info.html_url));
-                if (update.resolveActivity(getPackageManager()) != null)
+                if (update.resolveActivity(getPackageManager()) != null) {
                     new DialogBuilderLifecycle(ActivityView.this, ActivityView.this)
                             .setMessage(getString(R.string.title_updated, info.tag_name))
-                            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    Helper.view(ActivityView.this, update);
-                                }
-                            })
+                            .setPositiveButton(
+                                    android.R.string.ok,
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            Helper.view(ActivityView.this, update);
+                                        }
+                                    })
                             .show();
+                }
             }
 
             @Override
             protected void onException(Bundle args, Throwable ex) {
-                if (BuildConfig.DEBUG)
+                if (BuildConfig.DEBUG) {
                     Helper.unexpectedError(ActivityView.this, ex);
+                }
             }
         }.load(this, new Bundle());
     }
 
     private Intent getIntentFAQ() {
         Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse("https://framagit.org/dystopia-project/simple-email/blob/8f7296ddc2275471d4190df1dd55dee4025a5114/docs/FAQ.md"));
+        intent.setData(
+                Uri.parse(
+                        "https://framagit.org/dystopia-project/simple-email/blob/8f7296ddc2275471d4190df1dd55dee4025a5114/docs/FAQ.md"));
         return intent;
     }
 
@@ -628,7 +732,8 @@ public class ActivityView extends ActivityBase implements FragmentManager.OnBack
         intent.setPackage("com.google.android.gms");
         intent.putExtra("com.google.android.gms.appinvite.TITLE", getString(R.string.menu_invite));
         intent.putExtra("com.google.android.gms.appinvite.MESSAGE", getString(R.string.title_try));
-        intent.putExtra("com.google.android.gms.appinvite.BUTTON_TEXT", getString(R.string.title_try));
+        intent.putExtra(
+                "com.google.android.gms.appinvite.BUTTON_TEXT", getString(R.string.title_try));
         // com.google.android.gms.appinvite.DEEP_LINK_URL
         return intent;
     }
@@ -653,19 +758,25 @@ public class ActivityView extends ActivityBase implements FragmentManager.OnBack
 
     private void onMenuAnswers() {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.content_frame, new FragmentAnswers()).addToBackStack("answers");
+        fragmentTransaction
+                .replace(R.id.content_frame, new FragmentAnswers())
+                .addToBackStack("answers");
         fragmentTransaction.commit();
     }
 
     private void onMenuOperations() {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.content_frame, new FragmentOperations()).addToBackStack("operations");
+        fragmentTransaction
+                .replace(R.id.content_frame, new FragmentOperations())
+                .addToBackStack("operations");
         fragmentTransaction.commit();
     }
 
     private void onMenuLegend() {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.content_frame, new FragmentLegend()).addToBackStack("legend");
+        fragmentTransaction
+                .replace(R.id.content_frame, new FragmentLegend())
+                .addToBackStack("legend");
         fragmentTransaction.commit();
     }
 
@@ -675,13 +786,17 @@ public class ActivityView extends ActivityBase implements FragmentManager.OnBack
 
     private void onMenuPrivacy() {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.content_frame, new FragmentPrivacy()).addToBackStack("privacy");
+        fragmentTransaction
+                .replace(R.id.content_frame, new FragmentPrivacy())
+                .addToBackStack("privacy");
         fragmentTransaction.commit();
     }
 
     private void onMenuAbout() {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.content_frame, new FragmentAbout()).addToBackStack("about");
+        fragmentTransaction
+                .replace(R.id.content_frame, new FragmentAbout())
+                .addToBackStack("about");
         fragmentTransaction.commit();
     }
 
@@ -737,34 +852,38 @@ public class ActivityView extends ActivityBase implements FragmentManager.OnBack
             ImageView iv = row.findViewById(R.id.ivItem);
             TextView tv = row.findViewById(R.id.tvItem);
 
-            if (iv != null)
+            if (iv != null) {
                 iv.setImageResource(item.icon);
-            if (tv != null)
+            }
+            if (tv != null) {
                 tv.setText(item.title);
+            }
 
             return row;
         }
     }
 
-    BroadcastReceiver receiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (ACTION_VIEW_MESSAGES.equals(intent.getAction()))
-                onViewMessages(intent);
-            else if (ACTION_VIEW_THREAD.equals(intent.getAction()))
-                onViewThread(intent);
-            else if (ACTION_VIEW_FULL.equals(intent.getAction()))
-                onViewFull(intent);
-            else if (ACTION_EDIT_FOLDER.equals(intent.getAction()))
-                onEditFolder(intent);
-            else if (ACTION_EDIT_ANSWER.equals(intent.getAction()))
-                onEditAnswer(intent);
-            else if (ACTION_STORE_ATTACHMENT.equals(intent.getAction()))
-                onStoreAttachment(intent);
-            else if (ACTION_DECRYPT.equals(intent.getAction()))
-                onDecrypt(intent);
-        }
-    };
+    BroadcastReceiver receiver =
+            new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    if (ACTION_VIEW_MESSAGES.equals(intent.getAction())) {
+                        onViewMessages(intent);
+                    } else if (ACTION_VIEW_THREAD.equals(intent.getAction())) {
+                        onViewThread(intent);
+                    } else if (ACTION_VIEW_FULL.equals(intent.getAction())) {
+                        onViewFull(intent);
+                    } else if (ACTION_EDIT_FOLDER.equals(intent.getAction())) {
+                        onEditFolder(intent);
+                    } else if (ACTION_EDIT_ANSWER.equals(intent.getAction())) {
+                        onEditAnswer(intent);
+                    } else if (ACTION_STORE_ATTACHMENT.equals(intent.getAction())) {
+                        onStoreAttachment(intent);
+                    } else if (ACTION_DECRYPT.equals(intent.getAction())) {
+                        onDecrypt(intent);
+                    }
+                }
+            };
 
     private void onViewMessages(Intent intent) {
         Bundle args = new Bundle();
@@ -781,7 +900,8 @@ public class ActivityView extends ActivityBase implements FragmentManager.OnBack
     }
 
     private void onViewThread(Intent intent) {
-        getSupportFragmentManager().popBackStack("thread", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        getSupportFragmentManager()
+                .popBackStack("thread", FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
         Bundle args = new Bundle();
         args.putLong("account", intent.getLongExtra("account", -1));
@@ -828,7 +948,7 @@ public class ActivityView extends ActivityBase implements FragmentManager.OnBack
         create.setType(intent.getStringExtra("type"));
         create.putExtra(Intent.EXTRA_TITLE, intent.getStringExtra("name"));
         if (create.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(create, REQUEST_ATTACHMENT);   
+            startActivityForResult(create, REQUEST_ATTACHMENT);
         } else {
             Snackbar.make(view, R.string.title_no_storage_framework, Snackbar.LENGTH_LONG).show();
         }
@@ -838,19 +958,22 @@ public class ActivityView extends ActivityBase implements FragmentManager.OnBack
         if (pgpService.isBound()) {
             Intent data = new Intent();
             data.setAction(OpenPgpApi.ACTION_DECRYPT_VERIFY);
-            data.putExtra(OpenPgpApi.EXTRA_USER_IDS, new String[]{intent.getStringExtra("to")});
+            data.putExtra(OpenPgpApi.EXTRA_USER_IDS, new String[] {intent.getStringExtra("to")});
             data.putExtra(OpenPgpApi.EXTRA_REQUEST_ASCII_ARMOR, true);
 
             decrypt(data, intent.getLongExtra("id", -1));
         } else {
-            Snackbar snackbar = Snackbar.make(view, R.string.title_no_openpgp, Snackbar.LENGTH_LONG);
+            Snackbar snackbar =
+                    Snackbar.make(view, R.string.title_no_openpgp, Snackbar.LENGTH_LONG);
             if (Helper.getIntentOpenKeychain().resolveActivity(getPackageManager()) != null) {
-                snackbar.setAction(R.string.title_fix, new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            startActivity(Helper.getIntentOpenKeychain());
-                        }
-                    });
+                snackbar.setAction(
+                        R.string.title_fix,
+                        new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                startActivity(Helper.getIntentOpenKeychain());
+                            }
+                        });
             }
             snackbar.show();
         }
@@ -872,21 +995,27 @@ public class ActivityView extends ActivityBase implements FragmentManager.OnBack
 
                 // Find encrypted data
                 List<EntityAttachment> attachments = db.attachment().getAttachments(id);
-                for (EntityAttachment attachment : attachments)
+                for (EntityAttachment attachment : attachments) {
                     if (attachment.available && "encrypted.asc".equals(attachment.name)) {
                         // Serialize encrypted data
-                        FileInputStream encrypted = new FileInputStream(EntityAttachment.getFile(context, attachment.id));
+                        FileInputStream encrypted =
+                                new FileInputStream(
+                                        EntityAttachment.getFile(context, attachment.id));
                         ByteArrayOutputStream decrypted = new ByteArrayOutputStream();
 
                         // Decrypt message
                         OpenPgpApi api = new OpenPgpApi(context, pgpService.getService());
                         Intent result = api.executeApi(data, encrypted, decrypted);
-                        switch (result.getIntExtra(OpenPgpApi.RESULT_CODE, OpenPgpApi.RESULT_CODE_ERROR)) {
+                        switch (result.getIntExtra(
+                                OpenPgpApi.RESULT_CODE, OpenPgpApi.RESULT_CODE_ERROR)) {
                             case OpenPgpApi.RESULT_CODE_SUCCESS:
                                 // Decode message
-                                Properties props = MessageHelper.getSessionProperties(Helper.AUTH_TYPE_PASSWORD, false);
+                                Properties props =
+                                        MessageHelper.getSessionProperties(
+                                                Helper.AUTH_TYPE_PASSWORD, false);
                                 Session isession = Session.getInstance(props, null);
-                                ByteArrayInputStream is = new ByteArrayInputStream(decrypted.toByteArray());
+                                ByteArrayInputStream is =
+                                        new ByteArrayInputStream(decrypted.toByteArray());
                                 MimeMessage imessage = new MimeMessage(isession, is);
                                 MessageHelper helper = new MessageHelper(imessage);
 
@@ -898,9 +1027,11 @@ public class ActivityView extends ActivityBase implements FragmentManager.OnBack
                                     m.write(context, helper.getHtml());
 
                                     // Remove previously decrypted attachments
-                                    for (EntityAttachment a : attachments)
-                                        if (!"encrypted.asc".equals(a.name))
+                                    for (EntityAttachment a : attachments) {
+                                        if (!"encrypted.asc".equals(a.name)) {
                                             db.attachment().deleteAttachment(a.id);
+                                        }
+                                    }
 
                                     // Add decrypted attachments
                                     int sequence = db.attachment().getAttachmentSequence(id);
@@ -924,43 +1055,58 @@ public class ActivityView extends ActivityBase implements FragmentManager.OnBack
                                 return result.getParcelableExtra(OpenPgpApi.RESULT_INTENT);
 
                             case OpenPgpApi.RESULT_CODE_ERROR:
-                                OpenPgpError error = result.getParcelableExtra(OpenPgpApi.RESULT_ERROR);
+                                OpenPgpError error =
+                                        result.getParcelableExtra(OpenPgpApi.RESULT_ERROR);
                                 throw new IllegalArgumentException(error.getMessage());
                         }
 
                         break;
                     }
+                }
 
                 return null;
             }
 
             @Override
             protected void onLoaded(Bundle args, PendingIntent pi) {
-                if (pi != null)
+                if (pi != null) {
                     try {
                         startIntentSenderForResult(
                                 pi.getIntentSender(),
                                 ActivityView.REQUEST_DECRYPT,
-                                null, 0, 0, 0, null);
+                                null,
+                                0,
+                                0,
+                                0,
+                                null);
                     } catch (IntentSender.SendIntentException ex) {
                         Helper.unexpectedError(ActivityView.this, ex);
                     }
+                }
             }
 
             @Override
             protected void onException(Bundle args, Throwable ex) {
-                if (ex instanceof IllegalArgumentException)
+                if (ex instanceof IllegalArgumentException) {
                     Snackbar.make(view, ex.getMessage(), Snackbar.LENGTH_LONG).show();
-                else
+                } else {
                     Helper.unexpectedError(ActivityView.this, ex);
+                }
             }
         }.load(ActivityView.this, args);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.i(Helper.TAG, "View onActivityResult request=" + requestCode + " result=" + resultCode + " data=" + data);
-        if (resultCode == Activity.RESULT_OK)
+        Log.i(
+                Helper.TAG,
+                "View onActivityResult request="
+                        + requestCode
+                        + " result="
+                        + resultCode
+                        + " data="
+                        + data);
+        if (resultCode == Activity.RESULT_OK) {
             if (requestCode == REQUEST_ATTACHMENT) {
                 if (data != null) {
                     Bundle args = new Bundle();
@@ -990,20 +1136,23 @@ public class ActivityView extends ActivityBase implements FragmentManager.OnBack
                                 }
                             } finally {
                                 try {
-                                    if (pfd != null)
+                                    if (pfd != null) {
                                         pfd.close();
+                                    }
                                 } catch (Throwable ex) {
                                     Log.w(Helper.TAG, ex + "\n" + Log.getStackTraceString(ex));
                                 }
                                 try {
-                                    if (fos != null)
+                                    if (fos != null) {
                                         fos.close();
+                                    }
                                 } catch (Throwable ex) {
                                     Log.w(Helper.TAG, ex + "\n" + Log.getStackTraceString(ex));
                                 }
                                 try {
-                                    if (fis != null)
+                                    if (fis != null) {
                                         fis.close();
+                                    }
                                 } catch (Throwable ex) {
                                     Log.w(Helper.TAG, ex + "\n" + Log.getStackTraceString(ex));
                                 }
@@ -1014,7 +1163,11 @@ public class ActivityView extends ActivityBase implements FragmentManager.OnBack
 
                         @Override
                         protected void onLoaded(Bundle args, Void data) {
-                            Toast.makeText(ActivityView.this, R.string.title_attachment_saved, Toast.LENGTH_LONG).show();
+                            Toast.makeText(
+                                            ActivityView.this,
+                                            R.string.title_attachment_saved,
+                                            Toast.LENGTH_LONG)
+                                    .show();
                         }
 
                         @Override
@@ -1025,8 +1178,10 @@ public class ActivityView extends ActivityBase implements FragmentManager.OnBack
                     }.load(this, args);
                 }
             } else if (requestCode == REQUEST_DECRYPT) {
-                if (data != null)
+                if (data != null) {
                     decrypt(data, message);
+                }
             }
+        }
     }
 }

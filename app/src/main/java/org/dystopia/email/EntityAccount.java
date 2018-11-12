@@ -19,48 +19,35 @@ package org.dystopia.email;
     Copyright 2018, Marcel Bokhorst (M66B)
 */
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 @Entity(
         tableName = EntityAccount.TABLE_NAME,
-        indices = {
-        }
-)
+        indices = {})
 public class EntityAccount {
     static final String TABLE_NAME = "account";
 
     @PrimaryKey(autoGenerate = true)
     public Long id;
+
     public String name;
     public String signature;
-    @NonNull
-    public String host; // IMAP
-    @NonNull
-    public Boolean starttls;
-    @NonNull
-    public Boolean insecure;
-    @NonNull
-    public Integer port;
-    @NonNull
-    public String user;
-    @NonNull
-    public String password;
-    @NonNull
-    public Integer auth_type;
-    @NonNull
-    public Boolean synchronize;
-    @NonNull
-    public Boolean primary;
+    @NonNull public String host; // IMAP
+    @NonNull public Boolean starttls;
+    @NonNull public Boolean insecure;
+    @NonNull public Integer port;
+    @NonNull public String user;
+    @NonNull public String password;
+    @NonNull public Integer auth_type;
+    @NonNull public Boolean synchronize;
+    @NonNull public Boolean primary;
     public Integer color;
-    @NonNull
-    public Boolean store_sent; // obsolete
-    @NonNull
-    public Integer poll_interval; // keep-alive interval
+    @NonNull public Boolean store_sent; // obsolete
+    @NonNull public Integer poll_interval; // keep-alive interval
     public Long seen_until; // obsolete
     public String state;
     public String error;
@@ -69,21 +56,24 @@ public class EntityAccount {
     public boolean equals(Object obj) {
         if (obj instanceof EntityAccount) {
             EntityAccount other = (EntityAccount) obj;
-            return ((this.name == null ? other.name == null : this.name.equals(other.name)) &&
-                    (this.signature == null ? other.signature == null : this.signature.equals(other.signature)) &&
-                    this.host.equals(other.host) &&
-                    this.port.equals(other.port) &&
-                    this.user.equals(other.user) &&
-                    this.password.equals(other.password) &&
-                    this.auth_type.equals(other.auth_type) &&
-                    this.synchronize.equals(other.synchronize) &&
-                    this.primary.equals(other.primary) &&
-                    (this.color == null ? other.color == null : this.color.equals(other.color)) &&
-                    this.poll_interval.equals(other.poll_interval) &&
-                    (this.state == null ? other.state == null : this.state.equals(other.state)) &&
-                    (this.error == null ? other.error == null : this.error.equals(other.error)));
-        } else
+            return ((this.name == null ? other.name == null : this.name.equals(other.name))
+                    && (this.signature == null
+                            ? other.signature == null
+                            : this.signature.equals(other.signature))
+                    && this.host.equals(other.host)
+                    && this.port.equals(other.port)
+                    && this.user.equals(other.user)
+                    && this.password.equals(other.password)
+                    && this.auth_type.equals(other.auth_type)
+                    && this.synchronize.equals(other.synchronize)
+                    && this.primary.equals(other.primary)
+                    && (this.color == null ? other.color == null : this.color.equals(other.color))
+                    && this.poll_interval.equals(other.poll_interval)
+                    && (this.state == null ? other.state == null : this.state.equals(other.state))
+                    && (this.error == null ? other.error == null : this.error.equals(other.error)));
+        } else {
             return false;
+        }
     }
 
     public JSONObject toJSON() throws JSONException {
@@ -99,18 +89,21 @@ public class EntityAccount {
         json.put("auth_type", auth_type);
         json.put("synchronize", false);
         json.put("primary", primary);
-        if (color != null)
+        if (color != null) {
             json.put("color", color);
+        }
         json.put("poll_interval", poll_interval);
         return json;
     }
 
     public static EntityAccount fromJSON(JSONObject json) throws JSONException {
         EntityAccount account = new EntityAccount();
-        if (json.has("name"))
+        if (json.has("name")) {
             account.name = json.getString("name");
-        if (json.has("signature"))
+        }
+        if (json.has("signature")) {
             account.signature = json.getString("signature");
+        }
         account.host = json.getString("host");
         account.starttls = (json.has("starttls") && json.getBoolean("starttls"));
         account.insecure = (json.has("insecure") && json.getBoolean("insecure"));
@@ -120,8 +113,9 @@ public class EntityAccount {
         account.auth_type = json.getInt("auth_type");
         account.synchronize = json.getBoolean("synchronize");
         account.primary = json.getBoolean("primary");
-        if (json.has("color"))
+        if (json.has("color")) {
             account.color = json.getInt("color");
+        }
         account.poll_interval = json.getInt("poll_interval");
         return account;
     }

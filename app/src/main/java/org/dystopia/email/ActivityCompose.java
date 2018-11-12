@@ -24,14 +24,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.MenuItem;
-
-import java.util.ArrayList;
-
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Lifecycle;
+import java.util.ArrayList;
 
-public class ActivityCompose extends ActivityBase implements FragmentManager.OnBackStackChangedListener {
+public class ActivityCompose extends ActivityBase
+        implements FragmentManager.OnBackStackChangedListener {
     static final int REQUEST_CONTACT_TO = 1;
     static final int REQUEST_CONTACT_CC = 2;
     static final int REQUEST_CONTACT_BCC = 3;
@@ -52,10 +51,10 @@ public class ActivityCompose extends ActivityBase implements FragmentManager.OnB
             Bundle args;
             Intent intent = getIntent();
             String action = intent.getAction();
-            if (Intent.ACTION_VIEW.equals(action) ||
-                    Intent.ACTION_SENDTO.equals(action) ||
-                    Intent.ACTION_SEND.equals(action) ||
-                    Intent.ACTION_SEND_MULTIPLE.equals(action)) {
+            if (Intent.ACTION_VIEW.equals(action)
+                    || Intent.ACTION_SENDTO.equals(action)
+                    || Intent.ACTION_SEND.equals(action)
+                    || Intent.ACTION_SEND_MULTIPLE.equals(action)) {
                 args = new Bundle();
                 args.putString("action", "new");
                 args.putLong("account", -1);
@@ -63,45 +62,54 @@ public class ActivityCompose extends ActivityBase implements FragmentManager.OnB
                 Uri uri = intent.getData();
                 if (uri != null && "mailto".equals(uri.getScheme())) {
                     String to = uri.getSchemeSpecificPart();
-                    if (to != null)
+                    if (to != null) {
                         args.putString("to", to);
+                    }
                 }
 
                 if (intent.hasExtra(Intent.EXTRA_EMAIL)) {
                     String[] to = intent.getStringArrayExtra(Intent.EXTRA_EMAIL);
-                    if (to != null)
+                    if (to != null) {
                         args.putString("to", TextUtils.join(", ", to));
+                    }
                 }
 
                 if (intent.hasExtra(Intent.EXTRA_CC)) {
                     String[] cc = intent.getStringArrayExtra(Intent.EXTRA_CC);
-                    if (cc != null)
+                    if (cc != null) {
                         args.putString("cc", TextUtils.join(", ", cc));
+                    }
                 }
 
                 if (intent.hasExtra(Intent.EXTRA_BCC)) {
                     String[] bcc = intent.getStringArrayExtra(Intent.EXTRA_BCC);
-                    if (bcc != null)
+                    if (bcc != null) {
                         args.putString("bcc", TextUtils.join(", ", bcc));
+                    }
                 }
 
                 if (intent.hasExtra(Intent.EXTRA_SUBJECT)) {
                     String subject = intent.getStringExtra(Intent.EXTRA_SUBJECT);
-                    if (subject != null)
+                    if (subject != null) {
                         args.putString("subject", subject);
+                    }
                 }
 
                 if (intent.hasExtra(Intent.EXTRA_TEXT)) {
-                    String body = intent.getStringExtra(Intent.EXTRA_TEXT); // Intent.EXTRA_HTML_TEXT
-                    if (body != null)
+                    String body =
+                            intent.getStringExtra(Intent.EXTRA_TEXT); // Intent.EXTRA_HTML_TEXT
+                    if (body != null) {
                         args.putString("body", body);
+                    }
                 }
 
-                if (intent.hasExtra(Intent.EXTRA_STREAM))
+                if (intent.hasExtra(Intent.EXTRA_STREAM)) {
                     if (Intent.ACTION_SEND_MULTIPLE.equals(action)) {
-                        ArrayList<Uri> uris = intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
-                        if (uris != null)
+                        ArrayList<Uri> uris =
+                                intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
+                        if (uris != null) {
                             args.putParcelableArrayList("attachments", uris);
+                        }
                     } else {
                         Uri stream = intent.getParcelableExtra(Intent.EXTRA_STREAM);
                         if (stream != null) {
@@ -110,13 +118,16 @@ public class ActivityCompose extends ActivityBase implements FragmentManager.OnB
                             args.putParcelableArrayList("attachments", uris);
                         }
                     }
-            } else
+                }
+            } else {
                 args = intent.getExtras();
+            }
 
             FragmentCompose fragment = new FragmentCompose();
             fragment.setArguments(args);
 
-            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            FragmentTransaction fragmentTransaction =
+                    getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.content_frame, fragment).addToBackStack("compose");
             fragmentTransaction.commit();
         }
@@ -124,16 +135,18 @@ public class ActivityCompose extends ActivityBase implements FragmentManager.OnB
 
     @Override
     public void onBackStackChanged() {
-        if (getSupportFragmentManager().getBackStackEntryCount() == 0)
+        if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
             finish();
+        }
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                if (getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.RESUMED))
+                if (getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.RESUMED)) {
                     getSupportFragmentManager().popBackStack();
+                }
                 return true;
             default:
                 return false;

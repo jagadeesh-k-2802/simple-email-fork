@@ -19,6 +19,8 @@ package org.dystopia.email;
     Copyright 2018, Marcel Bokhorst (M66B)
 */
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -28,35 +30,39 @@ import org.jsoup.safety.Whitelist;
 import org.jsoup.select.NodeTraversor;
 import org.jsoup.select.NodeVisitor;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 public class HtmlHelper {
     private static Pattern pattern = Pattern.compile("([http|https]+://[\\w\\S(\\.|:|/)]+)");
 
     public static String sanitize(String html) {
-        Document document = Jsoup.parse(Jsoup.clean(html, Whitelist.relaxed().addProtocols("img", "src", "cid")));
-        for (Element tr : document.select("tr"))
+        Document document =
+                Jsoup.parse(
+                        Jsoup.clean(html, Whitelist.relaxed().addProtocols("img", "src", "cid")));
+        for (Element tr : document.select("tr")) {
             tr.after("<br>");
-        NodeTraversor.traverse(new NodeVisitor() {
-            @Override
-            public void head(Node node, int depth) {
-                if (node instanceof TextNode) {
-                    String text = ((TextNode) node).text();
-                    Matcher matcher = pattern.matcher(text);
-                    while (matcher.find()) {
-                        String ref = matcher.group();
-                        text = text.replace(ref, String.format("<a href=\"%s\">%s</a>", ref, ref));
+        }
+        NodeTraversor.traverse(
+                new NodeVisitor() {
+                    @Override
+                    public void head(Node node, int depth) {
+                        if (node instanceof TextNode) {
+                            String text = ((TextNode) node).text();
+                            Matcher matcher = pattern.matcher(text);
+                            while (matcher.find()) {
+                                String ref = matcher.group();
+                                text =
+                                        text.replace(
+                                                ref,
+                                                String.format("<a href=\"%s\">%s</a>", ref, ref));
+                            }
+                            node.before(text);
+                            ((TextNode) node).text("");
+                        }
                     }
-                    node.before(text);
-                    ((TextNode) node).text("");
-                }
-            }
 
-            @Override
-            public void tail(Node node, int depth) {
-            }
-        }, document.body());
+                    @Override
+                    public void tail(Node node, int depth) {}
+                },
+                document.body());
         return document.body().html();
     }
 }

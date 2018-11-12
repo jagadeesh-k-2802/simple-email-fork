@@ -26,19 +26,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
+import androidx.annotation.NonNull;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ListUpdateCallback;
+import androidx.recyclerview.widget.RecyclerView;
 import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
-
-import androidx.annotation.NonNull;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-import androidx.recyclerview.widget.DiffUtil;
-import androidx.recyclerview.widget.ListUpdateCallback;
-import androidx.recyclerview.widget.RecyclerView;
 
 public class AdapterAnswer extends RecyclerView.Adapter<AdapterAnswer.ViewHolder> {
     private Context context;
@@ -72,15 +70,15 @@ public class AdapterAnswer extends RecyclerView.Adapter<AdapterAnswer.ViewHolder
         @Override
         public void onClick(View v) {
             int pos = getAdapterPosition();
-            if (pos == RecyclerView.NO_POSITION)
+            if (pos == RecyclerView.NO_POSITION) {
                 return;
+            }
 
             EntityAnswer answer = filtered.get(pos);
 
             LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(context);
             lbm.sendBroadcast(
-                    new Intent(ActivityView.ACTION_EDIT_ANSWER)
-                            .putExtra("id", answer.id));
+                    new Intent(ActivityView.ACTION_EDIT_ANSWER).putExtra("id", answer.id));
         }
     }
 
@@ -95,12 +93,14 @@ public class AdapterAnswer extends RecyclerView.Adapter<AdapterAnswer.ViewHolder
         final Collator collator = Collator.getInstance(Locale.getDefault());
         collator.setStrength(Collator.SECONDARY); // Case insensitive, process accents etc
 
-        Collections.sort(answers, new Comparator<EntityAnswer>() {
-            @Override
-            public int compare(EntityAnswer a1, EntityAnswer a2) {
-                return collator.compare(a1.name, a2.name);
-            }
-        });
+        Collections.sort(
+                answers,
+                new Comparator<EntityAnswer>() {
+                    @Override
+                    public int compare(EntityAnswer a1, EntityAnswer a2) {
+                        return collator.compare(a1.name, a2.name);
+                    }
+                });
 
         all = answers;
 
@@ -109,27 +109,28 @@ public class AdapterAnswer extends RecyclerView.Adapter<AdapterAnswer.ViewHolder
         filtered.clear();
         filtered.addAll(all);
 
-        diff.dispatchUpdatesTo(new ListUpdateCallback() {
-            @Override
-            public void onInserted(int position, int count) {
-                Log.i(Helper.TAG, "Inserted @" + position + " #" + count);
-            }
+        diff.dispatchUpdatesTo(
+                new ListUpdateCallback() {
+                    @Override
+                    public void onInserted(int position, int count) {
+                        Log.i(Helper.TAG, "Inserted @" + position + " #" + count);
+                    }
 
-            @Override
-            public void onRemoved(int position, int count) {
-                Log.i(Helper.TAG, "Removed @" + position + " #" + count);
-            }
+                    @Override
+                    public void onRemoved(int position, int count) {
+                        Log.i(Helper.TAG, "Removed @" + position + " #" + count);
+                    }
 
-            @Override
-            public void onMoved(int fromPosition, int toPosition) {
-                Log.i(Helper.TAG, "Moved " + fromPosition + ">" + toPosition);
-            }
+                    @Override
+                    public void onMoved(int fromPosition, int toPosition) {
+                        Log.i(Helper.TAG, "Moved " + fromPosition + ">" + toPosition);
+                    }
 
-            @Override
-            public void onChanged(int position, int count, Object payload) {
-                Log.i(Helper.TAG, "Changed @" + position + " #" + count);
-            }
-        });
+                    @Override
+                    public void onChanged(int position, int count, Object payload) {
+                        Log.i(Helper.TAG, "Changed @" + position + " #" + count);
+                    }
+                });
         diff.dispatchUpdatesTo(this);
     }
 
@@ -180,7 +181,8 @@ public class AdapterAnswer extends RecyclerView.Adapter<AdapterAnswer.ViewHolder
     @Override
     @NonNull
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_answer, parent, false));
+        return new ViewHolder(
+                LayoutInflater.from(context).inflate(R.layout.item_answer, parent, false));
     }
 
     @Override

@@ -28,19 +28,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
+import androidx.annotation.NonNull;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ListUpdateCallback;
+import androidx.recyclerview.widget.RecyclerView;
 import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
-
-import androidx.annotation.NonNull;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-import androidx.recyclerview.widget.DiffUtil;
-import androidx.recyclerview.widget.ListUpdateCallback;
-import androidx.recyclerview.widget.RecyclerView;
 
 public class AdapterAccount extends RecyclerView.Adapter<AdapterAccount.ViewHolder> {
     private Context context;
@@ -85,18 +83,22 @@ public class AdapterAccount extends RecyclerView.Adapter<AdapterAccount.ViewHold
             vwColor.setBackgroundColor(account.color == null ? Color.TRANSPARENT : account.color);
             ivPrimary.setVisibility(account.primary ? View.VISIBLE : View.INVISIBLE);
             tvName.setText(account.name);
-            ivSync.setImageResource(account.synchronize ? R.drawable.baseline_sync_24 : R.drawable.baseline_sync_disabled_24);
+            ivSync.setImageResource(
+                    account.synchronize
+                            ? R.drawable.baseline_sync_24
+                            : R.drawable.baseline_sync_disabled_24);
             tvUser.setText(account.user);
             tvHost.setText(String.format("%s:%d", account.host, account.port));
 
-            if ("connected".equals(account.state))
+            if ("connected".equals(account.state)) {
                 ivState.setImageResource(R.drawable.baseline_cloud_24);
-            else if ("connecting".equals(account.state))
+            } else if ("connecting".equals(account.state)) {
                 ivState.setImageResource(R.drawable.baseline_cloud_queue_24);
-            else if ("closing".equals(account.state))
+            } else if ("closing".equals(account.state)) {
                 ivState.setImageResource(R.drawable.baseline_close_24);
-            else
+            } else {
                 ivState.setImageResource(R.drawable.baseline_cloud_off_24);
+            }
             ivState.setVisibility(account.synchronize ? View.VISIBLE : View.INVISIBLE);
 
             tvError.setText(account.error);
@@ -106,14 +108,14 @@ public class AdapterAccount extends RecyclerView.Adapter<AdapterAccount.ViewHold
         @Override
         public void onClick(View view) {
             int pos = getAdapterPosition();
-            if (pos == RecyclerView.NO_POSITION)
+            if (pos == RecyclerView.NO_POSITION) {
                 return;
+            }
             EntityAccount account = filtered.get(pos);
 
             LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(context);
             lbm.sendBroadcast(
-                    new Intent(ActivitySetup.ACTION_EDIT_ACCOUNT)
-                            .putExtra("id", account.id));
+                    new Intent(ActivitySetup.ACTION_EDIT_ACCOUNT).putExtra("id", account.id));
         }
     }
 
@@ -128,12 +130,14 @@ public class AdapterAccount extends RecyclerView.Adapter<AdapterAccount.ViewHold
         final Collator collator = Collator.getInstance(Locale.getDefault());
         collator.setStrength(Collator.SECONDARY); // Case insensitive, process accents etc
 
-        Collections.sort(accounts, new Comparator<EntityAccount>() {
-            @Override
-            public int compare(EntityAccount a1, EntityAccount a2) {
-                return collator.compare(a1.host, a2.host);
-            }
-        });
+        Collections.sort(
+                accounts,
+                new Comparator<EntityAccount>() {
+                    @Override
+                    public int compare(EntityAccount a1, EntityAccount a2) {
+                        return collator.compare(a1.host, a2.host);
+                    }
+                });
 
         all = accounts;
 
@@ -142,27 +146,28 @@ public class AdapterAccount extends RecyclerView.Adapter<AdapterAccount.ViewHold
         filtered.clear();
         filtered.addAll(all);
 
-        diff.dispatchUpdatesTo(new ListUpdateCallback() {
-            @Override
-            public void onInserted(int position, int count) {
-                Log.i(Helper.TAG, "Inserted @" + position + " #" + count);
-            }
+        diff.dispatchUpdatesTo(
+                new ListUpdateCallback() {
+                    @Override
+                    public void onInserted(int position, int count) {
+                        Log.i(Helper.TAG, "Inserted @" + position + " #" + count);
+                    }
 
-            @Override
-            public void onRemoved(int position, int count) {
-                Log.i(Helper.TAG, "Removed @" + position + " #" + count);
-            }
+                    @Override
+                    public void onRemoved(int position, int count) {
+                        Log.i(Helper.TAG, "Removed @" + position + " #" + count);
+                    }
 
-            @Override
-            public void onMoved(int fromPosition, int toPosition) {
-                Log.i(Helper.TAG, "Moved " + fromPosition + ">" + toPosition);
-            }
+                    @Override
+                    public void onMoved(int fromPosition, int toPosition) {
+                        Log.i(Helper.TAG, "Moved " + fromPosition + ">" + toPosition);
+                    }
 
-            @Override
-            public void onChanged(int position, int count, Object payload) {
-                Log.i(Helper.TAG, "Changed @" + position + " #" + count);
-            }
-        });
+                    @Override
+                    public void onChanged(int position, int count, Object payload) {
+                        Log.i(Helper.TAG, "Changed @" + position + " #" + count);
+                    }
+                });
         diff.dispatchUpdatesTo(this);
     }
 
@@ -213,7 +218,8 @@ public class AdapterAccount extends RecyclerView.Adapter<AdapterAccount.ViewHold
     @Override
     @NonNull
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_account, parent, false));
+        return new ViewHolder(
+                LayoutInflater.from(context).inflate(R.layout.item_account, parent, false));
     }
 
     @Override

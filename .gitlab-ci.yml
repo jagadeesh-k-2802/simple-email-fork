@@ -43,6 +43,7 @@ lintAll:
     - master
   script:
     - ./gradlew --console=plain lint
+    - ./gradlew --console=plain checkstyle
 
 lintRelease:
   stage: test
@@ -50,6 +51,7 @@ lintRelease:
     - master
   script:
     - ./gradlew --console=plain lintRelease
+    - ./gradlew --console=plain checkstyle
 
 testAll:
   stage: test
