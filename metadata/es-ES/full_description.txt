@@ -1,0 +1,38 @@
+SimpleEmail es una aplicación de correo amigable con la privacidad, minimalista y Software Libre.
+
+* Fácil navegación
+* No hay configuraciones innecesarias
+* No hay campanas y silbidos.
+* Diseño simple
+
+SimpleEmail inicia un servicio de primer plano con una notificación de barra de estado de baja prioridad para asegurarse de que nunca perderá un nuevo correo electrónico.
+
+Este proyecto es un fork de [[eu.faircode.email]].
+
+'''Caracteristicas'''
+
+* 100% Software Libre
+* Múltiples cuentas (bandejas de entrada)
+* Identidades múltiples (buzones de salida)
+* Bandeja de entrada unificada
+* Vista de conversación
+* Sincronización bidireccional
+* Almacenamiento y operaciones fuera de línea
+* Amigable con la batería
+* Bajo uso de datos
+* Gestión de carpetas
+* Firmas
+* Tema oscuro
+* Colores para la cuenta
+* Búsqueda en el servidor
+* Cifrado / descifrado
+* Exporta la configuracion
+
+'''Seguro:'''
+* Permitir solo conexiones encriptadas
+* Aceptar solo certificados de seguridad válidos
+* Autenticacion requerida
+* Vista de mensaje seguro (estilo, scripts y HTML inseguro eliminado)
+* No se requieren permisos especiales
+* Sin publicidad
+* Sin analytics y sin seguimiento
