@@ -52,6 +52,13 @@ service with a low priority status bar notification to make sure you'll never mi
 * Encryption/decryption
 * Export settings
 
+## Screenshots
+
+[<img src="metadata/en-US/images/phoneScreenshots/05_screenshot.png" width=160>](metadata/en-US/images/phoneScreenshots/05_screenshot.png)
+[<img src="metadata/en-US/images/phoneScreenshots/08_screenshot.png" width=160>](metadata/en-US/images/phoneScreenshots/08_screenshot.png)
+
+Please see more [here](/metadata/en-US/images/phoneScreenshots/) or in [FDroid store][fdroid]
+
 ## Secure
 
 * Allow encrypted connections only
@@ -70,7 +77,7 @@ service with a low priority status bar notification to make sure you'll never mi
 
 ## Downloads
 
-* [Fdroid store](https://f-droid.org/packages/org.dystopia.email)
+* [FDroid store][fdroid]
 * [GitLab][gitlab-releases]
 
 Direct download certificate fingerprints:
@@ -135,3 +142,4 @@ SimpleEmail uses:
  [pull-requests]: https://framagit.org/dystopia-project/simple-email/merge_requests
  [faqs]: https://framagit.org/dystopia-project/simple-email/blob/master/docs/FAQ.md
  [gitlab-releases]: https://framagit.org/dystopia-project/simple-email/tags
+ [fdroid]: https://f-droid.org/packages/org.dystopia.email
