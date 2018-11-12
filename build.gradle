@@ -1,3 +1,5 @@
+apply plugin: 'checkstyle'
+
 buildscript {
     repositories {
         google()
@@ -16,10 +18,23 @@ allprojects {
     }
 }
 
+checkstyle {
+    toolVersion '8.13'
+}
+
 ext {
     ci = project.hasProperty("ci")
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+task checkstyle (type: Checkstyle) {
+    configFile rootProject.file("checkstyle.xml")
+    source "app/src/main/java"
+    ignoreFailures false
+    showViolations true
+    include "**/*.java"
+    classpath = files()
 }

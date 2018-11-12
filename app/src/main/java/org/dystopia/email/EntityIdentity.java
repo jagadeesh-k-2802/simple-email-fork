@@ -19,58 +19,46 @@ package org.dystopia.email;
     Copyright 2018, Marcel Bokhorst (M66B)
 */
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import static androidx.room.ForeignKey.CASCADE;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
-
-import static androidx.room.ForeignKey.CASCADE;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 @Entity(
         tableName = EntityIdentity.TABLE_NAME,
         foreignKeys = {
-                @ForeignKey(childColumns = "account", entity = EntityAccount.class, parentColumns = "id", onDelete = CASCADE)
+            @ForeignKey(
+                    childColumns = "account",
+                    entity = EntityAccount.class,
+                    parentColumns = "id",
+                    onDelete = CASCADE)
         },
-        indices = {
-                @Index(value = {"account"})
-        }
-)
+        indices = {@Index(value = {"account"})})
 public class EntityIdentity {
     static final String TABLE_NAME = "identity";
 
     @PrimaryKey(autoGenerate = true)
     public Long id;
-    @NonNull
-    public String name;
-    @NonNull
-    public String email;
+
+    @NonNull public String name;
+    @NonNull public String email;
     public String replyto;
-    @NonNull
-    public Long account;
-    @NonNull
-    public String host; // SMTP
-    @NonNull
-    public Boolean starttls;
-    @NonNull
-    public Boolean insecure;
-    @NonNull
-    public Integer port;
-    @NonNull
-    public String user;
-    @NonNull
-    public String password;
-    @NonNull
-    public Integer auth_type;
-    @NonNull
-    public Boolean primary;
-    @NonNull
-    public Boolean synchronize;
-    @NonNull
-    public Boolean store_sent;
+    @NonNull public Long account;
+    @NonNull public String host; // SMTP
+    @NonNull public Boolean starttls;
+    @NonNull public Boolean insecure;
+    @NonNull public Integer port;
+    @NonNull public String user;
+    @NonNull public String password;
+    @NonNull public Integer auth_type;
+    @NonNull public Boolean primary;
+    @NonNull public Boolean synchronize;
+    @NonNull public Boolean store_sent;
     public String state;
     public String error;
 
@@ -96,8 +84,9 @@ public class EntityIdentity {
         EntityIdentity identity = new EntityIdentity();
         identity.name = json.getString("name");
         identity.email = json.getString("email");
-        if (json.has("replyto"))
+        if (json.has("replyto")) {
             identity.replyto = json.getString("replyto");
+        }
         identity.host = json.getString("host");
         identity.port = json.getInt("port");
         identity.starttls = json.getBoolean("starttls");
@@ -115,22 +104,25 @@ public class EntityIdentity {
     public boolean equals(Object obj) {
         if (obj instanceof EntityIdentity) {
             EntityIdentity other = (EntityIdentity) obj;
-            return (this.name.equals(other.name) &&
-                    this.email.equals(other.email) &&
-                    (this.replyto == null ? other.replyto == null : this.replyto.equals(other.replyto)) &&
-                    this.account.equals(other.account) &&
-                    this.host.equals(other.host) &&
-                    this.port.equals(other.port) &&
-                    this.starttls.equals(other.starttls) &&
-                    this.user.equals(other.user) &&
-                    this.password.equals(other.password) &&
-                    this.primary.equals(other.primary) &&
-                    this.synchronize.equals(other.synchronize) &&
-                    this.store_sent.equals(other.store_sent) &&
-                    (this.state == null ? other.state == null : this.state.equals(other.state)) &&
-                    (this.error == null ? other.error == null : this.error.equals(other.error)));
-        } else
+            return (this.name.equals(other.name)
+                    && this.email.equals(other.email)
+                    && (this.replyto == null
+                            ? other.replyto == null
+                            : this.replyto.equals(other.replyto))
+                    && this.account.equals(other.account)
+                    && this.host.equals(other.host)
+                    && this.port.equals(other.port)
+                    && this.starttls.equals(other.starttls)
+                    && this.user.equals(other.user)
+                    && this.password.equals(other.password)
+                    && this.primary.equals(other.primary)
+                    && this.synchronize.equals(other.synchronize)
+                    && this.store_sent.equals(other.store_sent)
+                    && (this.state == null ? other.state == null : this.state.equals(other.state))
+                    && (this.error == null ? other.error == null : this.error.equals(other.error)));
+        } else {
             return false;
+        }
     }
 
     @Override

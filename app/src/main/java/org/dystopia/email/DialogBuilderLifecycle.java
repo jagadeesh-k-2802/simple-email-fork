@@ -20,7 +20,6 @@ package org.dystopia.email;
 */
 
 import android.content.Context;
-
 import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleObserver;

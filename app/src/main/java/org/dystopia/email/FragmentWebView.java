@@ -32,7 +32,6 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -41,7 +40,10 @@ import androidx.annotation.Nullable;
 public class FragmentWebView extends FragmentEx {
     @Override
     @Nullable
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(
+            @NonNull LayoutInflater inflater,
+            @Nullable ViewGroup container,
+            @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_webview, container, false);
 
         final ProgressBar progressBar = view.findViewById(R.id.progressbar);
@@ -57,26 +59,29 @@ public class FragmentWebView extends FragmentEx {
 
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
 
-        webview.setWebViewClient(new WebViewClient() {
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                if (prefs.getBoolean("webview", false)) {
-                    view.loadUrl(url);
-                    setSubtitle(url);
-                    return false;
-                } else {
-                    Helper.view(getContext(), Uri.parse(url));
-                    return true;
-                }
-            }
-        });
+        webview.setWebViewClient(
+                new WebViewClient() {
+                    public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                        if (prefs.getBoolean("webview", false)) {
+                            view.loadUrl(url);
+                            setSubtitle(url);
+                            return false;
+                        } else {
+                            Helper.view(getContext(), Uri.parse(url));
+                            return true;
+                        }
+                    }
+                });
 
-        webview.setWebChromeClient(new WebChromeClient() {
-            public void onProgressChanged(WebView view, int progress) {
-                progressBar.setProgress(progress);
-                if (progress == 100)
-                    progressBar.setVisibility(View.GONE);
-            }
-        });
+        webview.setWebChromeClient(
+                new WebChromeClient() {
+                    public void onProgressChanged(WebView view, int progress) {
+                        progressBar.setProgress(progress);
+                        if (progress == 100) {
+                            progressBar.setVisibility(View.GONE);
+                        }
+                    }
+                });
 
         Bundle args = getArguments();
         if (args.containsKey("url")) {
@@ -105,20 +110,24 @@ public class FragmentWebView extends FragmentEx {
             }.load(this, args);
         }
 
-        ((ActivityBase) getActivity()).addBackPressedListener(new ActivityBase.IBackPressedListener() {
-            @Override
-            public boolean onBackPressed() {
-                boolean can = webview.canGoBack();
-                if (can)
-                    webview.goBack();
+        ((ActivityBase) getActivity())
+                .addBackPressedListener(
+                        new ActivityBase.IBackPressedListener() {
+                            @Override
+                            public boolean onBackPressed() {
+                                boolean can = webview.canGoBack();
+                                if (can) {
+                                    webview.goBack();
+                                }
 
-                Bundle args = getArguments();
-                if (args.containsKey("from") && !webview.canGoBack())
-                    setSubtitle(args.getString("from"));
+                                Bundle args = getArguments();
+                                if (args.containsKey("from") && !webview.canGoBack()) {
+                                    setSubtitle(args.getString("from"));
+                                }
 
-                return can;
-            }
-        });
+                                return can;
+                            }
+                        });
 
         return view;
     }

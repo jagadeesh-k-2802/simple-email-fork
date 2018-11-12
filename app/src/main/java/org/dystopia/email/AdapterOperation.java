@@ -26,18 +26,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListUpdateCallback;
 import androidx.recyclerview.widget.RecyclerView;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class AdapterOperation extends RecyclerView.Adapter<AdapterOperation.ViewHolder> {
     private Context context;
@@ -46,7 +44,8 @@ public class AdapterOperation extends RecyclerView.Adapter<AdapterOperation.View
     private List<EntityOperation> all = new ArrayList<>();
     private List<EntityOperation> filtered = new ArrayList<>();
 
-    private DateFormat df = SimpleDateFormat.getDateTimeInstance(SimpleDateFormat.SHORT, SimpleDateFormat.LONG);
+    private DateFormat df =
+            SimpleDateFormat.getDateTimeInstance(SimpleDateFormat.SHORT, SimpleDateFormat.LONG);
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener {
         View itemView;
@@ -80,8 +79,9 @@ public class AdapterOperation extends RecyclerView.Adapter<AdapterOperation.View
         @Override
         public boolean onLongClick(View view) {
             int pos = getAdapterPosition();
-            if (pos == RecyclerView.NO_POSITION)
+            if (pos == RecyclerView.NO_POSITION) {
                 return false;
+            }
 
             EntityOperation operation = filtered.get(pos);
 
@@ -117,27 +117,28 @@ public class AdapterOperation extends RecyclerView.Adapter<AdapterOperation.View
         filtered.clear();
         filtered.addAll(all);
 
-        diff.dispatchUpdatesTo(new ListUpdateCallback() {
-            @Override
-            public void onInserted(int position, int count) {
-                Log.i(Helper.TAG, "Inserted @" + position + " #" + count);
-            }
+        diff.dispatchUpdatesTo(
+                new ListUpdateCallback() {
+                    @Override
+                    public void onInserted(int position, int count) {
+                        Log.i(Helper.TAG, "Inserted @" + position + " #" + count);
+                    }
 
-            @Override
-            public void onRemoved(int position, int count) {
-                Log.i(Helper.TAG, "Removed @" + position + " #" + count);
-            }
+                    @Override
+                    public void onRemoved(int position, int count) {
+                        Log.i(Helper.TAG, "Removed @" + position + " #" + count);
+                    }
 
-            @Override
-            public void onMoved(int fromPosition, int toPosition) {
-                Log.i(Helper.TAG, "Moved " + fromPosition + ">" + toPosition);
-            }
+                    @Override
+                    public void onMoved(int fromPosition, int toPosition) {
+                        Log.i(Helper.TAG, "Moved " + fromPosition + ">" + toPosition);
+                    }
 
-            @Override
-            public void onChanged(int position, int count, Object payload) {
-                Log.i(Helper.TAG, "Changed @" + position + " #" + count);
-            }
-        });
+                    @Override
+                    public void onChanged(int position, int count, Object payload) {
+                        Log.i(Helper.TAG, "Changed @" + position + " #" + count);
+                    }
+                });
         diff.dispatchUpdatesTo(this);
     }
 
@@ -188,7 +189,8 @@ public class AdapterOperation extends RecyclerView.Adapter<AdapterOperation.View
     @Override
     @NonNull
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_operation, parent, false));
+        return new ViewHolder(
+                LayoutInflater.from(context).inflate(R.layout.item_operation, parent, false));
     }
 
     @Override

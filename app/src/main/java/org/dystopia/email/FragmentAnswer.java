@@ -28,13 +28,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.Group;
 import androidx.lifecycle.Observer;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class FragmentAnswer extends FragmentEx {
     private ViewGroup view;
@@ -57,7 +55,10 @@ public class FragmentAnswer extends FragmentEx {
 
     @Override
     @Nullable
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(
+            @NonNull LayoutInflater inflater,
+            @Nullable ViewGroup container,
+            @Nullable Bundle savedInstanceState) {
         view = (ViewGroup) inflater.inflate(R.layout.fragment_answer, container, false);
 
         // Get controls
@@ -68,20 +69,21 @@ public class FragmentAnswer extends FragmentEx {
         pbWait = view.findViewById(R.id.pbWait);
         grpReady = view.findViewById(R.id.grpReady);
 
-        bottom_navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(MenuItem menuItem) {
-                switch (menuItem.getItemId()) {
-                    case R.id.action_delete:
-                        onActionTrash();
-                        return true;
-                    case R.id.action_save:
-                        onActionSave();
-                        return true;
-                }
-                return false;
-            }
-        });
+        bottom_navigation.setOnNavigationItemSelectedListener(
+                new BottomNavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        switch (menuItem.getItemId()) {
+                            case R.id.action_delete:
+                                onActionTrash();
+                                return true;
+                            case R.id.action_save:
+                                onActionSave();
+                                return true;
+                        }
+                        return false;
+                    }
+                });
 
         // Initialize
         grpReady.setVisibility(View.GONE);
@@ -94,17 +96,24 @@ public class FragmentAnswer extends FragmentEx {
     public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        DB.getInstance(getContext()).answer().liveAnswer(id).observe(getViewLifecycleOwner(), new Observer<EntityAnswer>() {
-            @Override
-            public void onChanged(EntityAnswer answer) {
-                etName.setText(answer == null ? null : answer.name);
-                etText.setText(answer == null ? null : Html.fromHtml(answer.text));
-                bottom_navigation.findViewById(R.id.action_delete).setVisibility(answer == null ? View.GONE : View.VISIBLE);
+        DB.getInstance(getContext())
+                .answer()
+                .liveAnswer(id)
+                .observe(
+                        getViewLifecycleOwner(),
+                        new Observer<EntityAnswer>() {
+                            @Override
+                            public void onChanged(EntityAnswer answer) {
+                                etName.setText(answer == null ? null : answer.name);
+                                etText.setText(answer == null ? null : Html.fromHtml(answer.text));
+                                bottom_navigation
+                                        .findViewById(R.id.action_delete)
+                                        .setVisibility(answer == null ? View.GONE : View.VISIBLE);
 
-                pbWait.setVisibility(View.GONE);
-                grpReady.setVisibility(View.VISIBLE);
-            }
-        });
+                                pbWait.setVisibility(View.GONE);
+                                grpReady.setVisibility(View.VISIBLE);
+                            }
+                        });
     }
 
     private void onActionTrash() {

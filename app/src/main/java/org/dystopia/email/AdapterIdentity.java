@@ -27,19 +27,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
+import androidx.annotation.NonNull;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ListUpdateCallback;
+import androidx.recyclerview.widget.RecyclerView;
 import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
-
-import androidx.annotation.NonNull;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-import androidx.recyclerview.widget.DiffUtil;
-import androidx.recyclerview.widget.ListUpdateCallback;
-import androidx.recyclerview.widget.RecyclerView;
 
 public class AdapterIdentity extends RecyclerView.Adapter<AdapterIdentity.ViewHolder> {
     private Context context;
@@ -83,17 +81,21 @@ public class AdapterIdentity extends RecyclerView.Adapter<AdapterIdentity.ViewHo
         private void bindTo(TupleIdentityEx identity) {
             ivPrimary.setVisibility(identity.primary ? View.VISIBLE : View.INVISIBLE);
             tvName.setText(identity.name);
-            ivSync.setImageResource(identity.synchronize ? R.drawable.baseline_sync_24 : R.drawable.baseline_sync_disabled_24);
+            ivSync.setImageResource(
+                    identity.synchronize
+                            ? R.drawable.baseline_sync_24
+                            : R.drawable.baseline_sync_disabled_24);
             tvUser.setText(identity.email);
             tvHost.setText(String.format("%s:%d", identity.host, identity.port));
             tvAccount.setText(identity.accountName);
 
-            if ("connected".equals(identity.state))
+            if ("connected".equals(identity.state)) {
                 ivState.setImageResource(R.drawable.baseline_cloud_24);
-            else if ("connecting".equals(identity.state))
+            } else if ("connecting".equals(identity.state)) {
                 ivState.setImageResource(R.drawable.baseline_cloud_queue_24);
-            else
+            } else {
                 ivState.setImageDrawable(null);
+            }
             ivState.setVisibility(identity.synchronize ? View.VISIBLE : View.INVISIBLE);
 
             tvError.setText(identity.error);
@@ -103,14 +105,14 @@ public class AdapterIdentity extends RecyclerView.Adapter<AdapterIdentity.ViewHo
         @Override
         public void onClick(View view) {
             int pos = getAdapterPosition();
-            if (pos == RecyclerView.NO_POSITION)
+            if (pos == RecyclerView.NO_POSITION) {
                 return;
+            }
             TupleIdentityEx identity = filtered.get(pos);
 
             LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(context);
             lbm.sendBroadcast(
-                    new Intent(ActivitySetup.ACTION_EDIT_IDENTITY)
-                            .putExtra("id", identity.id));
+                    new Intent(ActivitySetup.ACTION_EDIT_IDENTITY).putExtra("id", identity.id));
         }
     }
 
@@ -125,12 +127,14 @@ public class AdapterIdentity extends RecyclerView.Adapter<AdapterIdentity.ViewHo
         final Collator collator = Collator.getInstance(Locale.getDefault());
         collator.setStrength(Collator.SECONDARY); // Case insensitive, process accents etc
 
-        Collections.sort(identities, new Comparator<TupleIdentityEx>() {
-            @Override
-            public int compare(TupleIdentityEx i1, TupleIdentityEx i2) {
-                return collator.compare(i1.host, i2.host);
-            }
-        });
+        Collections.sort(
+                identities,
+                new Comparator<TupleIdentityEx>() {
+                    @Override
+                    public int compare(TupleIdentityEx i1, TupleIdentityEx i2) {
+                        return collator.compare(i1.host, i2.host);
+                    }
+                });
 
         all = identities;
 
@@ -139,27 +143,28 @@ public class AdapterIdentity extends RecyclerView.Adapter<AdapterIdentity.ViewHo
         filtered.clear();
         filtered.addAll(all);
 
-        diff.dispatchUpdatesTo(new ListUpdateCallback() {
-            @Override
-            public void onInserted(int position, int count) {
-                Log.i(Helper.TAG, "Inserted @" + position + " #" + count);
-            }
+        diff.dispatchUpdatesTo(
+                new ListUpdateCallback() {
+                    @Override
+                    public void onInserted(int position, int count) {
+                        Log.i(Helper.TAG, "Inserted @" + position + " #" + count);
+                    }
 
-            @Override
-            public void onRemoved(int position, int count) {
-                Log.i(Helper.TAG, "Removed @" + position + " #" + count);
-            }
+                    @Override
+                    public void onRemoved(int position, int count) {
+                        Log.i(Helper.TAG, "Removed @" + position + " #" + count);
+                    }
 
-            @Override
-            public void onMoved(int fromPosition, int toPosition) {
-                Log.i(Helper.TAG, "Moved " + fromPosition + ">" + toPosition);
-            }
+                    @Override
+                    public void onMoved(int fromPosition, int toPosition) {
+                        Log.i(Helper.TAG, "Moved " + fromPosition + ">" + toPosition);
+                    }
 
-            @Override
-            public void onChanged(int position, int count, Object payload) {
-                Log.i(Helper.TAG, "Changed @" + position + " #" + count);
-            }
-        });
+                    @Override
+                    public void onChanged(int position, int count, Object payload) {
+                        Log.i(Helper.TAG, "Changed @" + position + " #" + count);
+                    }
+                });
         diff.dispatchUpdatesTo(this);
     }
 
@@ -210,7 +215,8 @@ public class AdapterIdentity extends RecyclerView.Adapter<AdapterIdentity.ViewHo
     @Override
     @NonNull
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_identity, parent, false));
+        return new ViewHolder(
+                LayoutInflater.from(context).inflate(R.layout.item_identity, parent, false));
     }
 
     @Override

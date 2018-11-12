@@ -22,15 +22,13 @@ package org.dystopia.email;
 import android.content.Context;
 import android.content.res.XmlResourceParser;
 import android.util.Log;
-
-import org.xmlpull.v1.XmlPullParser;
-
 import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
+import org.xmlpull.v1.XmlPullParser;
 
 public class Provider {
     public String name;
@@ -42,8 +40,7 @@ public class Provider {
     public int smtp_port;
     public boolean starttls;
 
-    private Provider() {
-    }
+    private Provider() {}
 
     Provider(String name) {
         this.name = name;
@@ -57,9 +54,9 @@ public class Provider {
             Provider provider = null;
             while (eventType != XmlPullParser.END_DOCUMENT) {
                 if (eventType == XmlPullParser.START_TAG) {
-                    if ("providers".equals(xml.getName()))
+                    if ("providers".equals(xml.getName())) {
                         result = new ArrayList<>();
-                    else if ("provider".equals(xml.getName())) {
+                    } else if ("provider".equals(xml.getName())) {
                         provider = new Provider();
                         provider.name = xml.getAttributeValue(null, "name");
                         provider.link = xml.getAttributeValue(null, "link");
@@ -71,8 +68,9 @@ public class Provider {
                         provider.smtp_host = xml.getAttributeValue(null, "host");
                         provider.smtp_port = xml.getAttributeIntValue(null, "port", 0);
                         provider.starttls = xml.getAttributeBooleanValue(null, "starttls", false);
-                    } else
+                    } else {
                         throw new IllegalAccessException(xml.getName());
+                    }
                 } else if (eventType == XmlPullParser.END_TAG) {
                     if ("provider".equals(xml.getName())) {
                         result.add(provider);
@@ -88,19 +86,22 @@ public class Provider {
         final Collator collator = Collator.getInstance(Locale.getDefault());
         collator.setStrength(Collator.SECONDARY); // Case insensitive, process accents etc
 
-        Collections.sort(result, new Comparator<Provider>() {
-            @Override
-            public int compare(Provider p1, Provider p2) {
-                return collator.compare(p1.name, p2.name);
-            }
-        });
+        Collections.sort(
+                result,
+                new Comparator<Provider>() {
+                    @Override
+                    public int compare(Provider p1, Provider p2) {
+                        return collator.compare(p1.name, p2.name);
+                    }
+                });
 
         return result;
     }
 
     public int getAuthType() {
-        if ("com.google".equals(type))
+        if ("com.google".equals(type)) {
             return Helper.AUTH_TYPE_GMAIL;
+        }
         return Helper.AUTH_TYPE_PASSWORD;
     }
 

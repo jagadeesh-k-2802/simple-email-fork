@@ -25,16 +25,15 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.MenuItem;
-
-import java.util.List;
-
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.Observer;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import java.util.List;
 
-public class ActivitySetup extends ActivityBase implements FragmentManager.OnBackStackChangedListener {
+public class ActivitySetup extends ActivityBase
+        implements FragmentManager.OnBackStackChangedListener {
     private boolean hasAccount;
 
     static final int REQUEST_PERMISSION = 1;
@@ -56,17 +55,25 @@ public class ActivitySetup extends ActivityBase implements FragmentManager.OnBac
         getSupportFragmentManager().addOnBackStackChangedListener(this);
 
         if (getSupportFragmentManager().getFragments().size() == 0) {
-            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.content_frame, new FragmentSetup()).addToBackStack("setup");
+            FragmentTransaction fragmentTransaction =
+                    getSupportFragmentManager().beginTransaction();
+            fragmentTransaction
+                    .replace(R.id.content_frame, new FragmentSetup())
+                    .addToBackStack("setup");
             fragmentTransaction.commit();
         }
 
-        DB.getInstance(this).account().liveAccounts(true).observe(this, new Observer<List<EntityAccount>>() {
-            @Override
-            public void onChanged(List<EntityAccount> accounts) {
-                hasAccount = (accounts != null && accounts.size() > 0);
-            }
-        });
+        DB.getInstance(this)
+                .account()
+                .liveAccounts(true)
+                .observe(
+                        this,
+                        new Observer<List<EntityAccount>>() {
+                            @Override
+                            public void onChanged(List<EntityAccount> accounts) {
+                                hasAccount = (accounts != null && accounts.size() > 0);
+                            }
+                        });
     }
 
     @Override
@@ -90,8 +97,9 @@ public class ActivitySetup extends ActivityBase implements FragmentManager.OnBac
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                if (getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.RESUMED))
+                if (getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.RESUMED)) {
                     getSupportFragmentManager().popBackStack();
+                }
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -100,28 +108,36 @@ public class ActivitySetup extends ActivityBase implements FragmentManager.OnBac
     @Override
     public void onBackStackChanged() {
         if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
-            if (hasAccount)
+            if (hasAccount) {
                 startActivity(new Intent(this, ActivityView.class));
+            }
             finish();
         }
     }
 
-    BroadcastReceiver receiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (ACTION_EDIT_ACCOUNT.equals(intent.getAction())) {
-                FragmentAccount fragment = new FragmentAccount();
-                fragment.setArguments(intent.getExtras());
-                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.content_frame, fragment).addToBackStack("account");
-                fragmentTransaction.commit();
-            } else if (ACTION_EDIT_IDENTITY.equals(intent.getAction())) {
-                FragmentIdentity fragment = new FragmentIdentity();
-                fragment.setArguments(intent.getExtras());
-                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.content_frame, fragment).addToBackStack("identity");
-                fragmentTransaction.commit();
-            }
-        }
-    };
+    BroadcastReceiver receiver =
+            new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    if (ACTION_EDIT_ACCOUNT.equals(intent.getAction())) {
+                        FragmentAccount fragment = new FragmentAccount();
+                        fragment.setArguments(intent.getExtras());
+                        FragmentTransaction fragmentTransaction =
+                                getSupportFragmentManager().beginTransaction();
+                        fragmentTransaction
+                                .replace(R.id.content_frame, fragment)
+                                .addToBackStack("account");
+                        fragmentTransaction.commit();
+                    } else if (ACTION_EDIT_IDENTITY.equals(intent.getAction())) {
+                        FragmentIdentity fragment = new FragmentIdentity();
+                        fragment.setArguments(intent.getExtras());
+                        FragmentTransaction fragmentTransaction =
+                                getSupportFragmentManager().beginTransaction();
+                        fragmentTransaction
+                                .replace(R.id.content_frame, fragment)
+                                .addToBackStack("identity");
+                        fragmentTransaction.commit();
+                    }
+                }
+            };
 }

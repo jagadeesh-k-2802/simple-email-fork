@@ -19,9 +19,15 @@ package org.dystopia.email;
     Copyright 2018, Marcel Bokhorst (M66B)
 */
 
+import static androidx.room.ForeignKey.CASCADE;
+
 import android.content.Context;
 import android.util.Log;
-
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.Index;
+import androidx.room.PrimaryKey;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -31,51 +37,61 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Random;
-
 import javax.mail.Address;
-
-import androidx.annotation.NonNull;
-import androidx.room.Entity;
-import androidx.room.ForeignKey;
-import androidx.room.Index;
-import androidx.room.PrimaryKey;
-
-import static androidx.room.ForeignKey.CASCADE;
 
 // https://developer.android.com/training/data-storage/room/defining-data
 
 @Entity(
         tableName = EntityMessage.TABLE_NAME,
         foreignKeys = {
-                @ForeignKey(childColumns = "account", entity = EntityAccount.class, parentColumns = "id", onDelete = CASCADE),
-                @ForeignKey(childColumns = "folder", entity = EntityFolder.class, parentColumns = "id", onDelete = CASCADE),
-                @ForeignKey(childColumns = "identity", entity = EntityIdentity.class, parentColumns = "id", onDelete = CASCADE),
-                @ForeignKey(childColumns = "replying", entity = EntityMessage.class, parentColumns = "id", onDelete = CASCADE)
+            @ForeignKey(
+                    childColumns = "account",
+                    entity = EntityAccount.class,
+                    parentColumns = "id",
+                    onDelete = CASCADE),
+            @ForeignKey(
+                    childColumns = "folder",
+                    entity = EntityFolder.class,
+                    parentColumns = "id",
+                    onDelete = CASCADE),
+            @ForeignKey(
+                    childColumns = "identity",
+                    entity = EntityIdentity.class,
+                    parentColumns = "id",
+                    onDelete = CASCADE),
+            @ForeignKey(
+                    childColumns = "replying",
+                    entity = EntityMessage.class,
+                    parentColumns = "id",
+                    onDelete = CASCADE)
         },
         indices = {
-                @Index(value = {"account"}),
-                @Index(value = {"folder"}),
-                @Index(value = {"identity"}),
-                @Index(value = {"replying"}),
-                @Index(value = {"folder", "uid", "ui_found"}, unique = true),
-                @Index(value = {"msgid", "folder", "ui_found"}, unique = true),
-                @Index(value = {"thread"}),
-                @Index(value = {"received"}),
-                @Index(value = {"ui_seen"}),
-                @Index(value = {"ui_hide"}),
-                @Index(value = {"ui_found"}),
-                @Index(value = {"ui_ignored"})
-        }
-)
+            @Index(value = {"account"}),
+            @Index(value = {"folder"}),
+            @Index(value = {"identity"}),
+            @Index(value = {"replying"}),
+            @Index(
+                    value = {"folder", "uid", "ui_found"},
+                    unique = true),
+            @Index(
+                    value = {"msgid", "folder", "ui_found"},
+                    unique = true),
+            @Index(value = {"thread"}),
+            @Index(value = {"received"}),
+            @Index(value = {"ui_seen"}),
+            @Index(value = {"ui_hide"}),
+            @Index(value = {"ui_found"}),
+            @Index(value = {"ui_ignored"})
+        })
 public class EntityMessage implements Serializable {
     static final String TABLE_NAME = "message";
 
     @PrimaryKey(autoGenerate = true)
     public Long id;
+
     public Long account; // performance
     public String account_name;
-    @NonNull
-    public Long folder;
+    @NonNull public Long folder;
     public Long identity;
     public Long replying;
     public Long uid; // compose = null
@@ -93,35 +109,28 @@ public class EntityMessage implements Serializable {
     public String headers;
     public String subject;
     public Integer size;
-    @NonNull
-    public Boolean content = false;
+    @NonNull public Boolean content = false;
     public Long sent; // compose = null
-    @NonNull
-    public Long received; // compose = stored
-    @NonNull
-    public Long stored = new Date().getTime();
-    @NonNull
-    public Boolean seen;
-    @NonNull
-    public Boolean flagged;
-    @NonNull
-    public Boolean ui_seen;
-    @NonNull
-    public Boolean ui_flagged;
-    @NonNull
-    public Boolean ui_hide;
-    @NonNull
-    public Boolean ui_found;
-    @NonNull
-    public Boolean ui_ignored;
+    @NonNull public Long received; // compose = stored
+    @NonNull public Long stored = new Date().getTime();
+    @NonNull public Boolean seen;
+    @NonNull public Boolean flagged;
+    @NonNull public Boolean ui_seen;
+    @NonNull public Boolean ui_flagged;
+    @NonNull public Boolean ui_hide;
+    @NonNull public Boolean ui_found;
+    @NonNull public Boolean ui_ignored;
     public String error;
 
     static String generateMessageId() {
         StringBuffer sb = new StringBuffer();
         sb.append('<')
-                .append(Math.abs(new Random().nextInt())).append('.')
-                .append(System.currentTimeMillis()).append('.')
-                .append(BuildConfig.APPLICATION_ID).append("@localhost")
+                .append(Math.abs(new Random().nextInt()))
+                .append('.')
+                .append(System.currentTimeMillis())
+                .append('.')
+                .append(BuildConfig.APPLICATION_ID)
+                .append("@localhost")
                 .append('>');
         return sb.toString();
     }
@@ -139,12 +148,13 @@ public class EntityMessage implements Serializable {
             out = new BufferedWriter(new FileWriter(file));
             out.write(body == null ? "" : body);
         } finally {
-            if (out != null)
+            if (out != null) {
                 try {
                     out.close();
                 } catch (IOException e) {
                     Log.e(Helper.TAG, e + "\n" + Log.getStackTraceString(e));
                 }
+            }
         }
     }
 
@@ -179,54 +189,79 @@ public class EntityMessage implements Serializable {
     public boolean equals(Object obj) {
         if (obj instanceof EntityMessage) {
             EntityMessage other = (EntityMessage) obj;
-            return ((this.account == null ? other.account == null : this.account.equals(other.account)) &&
-                    this.folder.equals(other.folder) &&
-                    (this.identity == null ? other.identity == null : this.identity.equals(other.identity)) &&
-                    (this.replying == null ? other.replying == null : this.replying.equals(other.replying)) &&
-                    (this.uid == null ? other.uid == null : this.uid.equals(other.uid)) &&
-                    (this.msgid == null ? other.msgid == null : this.msgid.equals(other.msgid)) &&
-                    (this.references == null ? other.references == null : this.references.equals(other.references)) &&
-                    (this.deliveredto == null ? other.deliveredto == null : this.deliveredto.equals(other.deliveredto)) &&
-                    (this.inreplyto == null ? other.inreplyto == null : this.inreplyto.equals(other.inreplyto)) &&
-                    (this.thread == null ? other.thread == null : this.thread.equals(other.thread)) &&
-                    (this.avatar == null ? other.avatar == null : this.avatar.equals(other.avatar)) &&
-                    equal(this.from, other.from) &&
-                    equal(this.to, other.to) &&
-                    equal(this.cc, other.cc) &&
-                    equal(this.bcc, other.bcc) &&
-                    equal(this.reply, other.reply) &&
-                    (this.headers == null ? other.headers == null : this.headers.equals(other.headers)) &&
-                    (this.subject == null ? other.subject == null : this.subject.equals(other.subject)) &&
-                    (this.size == null ? other.size == null : this.size.equals(other.size)) &&
-                    this.content == other.content &&
-                    (this.sent == null ? other.sent == null : this.sent.equals(other.sent)) &&
-                    this.received.equals(other.received) &&
-                    this.stored.equals(other.stored) &&
-                    this.seen.equals(other.seen) &&
-                    this.flagged.equals(other.flagged) &&
-                    this.ui_seen.equals(other.ui_seen) &&
-                    this.ui_flagged.equals(other.ui_flagged) &&
-                    this.ui_hide.equals(other.ui_hide) &&
-                    this.ui_found.equals(other.ui_found) &&
-                    this.ui_ignored.equals(other.ui_ignored) &&
-                    (this.error == null ? other.error == null : this.error.equals(other.error)));
+            return ((this.account == null
+                            ? other.account == null
+                            : this.account.equals(other.account))
+                    && this.folder.equals(other.folder)
+                    && (this.identity == null
+                            ? other.identity == null
+                            : this.identity.equals(other.identity))
+                    && (this.replying == null
+                            ? other.replying == null
+                            : this.replying.equals(other.replying))
+                    && (this.uid == null ? other.uid == null : this.uid.equals(other.uid))
+                    && (this.msgid == null ? other.msgid == null : this.msgid.equals(other.msgid))
+                    && (this.references == null
+                            ? other.references == null
+                            : this.references.equals(other.references))
+                    && (this.deliveredto == null
+                            ? other.deliveredto == null
+                            : this.deliveredto.equals(other.deliveredto))
+                    && (this.inreplyto == null
+                            ? other.inreplyto == null
+                            : this.inreplyto.equals(other.inreplyto))
+                    && (this.thread == null
+                            ? other.thread == null
+                            : this.thread.equals(other.thread))
+                    && (this.avatar == null
+                            ? other.avatar == null
+                            : this.avatar.equals(other.avatar))
+                    && equal(this.from, other.from)
+                    && equal(this.to, other.to)
+                    && equal(this.cc, other.cc)
+                    && equal(this.bcc, other.bcc)
+                    && equal(this.reply, other.reply)
+                    && (this.headers == null
+                            ? other.headers == null
+                            : this.headers.equals(other.headers))
+                    && (this.subject == null
+                            ? other.subject == null
+                            : this.subject.equals(other.subject))
+                    && (this.size == null ? other.size == null : this.size.equals(other.size))
+                    && this.content == other.content
+                    && (this.sent == null ? other.sent == null : this.sent.equals(other.sent))
+                    && this.received.equals(other.received)
+                    && this.stored.equals(other.stored)
+                    && this.seen.equals(other.seen)
+                    && this.flagged.equals(other.flagged)
+                    && this.ui_seen.equals(other.ui_seen)
+                    && this.ui_flagged.equals(other.ui_flagged)
+                    && this.ui_hide.equals(other.ui_hide)
+                    && this.ui_found.equals(other.ui_found)
+                    && this.ui_ignored.equals(other.ui_ignored)
+                    && (this.error == null ? other.error == null : this.error.equals(other.error)));
         }
         return false;
     }
 
     private static boolean equal(Address[] a1, Address[] a2) {
-        if (a1 == null && a2 == null)
+        if (a1 == null && a2 == null) {
             return true;
+        }
 
-        if (a1 == null || a2 == null)
+        if (a1 == null || a2 == null) {
             return false;
+        }
 
-        if (a1.length != a2.length)
+        if (a1.length != a2.length) {
             return false;
+        }
 
-        for (int i = 0; i < a1.length; i++)
-            if (!a1[i].toString().equals(a2[i].toString()))
+        for (int i = 0; i < a1.length; i++) {
+            if (!a1[i].toString().equals(a2[i].toString())) {
                 return false;
+            }
+        }
 
         return true;
     }

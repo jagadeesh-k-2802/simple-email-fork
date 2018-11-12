@@ -25,16 +25,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListUpdateCallback;
 import androidx.recyclerview.widget.RecyclerView;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AdapterLog extends RecyclerView.Adapter<AdapterLog.ViewHolder> {
     private Context context;
@@ -63,7 +61,6 @@ public class AdapterLog extends RecyclerView.Adapter<AdapterLog.ViewHolder> {
         }
     }
 
-
     AdapterLog(Context context) {
         this.context = context;
         setHasStableIds(true);
@@ -79,27 +76,28 @@ public class AdapterLog extends RecyclerView.Adapter<AdapterLog.ViewHolder> {
         filtered.clear();
         filtered.addAll(all);
 
-        diff.dispatchUpdatesTo(new ListUpdateCallback() {
-            @Override
-            public void onInserted(int position, int count) {
-                Log.i(Helper.TAG, "Inserted @" + position + " #" + count);
-            }
+        diff.dispatchUpdatesTo(
+                new ListUpdateCallback() {
+                    @Override
+                    public void onInserted(int position, int count) {
+                        Log.i(Helper.TAG, "Inserted @" + position + " #" + count);
+                    }
 
-            @Override
-            public void onRemoved(int position, int count) {
-                Log.i(Helper.TAG, "Removed @" + position + " #" + count);
-            }
+                    @Override
+                    public void onRemoved(int position, int count) {
+                        Log.i(Helper.TAG, "Removed @" + position + " #" + count);
+                    }
 
-            @Override
-            public void onMoved(int fromPosition, int toPosition) {
-                Log.i(Helper.TAG, "Moved " + fromPosition + ">" + toPosition);
-            }
+                    @Override
+                    public void onMoved(int fromPosition, int toPosition) {
+                        Log.i(Helper.TAG, "Moved " + fromPosition + ">" + toPosition);
+                    }
 
-            @Override
-            public void onChanged(int position, int count, Object payload) {
-                Log.i(Helper.TAG, "Changed @" + position + " #" + count);
-            }
-        });
+                    @Override
+                    public void onChanged(int position, int count, Object payload) {
+                        Log.i(Helper.TAG, "Changed @" + position + " #" + count);
+                    }
+                });
         diff.dispatchUpdatesTo(this);
     }
 
@@ -150,7 +148,8 @@ public class AdapterLog extends RecyclerView.Adapter<AdapterLog.ViewHolder> {
     @Override
     @NonNull
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_log, parent, false));
+        return new ViewHolder(
+                LayoutInflater.from(context).inflate(R.layout.item_log, parent, false));
     }
 
     @Override

@@ -23,10 +23,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Lifecycle;
@@ -34,9 +30,12 @@ import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LifecycleService;
 import androidx.lifecycle.OnLifecycleEvent;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 //
-// This simple task is simple to use, but it is also simple to cause bugs that can easily lead to crashes
+// This simple task is simple to use, but it is also simple to cause bugs that can easily lead to
+// crashes
 // Make sure to not access any member in any outer scope from onLoad
 // Results will not be delivered to destroyed fragments
 //
@@ -47,7 +46,8 @@ public abstract class SimpleTask<T> implements LifecycleObserver {
     private Bundle args;
     private Result stored;
 
-    private ExecutorService executor = Executors.newCachedThreadPool(Helper.backgroundThreadFactory);
+    private ExecutorService executor =
+            Executors.newCachedThreadPool(Helper.backgroundThreadFactory);
 
     public void load(Context context, LifecycleOwner owner, Bundle args) {
         run(context, owner, args);
@@ -121,27 +121,30 @@ public abstract class SimpleTask<T> implements LifecycleObserver {
         onInit(args);
 
         // Run in background thread
-        executor.submit(new Runnable() {
-            @Override
-            public void run() {
-                final Result result = new Result();
-
-                try {
-                    result.data = onLoad(context, args);
-                } catch (Throwable ex) {
-                    Log.e(Helper.TAG, ex + "\n" + Log.getStackTraceString(ex));
-                    result.ex = ex;
-                }
-
-                // Run on main thread
-                new Handler(context.getMainLooper()).post(new Runnable() {
+        executor.submit(
+                new Runnable() {
                     @Override
                     public void run() {
-                        deliver(args, result);
+                        final Result result = new Result();
+
+                        try {
+                            result.data = onLoad(context, args);
+                        } catch (Throwable ex) {
+                            Log.e(Helper.TAG, ex + "\n" + Log.getStackTraceString(ex));
+                            result.ex = ex;
+                        }
+
+                        // Run on main thread
+                        new Handler(context.getMainLooper())
+                                .post(
+                                        new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                deliver(args, result);
+                                            }
+                                        });
                     }
                 });
-            }
-        });
     }
 
     private void deliver(Bundle args, Result result) {
@@ -152,10 +155,11 @@ public abstract class SimpleTask<T> implements LifecycleObserver {
         } else {
             Log.i(Helper.TAG, "Delivery task " + this);
             try {
-                if (result.ex == null)
+                if (result.ex == null) {
                     onLoaded(args, (T) result.data);
-                else
+                } else {
                     onException(args, result.ex);
+                }
             } catch (Throwable ex) {
                 Log.e(Helper.TAG, ex + "\n" + Log.getStackTraceString(ex));
             } finally {
@@ -164,19 +168,16 @@ public abstract class SimpleTask<T> implements LifecycleObserver {
         }
     }
 
-    protected void onInit(Bundle args) {
-    }
+    protected void onInit(Bundle args) {}
 
     protected T onLoad(Context context, Bundle args) throws Throwable {
         // Be careful not to access members in outer scopes
         return null;
     }
 
-    protected void onLoaded(Bundle args, T data) {
-    }
+    protected void onLoaded(Bundle args, T data) {}
 
-    protected void onException(Bundle args, Throwable ex) {
-    }
+    protected void onException(Bundle args, Throwable ex) {}
 
     private static class Result {
         Throwable ex;

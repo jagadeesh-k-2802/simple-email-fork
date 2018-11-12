@@ -38,22 +38,25 @@ public class ItemKeyProviderMessage extends ItemKeyProvider<Long> {
     public Long getKey(int pos) {
         AdapterMessage adapter = (AdapterMessage) recyclerView.getAdapter();
         PagedList<TupleMessageEx> list = adapter.getCurrentList();
-        if (list != null && pos < list.size())
+        if (list != null && pos < list.size()) {
             return list.get(pos).id;
-        else
+        } else {
             return null;
+        }
     }
 
     @Override
     public int getPosition(@NonNull Long key) {
         AdapterMessage adapter = (AdapterMessage) recyclerView.getAdapter();
         PagedList<TupleMessageEx> messages = adapter.getCurrentList();
-        if (messages != null)
+        if (messages != null) {
             for (int i = 0; i < messages.size(); i++) {
                 TupleMessageEx message = messages.get(i);
-                if (message != null && message.id.equals(key))
+                if (message != null && message.id.equals(key)) {
                     return i;
+                }
             }
+        }
         return RecyclerView.NO_POSITION;
     }
 }

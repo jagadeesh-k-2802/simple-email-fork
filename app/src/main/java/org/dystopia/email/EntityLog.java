@@ -21,35 +21,29 @@ package org.dystopia.email;
 
 import android.content.Context;
 import android.util.Log;
-
-import java.util.Date;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
+import java.util.Date;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @Entity(
         tableName = EntityLog.TABLE_NAME,
-        foreignKeys = {
-        },
-        indices = {
-                @Index(value = {"time"})
-        }
-)
+        foreignKeys = {},
+        indices = {@Index(value = {"time"})})
 public class EntityLog {
     static final String TABLE_NAME = "log";
 
     @PrimaryKey(autoGenerate = true)
     public Long id;
-    @NonNull
-    public Long time;
-    @NonNull
-    public String data;
 
-    private static ExecutorService executor = Executors.newSingleThreadExecutor(Helper.backgroundThreadFactory);
+    @NonNull public Long time;
+    @NonNull public String data;
+
+    private static ExecutorService executor =
+            Executors.newSingleThreadExecutor(Helper.backgroundThreadFactory);
 
     static void log(Context context, String data) {
         Log.i(Helper.TAG, data);
@@ -60,12 +54,13 @@ public class EntityLog {
 
         final DB db = DB.getInstance(context);
 
-        executor.submit(new Runnable() {
-            @Override
-            public void run() {
-                db.log().insertLog(entry);
-            }
-        });
+        executor.submit(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        db.log().insertLog(entry);
+                    }
+                });
     }
 
     @Override
@@ -73,7 +68,8 @@ public class EntityLog {
         if (obj instanceof EntityLog) {
             EntityLog other = (EntityLog) obj;
             return (this.time.equals(other.time) && this.data.equals(other.data));
-        } else
+        } else {
             return false;
+        }
     }
 }

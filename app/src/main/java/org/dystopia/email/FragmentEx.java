@@ -27,7 +27,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -57,10 +56,11 @@ public class FragmentEx extends Fragment {
     }
 
     protected void finish() {
-        if (getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.RESUMED))
+        if (getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.RESUMED)) {
             getFragmentManager().popBackStack();
-        else
+        } else {
             finish = true;
+        }
     }
 
     @Override
@@ -74,12 +74,14 @@ public class FragmentEx extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         Log.i(Helper.TAG, "Create " + this + " saved=" + (savedInstanceState != null));
         super.onCreate(savedInstanceState);
-        if (savedInstanceState != null)
+        if (savedInstanceState != null) {
             subtitle = savedInstanceState.getString("subtitle");
+        }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(
+            LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.i(Helper.TAG, "Create view " + this);
         return super.onCreateView(inflater, container, savedInstanceState);
     }
@@ -113,8 +115,10 @@ public class FragmentEx extends Fragment {
 
         InputMethodManager im = getContext().getSystemService(InputMethodManager.class);
         View focused = getActivity().getCurrentFocus();
-        if (focused != null)
-            im.hideSoftInputFromWindow(focused.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        if (focused != null) {
+            im.hideSoftInputFromWindow(
+                    focused.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
     }
 
     @Override
@@ -133,8 +137,9 @@ public class FragmentEx extends Fragment {
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         if (activity != null) {
             ActionBar actionbar = activity.getSupportActionBar();
-            if (actionbar != null)
+            if (actionbar != null) {
                 actionbar.setTitle(title);
+            }
         }
     }
 
@@ -142,8 +147,9 @@ public class FragmentEx extends Fragment {
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         if (activity != null) {
             ActionBar actionbar = activity.getSupportActionBar();
-            if (actionbar != null)
+            if (actionbar != null) {
                 actionbar.setSubtitle(subtitle);
+            }
         }
     }
 }

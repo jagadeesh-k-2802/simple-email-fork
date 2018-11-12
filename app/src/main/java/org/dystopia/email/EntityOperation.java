@@ -19,51 +19,48 @@ package org.dystopia.email;
     Copyright 2018, Marcel Bokhorst (M66B)
 */
 
+import static androidx.room.ForeignKey.CASCADE;
+
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
-
-import org.json.JSONArray;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
-
-import static androidx.room.ForeignKey.CASCADE;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import org.json.JSONArray;
 
 @Entity(
         tableName = EntityOperation.TABLE_NAME,
         foreignKeys = {
-                @ForeignKey(childColumns = "folder", entity = EntityFolder.class, parentColumns = "id", onDelete = CASCADE),
-                @ForeignKey(childColumns = "message", entity = EntityMessage.class, parentColumns = "id", onDelete = CASCADE)
+            @ForeignKey(
+                    childColumns = "folder",
+                    entity = EntityFolder.class,
+                    parentColumns = "id",
+                    onDelete = CASCADE),
+            @ForeignKey(
+                    childColumns = "message",
+                    entity = EntityMessage.class,
+                    parentColumns = "id",
+                    onDelete = CASCADE)
         },
-        indices = {
-                @Index(value = {"folder"}),
-                @Index(value = {"message"})
-        }
-)
+        indices = {@Index(value = {"folder"}), @Index(value = {"message"})})
 public class EntityOperation {
     static final String TABLE_NAME = "operation";
 
     @PrimaryKey(autoGenerate = true)
     public Long id;
-    @NonNull
-    public Long folder;
-    @NonNull
-    public Long message;
-    @NonNull
-    public String name;
-    @NonNull
-    public String args;
-    @NonNull
-    public Long created;
+
+    @NonNull public Long folder;
+    @NonNull public Long message;
+    @NonNull public String name;
+    @NonNull public String args;
+    @NonNull public Long created;
 
     public static final String SEEN = "seen";
     public static final String ADD = "add";
@@ -113,17 +110,27 @@ public class EntityOperation {
             queue.add(intent);
         }
 
-        Log.i(Helper.TAG, "Queued op=" + operation.id + "/" + operation.name +
-                " msg=" + message.folder + "/" + operation.message +
-                " args=" + operation.args);
+        Log.i(
+                Helper.TAG,
+                "Queued op="
+                        + operation.id
+                        + "/"
+                        + operation.name
+                        + " msg="
+                        + message.folder
+                        + "/"
+                        + operation.message
+                        + " args="
+                        + operation.args);
     }
 
     public static void process(Context context) {
         // Processing needs to be done after committing to the database
         LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(context);
         synchronized (queue) {
-            for (Intent intent : queue)
+            for (Intent intent : queue) {
                 lbm.sendBroadcast(intent);
+            }
             queue.clear();
         }
     }
@@ -132,11 +139,12 @@ public class EntityOperation {
     public boolean equals(Object obj) {
         if (obj instanceof EntityOperation) {
             EntityOperation other = (EntityOperation) obj;
-            return (this.folder.equals(other.folder) &&
-                    this.message.equals(other.message) &&
-                    this.name.equals(other.name) &&
-                    this.args.equals(other.args));
-        } else
+            return (this.folder.equals(other.folder)
+                    && this.message.equals(other.message)
+                    && this.name.equals(other.name)
+                    && this.args.equals(other.args));
+        } else {
             return false;
+        }
     }
 }

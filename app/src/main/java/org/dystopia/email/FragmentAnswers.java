@@ -24,11 +24,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.Group;
@@ -36,6 +31,8 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import java.util.List;
 
 public class FragmentAnswers extends FragmentEx {
     private RecyclerView rvAnswer;
@@ -47,7 +44,10 @@ public class FragmentAnswers extends FragmentEx {
 
     @Override
     @Nullable
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(
+            @NonNull LayoutInflater inflater,
+            @Nullable ViewGroup container,
+            @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_answers, container, false);
 
         setHasOptionsMenu(true);
@@ -67,14 +67,18 @@ public class FragmentAnswers extends FragmentEx {
         adapter = new AdapterAnswer(getContext());
         rvAnswer.setAdapter(adapter);
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.content_frame, new FragmentAnswer()).addToBackStack("answer");
-                fragmentTransaction.commit();
-            }
-        });
+        fab.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        FragmentTransaction fragmentTransaction =
+                                getFragmentManager().beginTransaction();
+                        fragmentTransaction
+                                .replace(R.id.content_frame, new FragmentAnswer())
+                                .addToBackStack("answer");
+                        fragmentTransaction.commit();
+                    }
+                });
 
         // Initialize
         grpReady.setVisibility(View.GONE);
@@ -88,13 +92,17 @@ public class FragmentAnswers extends FragmentEx {
         super.onActivityCreated(savedInstanceState);
 
         DB db = DB.getInstance(getContext());
-        db.answer().liveAnswers().observe(getViewLifecycleOwner(), new Observer<List<EntityAnswer>>() {
-            @Override
-            public void onChanged(List<EntityAnswer> answers) {
-                adapter.set(answers);
-                pbWait.setVisibility(View.GONE);
-                grpReady.setVisibility(View.VISIBLE);
-            }
-        });
+        db.answer()
+                .liveAnswers()
+                .observe(
+                        getViewLifecycleOwner(),
+                        new Observer<List<EntityAnswer>>() {
+                            @Override
+                            public void onChanged(List<EntityAnswer> answers) {
+                                adapter.set(answers);
+                                pbWait.setVisibility(View.GONE);
+                                grpReady.setVisibility(View.VISIBLE);
+                            }
+                        });
     }
 }
