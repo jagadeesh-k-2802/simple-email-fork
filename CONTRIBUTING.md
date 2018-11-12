@@ -15,12 +15,12 @@ are preferred in the form of [pull requests][pull-requests]).
 ## Source code
 
 Source code contributions are welcome, there's always work to be done on the SimpleEmail codebase, building from source code is 
-straightforward with [Android Studio](http://developer.android.com/sdk/). Here are the general rules:
+straightforward with `./gradlew assembleDebug` Here are the general rules:
 
 * Write good commit messages, we follow the [conventional commits][commits]
 * Make sure the linter (`./gradlew lint`) passes (in progress)
 * Stick to [F-Droid contribution guidelines](https://f-droid.org/wiki/page/Inclusion_Policy)
-* Make changes on a separate branch, not on the master branch. This is commonly known as *feature branch workflow* 
+* Make changes on a separate branch, not on the master branch. This is commonly known as *feature branch workflow* and `develop` as the base
 * Send patches via [Pull Requests][pull-requests], you branch should follow this convention: `[type]-[description]` example `feat-improve-performance`
 * When submitting changes, you confirm that your code is licensed under the terms of the [GNU General Public License v3](https://www.gnu.org/licenses/gpl-3.0.html).
 * Please test (compile and run) your code before you submit changes
