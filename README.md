@@ -136,6 +136,8 @@ SimpleEmail uses:
     You should have received a copy of the GNU General Public License
     along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+* All assets and docs are under [CC BY-SA 4.0](http://creativecommons.org/licenses/by-sa/4.0/), 
+for the license of the image used in the [assets](/assets) please see the metadata under the SVG file.
 
  [free-software]: https://www.gnu.org/philosophy/free-sw.html
  [issue]: https://framagit.org/dystopia-project/simple-email/issues
