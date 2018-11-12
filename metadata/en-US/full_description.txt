@@ -1,11 +1,14 @@
-SimpleEmail is Free Software, minimalistic and privacy friendly email app.
+An Free Software, minimalistic and privacy friendly email app.
 
+'''Highlights'''
 * Easy navigation
 * No unnecessary settings
 * No bells and whistles
+* Privacy friendly
 * Simple design
 
-SimpleEmail starts a foreground service with a low priority status bar notification to make sure you'll never miss new email.
+SimpleEmail is minimalistic by design, so you can concentrate on reading and writing messages, it starts a foreground 
+service with a low priority status bar notification to make sure you'll never miss new email.
 
 This project has been forked from [[eu.faircode.email]].
 

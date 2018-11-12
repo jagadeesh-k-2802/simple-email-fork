@@ -1,4 +1,4 @@
-![logo](/images/icon_small.png)
+![logo](/assets/icon_small.png)
 # SimpleEmail
 
 An [Free Software][free-software], minimalistic and privacy friendly email app for Android.
@@ -54,10 +54,10 @@ service with a low priority status bar notification to make sure you'll never mi
 
 ## Screenshots
 
-[<img src="metadata/en-US/phoneScreenshots/05_screenshot.png" width=160>](metadata/en-US/phoneScreenshots/05_screenshot.png)
-[<img src="metadata/en-US/phoneScreenshots/08_screenshot.png" width=160>](metadata/en-US/phoneScreenshots/08_screenshot.png)
+[<img src="metadata/en-US/images/phoneScreenshots/05_screenshot.png" width=160>](metadata/en-US/images/phoneScreenshots/05_screenshot.png)
+[<img src="metadata/en-US/images/phoneScreenshots/08_screenshot.png" width=160>](metadata/en-US/images/phoneScreenshots/08_screenshot.png)
 
-Please see more [here](/metadata/en-US/phoneScreenshots/) or in [FDroid store][fdroid]
+Please see more [here](/metadata/en-US/images/phoneScreenshots/) or in [FDroid store][fdroid]
 
 ## Secure
 
