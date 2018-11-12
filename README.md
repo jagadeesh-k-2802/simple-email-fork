@@ -1,13 +1,23 @@
+![logo](/images/icon_small.png)
 # SimpleEmail
 
-SimpleEmail is [Free Software][free-software], minimalistic and privacy friendly email app for Android.
+An [Free Software][free-software], minimalistic and privacy friendly email app for Android.
+
+<a href="https://f-droid.org/packages/org.dystopia.email"><img src="https://f-droid.org/badge/get-it-on.png" alt="Get it on F-Droid" height="75"></a>
+
+Alternatively, you can download directly from GitLab [Releases][gitlab-releases].
+
+## Highlights
 
 * Easy navigation
 * No unnecessary settings
 * No bells and whistles
+* Privacy friendly
 * Simple design
 
 *This project has been forked from [FairEmail](https://github.com/M66B/open-source-email).*
+
+## Why?
 
 This email app might be for you if your current email app:
 
@@ -60,9 +70,10 @@ service with a low priority status bar notification to make sure you'll never mi
 
 ## Downloads
 
-* [GitLab](https://framagit.org/dystopia-project/simple-email/tags)
+* [Fdroid store](https://f-droid.org/packages/org.dystopia.email)
+* [GitLab][gitlab-releases]
 
-Certificate fingerprints:
+Direct download certificate fingerprints:
 ```
 MD5:  85:B2:A9:90:3D:21:25:9E:4F:43:D1:71:8C:29:6C:70
 SHA1: 7F:AB:59:CD:12:A1:11:E7:6B:12:9D:71:70:5E:21:76:D9:0E:59:C0
@@ -123,3 +134,4 @@ SimpleEmail uses:
  [issue]: https://framagit.org/dystopia-project/simple-email/issues
  [pull-requests]: https://framagit.org/dystopia-project/simple-email/merge_requests
  [faqs]: https://framagit.org/dystopia-project/simple-email/blob/master/docs/FAQ.md
+ [gitlab-releases]: https://framagit.org/dystopia-project/simple-email/tags
