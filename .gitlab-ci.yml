@@ -101,11 +101,10 @@ release:
   script:
     - npm install -g semantic-release @semantic-release/commit-analyzer @semantic-release/release-notes-generator @semantic-release/changelog @semantic-release/exec @semantic-release/git @semantic-release/gitlab
     - eval $(ssh-agent -s)
-    #- echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
-    - ssh-add <(echo "$GIT_SSH_KEY")
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+    #- ssh-add <(echo "$GIT_SSH_KEY")
     - ssh-keyscan $GITLAB_URL >> ~/.ssh/known_hosts
     - git config --global user.email $GIT_AUTHOR_EMAIL
     - git config --global user.name $GIT_AUTHOR_NAME
-    - git checkout $CI_COMMIT_SHA
     - semantic-release
     - git checkout develop && git rebase master && git push origin develop
