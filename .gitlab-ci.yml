@@ -28,7 +28,7 @@ before_script:
   # Currently framagit.org have all runner with the same tag and don't use a distributed cache, so validate if restored the cache per pipeline ID
   - if [ ! -d "$ANDROID_HOME" ]; then
   -   wget --quiet --output-document=/tmp/android-sdk.zip https://dl.google.com/android/repository/sdk-tools-linux-${ANDROID_SDK_TOOLS}.zip
-  -   unzip -o -d $ANDROID_HOME /tmp/android-sdk.zip
+  -   unzip -q -o -d $ANDROID_HOME /tmp/android-sdk.zip
   #   Install platform tools and Android SDK for the compile target
   -   echo y | $ANDROID_HOME/tools/bin/sdkmanager "platforms;android-${ANDROID_COMPILE_SDK}" >/dev/null
   - fi
@@ -111,6 +111,6 @@ release:
     - echo $CI_REPOSITORY_URL
     - echo $CI_PROJECT_PATH
     - echo $CI_PROJECT_PATH_SLUG
-    - git checkout develop && git rebase master && git push develop
-    #- git push git@${GITLAB_URL}:${CI_PROJECT_PATH_SLUG}.git develop
+    - git checkout develop && git rebase master
+    - git push git@${GITLAB_URL}:${CI_PROJECT_PATH}.git develop
     #- git push https://${GIT_USERNAME}:${GIT_ACCESS_TOKEN}@${GITLAB_URL}/${CI_PROJECT_PATH_SLUG}.git develop
