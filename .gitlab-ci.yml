@@ -112,11 +112,12 @@ release:
   script:
     - npm install -g semantic-release @semantic-release/commit-analyzer @semantic-release/release-notes-generator @semantic-release/changelog @semantic-release/exec @semantic-release/git @semantic-release/gitlab
     - semantic-release
-    - echo $CI_PROJECT_URL
-    - echo $CI_REPOSITORY_URL
-    - echo $CI_PROJECT_PATH
-    - echo $CI_PROJECT_PATH_SLUG
+    - echo git show --summary
     - git checkout develop
     - git rebase master
+    - git show --summary
+    - git fetch
+    - git rebase origin/master
+    - git show --summary
     #- git push git@${GITLAB_URL}:${CI_PROJECT_PATH}.git develop
     - git push https://${GIT_CREDENTIALS}@${GITLAB_URL}/${CI_PROJECT_PATH}.git develop
