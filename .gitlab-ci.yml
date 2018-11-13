@@ -99,7 +99,7 @@ release:
     - export NVM_DIR="$HOME/.nvm" &&. "$NVM_DIR/nvm.sh" && nvm install 8
     - eval $(ssh-agent -s)
     #- echo "$GIT_SSH_KEY" | tr -d '\r' | ssh-add - > /dev/null
-    - ssh-add -q <(echo "$GIT_SSH_KEY")
+    - ssh-add <(echo "$GIT_SSH_KEY")
     - mkdir -p ~/.ssh && ssh-keyscan $GITLAB_URL >> ~/.ssh/known_hosts
     - git config --global user.email $GIT_AUTHOR_EMAIL
     - git config --global user.name $GIT_AUTHOR_NAME
