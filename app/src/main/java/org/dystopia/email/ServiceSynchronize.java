@@ -167,8 +167,7 @@ public class ServiceSynchronize extends LifecycleService {
                         new Observer<TupleAccountStats>() {
                             @Override
                             public void onChanged(@Nullable TupleAccountStats stats) {
-                                NotificationManager nm =
-                                        getSystemService(NotificationManager.class);
+                                NotificationManager nm = getSystemService(NotificationManager.class);
                                 nm.notify(
                                         NOTIFICATION_SYNCHRONIZE,
                                         getNotificationService(stats).build());
@@ -185,8 +184,7 @@ public class ServiceSynchronize extends LifecycleService {
 
                             @Override
                             public void onChanged(List<TupleNotification> messages) {
-                                NotificationManager nm =
-                                        getSystemService(NotificationManager.class);
+                                NotificationManager nm = getSystemService(NotificationManager.class);
                                 Map<Long, ArrayList<TupleNotification>> messagesByAccount =
                                         new HashMap<>();
 
@@ -201,8 +199,7 @@ public class ServiceSynchronize extends LifecycleService {
                                     newList.add(message);
 
                                     if (messagesByAccount.containsKey(accountKey)) {
-                                        ArrayList<TupleNotification> msgList =
-                                                messagesByAccount.get(accountKey);
+                                        ArrayList<TupleNotification> msgList = messagesByAccount.get(accountKey);
                                         newList.addAll(msgList);
                                     }
 
@@ -211,8 +208,7 @@ public class ServiceSynchronize extends LifecycleService {
                                         Integer accountColor = message.accountColor;
                                         accounts.put(
                                                 accountKey,
-                                                new Pair<String, Integer>(
-                                                        accountName, accountColor));
+                                                new Pair<String, Integer>(accountName, accountColor));
                                     }
                                     messagesByAccount.put(accountKey, newList);
                                 }
@@ -222,9 +218,7 @@ public class ServiceSynchronize extends LifecycleService {
                                         messagesByAccount.entrySet()) {
                                     Long accountId = messagesAccount.getKey();
                                     List<Notification> notifications =
-                                            getNotificationUnseen(
-                                                    messagesAccount.getValue(),
-                                                    accounts.get(accountId));
+                                            getNotificationUnseen(messagesAccount.getValue(), accounts.get(accountId));
                                     List<Integer> all = new ArrayList<>();
                                     List<Integer> added = new ArrayList<>();
                                     List<Integer> removed = new ArrayList<>();
@@ -453,7 +447,7 @@ public class ServiceSynchronize extends LifecycleService {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         String accountName = (String) account.first;
-        Integer accountColor = (int) account.second;
+        Integer accountColor = (Integer) account.second;
         Integer groupColor =
                 accountColor != null
                         ? accountColor
