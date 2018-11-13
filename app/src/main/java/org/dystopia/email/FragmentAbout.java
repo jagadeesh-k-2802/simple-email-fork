@@ -47,6 +47,7 @@ import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import javax.mail.Address;
 
 public class FragmentAbout extends FragmentEx {
@@ -93,6 +94,7 @@ public class FragmentAbout extends FragmentEx {
                             protected Long onLoad(Context context, Bundle args)
                                     throws UnsupportedEncodingException {
                                 StringBuilder sb = new StringBuilder();
+                                Locale locale = Locale.US;
 
                                 sb.append(
                                         context.getString(R.string.title_debug_info_remark)
@@ -100,7 +102,7 @@ public class FragmentAbout extends FragmentEx {
 
                                 // Get version info
                                 sb.append(
-                                        String.format(
+                                          String.format(locale, 
                                                 "%s: %s %s/%s%s\r\n",
                                                 context.getString(R.string.app_name),
                                                 BuildConfig.APPLICATION_ID,
@@ -108,21 +110,21 @@ public class FragmentAbout extends FragmentEx {
                                                 Helper.hasValidFingerprint(context) ? "1" : "3",
                                                 "+"));
                                 sb.append(
-                                        String.format(
+                                          String.format(locale, 
                                                 "Android: %s (SDK %d)\r\n",
                                                 Build.VERSION.RELEASE, Build.VERSION.SDK_INT));
                                 sb.append("\r\n");
 
                                 // Get device info
-                                sb.append(String.format("Brand: %s\r\n", Build.BRAND));
+                                sb.append(String.format(locale, "Brand: %s\r\n", Build.BRAND));
                                 sb.append(
-                                        String.format("Manufacturer: %s\r\n", Build.MANUFACTURER));
-                                sb.append(String.format("Model: %s\r\n", Build.MODEL));
-                                sb.append(String.format("Product: %s\r\n", Build.PRODUCT));
-                                sb.append(String.format("Device: %s\r\n", Build.DEVICE));
-                                sb.append(String.format("Host: %s\r\n", Build.HOST));
-                                sb.append(String.format("Display: %s\r\n", Build.DISPLAY));
-                                sb.append(String.format("Id: %s\r\n", Build.ID));
+                                          String.format(locale, "Manufacturer: %s\r\n", Build.MANUFACTURER));
+                                sb.append(String.format(locale, "Model: %s\r\n", Build.MODEL));
+                                sb.append(String.format(locale, "Product: %s\r\n", Build.PRODUCT));
+                                sb.append(String.format(locale, "Device: %s\r\n", Build.DEVICE));
+                                sb.append(String.format(locale, "Host: %s\r\n", Build.HOST));
+                                sb.append(String.format(locale, "Display: %s\r\n", Build.DISPLAY));
+                                sb.append(String.format(locale, "Id: %s\r\n", Build.ID));
                                 sb.append("\r\n");
 
                                 PowerManager pm = getContext().getSystemService(PowerManager.class);
@@ -130,13 +132,13 @@ public class FragmentAbout extends FragmentEx {
                                         pm.isIgnoringBatteryOptimizations(
                                                 BuildConfig.APPLICATION_ID);
                                 sb.append(
-                                        String.format("Battery optimizations: %b\r\n", !ignoring));
+                                          String.format(locale, "Battery optimizations: %b\r\n", !ignoring));
 
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                                     UsageStatsManager usm =
                                             getContext().getSystemService(UsageStatsManager.class);
                                     int bucket = usm.getAppStandbyBucket();
-                                    sb.append(String.format("Standby bucket: %d\r\n", bucket));
+                                    sb.append(String.format(locale, "Standby bucket: %d\r\n", bucket));
                                 }
 
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -147,15 +149,14 @@ public class FragmentAbout extends FragmentEx {
                                             (cm.getRestrictBackgroundStatus()
                                                     == ConnectivityManager
                                                             .RESTRICT_BACKGROUND_STATUS_ENABLED);
-                                    sb.append(String.format("Data saving: %b\r\n", saving));
+                                    sb.append(String.format(locale, "Data saving: %b\r\n", saving));
                                 }
 
                                 sb.append("\r\n");
 
-                                String body =
-                                        "<pre>"
-                                                + sb.toString().replaceAll("\\r?\\n", "<br />")
-                                                + "</pre>";
+                                String body = "<pre>"
+                                    + sb.toString().replaceAll("\\r?\\n", "<br />")
+                                    + "</pre>";
 
                                 EntityMessage draft;
                                 DB db = DB.getInstance(context);

@@ -85,8 +85,7 @@ import org.openintents.openpgp.OpenPgpError;
 import org.openintents.openpgp.util.OpenPgpApi;
 import org.openintents.openpgp.util.OpenPgpServiceConnection;
 
-public class ActivityView extends ActivityBase
-        implements FragmentManager.OnBackStackChangedListener {
+public class ActivityView extends ActivityBase implements FragmentManager.OnBackStackChangedListener {
     private View view;
     private DrawerLayout drawerLayout;
     private ListView drawerList;
@@ -116,7 +115,7 @@ public class ActivityView extends ActivityBase
     static final String ACTION_DECRYPT = BuildConfig.APPLICATION_ID + ".DECRYPT";
 
     static final String UPDATE_LATEST_API =
-            "https://framagit.org/api/v4/projects/dystopia-project%2Fsimple-email/repository/tags";
+        "https://framagit.org/api/v4/projects/dystopia-project%2Fsimple-email/repository/tags";
     static final long UPDATE_INTERVAL = 12 * 3600 * 1000L; // milliseconds
 
     @Override
@@ -133,174 +132,174 @@ public class ActivityView extends ActivityBase
         drawerLayout.setScrimColor(Helper.resolveColor(this, R.attr.colorDrawerScrim));
 
         drawerToggle =
-                new ActionBarDrawerToggle(
-                        this, drawerLayout, R.string.app_name, R.string.app_name) {
-                    public void onDrawerClosed(View view) {
-                        super.onDrawerClosed(view);
-                        getSupportActionBar().setTitle(getString(R.string.app_name));
-                    }
+            new ActionBarDrawerToggle(
+                                      this, drawerLayout, R.string.app_name, R.string.app_name) {
+                public void onDrawerClosed(View view) {
+                    super.onDrawerClosed(view);
+                    getSupportActionBar().setTitle(getString(R.string.app_name));
+                }
 
-                    public void onDrawerOpened(View drawerView) {
-                        super.onDrawerOpened(drawerView);
-                        getSupportActionBar().setTitle(getString(R.string.app_name));
-                    }
-                };
+                public void onDrawerOpened(View drawerView) {
+                    super.onDrawerOpened(drawerView);
+                    getSupportActionBar().setTitle(getString(R.string.app_name));
+                }
+            };
         drawerLayout.addDrawerListener(drawerToggle);
 
         drawerList = findViewById(R.id.drawer_list);
         drawerList.setOnItemClickListener(
-                new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(
-                            AdapterView<?> parent, View view, int position, long id) {
-                        DrawerItem item = (DrawerItem) parent.getAdapter().getItem(position);
-                        switch (item.getId()) {
-                            case -1:
-                                onMenuFolders((long) item.getData());
-                                break;
-                            case R.string.menu_setup:
-                                onMenuSetup();
-                                break;
-                            case R.string.menu_answers:
-                                onMenuAnswers();
-                                break;
-                            case R.string.menu_operations:
-                                onMenuOperations();
-                                break;
-                            case R.string.menu_legend:
-                                onMenuLegend();
-                                break;
-                            case R.string.menu_faq:
-                                onMenuFAQ();
-                                break;
-                            case R.string.menu_privacy:
-                                onMenuPrivacy();
-                                break;
-                            case R.string.menu_about:
-                                onMenuAbout();
-                                break;
-                            case R.string.menu_invite:
-                                onMenuInvite();
-                                break;
-                        }
+                                          new AdapterView.OnItemClickListener() {
+                                              @Override
+                                              public void onItemClick(
+                                                                      AdapterView<?> parent, View view, int position, long id) {
+                                                  DrawerItem item = (DrawerItem) parent.getAdapter().getItem(position);
+                                                  switch (item.getId()) {
+                                                  case -1:
+                                                      onMenuFolders((long) item.getData());
+                                                      break;
+                                                  case R.string.menu_setup:
+                                                      onMenuSetup();
+                                                      break;
+                                                  case R.string.menu_answers:
+                                                      onMenuAnswers();
+                                                      break;
+                                                  case R.string.menu_operations:
+                                                      onMenuOperations();
+                                                      break;
+                                                  case R.string.menu_legend:
+                                                      onMenuLegend();
+                                                      break;
+                                                  case R.string.menu_faq:
+                                                      onMenuFAQ();
+                                                      break;
+                                                  case R.string.menu_privacy:
+                                                      onMenuPrivacy();
+                                                      break;
+                                                  case R.string.menu_about:
+                                                      onMenuAbout();
+                                                      break;
+                                                  case R.string.menu_invite:
+                                                      onMenuInvite();
+                                                      break;
+                                                  }
 
-                        drawerLayout.closeDrawer(drawerList);
-                    }
-                });
+                                                  drawerLayout.closeDrawer(drawerList);
+                                              }
+                                          });
 
         getSupportFragmentManager().addOnBackStackChangedListener(this);
 
         DB.getInstance(this)
-                .account()
-                .liveAccounts(true)
-                .observe(
-                        this,
-                        new Observer<List<EntityAccount>>() {
-                            @Override
-                            public void onChanged(@Nullable List<EntityAccount> accounts) {
-                                if (accounts == null) {
-                                    accounts = new ArrayList<>();
-                                }
+            .account()
+            .liveAccounts(true)
+            .observe(
+                     this,
+                     new Observer<List<EntityAccount>>() {
+                         @Override
+                         public void onChanged(@Nullable List<EntityAccount> accounts) {
+                                               if (accounts == null) {
+                                                   accounts = new ArrayList<>();
+                                               }
 
-                                ArrayAdapterDrawer drawerArray =
-                                        new ArrayAdapterDrawer(ActivityView.this);
+                                               ArrayAdapterDrawer drawerArray =
+                                               new ArrayAdapterDrawer(ActivityView.this);
 
-                                final Collator collator = Collator.getInstance(Locale.getDefault());
-                                collator.setStrength(
-                                        Collator.SECONDARY); // Case insensitive, process accents
-                                // etc
+                                               final Collator collator = Collator.getInstance(Locale.getDefault());
+                                               collator.setStrength(
+                                                                    Collator.SECONDARY); // Case insensitive, process accents
+                                               // etc
 
-                                Collections.sort(
-                                        accounts,
-                                        new Comparator<EntityAccount>() {
-                                            @Override
-                                            public int compare(EntityAccount a1, EntityAccount a2) {
-                                                return collator.compare(a1.name, a2.name);
-                                            }
-                                        });
+                                               Collections.sort(
+                                                                accounts,
+                                                                new Comparator<EntityAccount>() {
+                                                                    @Override
+                                                                    public int compare(EntityAccount a1, EntityAccount a2) {
+                                                                        return collator.compare(a1.name, a2.name);
+                                                                    }
+                                                                });
 
-                                for (EntityAccount account : accounts) {
-                                    drawerArray.add(
-                                            new DrawerItem(
-                                                    R.layout.item_drawer,
-                                                    -1,
-                                                    R.drawable.baseline_folder_24,
-                                                    account.name,
-                                                    account.id));
-                                }
+                                               for (EntityAccount account : accounts) {
+                                                   drawerArray.add(
+                                                                   new DrawerItem(
+                                                                                  R.layout.item_drawer,
+                                                                                  -1,
+                                                                                  R.drawable.baseline_folder_24,
+                                                                                  account.name,
+                                                                                  account.id));
+                                               }
 
-                                drawerArray.add(new DrawerItem(R.layout.item_drawer_separator));
+                                               drawerArray.add(new DrawerItem(R.layout.item_drawer_separator));
 
-                                drawerArray.add(
-                                        new DrawerItem(
-                                                ActivityView.this,
-                                                R.layout.item_drawer,
-                                                R.drawable.baseline_settings_applications_24,
-                                                R.string.menu_setup));
-                                drawerArray.add(
-                                        new DrawerItem(
-                                                ActivityView.this,
-                                                R.layout.item_drawer,
-                                                R.drawable.baseline_reply_24,
-                                                R.string.menu_answers));
+                                               drawerArray.add(
+                                                               new DrawerItem(
+                                                                              ActivityView.this,
+                                                                              R.layout.item_drawer,
+                                                                              R.drawable.baseline_settings_applications_24,
+                                                                              R.string.menu_setup));
+                                               drawerArray.add(
+                                                               new DrawerItem(
+                                                                              ActivityView.this,
+                                                                              R.layout.item_drawer,
+                                                                              R.drawable.baseline_reply_24,
+                                                                              R.string.menu_answers));
 
-                                drawerArray.add(new DrawerItem(R.layout.item_drawer_separator));
+                                               drawerArray.add(new DrawerItem(R.layout.item_drawer_separator));
 
-                                if (PreferenceManager.getDefaultSharedPreferences(ActivityView.this)
-                                        .getBoolean("debug", false)) {
-                                    drawerArray.add(
-                                            new DrawerItem(
-                                                    ActivityView.this,
-                                                    R.layout.item_drawer,
-                                                    R.drawable.baseline_list_24,
-                                                    R.string.menu_operations));
-                                }
+                                               if (PreferenceManager.getDefaultSharedPreferences(ActivityView.this)
+                                                   .getBoolean("debug", false)) {
+                                                   drawerArray.add(
+                                                                   new DrawerItem(
+                                                                                  ActivityView.this,
+                                                                                  R.layout.item_drawer,
+                                                                                  R.drawable.baseline_list_24,
+                                                                                  R.string.menu_operations));
+                                               }
 
-                                drawerArray.add(
-                                        new DrawerItem(
-                                                ActivityView.this,
-                                                R.layout.item_drawer,
-                                                R.drawable.baseline_help_24,
-                                                R.string.menu_legend));
+                                               drawerArray.add(
+                                                               new DrawerItem(
+                                                                              ActivityView.this,
+                                                                              R.layout.item_drawer,
+                                                                              R.drawable.baseline_help_24,
+                                                                              R.string.menu_legend));
 
-                                if (getIntentFAQ().resolveActivity(getPackageManager()) != null) {
-                                    drawerArray.add(
-                                            new DrawerItem(
-                                                    ActivityView.this,
-                                                    R.layout.item_drawer,
-                                                    R.drawable.baseline_question_answer_24,
-                                                    R.string.menu_faq));
-                                }
+                                               if (getIntentFAQ().resolveActivity(getPackageManager()) != null) {
+                                                   drawerArray.add(
+                                                                   new DrawerItem(
+                                                                                  ActivityView.this,
+                                                                                  R.layout.item_drawer,
+                                                                                  R.drawable.baseline_question_answer_24,
+                                                                                  R.string.menu_faq));
+                                               }
 
-                                drawerArray.add(
-                                        new DrawerItem(
-                                                ActivityView.this,
-                                                R.layout.item_drawer,
-                                                R.drawable.baseline_account_box_24,
-                                                R.string.menu_privacy));
+                                               drawerArray.add(
+                                                               new DrawerItem(
+                                                                              ActivityView.this,
+                                                                              R.layout.item_drawer,
+                                                                              R.drawable.baseline_account_box_24,
+                                                                              R.string.menu_privacy));
 
-                                drawerArray.add(
-                                        new DrawerItem(
-                                                ActivityView.this,
-                                                R.layout.item_drawer,
-                                                R.drawable.baseline_info_24,
-                                                R.string.menu_about));
+                                               drawerArray.add(
+                                                               new DrawerItem(
+                                                                              ActivityView.this,
+                                                                              R.layout.item_drawer,
+                                                                              R.drawable.baseline_info_24,
+                                                                              R.string.menu_about));
 
-                                drawerArray.add(new DrawerItem(R.layout.item_drawer_separator));
+                                               drawerArray.add(new DrawerItem(R.layout.item_drawer_separator));
 
-                                if (getIntentInvite().resolveActivity(getPackageManager())
-                                        != null) {
-                                    drawerArray.add(
-                                            new DrawerItem(
-                                                    ActivityView.this,
-                                                    R.layout.item_drawer,
-                                                    R.drawable.baseline_people_24,
-                                                    R.string.menu_invite));
-                                }
+                                               if (getIntentInvite().resolveActivity(getPackageManager())
+                                                   != null) {
+                                                   drawerArray.add(
+                                                                   new DrawerItem(
+                                                                                  ActivityView.this,
+                                                                                  R.layout.item_drawer,
+                                                                                  R.drawable.baseline_people_24,
+                                                                                  R.string.menu_invite));
+                                               }
 
-                                drawerList.setAdapter(drawerArray);
-                            }
-                        });
+                                               drawerList.setAdapter(drawerArray);
+                                               }
+                     });
 
         if (getSupportFragmentManager().getFragments().size() == 0) {
             Bundle args = new Bundle();
@@ -310,7 +309,7 @@ public class ActivityView extends ActivityBase
             fragment.setArguments(args);
 
             FragmentTransaction fragmentTransaction =
-                    getSupportFragmentManager().beginTransaction();
+                getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.content_frame, fragment).addToBackStack("unified");
             fragmentTransaction.commit();
         }
@@ -396,7 +395,7 @@ public class ActivityView extends ActivityBase
                     EntityFolder archive = db.folder().getPrimaryArchive();
                     if (archive == null) {
                         throw new IllegalArgumentException(
-                                getString(R.string.title_no_primary_archive));
+                                                           getString(R.string.title_no_primary_archive));
                     }
 
                     db.message().deleteFoundMessages();
@@ -414,10 +413,10 @@ public class ActivityView extends ActivityBase
                     fragment.setArguments(sargs);
 
                     FragmentTransaction fragmentTransaction =
-                            getSupportFragmentManager().beginTransaction();
+                        getSupportFragmentManager().beginTransaction();
                     fragmentTransaction
-                            .replace(R.id.content_frame, fragment)
-                            .addToBackStack("search");
+                        .replace(R.id.content_frame, fragment)
+                        .addToBackStack("search");
                     fragmentTransaction.commit();
                 }
 
@@ -480,13 +479,13 @@ public class ActivityView extends ActivityBase
         }
 
         switch (item.getItemId()) {
-            case android.R.id.home:
-                if (getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.RESUMED)) {
-                    getSupportFragmentManager().popBackStack();
-                }
-                return true;
-            default:
-                return false;
+        case android.R.id.home:
+            if (getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.RESUMED)) {
+                getSupportFragmentManager().popBackStack();
+            }
+            return true;
+        default:
+            return false;
         }
     }
 
@@ -494,16 +493,16 @@ public class ActivityView extends ActivityBase
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         if (prefs.getBoolean("first", true)) {
             new DialogBuilderLifecycle(this, this)
-                    .setMessage(getString(R.string.title_hint_sync))
-                    .setPositiveButton(
-                            android.R.string.ok,
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    prefs.edit().putBoolean("first", false).apply();
-                                }
-                            })
-                    .show();
+                .setMessage(getString(R.string.title_hint_sync))
+                .setPositiveButton(
+                                   android.R.string.ok,
+                                   new DialogInterface.OnClickListener() {
+                                       @Override
+                                       public void onClick(DialogInterface dialog, int which) {
+                                           prefs.edit().putBoolean("first", false).apply();
+                                       }
+                                   })
+                .show();
         }
     }
 
@@ -515,32 +514,33 @@ public class ActivityView extends ActivityBase
                 if (file.exists()) {
                     // Get version info
                     StringBuilder sb = new StringBuilder();
+                    Locale locale = Locale.US;
 
                     sb.append(context.getString(R.string.title_crash_info_remark))
-                            .append("\n\n\n\n");
+                        .append("\n\n\n\n");
 
                     sb.append(
-                            String.format(
-                                    "%s: %s %s/%s\r\n",
-                                    context.getString(R.string.app_name),
-                                    BuildConfig.APPLICATION_ID,
-                                    BuildConfig.VERSION_NAME,
-                                    Helper.hasValidFingerprint(context) ? "1" : "3"));
+                              String.format(locale,
+                                            "%s: %s %s/%s\r\n",
+                                            context.getString(R.string.app_name),
+                                            BuildConfig.APPLICATION_ID,
+                                            BuildConfig.VERSION_NAME,
+                                            Helper.hasValidFingerprint(context) ? "1" : "3"));
                     sb.append(
-                            String.format(
-                                    "Android: %s (SDK %d)\r\n",
-                                    Build.VERSION.RELEASE, Build.VERSION.SDK_INT));
+                              String.format(locale,
+                                            "Android: %s (SDK %d)\r\n",
+                                            Build.VERSION.RELEASE, Build.VERSION.SDK_INT));
                     sb.append("\r\n");
 
                     // Get device info
-                    sb.append(String.format("Brand: %s\r\n", Build.BRAND));
-                    sb.append(String.format("Manufacturer: %s\r\n", Build.MANUFACTURER));
-                    sb.append(String.format("Model: %s\r\n", Build.MODEL));
-                    sb.append(String.format("Product: %s\r\n", Build.PRODUCT));
-                    sb.append(String.format("Device: %s\r\n", Build.DEVICE));
-                    sb.append(String.format("Host: %s\r\n", Build.HOST));
-                    sb.append(String.format("Display: %s\r\n", Build.DISPLAY));
-                    sb.append(String.format("Id: %s\r\n", Build.ID));
+                    sb.append(String.format(locale, "Brand: %s\r\n", Build.BRAND));
+                    sb.append(String.format(locale,"Manufacturer: %s\r\n", Build.MANUFACTURER));
+                    sb.append(String.format(locale,"Model: %s\r\n", Build.MODEL));
+                    sb.append(String.format(locale,"Product: %s\r\n", Build.PRODUCT));
+                    sb.append(String.format(locale,"Device: %s\r\n", Build.DEVICE));
+                    sb.append(String.format(locale,"Host: %s\r\n", Build.HOST));
+                    sb.append(String.format(locale,"Display: %s\r\n", Build.DISPLAY));
+                    sb.append(String.format(locale,"Id: %s\r\n", Build.ID));
                     sb.append("\r\n");
 
                     BufferedReader in = null;
@@ -559,7 +559,7 @@ public class ActivityView extends ActivityBase
                     file.delete();
 
                     String body =
-                            "<pre>" + sb.toString().replaceAll("\\r?\\n", "<br />") + "</pre>";
+                        "<pre>" + sb.toString().replaceAll("\\r?\\n", "<br />") + "</pre>";
 
                     EntityMessage draft = null;
 
@@ -575,10 +575,10 @@ public class ActivityView extends ActivityBase
                             draft.msgid = EntityMessage.generateMessageId();
                             draft.to = new Address[] {Helper.myAddress()};
                             draft.subject =
-                                    context.getString(R.string.app_name)
-                                            + " "
-                                            + BuildConfig.VERSION_NAME
-                                            + " crash log";
+                                context.getString(R.string.app_name)
+                                + " "
+                                + BuildConfig.VERSION_NAME
+                                + " crash log";
                             draft.content = true;
                             draft.received = new Date().getTime();
                             draft.seen = false;
@@ -611,9 +611,9 @@ public class ActivityView extends ActivityBase
             protected void onLoaded(Bundle args, Long id) {
                 if (id != null) {
                     startActivity(
-                            new Intent(ActivityView.this, ActivityCompose.class)
-                                    .putExtra("action", "edit")
-                                    .putExtra("id", id));
+                                  new Intent(ActivityView.this, ActivityCompose.class)
+                                  .putExtra("action", "edit")
+                                  .putExtra("id", id));
                 }
             }
         }.load(this, new Bundle());
@@ -640,8 +640,8 @@ public class ActivityView extends ActivityBase
                     URL latest = new URL(UPDATE_LATEST_API);
                     urlConnection = (HttpsURLConnection) latest.openConnection();
                     BufferedReader br =
-                            new BufferedReader(
-                                    new InputStreamReader(urlConnection.getInputStream()));
+                        new BufferedReader(
+                                           new InputStreamReader(urlConnection.getInputStream()));
 
                     String line;
                     while ((line = br.readLine()) != null) {
@@ -697,16 +697,16 @@ public class ActivityView extends ActivityBase
                 final Intent update = new Intent(Intent.ACTION_VIEW, Uri.parse(info.html_url));
                 if (update.resolveActivity(getPackageManager()) != null) {
                     new DialogBuilderLifecycle(ActivityView.this, ActivityView.this)
-                            .setMessage(getString(R.string.title_updated, info.tag_name))
-                            .setPositiveButton(
-                                    android.R.string.ok,
-                                    new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            Helper.view(ActivityView.this, update);
-                                        }
-                                    })
-                            .show();
+                        .setMessage(getString(R.string.title_updated, info.tag_name))
+                        .setPositiveButton(
+                                           android.R.string.ok,
+                                           new DialogInterface.OnClickListener() {
+                                               @Override
+                                               public void onClick(DialogInterface dialog, int which) {
+                                                   Helper.view(ActivityView.this, update);
+                                               }
+                                           })
+                        .show();
                 }
             }
 
@@ -722,8 +722,8 @@ public class ActivityView extends ActivityBase
     private Intent getIntentFAQ() {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(
-                Uri.parse(
-                        "https://framagit.org/dystopia-project/simple-email/blob/8f7296ddc2275471d4190df1dd55dee4025a5114/docs/FAQ.md"));
+                       Uri.parse(
+                                 "https://framagit.org/dystopia-project/simple-email/blob/8f7296ddc2275471d4190df1dd55dee4025a5114/docs/FAQ.md"));
         return intent;
     }
 
@@ -733,7 +733,7 @@ public class ActivityView extends ActivityBase
         intent.putExtra("com.google.android.gms.appinvite.TITLE", getString(R.string.menu_invite));
         intent.putExtra("com.google.android.gms.appinvite.MESSAGE", getString(R.string.title_try));
         intent.putExtra(
-                "com.google.android.gms.appinvite.BUTTON_TEXT", getString(R.string.title_try));
+                        "com.google.android.gms.appinvite.BUTTON_TEXT", getString(R.string.title_try));
         // com.google.android.gms.appinvite.DEEP_LINK_URL
         return intent;
     }
@@ -759,24 +759,24 @@ public class ActivityView extends ActivityBase
     private void onMenuAnswers() {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction
-                .replace(R.id.content_frame, new FragmentAnswers())
-                .addToBackStack("answers");
+            .replace(R.id.content_frame, new FragmentAnswers())
+            .addToBackStack("answers");
         fragmentTransaction.commit();
     }
 
     private void onMenuOperations() {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction
-                .replace(R.id.content_frame, new FragmentOperations())
-                .addToBackStack("operations");
+            .replace(R.id.content_frame, new FragmentOperations())
+            .addToBackStack("operations");
         fragmentTransaction.commit();
     }
 
     private void onMenuLegend() {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction
-                .replace(R.id.content_frame, new FragmentLegend())
-                .addToBackStack("legend");
+            .replace(R.id.content_frame, new FragmentLegend())
+            .addToBackStack("legend");
         fragmentTransaction.commit();
     }
 
@@ -787,16 +787,16 @@ public class ActivityView extends ActivityBase
     private void onMenuPrivacy() {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction
-                .replace(R.id.content_frame, new FragmentPrivacy())
-                .addToBackStack("privacy");
+            .replace(R.id.content_frame, new FragmentPrivacy())
+            .addToBackStack("privacy");
         fragmentTransaction.commit();
     }
 
     private void onMenuAbout() {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction
-                .replace(R.id.content_frame, new FragmentAbout())
-                .addToBackStack("about");
+            .replace(R.id.content_frame, new FragmentAbout())
+            .addToBackStack("about");
         fragmentTransaction.commit();
     }
 
@@ -841,49 +841,49 @@ public class ActivityView extends ActivityBase
 
     private static class ArrayAdapterDrawer extends ArrayAdapter<DrawerItem> {
         ArrayAdapterDrawer(@NonNull Context context) {
-            super(context, -1);
-        }
+                           super(context, -1);
+                           }
 
-        @NonNull
-        public View getView(int position, View convertView, @NonNull ViewGroup parent) {
-            DrawerItem item = getItem(position);
-            View row = LayoutInflater.from(getContext()).inflate(item.layout, null);
+            @NonNull
+            public View getView(int position, View convertView, @NonNull ViewGroup parent) {
+                                DrawerItem item = getItem(position);
+                                View row = LayoutInflater.from(getContext()).inflate(item.layout, null);
 
-            ImageView iv = row.findViewById(R.id.ivItem);
-            TextView tv = row.findViewById(R.id.tvItem);
+                                ImageView iv = row.findViewById(R.id.ivItem);
+                                TextView tv = row.findViewById(R.id.tvItem);
 
-            if (iv != null) {
-                iv.setImageResource(item.icon);
-            }
-            if (tv != null) {
-                tv.setText(item.title);
-            }
+                                if (iv != null) {
+                                    iv.setImageResource(item.icon);
+                                }
+                                if (tv != null) {
+                                    tv.setText(item.title);
+                                }
 
-            return row;
-        }
+                                return row;
+                                }
     }
 
     BroadcastReceiver receiver =
-            new BroadcastReceiver() {
-                @Override
-                public void onReceive(Context context, Intent intent) {
-                    if (ACTION_VIEW_MESSAGES.equals(intent.getAction())) {
-                        onViewMessages(intent);
-                    } else if (ACTION_VIEW_THREAD.equals(intent.getAction())) {
-                        onViewThread(intent);
-                    } else if (ACTION_VIEW_FULL.equals(intent.getAction())) {
-                        onViewFull(intent);
-                    } else if (ACTION_EDIT_FOLDER.equals(intent.getAction())) {
-                        onEditFolder(intent);
-                    } else if (ACTION_EDIT_ANSWER.equals(intent.getAction())) {
-                        onEditAnswer(intent);
-                    } else if (ACTION_STORE_ATTACHMENT.equals(intent.getAction())) {
-                        onStoreAttachment(intent);
-                    } else if (ACTION_DECRYPT.equals(intent.getAction())) {
-                        onDecrypt(intent);
-                    }
+        new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if (ACTION_VIEW_MESSAGES.equals(intent.getAction())) {
+                    onViewMessages(intent);
+                } else if (ACTION_VIEW_THREAD.equals(intent.getAction())) {
+                    onViewThread(intent);
+                } else if (ACTION_VIEW_FULL.equals(intent.getAction())) {
+                    onViewFull(intent);
+                } else if (ACTION_EDIT_FOLDER.equals(intent.getAction())) {
+                    onEditFolder(intent);
+                } else if (ACTION_EDIT_ANSWER.equals(intent.getAction())) {
+                    onEditAnswer(intent);
+                } else if (ACTION_STORE_ATTACHMENT.equals(intent.getAction())) {
+                    onStoreAttachment(intent);
+                } else if (ACTION_DECRYPT.equals(intent.getAction())) {
+                    onDecrypt(intent);
                 }
-            };
+            }
+        };
 
     private void onViewMessages(Intent intent) {
         Bundle args = new Bundle();
@@ -901,7 +901,7 @@ public class ActivityView extends ActivityBase
 
     private void onViewThread(Intent intent) {
         getSupportFragmentManager()
-                .popBackStack("thread", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            .popBackStack("thread", FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
         Bundle args = new Bundle();
         args.putLong("account", intent.getLongExtra("account", -1));
@@ -964,16 +964,16 @@ public class ActivityView extends ActivityBase
             decrypt(data, intent.getLongExtra("id", -1));
         } else {
             Snackbar snackbar =
-                    Snackbar.make(view, R.string.title_no_openpgp, Snackbar.LENGTH_LONG);
+                Snackbar.make(view, R.string.title_no_openpgp, Snackbar.LENGTH_LONG);
             if (Helper.getIntentOpenKeychain().resolveActivity(getPackageManager()) != null) {
                 snackbar.setAction(
-                        R.string.title_fix,
-                        new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                startActivity(Helper.getIntentOpenKeychain());
-                            }
-                        });
+                                   R.string.title_fix,
+                                   new View.OnClickListener() {
+                                       @Override
+                                       public void onClick(View v) {
+                                           startActivity(Helper.getIntentOpenKeychain());
+                                       }
+                                   });
             }
             snackbar.show();
         }
@@ -999,65 +999,65 @@ public class ActivityView extends ActivityBase
                     if (attachment.available && "encrypted.asc".equals(attachment.name)) {
                         // Serialize encrypted data
                         FileInputStream encrypted =
-                                new FileInputStream(
-                                        EntityAttachment.getFile(context, attachment.id));
+                            new FileInputStream(
+                                                EntityAttachment.getFile(context, attachment.id));
                         ByteArrayOutputStream decrypted = new ByteArrayOutputStream();
 
                         // Decrypt message
                         OpenPgpApi api = new OpenPgpApi(context, pgpService.getService());
                         Intent result = api.executeApi(data, encrypted, decrypted);
                         switch (result.getIntExtra(
-                                OpenPgpApi.RESULT_CODE, OpenPgpApi.RESULT_CODE_ERROR)) {
-                            case OpenPgpApi.RESULT_CODE_SUCCESS:
-                                // Decode message
-                                Properties props =
-                                        MessageHelper.getSessionProperties(
-                                                Helper.AUTH_TYPE_PASSWORD, false);
-                                Session isession = Session.getInstance(props, null);
-                                ByteArrayInputStream is =
-                                        new ByteArrayInputStream(decrypted.toByteArray());
-                                MimeMessage imessage = new MimeMessage(isession, is);
-                                MessageHelper helper = new MessageHelper(imessage);
+                                                   OpenPgpApi.RESULT_CODE, OpenPgpApi.RESULT_CODE_ERROR)) {
+                        case OpenPgpApi.RESULT_CODE_SUCCESS:
+                            // Decode message
+                            Properties props =
+                                MessageHelper.getSessionProperties(
+                                                                   Helper.AUTH_TYPE_PASSWORD, false);
+                            Session isession = Session.getInstance(props, null);
+                            ByteArrayInputStream is =
+                                new ByteArrayInputStream(decrypted.toByteArray());
+                            MimeMessage imessage = new MimeMessage(isession, is);
+                            MessageHelper helper = new MessageHelper(imessage);
 
-                                try {
-                                    db.beginTransaction();
+                            try {
+                                db.beginTransaction();
 
-                                    // Write decrypted body
-                                    EntityMessage m = db.message().getMessage(id);
-                                    m.write(context, helper.getHtml());
+                                // Write decrypted body
+                                EntityMessage m = db.message().getMessage(id);
+                                m.write(context, helper.getHtml());
 
-                                    // Remove previously decrypted attachments
-                                    for (EntityAttachment a : attachments) {
-                                        if (!"encrypted.asc".equals(a.name)) {
-                                            db.attachment().deleteAttachment(a.id);
-                                        }
+                                // Remove previously decrypted attachments
+                                for (EntityAttachment a : attachments) {
+                                    if (!"encrypted.asc".equals(a.name)) {
+                                        db.attachment().deleteAttachment(a.id);
                                     }
-
-                                    // Add decrypted attachments
-                                    int sequence = db.attachment().getAttachmentSequence(id);
-                                    for (EntityAttachment a : helper.getAttachments()) {
-                                        a.message = id;
-                                        a.sequence = ++sequence;
-                                        a.id = db.attachment().insertAttachment(a);
-                                    }
-
-                                    db.message().setMessageStored(id, new Date().getTime());
-
-                                    db.setTransactionSuccessful();
-                                } finally {
-                                    db.endTransaction();
                                 }
 
-                                break;
+                                // Add decrypted attachments
+                                int sequence = db.attachment().getAttachmentSequence(id);
+                                for (EntityAttachment a : helper.getAttachments()) {
+                                    a.message = id;
+                                    a.sequence = ++sequence;
+                                    a.id = db.attachment().insertAttachment(a);
+                                }
 
-                            case OpenPgpApi.RESULT_CODE_USER_INTERACTION_REQUIRED:
-                                message = id;
-                                return result.getParcelableExtra(OpenPgpApi.RESULT_INTENT);
+                                db.message().setMessageStored(id, new Date().getTime());
 
-                            case OpenPgpApi.RESULT_CODE_ERROR:
-                                OpenPgpError error =
-                                        result.getParcelableExtra(OpenPgpApi.RESULT_ERROR);
-                                throw new IllegalArgumentException(error.getMessage());
+                                db.setTransactionSuccessful();
+                            } finally {
+                                db.endTransaction();
+                            }
+
+                            break;
+
+                        case OpenPgpApi.RESULT_CODE_USER_INTERACTION_REQUIRED:
+                            message = id;
+                            return result.getParcelableExtra(OpenPgpApi.RESULT_INTENT);
+
+                        case OpenPgpApi.RESULT_CODE_ERROR:
+                            OpenPgpError error =
+                                result.getParcelableExtra(OpenPgpApi.RESULT_ERROR);
+                            throw new IllegalArgumentException(error.getMessage());
                         }
 
                         break;
@@ -1072,13 +1072,13 @@ public class ActivityView extends ActivityBase
                 if (pi != null) {
                     try {
                         startIntentSenderForResult(
-                                pi.getIntentSender(),
-                                ActivityView.REQUEST_DECRYPT,
-                                null,
-                                0,
-                                0,
-                                0,
-                                null);
+                                                   pi.getIntentSender(),
+                                                   ActivityView.REQUEST_DECRYPT,
+                                                   null,
+                                                   0,
+                                                   0,
+                                                   0,
+                                                   null);
                     } catch (IntentSender.SendIntentException ex) {
                         Helper.unexpectedError(ActivityView.this, ex);
                     }
@@ -1099,13 +1099,13 @@ public class ActivityView extends ActivityBase
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.i(
-                Helper.TAG,
-                "View onActivityResult request="
-                        + requestCode
-                        + " result="
-                        + resultCode
-                        + " data="
-                        + data);
+              Helper.TAG,
+              "View onActivityResult request="
+              + requestCode
+              + " result="
+              + resultCode
+              + " data="
+              + data);
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == REQUEST_ATTACHMENT) {
                 if (data != null) {
@@ -1164,10 +1164,10 @@ public class ActivityView extends ActivityBase
                         @Override
                         protected void onLoaded(Bundle args, Void data) {
                             Toast.makeText(
-                                            ActivityView.this,
-                                            R.string.title_attachment_saved,
-                                            Toast.LENGTH_LONG)
-                                    .show();
+                                           ActivityView.this,
+                                           R.string.title_attachment_saved,
+                                           Toast.LENGTH_LONG)
+                                .show();
                         }
 
                         @Override

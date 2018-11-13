@@ -58,6 +58,7 @@ import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.ThreadFactory;
 import javax.mail.Address;
 import javax.mail.AuthenticationFailedException;
@@ -73,14 +74,14 @@ public class Helper {
     static final int AUTH_TYPE_GMAIL = 2;
 
     static ThreadFactory backgroundThreadFactory =
-            new ThreadFactory() {
-                @Override
-                public Thread newThread(@NonNull Runnable runnable) {
-                    Thread thread = new Thread(runnable);
-                    thread.setPriority(THREAD_PRIORITY_BACKGROUND);
-                    return thread;
-                }
-            };
+        new ThreadFactory() {
+            @Override
+            public Thread newThread(@NonNull Runnable runnable) {
+                                    Thread thread = new Thread(runnable);
+                                    thread.setPriority(THREAD_PRIORITY_BACKGROUND);
+                                    return thread;
+                                    }
+                };
 
     static void view(Context context, Intent intent) {
         Uri uri = intent.getData();
@@ -105,7 +106,7 @@ public class Helper {
     static Intent getIntentOpenKeychain() {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(
-                Uri.parse("https://f-droid.org/en/packages/org.sufficientlysecure.keychain/"));
+                       Uri.parse("https://f-droid.org/en/packages/org.sufficientlysecure.keychain/"));
         return intent;
     }
 
@@ -121,9 +122,9 @@ public class Helper {
         for (int i = 0; i < view.getChildCount(); i++) {
             View child = view.getChildAt(i);
             if (child instanceof Spinner
-                    || child instanceof EditText
-                    || child instanceof CheckBox
-                    || child instanceof ImageView /* =ImageButton */) {
+                || child instanceof EditText
+                || child instanceof CheckBox
+                || child instanceof ImageView /* =ImageButton */) {
                 child.setEnabled(enabled);
             }
             if (child instanceof BottomNavigationView) {
@@ -151,10 +152,10 @@ public class Helper {
         Throwable cause = ex.getCause();
         while (cause != null) {
             sb.append(" ")
-                    .append(
-                            cause.getMessage() == null
-                                    ? cause.getClass().getName()
-                                    : cause.getMessage());
+                .append(
+                        cause.getMessage() == null
+                        ? cause.getClass().getName()
+                        : cause.getMessage());
             cause = cause.getCause();
         }
         return sb.toString();
@@ -162,10 +163,10 @@ public class Helper {
 
     static void unexpectedError(Context context, Throwable ex) {
         new AlertDialog.Builder(context)
-                .setTitle(R.string.title_unexpected_error)
-                .setMessage(ex.toString())
-                .setPositiveButton(android.R.string.cancel, null)
-                .show();
+            .setTitle(R.string.title_unexpected_error)
+            .setMessage(ex.toString())
+            .setPositiveButton(android.R.string.cancel, null)
+            .show();
     }
 
     static String humanReadableByteCount(long bytes, boolean si) {
@@ -238,13 +239,13 @@ public class Helper {
     }
 
     static void connect(Context context, IMAPStore istore, EntityAccount account)
-            throws MessagingException {
+        throws MessagingException {
         try {
             istore.connect(account.host, account.port, account.user, account.password);
         } catch (AuthenticationFailedException ex) {
             if (account.auth_type == Helper.AUTH_TYPE_GMAIL) {
                 account.password =
-                        Helper.refreshToken(context, "com.google", account.user, account.password);
+                    Helper.refreshToken(context, "com.google", account.user, account.password);
                 DB.getInstance(context).account().setAccountPassword(account.id, account.password);
                 istore.connect(account.host, account.port, account.user, account.password);
             } else {
@@ -262,7 +263,7 @@ public class Helper {
                     Log.i(Helper.TAG, "Refreshing token");
                     am.invalidateAuthToken(type, current);
                     String refreshed =
-                            am.blockingGetAuthToken(account, getAuthTokenType(type), true);
+                        am.blockingGetAuthToken(account, getAuthTokenType(type), true);
                     Log.i(Helper.TAG, "Refreshed token");
                     return refreshed;
                 }
@@ -303,7 +304,7 @@ public class Helper {
             byte[] bytes = digest.digest(cert);
             StringBuilder sb = new StringBuilder();
             for (byte b : bytes) {
-                sb.append(Integer.toString(b & 0xff, 16).toUpperCase());
+                sb.append(Integer.toString(b & 0xff, 16).toUpperCase(Locale.US));
             }
             return sb.toString();
         } catch (Throwable ex) {
