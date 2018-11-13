@@ -42,8 +42,8 @@ lintAll:
   except:
     - master
   script:
-    - ./gradlew --console=plain lint
-    - ./gradlew --console=plain checkstyle
+    #- ./gradlew --console=plain lint
+    #- ./gradlew --console=plain checkstyle
 
 lintRelease:
   stage: test
@@ -58,7 +58,7 @@ testAll:
   except:
     - master
   script:
-    - ./gradlew --console=plain test
+    #- ./gradlew --console=plain test
 
 testRelease:
   stage: test
@@ -76,7 +76,7 @@ buildDebug:
   artifacts:
     expire_in: 1 week
     paths:
-      - app/build/outputs/
+      #- app/build/outputs/
 
 buildRelease:
   stage: build
