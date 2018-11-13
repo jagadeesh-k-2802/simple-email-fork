@@ -116,6 +116,7 @@ release:
     - echo $CI_REPOSITORY_URL
     - echo $CI_PROJECT_PATH
     - echo $CI_PROJECT_PATH_SLUG
-    - git checkout -b develop origin/develop && git rebase master
+    - git checkout develop
+    - git rebase master
     #- git push git@${GITLAB_URL}:${CI_PROJECT_PATH}.git develop
     - git push https://${GIT_CREDENTIALS}@${GITLAB_URL}/${CI_PROJECT_PATH}.git develop
