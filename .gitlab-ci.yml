@@ -102,4 +102,4 @@ release:
     - npm install -g semantic-release @semantic-release/commit-analyzer @semantic-release/release-notes-generator @semantic-release/changelog @semantic-release/exec @semantic-release/git @semantic-release/gitlab 
     - git checkout $CI_COMMIT_SHA
     - semantic-release
-    - git checkout develop && git rebase master && git push develop
+    - git checkout develop && git rebase master && git push origin develop
