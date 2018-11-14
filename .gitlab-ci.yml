@@ -102,6 +102,7 @@ release:
   script:
     - semantic-release
     - git fetch
+    - echo "---"
     - git remote -v
     - git checkout develop
     - git branch -avv
