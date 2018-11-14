@@ -102,6 +102,8 @@ release:
   script:
     - semantic-release
     - git fetch
+    - git remote -v
     - git checkout develop
+    - git branch -avv
     - git rebase origin/master
     - git push https://${GIT_CREDENTIALS}@${GITLAB_URL}/${CI_PROJECT_PATH}.git develop
