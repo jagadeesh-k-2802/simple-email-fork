@@ -2,11 +2,11 @@ plugins:
   - "@semantic-release/commit-analyzer"
   - "@semantic-release/release-notes-generator"
   - "@semantic-release/changelog"
-  - "@semantic-release/exec": 
-      - prepareCmd: 'VERSIONCODE=`grep "versionCode .*" app/build.gradle | sed "s/versionCode //"` && sed -i "s/versionCode .*$/versionCode $(($VERSIONCODE + 1))/; s/versionName .*$/versionName \"${nextRelease.version}"/" app/build.gradle'
-  - "@semantic-release/git":
-      - assets:
-          - CHANGELOG.md
-          - app/build.gradle
-      - message: "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+  - - "@semantic-release/exec"
+    - prepareCmd: 'VERSIONCODE=`grep "versionCode .*" app/build.gradle | sed "s/versionCode //"` && sed -i "s/versionCode .*$/versionCode $(($VERSIONCODE + 1))/; s/versionName .*$/versionName \"${nextRelease.version}"/" app/build.gradle'
+  - - "@semantic-release/git"
+    - assets:
+        - CHANGELOG.md
+        - app/build.gradle
+      message: "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
   - "@semantic-release/gitlab"
