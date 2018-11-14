@@ -42,34 +42,30 @@ lintAll:
   except:
     - master
   script:
-    - echo ""
-    #- ./gradlew --console=plain lint
-    #- ./gradlew --console=plain checkstyle
+    - ./gradlew --console=plain lint
+    - ./gradlew --console=plain checkstyle
 
 lintRelease:
   stage: test
   only:
     - master
   script:
-    - echo ""
-    #- ./gradlew --console=plain lintRelease
-    #- ./gradlew --console=plain checkstyle
+    - ./gradlew --console=plain lintRelease
+    - ./gradlew --console=plain checkstyle
 
 testAll:
   stage: test
   except:
     - master
   script:
-    - echo ""
-    #- ./gradlew --console=plain test
+    - ./gradlew --console=plain test
 
 testRelease:
   stage: test
   only:
     - master
   script:
-    - echo ""
-    #- ./gradlew --console=plain testReleaseUnitTest
+    - ./gradlew --console=plain testReleaseUnitTest
 
 buildDebug:
   stage: build
@@ -87,8 +83,7 @@ buildRelease:
   only:
     - master
   script:
-    - echo ""
-    #- ./gradlew assembleRelease
+    - ./gradlew assembleRelease
   artifacts:
     expire_in: 1 week
     paths:
@@ -103,7 +98,6 @@ release:
     - bash /tmp/nvm-install.sh
     - export NVM_DIR="$HOME/.nvm" &&. "$NVM_DIR/nvm.sh" && nvm install 8
     - eval $(ssh-agent -s)
-    #- echo "$GIT_SSH_KEY" | tr -d '\r' | ssh-add - > /dev/null
     - ssh-add <(echo "$GIT_SSH_KEY")
     - mkdir -p ~/.ssh && ssh-keyscan $GITLAB_URL >> ~/.ssh/known_hosts
     - git config --global user.email $GIT_AUTHOR_EMAIL
@@ -112,9 +106,7 @@ release:
   script:
     - npm install -g semantic-release @semantic-release/commit-analyzer @semantic-release/release-notes-generator @semantic-release/changelog @semantic-release/exec @semantic-release/git @semantic-release/gitlab
     - semantic-release
-    - git remote add upstream git@${GITLAB_URL}:${CI_PROJECT_PATH}.git
-    - git fetch upstream
-    - git checkout -b develop upstream/develop
-    - git rebase upstream/master
-    - git push upstream develop
-    #- git push https://${GIT_CREDENTIALS}@${GITLAB_URL}/${CI_PROJECT_PATH}.git develop
+    - git fetch
+    - git checkout develop
+    - git rebase origin/master
+    - git push git@${GITLAB_URL}:${CI_PROJECT_PATH}.git develop
