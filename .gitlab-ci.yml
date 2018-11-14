@@ -112,13 +112,9 @@ release:
   script:
     - npm install -g semantic-release @semantic-release/commit-analyzer @semantic-release/release-notes-generator @semantic-release/changelog @semantic-release/exec @semantic-release/git @semantic-release/gitlab
     - semantic-release
-    - git remote update
-    - git fetch
-    - git branch -avv
-    - git checkout --track -b develop origin/develop
-    - git rebase master
-    - git show --summary
-    - git rebase origin/master
-    - git show --summary
-    - git push git@${GITLAB_URL}:${CI_PROJECT_PATH}.git develop
+    - git remote add upstream git@${GITLAB_URL}:${CI_PROJECT_PATH}.git
+    - git fetch upstream
+    - git checkout -b develop upstream/develop
+    - git rebase upstream/master
+    - git push upstream develop
     #- git push https://${GIT_CREDENTIALS}@${GITLAB_URL}/${CI_PROJECT_PATH}.git develop
