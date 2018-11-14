@@ -132,14 +132,14 @@ public class AdapterFolder extends RecyclerView.Adapter<AdapterFolder.ViewHolder
                                     ? R.attr.colorUnread
                                     : android.R.attr.textColorSecondary));
 
-            tvMessages.setText(String.format("%d/%d", folder.content, folder.messages));
+            tvMessages.setText(String.format(Locale.US, "%d/%d", folder.content, folder.messages));
 
             ivUnified.setVisibility(folder.unified ? View.VISIBLE : View.INVISIBLE);
 
             int resid =
                     context.getResources()
                             .getIdentifier(
-                                    "title_folder_" + folder.type.toLowerCase(),
+                                    "title_folder_" + folder.type.toLowerCase(Locale.US),
                                     "string",
                                     context.getPackageName());
             tvType.setText(resid > 0 ? context.getString(resid) : folder.type);

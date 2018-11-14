@@ -55,6 +55,7 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.mail.internet.ParseException;
 import org.jsoup.Jsoup;
+import java.util.Locale;
 
 public class MessageHelper {
     private MimeMessage imessage;
@@ -65,7 +66,7 @@ public class MessageHelper {
     static Properties getSessionProperties(int auth_type, boolean insecure) {
         Properties props = new Properties();
 
-        String checkserveridentity = Boolean.toString(!insecure).toLowerCase();
+        String checkserveridentity = Boolean.toString(!insecure).toLowerCase(Locale.ROOT);
 
         // https://javaee.github.io/javamail/docs/api/com/sun/mail/imap/package-summary.html#properties
         props.put("mail.imaps.ssl.checkserveridentity", checkserveridentity);
@@ -595,7 +596,7 @@ public class MessageHelper {
 
                 EntityAttachment attachment = new EntityAttachment();
                 attachment.name = filename;
-                attachment.type = ct.getBaseType().toLowerCase();
+                attachment.type = ct.getBaseType().toLowerCase(Locale.ROOT);
                 attachment.size = part.getSize();
                 attachment.cid = (cid == null || cid.length == 0 ? null : cid[0]);
                 attachment.part = part;
@@ -605,9 +606,8 @@ public class MessageHelper {
                 if ("application/octet-stream".equals(attachment.type)) {
                     String extension = Helper.getExtension(attachment.name);
                     if (extension != null) {
-                        String type =
-                                MimeTypeMap.getSingleton()
-                                        .getMimeTypeFromExtension(extension.toLowerCase());
+                        String type = MimeTypeMap.getSingleton()
+                            .getMimeTypeFromExtension(extension.toLowerCase(Locale.ROOT));
                         if (type != null) {
                             Log.w(Helper.TAG, "Guessing file=" + attachment.name + " type=" + type);
                             attachment.type = type;

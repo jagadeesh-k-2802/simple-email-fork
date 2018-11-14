@@ -86,7 +86,7 @@ public class AdapterIdentity extends RecyclerView.Adapter<AdapterIdentity.ViewHo
                             ? R.drawable.baseline_sync_24
                             : R.drawable.baseline_sync_disabled_24);
             tvUser.setText(identity.email);
-            tvHost.setText(String.format("%s:%d", identity.host, identity.port));
+            tvHost.setText(String.format(Locale.US, "%s:%d", identity.host, identity.port));
             tvAccount.setText(identity.accountName);
 
             if ("connected".equals(identity.state)) {

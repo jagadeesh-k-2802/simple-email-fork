@@ -92,6 +92,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
+import java.util.Locale;
 import javax.mail.Address;
 import javax.mail.MessageRemovedException;
 import javax.mail.Session;
@@ -1023,7 +1024,7 @@ public class FragmentCompose extends FragmentEx {
             if (extension != null) {
                 attachment.type =
                         MimeTypeMap.getSingleton()
-                                .getMimeTypeFromExtension(extension.toLowerCase());
+                                .getMimeTypeFromExtension(extension.toLowerCase(Locale.US));
             }
             if (attachment.type == null) {
                 attachment.type = "application/octet-stream";

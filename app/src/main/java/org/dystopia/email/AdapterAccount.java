@@ -88,7 +88,7 @@ public class AdapterAccount extends RecyclerView.Adapter<AdapterAccount.ViewHold
                             ? R.drawable.baseline_sync_24
                             : R.drawable.baseline_sync_disabled_24);
             tvUser.setText(account.user);
-            tvHost.setText(String.format("%s:%d", account.host, account.port));
+            tvHost.setText(String.format(Locale.US, "%s:%d", account.host, account.port));
 
             if ("connected".equals(account.state)) {
                 ivState.setImageResource(R.drawable.baseline_cloud_24);
