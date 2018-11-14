@@ -112,6 +112,7 @@ release:
   script:
     - npm install -g semantic-release @semantic-release/commit-analyzer @semantic-release/release-notes-generator @semantic-release/changelog @semantic-release/exec @semantic-release/git @semantic-release/gitlab
     - semantic-release
+    - git remote update
     - git fetch
     - git branch -avv
     - git checkout --track -b develop origin/develop
