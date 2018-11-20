@@ -14,8 +14,8 @@ package org.dystopia.email;
  * You should have received a copy of the GNU General Public License along with FairEmail. If not,
  * see <http://www.gnu.org/licenses/>.
  * 
- * Copyright 2018, Marcel Bokhorst (M66B) Copyright 2018, Distopico (dystopia project)
- * <distopico@riseup.net> and contributors
+ * Copyright 2018, Marcel Bokhorst (M66B)
+ * Copyright 2018, Distopico (dystopia project) <distopico@riseup.net> and contributors
  */
 
 import static android.os.Process.THREAD_PRIORITY_BACKGROUND;
