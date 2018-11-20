@@ -24,6 +24,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.Group;
@@ -34,90 +35,86 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.List;
-import android.widget.TextView;
 
 public class FragmentIdentities extends FragmentEx {
-    private TextView tvNoIdentities;
-    private RecyclerView rvIdentity;
-    private ProgressBar pbWait;
-    private Group grpReady;
-    private FloatingActionButton fab;
+  private TextView tvNoIdentities;
+  private RecyclerView rvIdentity;
+  private ProgressBar pbWait;
+  private Group grpReady;
+  private FloatingActionButton fab;
 
-    private AdapterIdentity adapter;
+  private AdapterIdentity adapter;
 
-    @Override
-    @Nullable
-    public View onCreateView(
-            @NonNull LayoutInflater inflater,
-            @Nullable ViewGroup container,
-            @Nullable Bundle savedInstanceState) {
-        setSubtitle(R.string.title_list_identities);
+  @Override
+  @Nullable
+  public View onCreateView(
+      @NonNull LayoutInflater inflater,
+      @Nullable ViewGroup container,
+      @Nullable Bundle savedInstanceState) {
+    setSubtitle(R.string.title_list_identities);
 
-        View view = inflater.inflate(R.layout.fragment_identities, container, false);
+    View view = inflater.inflate(R.layout.fragment_identities, container, false);
 
-        // Get controls
-        rvIdentity = view.findViewById(R.id.rvIdentity);
-        tvNoIdentities = view.findViewById(R.id.tvNoIdentities);
-        pbWait = view.findViewById(R.id.pbWait);
-        grpReady = view.findViewById(R.id.grpReady);
-        fab = view.findViewById(R.id.fab);
+    // Get controls
+    rvIdentity = view.findViewById(R.id.rvIdentity);
+    tvNoIdentities = view.findViewById(R.id.tvNoIdentities);
+    pbWait = view.findViewById(R.id.pbWait);
+    grpReady = view.findViewById(R.id.grpReady);
+    fab = view.findViewById(R.id.fab);
 
-        // Wire controls
+    // Wire controls
 
-        rvIdentity.setHasFixedSize(false);
-        LinearLayoutManager llm = new LinearLayoutManager(getContext());
-        rvIdentity.setLayoutManager(llm);
+    rvIdentity.setHasFixedSize(false);
+    LinearLayoutManager llm = new LinearLayoutManager(getContext());
+    rvIdentity.setLayoutManager(llm);
 
-        adapter = new AdapterIdentity(getContext());
-        rvIdentity.setAdapter(adapter);
+    adapter = new AdapterIdentity(getContext());
+    rvIdentity.setAdapter(adapter);
 
-        fab.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        FragmentIdentity fragment = new FragmentIdentity();
-                        fragment.setArguments(new Bundle());
-                        FragmentTransaction fragmentTransaction =
-                                getFragmentManager().beginTransaction();
-                        fragmentTransaction
-                                .replace(R.id.content_frame, fragment)
-                                .addToBackStack("identity");
-                        fragmentTransaction.commit();
-                    }
-                });
+    fab.setOnClickListener(
+        new View.OnClickListener() {
+          @Override
+          public void onClick(View view) {
+            FragmentIdentity fragment = new FragmentIdentity();
+            fragment.setArguments(new Bundle());
+            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.content_frame, fragment).addToBackStack("identity");
+            fragmentTransaction.commit();
+          }
+        });
 
-        // Initialize
-        grpReady.setVisibility(View.GONE);
-        tvNoIdentities.setVisibility(View.GONE);
-        pbWait.setVisibility(View.VISIBLE);
+    // Initialize
+    grpReady.setVisibility(View.GONE);
+    tvNoIdentities.setVisibility(View.GONE);
+    pbWait.setVisibility(View.VISIBLE);
 
-        return view;
-    }
+    return view;
+  }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+  @Override
+  public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+    super.onActivityCreated(savedInstanceState);
 
-        // Observe identities
-        DB.getInstance(getContext())
-                .identity()
-                .liveIdentities()
-                .observe(
-                        getViewLifecycleOwner(),
-                        new Observer<List<TupleIdentityEx>>() {
-                            @Override
-                            public void onChanged(@Nullable List<TupleIdentityEx> identities) {
-                                if (identities == null) {
-                                    identities = new ArrayList<TupleIdentityEx>();
-                                } else if (identities.size() == 0) {
-                                    tvNoIdentities.setVisibility(View.VISIBLE);
-                                }
+    // Observe identities
+    DB.getInstance(getContext())
+        .identity()
+        .liveIdentities()
+        .observe(
+            getViewLifecycleOwner(),
+            new Observer<List<TupleIdentityEx>>() {
+              @Override
+              public void onChanged(@Nullable List<TupleIdentityEx> identities) {
+                if (identities == null) {
+                  identities = new ArrayList<TupleIdentityEx>();
+                } else if (identities.size() == 0) {
+                  tvNoIdentities.setVisibility(View.VISIBLE);
+                }
 
-                                adapter.set(identities);
+                adapter.set(identities);
 
-                                pbWait.setVisibility(View.GONE);
-                                grpReady.setVisibility(View.VISIBLE);
-                            }
-                        });
-    }
+                pbWait.setVisibility(View.GONE);
+                grpReady.setVisibility(View.VISIBLE);
+              }
+            });
+  }
 }

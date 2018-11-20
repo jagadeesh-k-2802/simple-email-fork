@@ -41,194 +41,191 @@ import java.util.List;
 import java.util.Locale;
 
 public class AdapterAccount extends RecyclerView.Adapter<AdapterAccount.ViewHolder> {
-    private Context context;
+  private Context context;
 
-    private List<EntityAccount> all = new ArrayList<>();
-    private List<EntityAccount> filtered = new ArrayList<>();
+  private List<EntityAccount> all = new ArrayList<>();
+  private List<EntityAccount> filtered = new ArrayList<>();
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        View itemView;
-        View vwColor;
-        ImageView ivPrimary;
-        TextView tvName;
-        ImageView ivSync;
-        TextView tvUser;
-        TextView tvHost;
-        ImageView ivState;
-        TextView tvError;
+  public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    View itemView;
+    View vwColor;
+    ImageView ivPrimary;
+    TextView tvName;
+    ImageView ivSync;
+    TextView tvUser;
+    TextView tvHost;
+    ImageView ivState;
+    TextView tvError;
 
-        ViewHolder(View itemView) {
-            super(itemView);
+    ViewHolder(View itemView) {
+      super(itemView);
 
-            this.itemView = itemView;
-            vwColor = itemView.findViewById(R.id.vwColor);
-            ivPrimary = itemView.findViewById(R.id.ivPrimary);
-            tvName = itemView.findViewById(R.id.tvName);
-            ivSync = itemView.findViewById(R.id.ivSync);
-            tvUser = itemView.findViewById(R.id.tvUser);
-            tvHost = itemView.findViewById(R.id.tvHost);
-            ivState = itemView.findViewById(R.id.ivState);
-            tvError = itemView.findViewById(R.id.tvError);
-        }
-
-        private void wire() {
-            itemView.setOnClickListener(this);
-        }
-
-        private void unwire() {
-            itemView.setOnClickListener(null);
-        }
-
-        private void bindTo(EntityAccount account) {
-            vwColor.setBackgroundColor(account.color == null ? Color.TRANSPARENT : account.color);
-            ivPrimary.setVisibility(account.primary ? View.VISIBLE : View.INVISIBLE);
-            tvName.setText(account.name);
-            ivSync.setImageResource(
-                    account.synchronize
-                            ? R.drawable.baseline_sync_24
-                            : R.drawable.baseline_sync_disabled_24);
-            tvUser.setText(account.user);
-            tvHost.setText(String.format(Locale.US, "%s:%d", account.host, account.port));
-
-            if ("connected".equals(account.state)) {
-                ivState.setImageResource(R.drawable.baseline_cloud_24);
-            } else if ("connecting".equals(account.state)) {
-                ivState.setImageResource(R.drawable.baseline_cloud_queue_24);
-            } else if ("closing".equals(account.state)) {
-                ivState.setImageResource(R.drawable.baseline_close_24);
-            } else {
-                ivState.setImageResource(R.drawable.baseline_cloud_off_24);
-            }
-            ivState.setVisibility(account.synchronize ? View.VISIBLE : View.INVISIBLE);
-
-            tvError.setText(account.error);
-            tvError.setVisibility(account.error == null ? View.GONE : View.VISIBLE);
-        }
-
-        @Override
-        public void onClick(View view) {
-            int pos = getAdapterPosition();
-            if (pos == RecyclerView.NO_POSITION) {
-                return;
-            }
-            EntityAccount account = filtered.get(pos);
-
-            LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(context);
-            lbm.sendBroadcast(
-                    new Intent(ActivitySetup.ACTION_EDIT_ACCOUNT).putExtra("id", account.id));
-        }
+      this.itemView = itemView;
+      vwColor = itemView.findViewById(R.id.vwColor);
+      ivPrimary = itemView.findViewById(R.id.ivPrimary);
+      tvName = itemView.findViewById(R.id.tvName);
+      ivSync = itemView.findViewById(R.id.ivSync);
+      tvUser = itemView.findViewById(R.id.tvUser);
+      tvHost = itemView.findViewById(R.id.tvHost);
+      ivState = itemView.findViewById(R.id.ivState);
+      tvError = itemView.findViewById(R.id.tvError);
     }
 
-    AdapterAccount(Context context) {
-        this.context = context;
-        setHasStableIds(true);
+    private void wire() {
+      itemView.setOnClickListener(this);
     }
 
-    public void set(@NonNull List<EntityAccount> accounts) {
-        Log.i(Helper.TAG, "Set accounts=" + accounts.size());
-
-        final Collator collator = Collator.getInstance(Locale.getDefault());
-        collator.setStrength(Collator.SECONDARY); // Case insensitive, process accents etc
-
-        Collections.sort(
-                accounts,
-                new Comparator<EntityAccount>() {
-                    @Override
-                    public int compare(EntityAccount a1, EntityAccount a2) {
-                        return collator.compare(a1.host, a2.host);
-                    }
-                });
-
-        all = accounts;
-
-        DiffUtil.DiffResult diff = DiffUtil.calculateDiff(new MessageDiffCallback(filtered, all));
-
-        filtered.clear();
-        filtered.addAll(all);
-
-        diff.dispatchUpdatesTo(
-                new ListUpdateCallback() {
-                    @Override
-                    public void onInserted(int position, int count) {
-                        Log.i(Helper.TAG, "Inserted @" + position + " #" + count);
-                    }
-
-                    @Override
-                    public void onRemoved(int position, int count) {
-                        Log.i(Helper.TAG, "Removed @" + position + " #" + count);
-                    }
-
-                    @Override
-                    public void onMoved(int fromPosition, int toPosition) {
-                        Log.i(Helper.TAG, "Moved " + fromPosition + ">" + toPosition);
-                    }
-
-                    @Override
-                    public void onChanged(int position, int count, Object payload) {
-                        Log.i(Helper.TAG, "Changed @" + position + " #" + count);
-                    }
-                });
-        diff.dispatchUpdatesTo(this);
+    private void unwire() {
+      itemView.setOnClickListener(null);
     }
 
-    private class MessageDiffCallback extends DiffUtil.Callback {
-        private List<EntityAccount> prev;
-        private List<EntityAccount> next;
+    private void bindTo(EntityAccount account) {
+      vwColor.setBackgroundColor(account.color == null ? Color.TRANSPARENT : account.color);
+      ivPrimary.setVisibility(account.primary ? View.VISIBLE : View.INVISIBLE);
+      tvName.setText(account.name);
+      ivSync.setImageResource(
+          account.synchronize ? R.drawable.baseline_sync_24 : R.drawable.baseline_sync_disabled_24);
+      tvUser.setText(account.user);
+      tvHost.setText(String.format(Locale.US, "%s:%d", account.host, account.port));
 
-        MessageDiffCallback(List<EntityAccount> prev, List<EntityAccount> next) {
-            this.prev = prev;
-            this.next = next;
-        }
+      if ("connected".equals(account.state)) {
+        ivState.setImageResource(R.drawable.baseline_cloud_24);
+      } else if ("connecting".equals(account.state)) {
+        ivState.setImageResource(R.drawable.baseline_cloud_queue_24);
+      } else if ("closing".equals(account.state)) {
+        ivState.setImageResource(R.drawable.baseline_close_24);
+      } else {
+        ivState.setImageResource(R.drawable.baseline_cloud_off_24);
+      }
+      ivState.setVisibility(account.synchronize ? View.VISIBLE : View.INVISIBLE);
 
-        @Override
-        public int getOldListSize() {
-            return prev.size();
-        }
-
-        @Override
-        public int getNewListSize() {
-            return next.size();
-        }
-
-        @Override
-        public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-            EntityAccount f1 = prev.get(oldItemPosition);
-            EntityAccount f2 = next.get(newItemPosition);
-            return f1.id.equals(f2.id);
-        }
-
-        @Override
-        public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
-            EntityAccount f1 = prev.get(oldItemPosition);
-            EntityAccount f2 = next.get(newItemPosition);
-            return f1.equals(f2);
-        }
+      tvError.setText(account.error);
+      tvError.setVisibility(account.error == null ? View.GONE : View.VISIBLE);
     }
 
     @Override
-    public long getItemId(int position) {
-        return filtered.get(position).id;
+    public void onClick(View view) {
+      int pos = getAdapterPosition();
+      if (pos == RecyclerView.NO_POSITION) {
+        return;
+      }
+      EntityAccount account = filtered.get(pos);
+
+      LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(context);
+      lbm.sendBroadcast(new Intent(ActivitySetup.ACTION_EDIT_ACCOUNT).putExtra("id", account.id));
+    }
+  }
+
+  AdapterAccount(Context context) {
+    this.context = context;
+    setHasStableIds(true);
+  }
+
+  public void set(@NonNull List<EntityAccount> accounts) {
+    Log.i(Helper.TAG, "Set accounts=" + accounts.size());
+
+    final Collator collator = Collator.getInstance(Locale.getDefault());
+    collator.setStrength(Collator.SECONDARY); // Case insensitive, process accents etc
+
+    Collections.sort(
+        accounts,
+        new Comparator<EntityAccount>() {
+          @Override
+          public int compare(EntityAccount a1, EntityAccount a2) {
+            return collator.compare(a1.host, a2.host);
+          }
+        });
+
+    all = accounts;
+
+    DiffUtil.DiffResult diff = DiffUtil.calculateDiff(new MessageDiffCallback(filtered, all));
+
+    filtered.clear();
+    filtered.addAll(all);
+
+    diff.dispatchUpdatesTo(
+        new ListUpdateCallback() {
+          @Override
+          public void onInserted(int position, int count) {
+            Log.i(Helper.TAG, "Inserted @" + position + " #" + count);
+          }
+
+          @Override
+          public void onRemoved(int position, int count) {
+            Log.i(Helper.TAG, "Removed @" + position + " #" + count);
+          }
+
+          @Override
+          public void onMoved(int fromPosition, int toPosition) {
+            Log.i(Helper.TAG, "Moved " + fromPosition + ">" + toPosition);
+          }
+
+          @Override
+          public void onChanged(int position, int count, Object payload) {
+            Log.i(Helper.TAG, "Changed @" + position + " #" + count);
+          }
+        });
+    diff.dispatchUpdatesTo(this);
+  }
+
+  private class MessageDiffCallback extends DiffUtil.Callback {
+    private List<EntityAccount> prev;
+    private List<EntityAccount> next;
+
+    MessageDiffCallback(List<EntityAccount> prev, List<EntityAccount> next) {
+      this.prev = prev;
+      this.next = next;
     }
 
     @Override
-    public int getItemCount() {
-        return filtered.size();
+    public int getOldListSize() {
+      return prev.size();
     }
 
     @Override
-    @NonNull
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ViewHolder(
-                LayoutInflater.from(context).inflate(R.layout.item_account, parent, false));
+    public int getNewListSize() {
+      return next.size();
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.unwire();
-
-        EntityAccount account = filtered.get(position);
-        holder.bindTo(account);
-
-        holder.wire();
+    public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
+      EntityAccount f1 = prev.get(oldItemPosition);
+      EntityAccount f2 = next.get(newItemPosition);
+      return f1.id.equals(f2.id);
     }
+
+    @Override
+    public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
+      EntityAccount f1 = prev.get(oldItemPosition);
+      EntityAccount f2 = next.get(newItemPosition);
+      return f1.equals(f2);
+    }
+  }
+
+  @Override
+  public long getItemId(int position) {
+    return filtered.get(position).id;
+  }
+
+  @Override
+  public int getItemCount() {
+    return filtered.size();
+  }
+
+  @Override
+  @NonNull
+  public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    return new ViewHolder(
+        LayoutInflater.from(context).inflate(R.layout.item_account, parent, false));
+  }
+
+  @Override
+  public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    holder.unwire();
+
+    EntityAccount account = filtered.get(position);
+    holder.bindTo(account);
+
+    holder.wire();
+  }
 }

@@ -23,22 +23,22 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.selection.ItemDetailsLookup;
 
 public class ItemDetailsMessage extends ItemDetailsLookup.ItemDetails<Long> {
-    private int pos;
-    private Long key;
+  private int pos;
+  private Long key;
 
-    ItemDetailsMessage(int pos, Long id) {
-        this.pos = pos;
-        this.key = id;
-    }
+  ItemDetailsMessage(int pos, Long id) {
+    this.pos = pos;
+    this.key = id;
+  }
 
-    @Override
-    public int getPosition() {
-        return pos;
-    }
+  @Override
+  public int getPosition() {
+    return pos;
+  }
 
-    @Nullable
-    @Override
-    public Long getSelectionKey() {
-        return key;
-    }
+  @Nullable
+  @Override
+  public Long getSelectionKey() {
+    return key;
+  }
 }

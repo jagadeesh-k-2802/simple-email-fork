@@ -20,5 +20,5 @@ package org.dystopia.email;
 */
 
 public class TupleIdentityEx extends EntityIdentity {
-    public String accountName;
+  public String accountName;
 }

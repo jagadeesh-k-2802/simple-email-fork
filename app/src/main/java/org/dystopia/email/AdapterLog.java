@@ -35,126 +35,125 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AdapterLog extends RecyclerView.Adapter<AdapterLog.ViewHolder> {
-    private Context context;
+  private Context context;
 
-    private List<EntityLog> all = new ArrayList<>();
-    private List<EntityLog> filtered = new ArrayList<>();
+  private List<EntityLog> all = new ArrayList<>();
+  private List<EntityLog> filtered = new ArrayList<>();
 
-    private static final DateFormat DF = SimpleDateFormat.getTimeInstance();
+  private static final DateFormat DF = SimpleDateFormat.getTimeInstance();
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        View itemView;
-        TextView tvTime;
-        TextView tvData;
+  public class ViewHolder extends RecyclerView.ViewHolder {
+    View itemView;
+    TextView tvTime;
+    TextView tvData;
 
-        ViewHolder(View itemView) {
-            super(itemView);
+    ViewHolder(View itemView) {
+      super(itemView);
 
-            this.itemView = itemView;
-            tvTime = itemView.findViewById(R.id.tvTime);
-            tvData = itemView.findViewById(R.id.tvData);
-        }
-
-        private void bindTo(EntityLog log) {
-            tvTime.setText(DF.format(log.time));
-            tvData.setText(log.data);
-        }
+      this.itemView = itemView;
+      tvTime = itemView.findViewById(R.id.tvTime);
+      tvData = itemView.findViewById(R.id.tvData);
     }
 
-    AdapterLog(Context context) {
-        this.context = context;
-        setHasStableIds(true);
+    private void bindTo(EntityLog log) {
+      tvTime.setText(DF.format(log.time));
+      tvData.setText(log.data);
     }
+  }
 
-    public void set(@NonNull List<EntityLog> logs) {
-        Log.i(Helper.TAG, "Set logs=" + logs.size());
+  AdapterLog(Context context) {
+    this.context = context;
+    setHasStableIds(true);
+  }
 
-        all = logs;
+  public void set(@NonNull List<EntityLog> logs) {
+    Log.i(Helper.TAG, "Set logs=" + logs.size());
 
-        DiffUtil.DiffResult diff = DiffUtil.calculateDiff(new MessageDiffCallback(filtered, all));
+    all = logs;
 
-        filtered.clear();
-        filtered.addAll(all);
+    DiffUtil.DiffResult diff = DiffUtil.calculateDiff(new MessageDiffCallback(filtered, all));
 
-        diff.dispatchUpdatesTo(
-                new ListUpdateCallback() {
-                    @Override
-                    public void onInserted(int position, int count) {
-                        Log.i(Helper.TAG, "Inserted @" + position + " #" + count);
-                    }
+    filtered.clear();
+    filtered.addAll(all);
 
-                    @Override
-                    public void onRemoved(int position, int count) {
-                        Log.i(Helper.TAG, "Removed @" + position + " #" + count);
-                    }
+    diff.dispatchUpdatesTo(
+        new ListUpdateCallback() {
+          @Override
+          public void onInserted(int position, int count) {
+            Log.i(Helper.TAG, "Inserted @" + position + " #" + count);
+          }
 
-                    @Override
-                    public void onMoved(int fromPosition, int toPosition) {
-                        Log.i(Helper.TAG, "Moved " + fromPosition + ">" + toPosition);
-                    }
+          @Override
+          public void onRemoved(int position, int count) {
+            Log.i(Helper.TAG, "Removed @" + position + " #" + count);
+          }
 
-                    @Override
-                    public void onChanged(int position, int count, Object payload) {
-                        Log.i(Helper.TAG, "Changed @" + position + " #" + count);
-                    }
-                });
-        diff.dispatchUpdatesTo(this);
-    }
+          @Override
+          public void onMoved(int fromPosition, int toPosition) {
+            Log.i(Helper.TAG, "Moved " + fromPosition + ">" + toPosition);
+          }
 
-    private class MessageDiffCallback extends DiffUtil.Callback {
-        private List<EntityLog> prev;
-        private List<EntityLog> next;
+          @Override
+          public void onChanged(int position, int count, Object payload) {
+            Log.i(Helper.TAG, "Changed @" + position + " #" + count);
+          }
+        });
+    diff.dispatchUpdatesTo(this);
+  }
 
-        MessageDiffCallback(List<EntityLog> prev, List<EntityLog> next) {
-            this.prev = prev;
-            this.next = next;
-        }
+  private class MessageDiffCallback extends DiffUtil.Callback {
+    private List<EntityLog> prev;
+    private List<EntityLog> next;
 
-        @Override
-        public int getOldListSize() {
-            return prev.size();
-        }
-
-        @Override
-        public int getNewListSize() {
-            return next.size();
-        }
-
-        @Override
-        public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-            EntityLog l1 = prev.get(oldItemPosition);
-            EntityLog l2 = next.get(newItemPosition);
-            return l1.id.equals(l2.id);
-        }
-
-        @Override
-        public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
-            EntityLog l1 = prev.get(oldItemPosition);
-            EntityLog l2 = next.get(newItemPosition);
-            return l1.equals(l2);
-        }
+    MessageDiffCallback(List<EntityLog> prev, List<EntityLog> next) {
+      this.prev = prev;
+      this.next = next;
     }
 
     @Override
-    public long getItemId(int position) {
-        return filtered.get(position).id;
+    public int getOldListSize() {
+      return prev.size();
     }
 
     @Override
-    public int getItemCount() {
-        return filtered.size();
+    public int getNewListSize() {
+      return next.size();
     }
 
     @Override
-    @NonNull
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ViewHolder(
-                LayoutInflater.from(context).inflate(R.layout.item_log, parent, false));
+    public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
+      EntityLog l1 = prev.get(oldItemPosition);
+      EntityLog l2 = next.get(newItemPosition);
+      return l1.id.equals(l2.id);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        EntityLog log = filtered.get(position);
-        holder.bindTo(log);
+    public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
+      EntityLog l1 = prev.get(oldItemPosition);
+      EntityLog l2 = next.get(newItemPosition);
+      return l1.equals(l2);
     }
+  }
+
+  @Override
+  public long getItemId(int position) {
+    return filtered.get(position).id;
+  }
+
+  @Override
+  public int getItemCount() {
+    return filtered.size();
+  }
+
+  @Override
+  @NonNull
+  public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_log, parent, false));
+  }
+
+  @Override
+  public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    EntityLog log = filtered.get(position);
+    holder.bindTo(log);
+  }
 }
