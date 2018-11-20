@@ -22,6 +22,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -42,6 +44,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.SearchView;
 import androidx.constraintlayout.widget.Group;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LiveData;
@@ -341,8 +344,12 @@ public class FragmentMessages extends FragmentEx {
 
         View itemView = viewHolder.itemView;
         int margin = Math.round(12 * (getResources().getDisplayMetrics().density));
+        Paint color = new Paint();
+        color.setColor(ContextCompat.getColor(getContext(), R.color.colorPrimaryDark));
 
         if (dX > margin) {
+          canvas.drawRect((float) itemView.getLeft(), (float) itemView.getTop(), dX,
+              (float) itemView.getBottom(), color);
           // Right swipe
           Drawable d = getResources().getDrawable(
               inbox ? R.drawable.baseline_move_to_inbox_24 : R.drawable.baseline_archive_24,
@@ -351,8 +358,12 @@ public class FragmentMessages extends FragmentEx {
           d.setBounds(itemView.getLeft() + margin, itemView.getTop() + padding / 2,
               itemView.getLeft() + margin + d.getIntrinsicWidth(),
               itemView.getTop() + padding / 2 + d.getIntrinsicHeight());
+          d.setTint(Color.WHITE);
           d.draw(canvas);
         } else if (dX < -margin) {
+          canvas.drawRect((float) itemView.getRight() + dX, (float) itemView.getTop(),
+              (float) itemView.getRight(), (float) itemView.getBottom(), color);
+
           // Left swipe
           Drawable d = getResources().getDrawable(
               inbox ? R.drawable.baseline_move_to_inbox_24 : R.drawable.baseline_delete_24,
@@ -361,6 +372,7 @@ public class FragmentMessages extends FragmentEx {
           d.setBounds(itemView.getLeft() + itemView.getWidth() - d.getIntrinsicWidth() - margin,
               itemView.getTop() + padding / 2, itemView.getLeft() + itemView.getWidth() - margin,
               itemView.getTop() + padding / 2 + d.getIntrinsicHeight());
+          d.setTint(Color.WHITE);
           d.draw(canvas);
         }
 
@@ -1220,36 +1232,36 @@ public class FragmentMessages extends FragmentEx {
             // - no more non archived/sent messages
 
             if (count == 0) {
-                finish();
+              finish();
             }
           }
         } else {
-            ViewModelMessages model =
-                ViewModelProviders.of(getActivity()).get(ViewModelMessages.class);
-            model.setMessages(messages);
+          ViewModelMessages model =
+              ViewModelProviders.of(getActivity()).get(ViewModelMessages.class);
+          model.setMessages(messages);
         }
 
-                            Log.i(Helper.TAG, "Submit messages=" + messages.size());
-                            adapter.submitList(messages);
+        Log.i(Helper.TAG, "Submit messages=" + messages.size());
+        adapter.submitList(messages);
 
-                            boolean searching = (searchCallback != null && searchCallback.isSearching());
+        boolean searching = (searchCallback != null && searchCallback.isSearching());
 
-                            if (!searching) {
-                                pbWait.setVisibility(View.GONE);
-                            }
-                            grpReady.setVisibility(View.VISIBLE);
+        if (!searching) {
+          pbWait.setVisibility(View.GONE);
+        }
+        grpReady.setVisibility(View.VISIBLE);
 
-                            if (messages.size() == 0) {
-                                if (searchCallback == null) {
-                                    tvNoEmail.setVisibility(View.VISIBLE);
-                                }
+        if (messages.size() == 0) {
+          if (searchCallback == null) {
+            tvNoEmail.setVisibility(View.VISIBLE);
+          }
           rvMessage.setVisibility(View.GONE);
         } else {
-            tvNoEmail.setVisibility(View.GONE);
-            rvMessage.setVisibility(View.VISIBLE);
+          tvNoEmail.setVisibility(View.GONE);
+          rvMessage.setVisibility(View.VISIBLE);
         }
-                            }
-        });
+      }
+    });
   }
 
   private void handleExpand(long id) {

@@ -189,11 +189,11 @@ public class ServiceSynchronize extends LifecycleService {
           Long accountKey = message.account;
           List<TupleNotification> msgList = new ArrayList<>();
 
-          if (messagesByAccount.indexOfKey(accountKey) != -1) {
-            msgList = messagesByAccount.get(accountKey);
+          if (messagesByAccount.indexOfKey(accountKey) >= 0) {
+            msgList = messagesByAccount.get(accountKey, msgList);
           }
 
-          if (accounts.indexOfKey(accountKey) == -1) {
+          if (accounts.indexOfKey(accountKey) < 0) {
             accounts.put(accountKey,
                 new Pair<String, Integer>(message.accountName, message.accountColor));
           }
@@ -213,7 +213,7 @@ public class ServiceSynchronize extends LifecycleService {
           List<Integer> toRemove = new ArrayList<>();
           String tag = "unseen-" + accountId;
 
-          if (notifying.indexOfKey(accountId) != -1) {
+          if (notifying.indexOfKey(accountId) >= 0) {
             toRemove = notifying.get(accountId);
           }
 
@@ -539,7 +539,7 @@ public class ServiceSynchronize extends LifecycleService {
     List<Notification> notifications = new ArrayList<>();
     Integer size = messages.size();
 
-    if (size == 0) {
+    if (size == 0 || account == null) {
       return notifications;
     }
 
