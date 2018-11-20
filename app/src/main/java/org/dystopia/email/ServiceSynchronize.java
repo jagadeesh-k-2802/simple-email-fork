@@ -53,6 +53,7 @@ import android.provider.ContactsContract;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.LongSparseArray;
 import android.util.Pair;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
@@ -179,85 +180,93 @@ public class ServiceSynchronize extends LifecycleService {
                 .observe(
                         this,
                         new Observer<List<TupleNotification>>() {
-                            private Map<Long, List<Integer>> notifyingAll = new HashMap<>();
-                            private Map<Long, Pair> accounts = new HashMap<>();
+                            private LongSparseArray<List<Integer>> notifying = new LongSparseArray<>();
+                            private LongSparseArray<Pair> accounts = new LongSparseArray<>();
 
                             @Override
                             public void onChanged(List<TupleNotification> messages) {
                                 NotificationManager nm = getSystemService(NotificationManager.class);
-                                Map<Long, ArrayList<TupleNotification>> messagesByAccount =
-                                        new HashMap<>();
+                                LongSparseArray<List<TupleNotification>> messagesByAccount = new LongSparseArray<>();
+                                LongSparseArray<List<Integer>> removed = notifying.clone();
 
                                 // Update unseen for all account
                                 setWidgetUnseen(messages);
+
+                                if (messages.size() == 0) {
+                                    nm.cancelAll();
+                                    return;
+                                }
 
                                 // Organize messages per account
                                 for (TupleNotification message : messages) {
 
                                     Long accountKey = message.account;
-                                    ArrayList<TupleNotification> newList = new ArrayList<>();
-                                    newList.add(message);
+                                    List<TupleNotification> msgList = new ArrayList<>();
 
-                                    if (messagesByAccount.containsKey(accountKey)) {
-                                        ArrayList<TupleNotification> msgList = messagesByAccount.get(accountKey);
-                                        newList.addAll(msgList);
+                                    if (messagesByAccount.indexOfKey(accountKey) != -1) {
+                                        msgList = messagesByAccount.get(accountKey);
                                     }
 
-                                    if (!accounts.containsKey(accountKey)) {
-                                        String accountName = message.accountName;
-                                        Integer accountColor = message.accountColor;
+                                    if (accounts.indexOfKey(accountKey) == -1) {
                                         accounts.put(
                                                 accountKey,
-                                                new Pair<String, Integer>(accountName, accountColor));
+                                                new Pair<String, Integer>(
+                                                        message.accountName,
+                                                        message.accountColor
+                                                )
+                                        );
                                     }
-                                    messagesByAccount.put(accountKey, newList);
+
+                                    msgList.add(message);
+                                    messagesByAccount.put(accountKey, msgList);
                                 }
 
                                 // Set and group notification per account
-                                for (Map.Entry<Long, ArrayList<TupleNotification>> messagesAccount :
-                                        messagesByAccount.entrySet()) {
-                                    Long accountId = messagesAccount.getKey();
-                                    List<Notification> notifications =
-                                            getNotificationUnseen(messagesAccount.getValue(), accounts.get(accountId));
+                                for(int i = 0; i < messagesByAccount.size(); i++) {
+                                    Long accountId = messagesByAccount.keyAt(i);
+                                    List<TupleNotification> messagesAccount = messagesByAccount.get(accountId);
+                                    List<Notification> notifications = getNotificationUnseen(messagesAccount, accounts.get(accountId));
                                     List<Integer> all = new ArrayList<>();
                                     List<Integer> added = new ArrayList<>();
-                                    List<Integer> removed = new ArrayList<>();
+                                    List<Integer> toRemove = new ArrayList<>();
                                     String tag = "unseen-" + accountId;
 
-                                    if (notifyingAll.containsKey(accountId)) {
-                                        removed = notifyingAll.get(accountId);
+                                    if (notifying.indexOfKey(accountId) != -1) {
+                                        toRemove = notifying.get(accountId);
                                     }
 
                                     for (Notification notification : notifications) {
                                         Integer id = (int) notification.extras.getLong("id", 0);
-                                        if (id > 0) {
-                                            all.add(id);
-                                            if (removed.contains(id)) {
-                                                removed.remove(id);
-                                            } else {
-                                                added.add(id);
-                                            }
+
+                                        all.add(id);
+                                        if (toRemove.contains(id)) {
+                                            toRemove.remove(id);
+                                        } else if (id > 0) {
+                                            added.add(id);
                                         }
                                     }
 
-                                    if (notifications.size() == 0) {
-                                        nm.cancel(tag, 0);
-                                    }
-
-                                    for (Integer id : removed) {
-                                        nm.cancel(tag, id);
-                                    }
-
                                     for (Notification notification : notifications) {
                                         Integer id = (int) notification.extras.getLong("id", 0);
 
-                                        if ((id == 0 && added.size() + removed.size() > 0)
-                                                || added.contains(id)) {
+                                        if ((id == 0 && added.size() > 0) || added.contains(id)) {
                                             nm.notify(tag, id, notification);
                                         }
                                     }
 
-                                    notifyingAll.put(accountId, all);
+                                    removed.put(accountId, toRemove);
+                                    notifying.put(accountId, all);
+                                }
+
+                                // Cancel old per account
+                                for(int i = 0; i < removed.size(); i++) {
+                                    Long accountId = removed.keyAt(i);
+                                    List<Integer> notifyRemove = removed.get(accountId);
+                                    String tag = "unseen-" + accountId;
+
+                                    for (Integer id : notifyRemove) {
+                                        nm.cancel(tag, id);
+                                    }
                                 }
                             }
                         });
@@ -429,30 +438,33 @@ public class ServiceSynchronize extends LifecycleService {
     }
 
     /**
-     * Get public/summary and individual notifications per account
-     *
-     * @param messages - list of unseen notifications
-     * @param account - account information (name, color)
-     * @return List<Notification>
+     * Get notification color by account or fallback app primary color
+     * @param accountColor - the account color
+     * @return Integer
      */
-    private List<Notification> getNotificationUnseen(
-            List<TupleNotification> messages, Pair account) {
-        // https://developer.android.com/training/notify-user/group
-        List<Notification> notifications = new ArrayList<>();
+    private Integer getNotificationColor(Integer accountColor) {
+        return accountColor != null
+            ? accountColor
+            : ContextCompat.getColor(getBaseContext(), R.color.colorPrimary);
+    }
 
-        if (messages.size() == 0) {
-            return notifications;
-        }
+    /**
+     * Get unique key for notifications
+     * @param accountName - the account name
+     * @return String
+     */
+    private String getNotificationKey(String accountName) {
+        return BuildConfig.APPLICATION_ID + accountName;
+    }
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-
-        String accountName = (String) account.first;
-        Integer accountColor = (Integer) account.second;
-        Integer groupColor =
-                accountColor != null
-                        ? accountColor
-                        : ContextCompat.getColor(getBaseContext(), R.color.colorPrimary);
-        String groupKey = BuildConfig.APPLICATION_ID + accountName;
+    /**
+     * Get notification public version
+     * @param accountName - the account name
+     * @param accountColor - the account color
+     * @param size - number of new messages
+     * @return Notification.Builder
+     */
+    private Notification.Builder getNotificationPublic(String accountName, Integer accountColor, Integer size) {
         String channelId = "notification";
 
         // Build pending intent
@@ -470,47 +482,81 @@ public class ServiceSynchronize extends LifecycleService {
         PendingIntent piClear =
                 PendingIntent.getService(this, PI_CLEAR, clear, PendingIntent.FLAG_UPDATE_CURRENT);
 
+        String summaryText = getResources().getQuantityString(
+                R.plurals.title_notification_unseen,
+                size, size);
+
         // Public notification
         Notification.Builder pbuilder = Helper.getNotificationBuilder(this, channelId);
         pbuilder.setSmallIcon(R.drawable.ic_mail_icon)
-                .setContentTitle(
-                        getResources()
-                                .getQuantityString(
-                                        R.plurals.title_notification_unseen,
-                                        messages.size(),
-                                        messages.size()))
+                .setContentTitle(summaryText)
                 .setContentText(accountName)
                 .setContentIntent(piView)
-                .setNumber(messages.size())
+                .setNumber(size)
                 .setShowWhen(true)
-                .setColor(groupColor)
+                .setColor(accountColor)
                 .setDeleteIntent(piClear)
                 .setPriority(Notification.PRIORITY_DEFAULT)
                 .setCategory(Notification.CATEGORY_STATUS)
                 .setVisibility(Notification.VISIBILITY_PUBLIC);
 
+        return pbuilder;
+    }
+
+    /**
+     * Get notification group per account
+     * @param accountName - the account name
+     * @param accountColor - the account color
+     * @param messages - account messages
+     * @return Notification.Builder
+     */
+    private Notification.Builder getNotificationGroup(
+            String accountName,
+            Integer accountColor,
+            List<TupleNotification> messages) {
+        // https://developer.android.com/training/notify-user/group
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        Integer groupColor = getNotificationColor(accountColor);
+        String groupKey = getNotificationKey(accountName);
+        String channelId = "notification";
+        Integer size = messages.size();
+
+        // Build pending intent
+        Intent view = new Intent(this, ActivityView.class);
+        view.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        PendingIntent piView =
+            PendingIntent.getActivity(
+                                      this,
+                                      ActivityView.REQUEST_UNIFIED,
+                                      view,
+                                      PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Intent clear = new Intent(this, ServiceSynchronize.class);
+        clear.setAction("clear");
+        PendingIntent piClear =
+            PendingIntent.getService(this, PI_CLEAR, clear, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        String summaryText = getResources().getQuantityString(
+                R.plurals.title_notification_unseen,
+                size, size);
+
         // Summary notification
+        Notification.Builder pbuilder = getNotificationPublic(accountName, accountColor, size);
         Notification.Builder gbuilder = Helper.getNotificationBuilder(this, channelId);
-        String summaryText =
-                getResources()
-                        .getQuantityString(
-                                R.plurals.title_notification_unseen,
-                                messages.size(),
-                                messages.size());
 
         gbuilder.setSmallIcon(R.drawable.ic_mail_icon)
-                .setContentTitle(summaryText)
-                .setContentIntent(piView)
-                .setNumber(messages.size())
-                .setShowWhen(true)
-                .setColor(groupColor)
-                .setDeleteIntent(piClear)
-                .setPriority(Notification.PRIORITY_DEFAULT)
-                .setCategory(Notification.CATEGORY_STATUS)
-                .setVisibility(Notification.VISIBILITY_PRIVATE)
-                .setGroup(groupKey)
-                .setGroupSummary(true)
-                .setPublicVersion(pbuilder.build());
+            .setContentTitle(summaryText)
+            .setContentIntent(piView)
+            .setNumber(messages.size())
+            .setShowWhen(true)
+            .setColor(groupColor)
+            .setDeleteIntent(piClear)
+            .setPriority(Notification.PRIORITY_DEFAULT)
+            .setCategory(Notification.CATEGORY_STATUS)
+            .setVisibility(Notification.VISIBILITY_PRIVATE)
+            .setGroup(groupKey)
+            .setGroupSummary(true)
+            .setPublicVersion(pbuilder.build());
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
             gbuilder.setSound(null);
@@ -519,38 +565,62 @@ public class ServiceSynchronize extends LifecycleService {
         }
 
         if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.O
-                && prefs.getBoolean("light", false)) {
+            && prefs.getBoolean("light", false)) {
             gbuilder.setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_LIGHTS);
             gbuilder.setLights(0xff00ff00, 1000, 1000);
         }
 
         DateFormat df =
-                SimpleDateFormat.getDateTimeInstance(
-                        SimpleDateFormat.SHORT, SimpleDateFormat.SHORT);
+            SimpleDateFormat.getDateTimeInstance(
+                                                 SimpleDateFormat.SHORT, SimpleDateFormat.SHORT);
         StringBuilder sb = new StringBuilder();
         for (EntityMessage message : messages) {
             sb.append("<strong>")
-                    .append(MessageHelper.getFormattedAddresses(message.from, false))
-                    .append("</strong>");
+                .append(MessageHelper.getFormattedAddresses(message.from, false))
+                .append("</strong>");
+            
             if (!TextUtils.isEmpty(message.subject)) {
                 sb.append(": ").append(message.subject);
             }
-            sb.append(" ")
-                    .append(
-                            df.format(
-                                    new Date(
-                                            message.sent == null
-                                                    ? message.received
-                                                    : message.sent)));
+            sb.append(" ").append(df.format(new Date(message.sent == null
+                                                     ? message.received
+                                                     : message.sent)));
             sb.append("<br>");
         }
 
-        Notification.BigTextStyle gstyle =
-                new Notification.BigTextStyle()
-                        .bigText(Html.fromHtml(sb.toString()))
-                        .setSummaryText(accountName);
+        Notification.BigTextStyle gstyle = new Notification.BigTextStyle()
+            .bigText(Html.fromHtml(sb.toString()))
+            .setSummaryText(accountName);
+        
         gbuilder.setStyle(gstyle);
 
+        return gbuilder;
+    }
+    
+    /**
+     * Get public/summary and individual notifications per account
+     *
+     * @param messages - list of unseen notifications
+     * @param account - account information (name, color)
+     * @return List<Notification>
+     */
+    private List<Notification> getNotificationUnseen(
+            List<TupleNotification> messages, Pair account) {
+        // https://developer.android.com/training/notify-user/group
+        List<Notification> notifications = new ArrayList<>();
+        Integer size = messages.size();
+
+        if (size == 0) {
+            return notifications;
+        }
+
+        String accountName = (String) account.first;
+        Integer accountColor = (Integer) account.second;
+        Integer groupColor = getNotificationColor(accountColor);
+        String groupKey = getNotificationKey(accountName);
+        String channelId = "notification";
+
+        Notification.Builder gbuilder = getNotificationGroup(accountName, accountColor, messages);
         notifications.add(gbuilder.build());
 
         Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
@@ -604,7 +674,7 @@ public class ServiceSynchronize extends LifecycleService {
             Notification.InboxStyle mstyle = new Notification.InboxStyle();
 
             mbuilder.addExtras(mArgs)
-                    .setSmallIcon(R.drawable.ic_stat_name)
+                    .setSmallIcon(R.drawable.ic_mail_icon)
                     .setContentTitle(MessageHelper.getFormattedAddresses(message.from, true))
                     .setContentIntent(piContent)
                     .setDeleteIntent(piDelete)
@@ -613,7 +683,7 @@ public class ServiceSynchronize extends LifecycleService {
                     .setWhen(message.sent == null ? message.received : message.sent)
                     .setPriority(Notification.PRIORITY_DEFAULT)
                     .setCategory(Notification.CATEGORY_STATUS)
-                    .setVisibility(Notification.VISIBILITY_SECRET)
+                    .setVisibility(Notification.VISIBILITY_PRIVATE)
                     .setGroup(groupKey)
                     .setGroupSummary(false)
                     .addAction(actionSeen.build())
@@ -628,7 +698,8 @@ public class ServiceSynchronize extends LifecycleService {
                 mbuilder.setGroupAlertBehavior(Notification.GROUP_ALERT_CHILDREN);
             }
 
-            mstyle.setBigContentTitle(MessageHelper.getFormattedAddresses(message.from, false));
+            mstyle.setBigContentTitle(MessageHelper.getFormattedAddresses(message.from, false))
+                    .setSummaryText(accountName);
             mbuilder.setStyle(mstyle);
 
             notifications.add(mbuilder.build());
@@ -655,6 +726,7 @@ public class ServiceSynchronize extends LifecycleService {
                 .setContentText(Helper.formatThrowable(ex))
                 .setContentIntent(pi)
                 .setAutoCancel(false)
+                .setOnlyAlertOnce(true)
                 .setShowWhen(true)
                 .setPriority(Notification.PRIORITY_MAX)
                 .setCategory(Notification.CATEGORY_ERROR)
