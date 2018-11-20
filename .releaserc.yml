@@ -3,7 +3,7 @@ plugins:
   - "@semantic-release/release-notes-generator"
   - "@semantic-release/changelog"
   - - "@semantic-release/exec"
-    - prepareCmd: 'VERSIONCODE=`grep "versionCode .*" app/build.gradle | sed "s/versionCode //"` && sed -i "s/versionCode .*$/versionCode $(($VERSIONCODE + 1))/; s/versionName .*$/versionName \"${nextRelease.version}"/" app/build.gradle'
+    - prepareCmd: './scripts/prepare.sh ${nextRelease.version}'
   - - "@semantic-release/git"
     - assets:
         - CHANGELOG.md
