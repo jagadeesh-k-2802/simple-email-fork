@@ -27,21 +27,21 @@ import java.util.List;
 
 @Dao
 public interface DaoOperation {
-    @Query("SELECT * FROM operation WHERE message = :message ORDER BY id")
-    LiveData<List<EntityOperation>> getOperationsByMessage(long message);
+  @Query("SELECT * FROM operation WHERE message = :message ORDER BY id")
+  LiveData<List<EntityOperation>> getOperationsByMessage(long message);
 
-    @Query("SELECT * FROM operation WHERE folder = :folder ORDER BY id")
-    List<EntityOperation> getOperationsByFolder(long folder);
+  @Query("SELECT * FROM operation WHERE folder = :folder ORDER BY id")
+  List<EntityOperation> getOperationsByFolder(long folder);
 
-    @Query("SELECT * FROM operation ORDER BY id")
-    LiveData<List<EntityOperation>> liveOperations();
+  @Query("SELECT * FROM operation ORDER BY id")
+  LiveData<List<EntityOperation>> liveOperations();
 
-    @Query("SELECT COUNT(id) FROM operation WHERE folder = :folder")
-    int getOperationCount(long folder);
+  @Query("SELECT COUNT(id) FROM operation WHERE folder = :folder")
+  int getOperationCount(long folder);
 
-    @Insert
-    long insertOperation(EntityOperation operation);
+  @Insert
+  long insertOperation(EntityOperation operation);
 
-    @Query("DELETE FROM operation WHERE id = :id")
-    void deleteOperation(long id);
+  @Query("DELETE FROM operation WHERE id = :id")
+  void deleteOperation(long id);
 }

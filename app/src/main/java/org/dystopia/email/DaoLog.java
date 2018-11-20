@@ -27,15 +27,15 @@ import java.util.List;
 
 @Dao
 public interface DaoLog {
-    @Query("SELECT * FROM log WHERE time > :from ORDER BY time DESC")
-    LiveData<List<EntityLog>> liveLogs(long from);
+  @Query("SELECT * FROM log WHERE time > :from ORDER BY time DESC")
+  LiveData<List<EntityLog>> liveLogs(long from);
 
-    @Query("SELECT * FROM log WHERE time > :from ORDER BY time DESC")
-    List<EntityLog> getLogs(long from);
+  @Query("SELECT * FROM log WHERE time > :from ORDER BY time DESC")
+  List<EntityLog> getLogs(long from);
 
-    @Insert
-    long insertLog(EntityLog log);
+  @Insert
+  long insertLog(EntityLog log);
 
-    @Query("DELETE FROM log WHERE time < :before")
-    int deleteLogs(long before);
+  @Query("DELETE FROM log WHERE time < :before")
+  int deleteLogs(long before);
 }

@@ -28,24 +28,24 @@ import java.util.List;
 
 @Dao
 public interface DaoAnswer {
-    @Query("SELECT * FROM answer")
-    List<EntityAnswer> getAnswers();
+  @Query("SELECT * FROM answer")
+  List<EntityAnswer> getAnswers();
 
-    @Query("SELECT * FROM answer WHERE id = :id")
-    EntityAnswer getAnswer(long id);
+  @Query("SELECT * FROM answer WHERE id = :id")
+  EntityAnswer getAnswer(long id);
 
-    @Query("SELECT * FROM answer")
-    LiveData<List<EntityAnswer>> liveAnswers();
+  @Query("SELECT * FROM answer")
+  LiveData<List<EntityAnswer>> liveAnswers();
 
-    @Query("SELECT * FROM answer WHERE id = :id")
-    LiveData<EntityAnswer> liveAnswer(long id);
+  @Query("SELECT * FROM answer WHERE id = :id")
+  LiveData<EntityAnswer> liveAnswer(long id);
 
-    @Insert
-    long insertAnswer(EntityAnswer answer);
+  @Insert
+  long insertAnswer(EntityAnswer answer);
 
-    @Update
-    int updateAnswer(EntityAnswer answer);
+  @Update
+  int updateAnswer(EntityAnswer answer);
 
-    @Query("DELETE FROM answer WHERE id = :id")
-    void deleteAnswer(long id);
+  @Query("DELETE FROM answer WHERE id = :id")
+  void deleteAnswer(long id);
 }

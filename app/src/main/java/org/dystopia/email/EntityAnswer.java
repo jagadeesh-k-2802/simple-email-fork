@@ -29,38 +29,38 @@ import org.json.JSONObject;
 // https://developer.android.com/training/data-storage/room/defining-data
 
 @Entity(
-        tableName = EntityAnswer.TABLE_NAME,
-        foreignKeys = {},
-        indices = {})
+    tableName = EntityAnswer.TABLE_NAME,
+    foreignKeys = {},
+    indices = {})
 public class EntityAnswer implements Serializable {
-    static final String TABLE_NAME = "answer";
+  static final String TABLE_NAME = "answer";
 
-    @PrimaryKey(autoGenerate = true)
-    public Long id;
+  @PrimaryKey(autoGenerate = true)
+  public Long id;
 
-    @NonNull public String name;
-    @NonNull public String text;
+  @NonNull public String name;
+  @NonNull public String text;
 
-    public JSONObject toJSON() throws JSONException {
-        JSONObject json = new JSONObject();
-        json.put("name", name);
-        json.put("text", text);
-        return json;
+  public JSONObject toJSON() throws JSONException {
+    JSONObject json = new JSONObject();
+    json.put("name", name);
+    json.put("text", text);
+    return json;
+  }
+
+  public static EntityAnswer fromJSON(JSONObject json) throws JSONException {
+    EntityAnswer answer = new EntityAnswer();
+    answer.name = json.getString("name");
+    answer.text = json.getString("text");
+    return answer;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj instanceof EntityAnswer) {
+      EntityAnswer other = (EntityAnswer) obj;
+      return (this.name.equals(other.name) && this.text.equals(other.text));
     }
-
-    public static EntityAnswer fromJSON(JSONObject json) throws JSONException {
-        EntityAnswer answer = new EntityAnswer();
-        answer.name = json.getString("name");
-        answer.text = json.getString("text");
-        return answer;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof EntityAnswer) {
-            EntityAnswer other = (EntityAnswer) obj;
-            return (this.name.equals(other.name) && this.text.equals(other.text));
-        }
-        return false;
-    }
+    return false;
+  }
 }

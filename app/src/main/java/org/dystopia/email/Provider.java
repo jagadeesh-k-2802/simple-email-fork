@@ -31,82 +31,82 @@ import java.util.Locale;
 import org.xmlpull.v1.XmlPullParser;
 
 public class Provider {
-    public String name;
-    public String link;
-    public String type;
-    public String imap_host;
-    public int imap_port;
-    public String smtp_host;
-    public int smtp_port;
-    public boolean starttls;
+  public String name;
+  public String link;
+  public String type;
+  public String imap_host;
+  public int imap_port;
+  public String smtp_host;
+  public int smtp_port;
+  public boolean starttls;
 
-    private Provider() {}
+  private Provider() {}
 
-    Provider(String name) {
-        this.name = name;
-    }
+  Provider(String name) {
+    this.name = name;
+  }
 
-    static List<Provider> loadProfiles(Context context) {
-        List<Provider> result = null;
-        try {
-            XmlResourceParser xml = context.getResources().getXml(R.xml.providers);
-            int eventType = xml.getEventType();
-            Provider provider = null;
-            while (eventType != XmlPullParser.END_DOCUMENT) {
-                if (eventType == XmlPullParser.START_TAG) {
-                    if ("providers".equals(xml.getName())) {
-                        result = new ArrayList<>();
-                    } else if ("provider".equals(xml.getName())) {
-                        provider = new Provider();
-                        provider.name = xml.getAttributeValue(null, "name");
-                        provider.link = xml.getAttributeValue(null, "link");
-                        provider.type = xml.getAttributeValue(null, "type");
-                    } else if ("imap".equals(xml.getName())) {
-                        provider.imap_host = xml.getAttributeValue(null, "host");
-                        provider.imap_port = xml.getAttributeIntValue(null, "port", 0);
-                    } else if ("smtp".equals(xml.getName())) {
-                        provider.smtp_host = xml.getAttributeValue(null, "host");
-                        provider.smtp_port = xml.getAttributeIntValue(null, "port", 0);
-                        provider.starttls = xml.getAttributeBooleanValue(null, "starttls", false);
-                    } else {
-                        throw new IllegalAccessException(xml.getName());
-                    }
-                } else if (eventType == XmlPullParser.END_TAG) {
-                    if ("provider".equals(xml.getName())) {
-                        result.add(provider);
-                        provider = null;
-                    }
-                }
-
-                eventType = xml.next();
-            }
-        } catch (Throwable ex) {
-            Log.e(Helper.TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+  static List<Provider> loadProfiles(Context context) {
+    List<Provider> result = null;
+    try {
+      XmlResourceParser xml = context.getResources().getXml(R.xml.providers);
+      int eventType = xml.getEventType();
+      Provider provider = null;
+      while (eventType != XmlPullParser.END_DOCUMENT) {
+        if (eventType == XmlPullParser.START_TAG) {
+          if ("providers".equals(xml.getName())) {
+            result = new ArrayList<>();
+          } else if ("provider".equals(xml.getName())) {
+            provider = new Provider();
+            provider.name = xml.getAttributeValue(null, "name");
+            provider.link = xml.getAttributeValue(null, "link");
+            provider.type = xml.getAttributeValue(null, "type");
+          } else if ("imap".equals(xml.getName())) {
+            provider.imap_host = xml.getAttributeValue(null, "host");
+            provider.imap_port = xml.getAttributeIntValue(null, "port", 0);
+          } else if ("smtp".equals(xml.getName())) {
+            provider.smtp_host = xml.getAttributeValue(null, "host");
+            provider.smtp_port = xml.getAttributeIntValue(null, "port", 0);
+            provider.starttls = xml.getAttributeBooleanValue(null, "starttls", false);
+          } else {
+            throw new IllegalAccessException(xml.getName());
+          }
+        } else if (eventType == XmlPullParser.END_TAG) {
+          if ("provider".equals(xml.getName())) {
+            result.add(provider);
+            provider = null;
+          }
         }
-        final Collator collator = Collator.getInstance(Locale.getDefault());
-        collator.setStrength(Collator.SECONDARY); // Case insensitive, process accents etc
 
-        Collections.sort(
-                result,
-                new Comparator<Provider>() {
-                    @Override
-                    public int compare(Provider p1, Provider p2) {
-                        return collator.compare(p1.name, p2.name);
-                    }
-                });
-
-        return result;
+        eventType = xml.next();
+      }
+    } catch (Throwable ex) {
+      Log.e(Helper.TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
     }
+    final Collator collator = Collator.getInstance(Locale.getDefault());
+    collator.setStrength(Collator.SECONDARY); // Case insensitive, process accents etc
 
-    public int getAuthType() {
-        if ("com.google".equals(type)) {
-            return Helper.AUTH_TYPE_GMAIL;
-        }
-        return Helper.AUTH_TYPE_PASSWORD;
-    }
+    Collections.sort(
+        result,
+        new Comparator<Provider>() {
+          @Override
+          public int compare(Provider p1, Provider p2) {
+            return collator.compare(p1.name, p2.name);
+          }
+        });
 
-    @Override
-    public String toString() {
-        return name;
+    return result;
+  }
+
+  public int getAuthType() {
+    if ("com.google".equals(type)) {
+      return Helper.AUTH_TYPE_GMAIL;
     }
+    return Helper.AUTH_TYPE_PASSWORD;
+  }
+
+  @Override
+  public String toString() {
+    return name;
+  }
 }

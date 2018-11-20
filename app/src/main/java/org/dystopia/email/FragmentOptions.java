@@ -32,122 +32,122 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 public class FragmentOptions extends FragmentEx {
-    private Switch optSyncEnabled;
-    private Switch optAvatars;
-    private Switch optLight;
-    private Switch optBrowse;
-    private Switch optSwipe;
-    private Switch optCompact;
-    private Switch optInsecure;
-    private Switch optDebug;
+  private Switch optSyncEnabled;
+  private Switch optAvatars;
+  private Switch optLight;
+  private Switch optBrowse;
+  private Switch optSwipe;
+  private Switch optCompact;
+  private Switch optInsecure;
+  private Switch optDebug;
 
-    @Override
-    @Nullable
-    public View onCreateView(
-            @NonNull LayoutInflater inflater,
-            @Nullable ViewGroup container,
-            @Nullable Bundle savedInstanceState) {
-        setSubtitle(R.string.title_advanced);
+  @Override
+  @Nullable
+  public View onCreateView(
+      @NonNull LayoutInflater inflater,
+      @Nullable ViewGroup container,
+      @Nullable Bundle savedInstanceState) {
+    setSubtitle(R.string.title_advanced);
 
-        View view = inflater.inflate(R.layout.fragment_options, container, false);
+    View view = inflater.inflate(R.layout.fragment_options, container, false);
 
-        // Get controls
-        optSyncEnabled = view.findViewById(R.id.optSyncEnabled);
-        optAvatars = view.findViewById(R.id.optAvatars);
-        optLight = view.findViewById(R.id.optLight);
-        optBrowse = view.findViewById(R.id.optBrowse);
-        optSwipe = view.findViewById(R.id.optSwipe);
-        optCompact = view.findViewById(R.id.optCompact);
-        optInsecure = view.findViewById(R.id.optInsecure);
-        optDebug = view.findViewById(R.id.optDebug);
+    // Get controls
+    optSyncEnabled = view.findViewById(R.id.optSyncEnabled);
+    optAvatars = view.findViewById(R.id.optAvatars);
+    optLight = view.findViewById(R.id.optLight);
+    optBrowse = view.findViewById(R.id.optBrowse);
+    optSwipe = view.findViewById(R.id.optSwipe);
+    optCompact = view.findViewById(R.id.optCompact);
+    optInsecure = view.findViewById(R.id.optInsecure);
+    optDebug = view.findViewById(R.id.optDebug);
 
-        // Wire controls
+    // Wire controls
 
-        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+    final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
 
-        optSyncEnabled.setChecked(prefs.getBoolean("enabled", true));
-        optSyncEnabled.setOnCheckedChangeListener(
-                new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
-                        prefs.edit().putBoolean("enabled", checked).apply();
-                        if (checked) {
-                            ServiceSynchronize.start(getContext());
-                        } else {
-                            ServiceSynchronize.stop(getContext());
-                        }
-                    }
-                });
+    optSyncEnabled.setChecked(prefs.getBoolean("enabled", true));
+    optSyncEnabled.setOnCheckedChangeListener(
+        new CompoundButton.OnCheckedChangeListener() {
+          @Override
+          public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
+            prefs.edit().putBoolean("enabled", checked).apply();
+            if (checked) {
+              ServiceSynchronize.start(getContext());
+            } else {
+              ServiceSynchronize.stop(getContext());
+            }
+          }
+        });
 
-        optAvatars.setChecked(prefs.getBoolean("avatars", true));
-        optAvatars.setOnCheckedChangeListener(
-                new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
-                        prefs.edit().putBoolean("avatars", checked).apply();
-                    }
-                });
+    optAvatars.setChecked(prefs.getBoolean("avatars", true));
+    optAvatars.setOnCheckedChangeListener(
+        new CompoundButton.OnCheckedChangeListener() {
+          @Override
+          public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
+            prefs.edit().putBoolean("avatars", checked).apply();
+          }
+        });
 
-        optLight.setChecked(prefs.getBoolean("light", false));
-        optLight.setOnCheckedChangeListener(
-                new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
-                        prefs.edit().putBoolean("light", checked).apply();
-                    }
-                });
+    optLight.setChecked(prefs.getBoolean("light", false));
+    optLight.setOnCheckedChangeListener(
+        new CompoundButton.OnCheckedChangeListener() {
+          @Override
+          public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
+            prefs.edit().putBoolean("light", checked).apply();
+          }
+        });
 
-        optBrowse.setChecked(prefs.getBoolean("browse", true));
-        optBrowse.setOnCheckedChangeListener(
-                new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
-                        prefs.edit().putBoolean("browse", checked).apply();
-                    }
-                });
+    optBrowse.setChecked(prefs.getBoolean("browse", true));
+    optBrowse.setOnCheckedChangeListener(
+        new CompoundButton.OnCheckedChangeListener() {
+          @Override
+          public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
+            prefs.edit().putBoolean("browse", checked).apply();
+          }
+        });
 
-        optSwipe.setChecked(prefs.getBoolean("swipe", true));
-        optSwipe.setOnCheckedChangeListener(
-                new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
-                        prefs.edit().putBoolean("swipe", checked).apply();
-                    }
-                });
+    optSwipe.setChecked(prefs.getBoolean("swipe", true));
+    optSwipe.setOnCheckedChangeListener(
+        new CompoundButton.OnCheckedChangeListener() {
+          @Override
+          public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
+            prefs.edit().putBoolean("swipe", checked).apply();
+          }
+        });
 
-        optCompact.setChecked(prefs.getBoolean("compact", false));
-        optCompact.setOnCheckedChangeListener(
-                new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
-                        prefs.edit().putBoolean("compact", checked).apply();
-                    }
-                });
+    optCompact.setChecked(prefs.getBoolean("compact", false));
+    optCompact.setOnCheckedChangeListener(
+        new CompoundButton.OnCheckedChangeListener() {
+          @Override
+          public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
+            prefs.edit().putBoolean("compact", checked).apply();
+          }
+        });
 
-        optInsecure.setChecked(prefs.getBoolean("insecure", false));
-        optInsecure.setOnCheckedChangeListener(
-                new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
-                        prefs.edit().putBoolean("insecure", checked).apply();
-                    }
-                });
+    optInsecure.setChecked(prefs.getBoolean("insecure", false));
+    optInsecure.setOnCheckedChangeListener(
+        new CompoundButton.OnCheckedChangeListener() {
+          @Override
+          public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
+            prefs.edit().putBoolean("insecure", checked).apply();
+          }
+        });
 
-        optDebug.setChecked(prefs.getBoolean("debug", false));
-        optDebug.setOnCheckedChangeListener(
-                new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
-                        prefs.edit().putBoolean("debug", checked).apply();
-                        ServiceSynchronize.reload(getContext(), "debug=" + checked);
-                    }
-                });
+    optDebug.setChecked(prefs.getBoolean("debug", false));
+    optDebug.setOnCheckedChangeListener(
+        new CompoundButton.OnCheckedChangeListener() {
+          @Override
+          public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
+            prefs.edit().putBoolean("debug", checked).apply();
+            ServiceSynchronize.reload(getContext(), "debug=" + checked);
+          }
+        });
 
-        optLight.setVisibility(
-                android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.O
-                        ? View.VISIBLE
-                        : View.GONE);
+    optLight.setVisibility(
+        android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.O
+            ? View.VISIBLE
+            : View.GONE);
 
-        return view;
-    }
+    return view;
+  }
 }

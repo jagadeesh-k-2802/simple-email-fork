@@ -15,7 +15,7 @@
             port="993" />
         <smtp
             host="mail.riseup.net"
-            port="465"
+            port="587"
             starttls="true" />
     </provider>
     <provider

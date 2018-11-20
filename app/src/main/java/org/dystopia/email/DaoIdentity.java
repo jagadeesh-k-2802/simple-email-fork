@@ -28,51 +28,51 @@ import java.util.List;
 
 @Dao
 public interface DaoIdentity {
-    @Query(
-            "SELECT identity.*, account.name AS accountName FROM identity"
-                    + " JOIN account ON account.id = identity.account")
-    LiveData<List<TupleIdentityEx>> liveIdentities();
+  @Query(
+      "SELECT identity.*, account.name AS accountName FROM identity"
+          + " JOIN account ON account.id = identity.account")
+  LiveData<List<TupleIdentityEx>> liveIdentities();
 
-    @Query(
-            "SELECT identity.* FROM identity"
-                    + " JOIN account ON account.id = identity.account"
-                    + " WHERE account.synchronize = :synchronize"
-                    + " AND identity.synchronize = :synchronize")
-    LiveData<List<EntityIdentity>> liveIdentities(boolean synchronize);
+  @Query(
+      "SELECT identity.* FROM identity"
+          + " JOIN account ON account.id = identity.account"
+          + " WHERE account.synchronize = :synchronize"
+          + " AND identity.synchronize = :synchronize")
+  LiveData<List<EntityIdentity>> liveIdentities(boolean synchronize);
 
-    @Query("SELECT * FROM identity")
-    List<EntityIdentity> getIdentities();
+  @Query("SELECT * FROM identity")
+  List<EntityIdentity> getIdentities();
 
-    @Query("SELECT * FROM identity WHERE account = :account")
-    List<EntityIdentity> getIdentities(long account);
+  @Query("SELECT * FROM identity WHERE account = :account")
+  List<EntityIdentity> getIdentities(long account);
 
-    @Query("SELECT * FROM identity WHERE id = :id")
-    EntityIdentity getIdentity(long id);
+  @Query("SELECT * FROM identity WHERE id = :id")
+  EntityIdentity getIdentity(long id);
 
-    @Query("SELECT * FROM identity WHERE id = :id")
-    LiveData<EntityIdentity> liveIdentity(long id);
+  @Query("SELECT * FROM identity WHERE id = :id")
+  LiveData<EntityIdentity> liveIdentity(long id);
 
-    @Query("SELECT COUNT(*) FROM identity WHERE synchronize")
-    int getSynchronizingIdentityCount();
+  @Query("SELECT COUNT(*) FROM identity WHERE synchronize")
+  int getSynchronizingIdentityCount();
 
-    @Insert
-    long insertIdentity(EntityIdentity identity);
+  @Insert
+  long insertIdentity(EntityIdentity identity);
 
-    @Update
-    void updateIdentity(EntityIdentity identity);
+  @Update
+  void updateIdentity(EntityIdentity identity);
 
-    @Query("UPDATE identity SET state = :state WHERE id = :id")
-    int setIdentityState(long id, String state);
+  @Query("UPDATE identity SET state = :state WHERE id = :id")
+  int setIdentityState(long id, String state);
 
-    @Query("UPDATE identity SET password = :password WHERE id = :id")
-    int setIdentityPassword(long id, String password);
+  @Query("UPDATE identity SET password = :password WHERE id = :id")
+  int setIdentityPassword(long id, String password);
 
-    @Query("UPDATE identity SET error = :error WHERE id = :id")
-    int setIdentityError(long id, String error);
+  @Query("UPDATE identity SET error = :error WHERE id = :id")
+  int setIdentityError(long id, String error);
 
-    @Query("UPDATE identity SET `primary` = 0")
-    void resetPrimary();
+  @Query("UPDATE identity SET `primary` = 0")
+  void resetPrimary();
 
-    @Query("DELETE FROM identity WHERE id = :id")
-    void deleteIdentity(long id);
+  @Query("DELETE FROM identity WHERE id = :id")
+  void deleteIdentity(long id);
 }

@@ -257,4 +257,5 @@
   <string name="title_no_storage_framework">Framework de almacenamiento no disponible</string>
   <string name="title_show_details">Ver detalles</string>
   <string name="title_no_accounts_yet">Aún no tienes cuentas configuradas</string>
+  <string name="title_no_identities_yet">Aún no tienes identidades configuradas</string>
 </resources>

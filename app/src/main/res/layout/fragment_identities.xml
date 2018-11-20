@@ -34,6 +34,23 @@
         android:layout_height="0dp"
         app:constraint_referenced_ids="rvIdentity" />
 
+    <TextView
+            android:id="@+id/tvNoIdentities"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:minHeight="33dp"
+            android:alpha = "0.8"
+            android:layout_marginEnd="@dimen/layout_margin"
+            android:layout_marginStart="@dimen/layout_margin"
+            android:text="@string/title_no_identities_yet"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="?android:attr/textColorPrimary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"

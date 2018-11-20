@@ -21,6 +21,7 @@ android {
 
     buildTypes {
         debug {
+            applicationIdSuffix ".debug"
             debuggable = true
             minifyEnabled !rootProject.ext.ci
             useProguard = true

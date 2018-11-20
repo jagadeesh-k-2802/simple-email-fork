@@ -36,6 +36,7 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Properties;
 import javax.activation.DataHandler;
 import javax.activation.FileDataSource;
@@ -55,588 +56,578 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.mail.internet.ParseException;
 import org.jsoup.Jsoup;
-import java.util.Locale;
 
 public class MessageHelper {
-    private MimeMessage imessage;
-    private String raw = null;
+  private MimeMessage imessage;
+  private String raw = null;
 
-    static final int NETWORK_TIMEOUT = 60 * 1000; // milliseconds
+  static final int NETWORK_TIMEOUT = 60 * 1000; // milliseconds
 
-    static Properties getSessionProperties(int auth_type, boolean insecure) {
-        Properties props = new Properties();
+  static Properties getSessionProperties(int auth_type, boolean insecure) {
+    Properties props = new Properties();
 
-        String checkserveridentity = Boolean.toString(!insecure).toLowerCase(Locale.ROOT);
+    String checkserveridentity = Boolean.toString(!insecure).toLowerCase(Locale.ROOT);
 
-        // https://javaee.github.io/javamail/docs/api/com/sun/mail/imap/package-summary.html#properties
-        props.put("mail.imaps.ssl.checkserveridentity", checkserveridentity);
-        props.put("mail.imaps.ssl.trust", "*");
-        props.put("mail.imaps.starttls.enable", "false");
+    // https://javaee.github.io/javamail/docs/api/com/sun/mail/imap/package-summary.html#properties
+    props.put("mail.imaps.ssl.checkserveridentity", checkserveridentity);
+    props.put("mail.imaps.ssl.trust", "*");
+    props.put("mail.imaps.starttls.enable", "false");
 
-        // TODO: make timeouts configurable?
-        props.put("mail.imaps.connectiontimeout", Integer.toString(NETWORK_TIMEOUT));
-        props.put("mail.imaps.timeout", Integer.toString(NETWORK_TIMEOUT));
-        props.put(
-                "mail.imaps.writetimeout",
-                Integer.toString(NETWORK_TIMEOUT)); // one thread overhead
+    // TODO: make timeouts configurable?
+    props.put("mail.imaps.connectiontimeout", Integer.toString(NETWORK_TIMEOUT));
+    props.put("mail.imaps.timeout", Integer.toString(NETWORK_TIMEOUT));
+    props.put("mail.imaps.writetimeout", Integer.toString(NETWORK_TIMEOUT)); // one thread overhead
 
-        props.put("mail.imaps.connectionpool.debug", "true");
-        props.put(
-                "mail.imaps.connectionpooltimeout",
-                Integer.toString(3 * 60 * 1000)); // default: 45 sec
+    props.put("mail.imaps.connectionpool.debug", "true");
+    props.put(
+        "mail.imaps.connectionpooltimeout", Integer.toString(3 * 60 * 1000)); // default: 45 sec
 
-        // https://tools.ietf.org/html/rfc4978
-        // https://docs.oracle.com/javase/8/docs/api/java/util/zip/Deflater.html
-        props.put("mail.imaps.compress.enable", "true");
-        // props.put("mail.imaps.compress.level", "-1");
-        // props.put("mail.imaps.compress.strategy", "0");
+    // https://tools.ietf.org/html/rfc4978
+    // https://docs.oracle.com/javase/8/docs/api/java/util/zip/Deflater.html
+    props.put("mail.imaps.compress.enable", "true");
+    // props.put("mail.imaps.compress.level", "-1");
+    // props.put("mail.imaps.compress.strategy", "0");
 
-        props.put("mail.imaps.fetchsize", Integer.toString(48 * 1024)); // default 16K
-        props.put("mail.imaps.peek", "true");
+    props.put("mail.imaps.fetchsize", Integer.toString(48 * 1024)); // default 16K
+    props.put("mail.imaps.peek", "true");
 
-        props.put("mail.imap.ssl.checkserveridentity", checkserveridentity);
-        props.put("mail.imap.ssl.trust", "*");
-        props.put("mail.imap.starttls.enable", "true");
-        props.put("mail.imap.starttls.required", "true");
-        props.put("mail.imap.auth", "true");
+    props.put("mail.imap.ssl.checkserveridentity", checkserveridentity);
+    props.put("mail.imap.ssl.trust", "*");
+    props.put("mail.imap.starttls.enable", "true");
+    props.put("mail.imap.starttls.required", "true");
+    props.put("mail.imap.auth", "true");
 
-        props.put("mail.imap.connectiontimeout", Integer.toString(NETWORK_TIMEOUT));
-        props.put("mail.imap.timeout", Integer.toString(NETWORK_TIMEOUT));
-        props.put(
-                "mail.imap.writetimeout", Integer.toString(NETWORK_TIMEOUT)); // one thread overhead
+    props.put("mail.imap.connectiontimeout", Integer.toString(NETWORK_TIMEOUT));
+    props.put("mail.imap.timeout", Integer.toString(NETWORK_TIMEOUT));
+    props.put("mail.imap.writetimeout", Integer.toString(NETWORK_TIMEOUT)); // one thread overhead
 
-        props.put("mail.imap.connectionpool.debug", "true");
-        props.put(
-                "mail.imap.connectionpooltimeout",
-                Integer.toString(3 * 60 * 1000)); // default: 45 sec
+    props.put("mail.imap.connectionpool.debug", "true");
+    props.put(
+        "mail.imap.connectionpooltimeout", Integer.toString(3 * 60 * 1000)); // default: 45 sec
 
-        props.put("mail.imap.compress.enable", "true");
+    props.put("mail.imap.compress.enable", "true");
 
-        props.put("mail.imap.fetchsize", Integer.toString(48 * 1024)); // default 16K
-        props.put("mail.imap.peek", "true");
+    props.put("mail.imap.fetchsize", Integer.toString(48 * 1024)); // default 16K
+    props.put("mail.imap.peek", "true");
 
-        // https://javaee.github.io/javamail/docs/api/com/sun/mail/smtp/package-summary.html#properties
-        props.put("mail.smtps.ssl.checkserveridentity", checkserveridentity);
-        props.put("mail.smtps.ssl.trust", "*");
-        props.put("mail.smtps.starttls.enable", "false");
-        props.put("mail.smtps.starttls.required", "false");
-        props.put("mail.smtps.auth", "true");
+    // https://javaee.github.io/javamail/docs/api/com/sun/mail/smtp/package-summary.html#properties
+    props.put("mail.smtps.ssl.checkserveridentity", checkserveridentity);
+    props.put("mail.smtps.ssl.trust", "*");
+    props.put("mail.smtps.starttls.enable", "false");
+    props.put("mail.smtps.starttls.required", "false");
+    props.put("mail.smtps.auth", "true");
 
-        props.put("mail.smtps.connectiontimeout", Integer.toString(NETWORK_TIMEOUT));
-        props.put(
-                "mail.smtps.writetimeout",
-                Integer.toString(NETWORK_TIMEOUT)); // one thread overhead
-        props.put("mail.smtps.timeout", Integer.toString(NETWORK_TIMEOUT));
+    props.put("mail.smtps.connectiontimeout", Integer.toString(NETWORK_TIMEOUT));
+    props.put("mail.smtps.writetimeout", Integer.toString(NETWORK_TIMEOUT)); // one thread overhead
+    props.put("mail.smtps.timeout", Integer.toString(NETWORK_TIMEOUT));
 
-        props.put("mail.smtp.ssl.checkserveridentity", checkserveridentity);
-        props.put("mail.smtp.ssl.trust", "*");
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.starttls.required", "true");
-        props.put("mail.smtp.auth", "true");
+    props.put("mail.smtp.ssl.checkserveridentity", checkserveridentity);
+    props.put("mail.smtp.ssl.trust", "*");
+    props.put("mail.smtp.starttls.enable", "true");
+    props.put("mail.smtp.starttls.required", "true");
+    props.put("mail.smtp.auth", "true");
 
-        props.put("mail.smtp.connectiontimeout", Integer.toString(NETWORK_TIMEOUT));
-        props.put(
-                "mail.smtp.writetimeout", Integer.toString(NETWORK_TIMEOUT)); // one thread overhead
-        props.put("mail.smtp.timeout", Integer.toString(NETWORK_TIMEOUT));
+    props.put("mail.smtp.connectiontimeout", Integer.toString(NETWORK_TIMEOUT));
+    props.put("mail.smtp.writetimeout", Integer.toString(NETWORK_TIMEOUT)); // one thread overhead
+    props.put("mail.smtp.timeout", Integer.toString(NETWORK_TIMEOUT));
 
-        props.put("mail.mime.address.strict", "false");
-        props.put("mail.mime.decodetext.strict", "false");
+    props.put("mail.mime.address.strict", "false");
+    props.put("mail.mime.decodetext.strict", "false");
 
-        props.put("mail.mime.ignoreunknownencoding", "true"); // Content-Transfer-Encoding
-        props.put("mail.mime.decodefilename", "true");
-        props.put("mail.mime.encodefilename", "true");
+    props.put("mail.mime.ignoreunknownencoding", "true"); // Content-Transfer-Encoding
+    props.put("mail.mime.decodefilename", "true");
+    props.put("mail.mime.encodefilename", "true");
 
-        // https://docs.oracle.com/javaee/6/api/javax/mail/internet/MimeMultipart.html
-        props.put(
-                "mail.mime.multipart.ignoremissingboundaryparameter",
-                "true"); // javax.mail.internet.ParseException: In parameter list
-        props.put("mail.mime.multipart.ignoreexistingboundaryparameter", "true");
+    // https://docs.oracle.com/javaee/6/api/javax/mail/internet/MimeMultipart.html
+    props.put(
+        "mail.mime.multipart.ignoremissingboundaryparameter",
+        "true"); // javax.mail.internet.ParseException: In parameter list
+    props.put("mail.mime.multipart.ignoreexistingboundaryparameter", "true");
 
-        // The documentation is unclear/inconsistent whether this are system or session properties:
-        System.setProperty("mail.mime.address.strict", "false");
-        System.setProperty("mail.mime.decodetext.strict", "false");
+    // The documentation is unclear/inconsistent whether this are system or session properties:
+    System.setProperty("mail.mime.address.strict", "false");
+    System.setProperty("mail.mime.decodetext.strict", "false");
 
-        System.setProperty("mail.mime.ignoreunknownencoding", "true"); // Content-Transfer-Encoding
-        System.setProperty("mail.mime.decodefilename", "true");
-        System.setProperty("mail.mime.encodefilename", "true");
+    System.setProperty("mail.mime.ignoreunknownencoding", "true"); // Content-Transfer-Encoding
+    System.setProperty("mail.mime.decodefilename", "true");
+    System.setProperty("mail.mime.encodefilename", "true");
 
-        System.setProperty(
-                "mail.mime.multipart.ignoremissingboundaryparameter",
-                "true"); // javax.mail.internet.ParseException: In parameter list
-        System.setProperty("mail.mime.multipart.ignoreexistingboundaryparameter", "true");
+    System.setProperty(
+        "mail.mime.multipart.ignoremissingboundaryparameter",
+        "true"); // javax.mail.internet.ParseException: In parameter list
+    System.setProperty("mail.mime.multipart.ignoreexistingboundaryparameter", "true");
 
-        if (false) {
-            Log.i(Helper.TAG, "Prefering IPv4");
-            System.setProperty("java.net.preferIPv4Stack", "true");
-        }
-
-        // https://javaee.github.io/javamail/OAuth2
-        Log.i(Helper.TAG, "Auth type=" + auth_type);
-        if (auth_type == Helper.AUTH_TYPE_GMAIL) {
-            props.put("mail.imaps.auth.mechanisms", "XOAUTH2");
-            props.put("mail.imap.auth.mechanisms", "XOAUTH2");
-            props.put("mail.smtps.auth.mechanisms", "XOAUTH2");
-            props.put("mail.smtp.auth.mechanisms", "XOAUTH2");
-        }
-
-        return props;
+    if (false) {
+      Log.i(Helper.TAG, "Prefering IPv4");
+      System.setProperty("java.net.preferIPv4Stack", "true");
     }
 
-    static MimeMessageEx from(
-            Context context,
-            EntityMessage message,
-            EntityMessage reply,
-            List<EntityAttachment> attachments,
-            Session isession)
-            throws MessagingException, IOException {
-        MimeMessageEx imessage = new MimeMessageEx(isession, message.msgid);
+    // https://javaee.github.io/javamail/OAuth2
+    Log.i(Helper.TAG, "Auth type=" + auth_type);
+    if (auth_type == Helper.AUTH_TYPE_GMAIL) {
+      props.put("mail.imaps.auth.mechanisms", "XOAUTH2");
+      props.put("mail.imap.auth.mechanisms", "XOAUTH2");
+      props.put("mail.smtps.auth.mechanisms", "XOAUTH2");
+      props.put("mail.smtp.auth.mechanisms", "XOAUTH2");
+    }
 
-        if (reply == null) {
-            imessage.addHeader("References", message.msgid);
-        } else {
-            imessage.addHeader("In-Reply-To", reply.msgid);
-            imessage.addHeader(
-                    "References",
-                    (reply.references == null ? "" : reply.references + " ") + reply.msgid);
-        }
+    return props;
+  }
 
-        imessage.setFlag(Flags.Flag.SEEN, message.seen);
+  static MimeMessageEx from(
+      Context context,
+      EntityMessage message,
+      EntityMessage reply,
+      List<EntityAttachment> attachments,
+      Session isession)
+      throws MessagingException, IOException {
+    MimeMessageEx imessage = new MimeMessageEx(isession, message.msgid);
 
-        if (message.from != null && message.from.length > 0) {
-            imessage.setFrom(message.from[0]);
-        }
+    if (reply == null) {
+      imessage.addHeader("References", message.msgid);
+    } else {
+      imessage.addHeader("In-Reply-To", reply.msgid);
+      imessage.addHeader(
+          "References", (reply.references == null ? "" : reply.references + " ") + reply.msgid);
+    }
 
-        if (message.to != null && message.to.length > 0) {
-            imessage.setRecipients(Message.RecipientType.TO, message.to);
-        }
+    imessage.setFlag(Flags.Flag.SEEN, message.seen);
 
-        if (message.cc != null && message.cc.length > 0) {
-            imessage.setRecipients(Message.RecipientType.CC, message.cc);
-        }
+    if (message.from != null && message.from.length > 0) {
+      imessage.setFrom(message.from[0]);
+    }
 
-        if (message.bcc != null && message.bcc.length > 0) {
-            imessage.setRecipients(Message.RecipientType.BCC, message.bcc);
-        }
+    if (message.to != null && message.to.length > 0) {
+      imessage.setRecipients(Message.RecipientType.TO, message.to);
+    }
 
-        if (message.subject != null) {
-            imessage.setSubject(message.subject);
-        }
+    if (message.cc != null && message.cc.length > 0) {
+      imessage.setRecipients(Message.RecipientType.CC, message.cc);
+    }
 
-        imessage.setSentDate(new Date());
+    if (message.bcc != null && message.bcc.length > 0) {
+      imessage.setRecipients(Message.RecipientType.BCC, message.bcc);
+    }
 
-        if (message.from != null && message.from.length > 0) {
-            for (EntityAttachment attachment : attachments) {
-                if (attachment.available && "signature.asc".equals(attachment.name)) {
-                    InternetAddress from = (InternetAddress) message.from[0];
-                    File file = EntityAttachment.getFile(context, attachment.id);
-                    BufferedReader br = null;
-                    StringBuilder sb = new StringBuilder();
-                    try {
-                        br = new BufferedReader(new FileReader(file));
-                        String line;
-                        while ((line = br.readLine()) != null) {
-                            if (!line.startsWith("-----") && !line.endsWith("-----")) {
-                                sb.append(line);
-                            }
-                        }
-                    } finally {
-                        if (br != null) {
-                            br.close();
-                        }
-                    }
+    if (message.subject != null) {
+      imessage.setSubject(message.subject);
+    }
 
-                    imessage.addHeader(
-                            "Autocrypt",
-                            "addr=" + from.getAddress() + "; keydata=" + sb.toString());
-                }
+    imessage.setSentDate(new Date());
+
+    if (message.from != null && message.from.length > 0) {
+      for (EntityAttachment attachment : attachments) {
+        if (attachment.available && "signature.asc".equals(attachment.name)) {
+          InternetAddress from = (InternetAddress) message.from[0];
+          File file = EntityAttachment.getFile(context, attachment.id);
+          BufferedReader br = null;
+          StringBuilder sb = new StringBuilder();
+          try {
+            br = new BufferedReader(new FileReader(file));
+            String line;
+            while ((line = br.readLine()) != null) {
+              if (!line.startsWith("-----") && !line.endsWith("-----")) {
+                sb.append(line);
+              }
             }
-        }
-
-        for (final EntityAttachment attachment : attachments) {
-            if (attachment.available && "encrypted.asc".equals(attachment.name)) {
-                Multipart multipart =
-                        new MimeMultipart("encrypted; protocol=\"application/pgp-encrypted\"");
-
-                BodyPart pgp = new MimeBodyPart();
-                pgp.setContent("", "application/pgp-encrypted");
-                multipart.addBodyPart(pgp);
-
-                BodyPart bpAttachment = new MimeBodyPart();
-                bpAttachment.setFileName(attachment.name);
-
-                File file = EntityAttachment.getFile(context, attachment.id);
-                FileDataSource dataSource = new FileDataSource(file);
-                dataSource.setFileTypeMap(
-                        new FileTypeMap() {
-                            @Override
-                            public String getContentType(File file) {
-                                return attachment.type;
-                            }
-
-                            @Override
-                            public String getContentType(String filename) {
-                                return attachment.type;
-                            }
-                        });
-                bpAttachment.setDataHandler(new DataHandler(dataSource));
-                bpAttachment.setDisposition(Part.INLINE);
-
-                multipart.addBodyPart(bpAttachment);
-
-                imessage.setContent(multipart);
-
-                return imessage;
+          } finally {
+            if (br != null) {
+              br.close();
             }
-        }
+          }
 
-        build(context, message, attachments, imessage);
+          imessage.addHeader(
+              "Autocrypt", "addr=" + from.getAddress() + "; keydata=" + sb.toString());
+        }
+      }
+    }
+
+    for (final EntityAttachment attachment : attachments) {
+      if (attachment.available && "encrypted.asc".equals(attachment.name)) {
+        Multipart multipart =
+            new MimeMultipart("encrypted; protocol=\"application/pgp-encrypted\"");
+
+        BodyPart pgp = new MimeBodyPart();
+        pgp.setContent("", "application/pgp-encrypted");
+        multipart.addBodyPart(pgp);
+
+        BodyPart bpAttachment = new MimeBodyPart();
+        bpAttachment.setFileName(attachment.name);
+
+        File file = EntityAttachment.getFile(context, attachment.id);
+        FileDataSource dataSource = new FileDataSource(file);
+        dataSource.setFileTypeMap(
+            new FileTypeMap() {
+              @Override
+              public String getContentType(File file) {
+                return attachment.type;
+              }
+
+              @Override
+              public String getContentType(String filename) {
+                return attachment.type;
+              }
+            });
+        bpAttachment.setDataHandler(new DataHandler(dataSource));
+        bpAttachment.setDisposition(Part.INLINE);
+
+        multipart.addBodyPart(bpAttachment);
+
+        imessage.setContent(multipart);
 
         return imessage;
+      }
     }
 
-    static void build(
-            Context context,
-            EntityMessage message,
-            List<EntityAttachment> attachments,
-            MimeMessage imessage)
-            throws IOException, MessagingException {
-        String body = message.read(context);
+    build(context, message, attachments, imessage);
 
-        BodyPart plain = new MimeBodyPart();
-        plain.setContent(
-                Jsoup.parse(body).text(), "text/plain; charset=" + Charset.defaultCharset().name());
+    return imessage;
+  }
 
-        BodyPart html = new MimeBodyPart();
-        html.setContent(body, "text/html; charset=" + Charset.defaultCharset().name());
+  static void build(
+      Context context,
+      EntityMessage message,
+      List<EntityAttachment> attachments,
+      MimeMessage imessage)
+      throws IOException, MessagingException {
+    String body = message.read(context);
 
-        Multipart alternative = new MimeMultipart("alternative");
-        alternative.addBodyPart(plain);
-        alternative.addBodyPart(html);
+    BodyPart plain = new MimeBodyPart();
+    plain.setContent(
+        Jsoup.parse(body).text(), "text/plain; charset=" + Charset.defaultCharset().name());
 
-        if (attachments.size() == 0) {
-            imessage.setContent(alternative);
+    BodyPart html = new MimeBodyPart();
+    html.setContent(body, "text/html; charset=" + Charset.defaultCharset().name());
+
+    Multipart alternative = new MimeMultipart("alternative");
+    alternative.addBodyPart(plain);
+    alternative.addBodyPart(html);
+
+    if (attachments.size() == 0) {
+      imessage.setContent(alternative);
+    } else {
+      Multipart multipart = new MimeMultipart("mixed");
+
+      BodyPart bp = new MimeBodyPart();
+      bp.setContent(alternative);
+      multipart.addBodyPart(bp);
+
+      for (final EntityAttachment attachment : attachments) {
+        if (attachment.available) {
+          BodyPart bpAttachment = new MimeBodyPart();
+          bpAttachment.setFileName(attachment.name);
+
+          File file = EntityAttachment.getFile(context, attachment.id);
+          FileDataSource dataSource = new FileDataSource(file);
+          dataSource.setFileTypeMap(
+              new FileTypeMap() {
+                @Override
+                public String getContentType(File file) {
+                  return attachment.type;
+                }
+
+                @Override
+                public String getContentType(String filename) {
+                  return attachment.type;
+                }
+              });
+          bpAttachment.setDataHandler(new DataHandler(dataSource));
+          if (attachment.cid != null) {
+            bpAttachment.setHeader("Content-ID", attachment.cid);
+          }
+
+          multipart.addBodyPart(bpAttachment);
+        }
+      }
+
+      imessage.setContent(multipart);
+    }
+  }
+
+  MessageHelper(MimeMessage message) {
+    this.imessage = message;
+  }
+
+  MessageHelper(String raw, Session isession) throws MessagingException {
+    byte[] bytes = Base64.decode(raw, Base64.URL_SAFE);
+    InputStream is = new ByteArrayInputStream(bytes);
+    this.imessage = new MimeMessage(isession, is);
+  }
+
+  boolean getSeen() throws MessagingException {
+    return imessage.isSet(Flags.Flag.SEEN);
+  }
+
+  boolean getFlagged() throws MessagingException {
+    return imessage.isSet(Flags.Flag.FLAGGED);
+  }
+
+  String getMessageID() throws MessagingException {
+    return imessage.getHeader("Message-ID", null);
+  }
+
+  String[] getReferences() throws MessagingException {
+    String refs = imessage.getHeader("References", null);
+    return (refs == null ? new String[0] : refs.split("\\s+"));
+  }
+
+  String getDeliveredTo() throws MessagingException {
+    return imessage.getHeader("Delivered-To", imessage.getHeader("X-Delivered-To", null));
+  }
+
+  String getInReplyTo() throws MessagingException {
+    return imessage.getHeader("In-Reply-To", null);
+  }
+
+  String getThreadId(long uid) throws MessagingException {
+    for (String ref : getReferences()) {
+      if (!TextUtils.isEmpty(ref)) {
+        return ref;
+      }
+    }
+    String msgid = getMessageID();
+    return (TextUtils.isEmpty(msgid) ? Long.toString(uid) : msgid);
+  }
+
+  Address[] getFrom() throws MessagingException {
+    return imessage.getFrom();
+  }
+
+  Address[] getTo() throws MessagingException {
+    return imessage.getRecipients(Message.RecipientType.TO);
+  }
+
+  Address[] getCc() throws MessagingException {
+    return imessage.getRecipients(Message.RecipientType.CC);
+  }
+
+  Address[] getBcc() throws MessagingException {
+    return imessage.getRecipients(Message.RecipientType.BCC);
+  }
+
+  Address[] getReply() throws MessagingException {
+    String[] headers = imessage.getHeader("Reply-To");
+    if (headers != null && headers.length > 0) {
+      return imessage.getReplyTo();
+    } else {
+      return null;
+    }
+  }
+
+  Integer getSize() throws MessagingException {
+    int size = imessage.getSize();
+    return (size < 0 ? null : size);
+  }
+
+  static String getFormattedAddresses(Address[] addresses, boolean full) {
+    if (addresses == null || addresses.length == 0) {
+      return "";
+    }
+
+    List<String> formatted = new ArrayList<>();
+    for (Address address : addresses) {
+      if (address instanceof InternetAddress) {
+        InternetAddress a = (InternetAddress) address;
+        String personal = a.getPersonal();
+        if (TextUtils.isEmpty(personal)) {
+          formatted.add(address.toString());
         } else {
-            Multipart multipart = new MimeMultipart("mixed");
-
-            BodyPart bp = new MimeBodyPart();
-            bp.setContent(alternative);
-            multipart.addBodyPart(bp);
-
-            for (final EntityAttachment attachment : attachments) {
-                if (attachment.available) {
-                    BodyPart bpAttachment = new MimeBodyPart();
-                    bpAttachment.setFileName(attachment.name);
-
-                    File file = EntityAttachment.getFile(context, attachment.id);
-                    FileDataSource dataSource = new FileDataSource(file);
-                    dataSource.setFileTypeMap(
-                            new FileTypeMap() {
-                                @Override
-                                public String getContentType(File file) {
-                                    return attachment.type;
-                                }
-
-                                @Override
-                                public String getContentType(String filename) {
-                                    return attachment.type;
-                                }
-                            });
-                    bpAttachment.setDataHandler(new DataHandler(dataSource));
-                    if (attachment.cid != null) {
-                        bpAttachment.setHeader("Content-ID", attachment.cid);
-                    }
-
-                    multipart.addBodyPart(bpAttachment);
-                }
-            }
-
-            imessage.setContent(multipart);
+          personal = personal.replaceAll("[\\,\\<\\>]", "");
+          if (full) {
+            formatted.add(personal + " <" + a.getAddress() + ">");
+          } else {
+            formatted.add(personal);
+          }
         }
+      } else {
+        formatted.add(address.toString());
+      }
     }
+    return TextUtils.join(", ", formatted);
+  }
 
-    MessageHelper(MimeMessage message) {
-        this.imessage = message;
-    }
+  String getHtml() throws MessagingException, IOException {
+    return getHtml(imessage);
+  }
 
-    MessageHelper(String raw, Session isession) throws MessagingException {
-        byte[] bytes = Base64.decode(raw, Base64.URL_SAFE);
-        InputStream is = new ByteArrayInputStream(bytes);
-        this.imessage = new MimeMessage(isession, is);
-    }
-
-    boolean getSeen() throws MessagingException {
-        return imessage.isSet(Flags.Flag.SEEN);
-    }
-
-    boolean getFlagged() throws MessagingException {
-        return imessage.isSet(Flags.Flag.FLAGGED);
-    }
-
-    String getMessageID() throws MessagingException {
-        return imessage.getHeader("Message-ID", null);
-    }
-
-    String[] getReferences() throws MessagingException {
-        String refs = imessage.getHeader("References", null);
-        return (refs == null ? new String[0] : refs.split("\\s+"));
-    }
-
-    String getDeliveredTo() throws MessagingException {
-        return imessage.getHeader("Delivered-To", imessage.getHeader("X-Delivered-To", null));
-    }
-
-    String getInReplyTo() throws MessagingException {
-        return imessage.getHeader("In-Reply-To", null);
-    }
-
-    String getThreadId(long uid) throws MessagingException {
-        for (String ref : getReferences()) {
-            if (!TextUtils.isEmpty(ref)) {
-                return ref;
-            }
+  private static String getHtml(Part part) throws MessagingException, IOException {
+    if (part.isMimeType("text/*")) {
+      String s;
+      try {
+        s = part.getContent().toString();
+      } catch (UnsupportedEncodingException ex) {
+        // x-binaryenc
+        Log.w(Helper.TAG, "Unsupported encoding: " + part.getContentType());
+        // https://javaee.github.io/javamail/FAQ#unsupen
+        InputStream is = part.getInputStream();
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        byte[] buffer = new byte[4096];
+        for (int len = is.read(buffer); len != -1; len = is.read(buffer)) {
+          os.write(buffer, 0, len);
         }
-        String msgid = getMessageID();
-        return (TextUtils.isEmpty(msgid) ? Long.toString(uid) : msgid);
+        s = new String(os.toByteArray(), "US-ASCII");
+      } catch (IOException ex) {
+        // IOException; Unknown encoding: none
+        Log.w(Helper.TAG, ex + "\n" + Log.getStackTraceString(ex));
+        s = ex.toString();
+      }
+
+      if (part.isMimeType("text/plain")) {
+        s = "<pre>" + s.replaceAll("\\r?\\n", "<br />") + "</pre>";
+      }
+      return s;
     }
 
-    Address[] getFrom() throws MessagingException {
-        return imessage.getFrom();
-    }
-
-    Address[] getTo() throws MessagingException {
-        return imessage.getRecipients(Message.RecipientType.TO);
-    }
-
-    Address[] getCc() throws MessagingException {
-        return imessage.getRecipients(Message.RecipientType.CC);
-    }
-
-    Address[] getBcc() throws MessagingException {
-        return imessage.getRecipients(Message.RecipientType.BCC);
-    }
-
-    Address[] getReply() throws MessagingException {
-        String[] headers = imessage.getHeader("Reply-To");
-        if (headers != null && headers.length > 0) {
-            return imessage.getReplyTo();
-        } else {
-            return null;
-        }
-    }
-
-    Integer getSize() throws MessagingException {
-        int size = imessage.getSize();
-        return (size < 0 ? null : size);
-    }
-
-    static String getFormattedAddresses(Address[] addresses, boolean full) {
-        if (addresses == null || addresses.length == 0) {
-            return "";
-        }
-
-        List<String> formatted = new ArrayList<>();
-        for (Address address : addresses) {
-            if (address instanceof InternetAddress) {
-                InternetAddress a = (InternetAddress) address;
-                String personal = a.getPersonal();
-                if (TextUtils.isEmpty(personal)) {
-                    formatted.add(address.toString());
-                } else {
-                    personal = personal.replaceAll("[\\,\\<\\>]", "");
-                    if (full) {
-                        formatted.add(personal + " <" + a.getAddress() + ">");
-                    } else {
-                        formatted.add(personal);
-                    }
-                }
-            } else {
-                formatted.add(address.toString());
+    if (part.isMimeType("multipart/alternative")) {
+      String text = null;
+      try {
+        Multipart mp = (Multipart) part.getContent();
+        for (int i = 0; i < mp.getCount(); i++) {
+          Part bp = mp.getBodyPart(i);
+          if (bp.isMimeType("text/plain")) {
+            if (text == null) {
+              text = getHtml(bp);
             }
+          } else if (bp.isMimeType("text/html")) {
+            String s = getHtml(bp);
+            if (s != null) {
+              return s;
+            }
+          } else {
+            return getHtml(bp);
+          }
         }
-        return TextUtils.join(", ", formatted);
+      } catch (ParseException ex) {
+        // ParseException: In parameter list boundary="...">, expected parameter name, got
+        // ";"
+        Log.w(Helper.TAG, ex + "\n" + Log.getStackTraceString(ex));
+        text = ex.toString();
+      }
+      return text;
     }
 
-    String getHtml() throws MessagingException, IOException {
-        return getHtml(imessage);
-    }
-
-    private static String getHtml(Part part) throws MessagingException, IOException {
-        if (part.isMimeType("text/*")) {
-            String s;
-            try {
-                s = part.getContent().toString();
-            } catch (UnsupportedEncodingException ex) {
-                // x-binaryenc
-                Log.w(Helper.TAG, "Unsupported encoding: " + part.getContentType());
-                // https://javaee.github.io/javamail/FAQ#unsupen
-                InputStream is = part.getInputStream();
-                ByteArrayOutputStream os = new ByteArrayOutputStream();
-                byte[] buffer = new byte[4096];
-                for (int len = is.read(buffer); len != -1; len = is.read(buffer)) {
-                    os.write(buffer, 0, len);
-                }
-                s = new String(os.toByteArray(), "US-ASCII");
-            } catch (IOException ex) {
-                // IOException; Unknown encoding: none
-                Log.w(Helper.TAG, ex + "\n" + Log.getStackTraceString(ex));
-                s = ex.toString();
-            }
-
-            if (part.isMimeType("text/plain")) {
-                s = "<pre>" + s.replaceAll("\\r?\\n", "<br />") + "</pre>";
-            }
+    if (part.isMimeType("multipart/*")) {
+      try {
+        Multipart mp = (Multipart) part.getContent();
+        for (int i = 0; i < mp.getCount(); i++) {
+          String s = getHtml(mp.getBodyPart(i));
+          if (s != null) {
             return s;
+          }
         }
-
-        if (part.isMimeType("multipart/alternative")) {
-            String text = null;
-            try {
-                Multipart mp = (Multipart) part.getContent();
-                for (int i = 0; i < mp.getCount(); i++) {
-                    Part bp = mp.getBodyPart(i);
-                    if (bp.isMimeType("text/plain")) {
-                        if (text == null) {
-                            text = getHtml(bp);
-                        }
-                    } else if (bp.isMimeType("text/html")) {
-                        String s = getHtml(bp);
-                        if (s != null) {
-                            return s;
-                        }
-                    } else {
-                        return getHtml(bp);
-                    }
-                }
-            } catch (ParseException ex) {
-                // ParseException: In parameter list boundary="...">, expected parameter name, got
-                // ";"
-                Log.w(Helper.TAG, ex + "\n" + Log.getStackTraceString(ex));
-                text = ex.toString();
-            }
-            return text;
-        }
-
-        if (part.isMimeType("multipart/*")) {
-            try {
-                Multipart mp = (Multipart) part.getContent();
-                for (int i = 0; i < mp.getCount(); i++) {
-                    String s = getHtml(mp.getBodyPart(i));
-                    if (s != null) {
-                        return s;
-                    }
-                }
-            } catch (ParseException ex) {
-                Log.w(Helper.TAG, ex + "\n" + Log.getStackTraceString(ex));
-                return ex.toString();
-            }
-        }
-
-        return null;
+      } catch (ParseException ex) {
+        Log.w(Helper.TAG, ex + "\n" + Log.getStackTraceString(ex));
+        return ex.toString();
+      }
     }
 
-    public List<EntityAttachment> getAttachments() throws IOException, MessagingException {
-        List<EntityAttachment> result = new ArrayList<>();
+    return null;
+  }
 
-        try {
-            Object content = imessage.getContent();
-            if (content instanceof String) {
-                return result;
-            }
+  public List<EntityAttachment> getAttachments() throws IOException, MessagingException {
+    List<EntityAttachment> result = new ArrayList<>();
 
-            if (content instanceof Multipart) {
-                Multipart multipart = (Multipart) content;
-                for (int i = 0; i < multipart.getCount(); i++) {
-                    result.addAll(getAttachments(multipart.getBodyPart(i)));
-                }
-            }
-        } catch (ParseException ex) {
-            Log.w(Helper.TAG, ex + "\n" + Log.getStackTraceString(ex));
-        }
-
+    try {
+      Object content = imessage.getContent();
+      if (content instanceof String) {
         return result;
+      }
+
+      if (content instanceof Multipart) {
+        Multipart multipart = (Multipart) content;
+        for (int i = 0; i < multipart.getCount(); i++) {
+          result.addAll(getAttachments(multipart.getBodyPart(i)));
+        }
+      }
+    } catch (ParseException ex) {
+      Log.w(Helper.TAG, ex + "\n" + Log.getStackTraceString(ex));
     }
 
-    private static List<EntityAttachment> getAttachments(BodyPart part)
-            throws IOException, MessagingException {
-        List<EntityAttachment> result = new ArrayList<>();
+    return result;
+  }
 
-        Object content;
-        try {
-            content = part.getContent();
-        } catch (UnsupportedEncodingException ex) {
-            Log.w(Helper.TAG, "attachment content type=" + part.getContentType());
-            content = part.getInputStream();
-        } catch (ParseException ex) {
-            Log.w(Helper.TAG, ex + "\n" + Log.getStackTraceString(ex));
-            content = null;
-        }
+  private static List<EntityAttachment> getAttachments(BodyPart part)
+      throws IOException, MessagingException {
+    List<EntityAttachment> result = new ArrayList<>();
 
-        if (content instanceof InputStream || content instanceof String) {
-            String disposition;
-            try {
-                disposition = part.getDisposition();
-            } catch (MessagingException ex) {
-                Log.w(Helper.TAG, ex + "\n" + Log.getStackTraceString(ex));
-                disposition = null;
-            }
-
-            String filename;
-            try {
-                filename = part.getFileName();
-            } catch (MessagingException ex) {
-                Log.w(Helper.TAG, ex + "\n" + Log.getStackTraceString(ex));
-                filename = null;
-            }
-
-            if (Part.ATTACHMENT.equalsIgnoreCase(disposition)
-                    || part.isMimeType("image/*")
-                    || !TextUtils.isEmpty(filename)) {
-                ContentType ct = new ContentType(part.getContentType());
-                String[] cid = part.getHeader("Content-ID");
-
-                EntityAttachment attachment = new EntityAttachment();
-                attachment.name = filename;
-                attachment.type = ct.getBaseType().toLowerCase(Locale.ROOT);
-                attachment.size = part.getSize();
-                attachment.cid = (cid == null || cid.length == 0 ? null : cid[0]);
-                attachment.part = part;
-
-                // Try to guess a better content type
-                // Sometimes PDF files are sent using the wrong type
-                if ("application/octet-stream".equals(attachment.type)) {
-                    String extension = Helper.getExtension(attachment.name);
-                    if (extension != null) {
-                        String type = MimeTypeMap.getSingleton()
-                            .getMimeTypeFromExtension(extension.toLowerCase(Locale.ROOT));
-                        if (type != null) {
-                            Log.w(Helper.TAG, "Guessing file=" + attachment.name + " type=" + type);
-                            attachment.type = type;
-                        }
-                    }
-                }
-
-                if (attachment.size < 0) {
-                    attachment.size = null;
-                }
-
-                result.add(attachment);
-            }
-        } else if (content instanceof Multipart) {
-            Multipart multipart = (Multipart) content;
-            for (int i = 0; i < multipart.getCount(); i++) {
-                result.addAll(getAttachments(multipart.getBodyPart(i)));
-            }
-        }
-
-        return result;
+    Object content;
+    try {
+      content = part.getContent();
+    } catch (UnsupportedEncodingException ex) {
+      Log.w(Helper.TAG, "attachment content type=" + part.getContentType());
+      content = part.getInputStream();
+    } catch (ParseException ex) {
+      Log.w(Helper.TAG, ex + "\n" + Log.getStackTraceString(ex));
+      content = null;
     }
 
-    String getRaw() throws IOException, MessagingException {
-        if (raw == null) {
-            ByteArrayOutputStream os = new ByteArrayOutputStream();
-            imessage.writeTo(os);
-            raw = Base64.encodeToString(os.toByteArray(), Base64.URL_SAFE);
+    if (content instanceof InputStream || content instanceof String) {
+      String disposition;
+      try {
+        disposition = part.getDisposition();
+      } catch (MessagingException ex) {
+        Log.w(Helper.TAG, ex + "\n" + Log.getStackTraceString(ex));
+        disposition = null;
+      }
+
+      String filename;
+      try {
+        filename = part.getFileName();
+      } catch (MessagingException ex) {
+        Log.w(Helper.TAG, ex + "\n" + Log.getStackTraceString(ex));
+        filename = null;
+      }
+
+      if (Part.ATTACHMENT.equalsIgnoreCase(disposition)
+          || part.isMimeType("image/*")
+          || !TextUtils.isEmpty(filename)) {
+        ContentType ct = new ContentType(part.getContentType());
+        String[] cid = part.getHeader("Content-ID");
+
+        EntityAttachment attachment = new EntityAttachment();
+        attachment.name = filename;
+        attachment.type = ct.getBaseType().toLowerCase(Locale.ROOT);
+        attachment.size = part.getSize();
+        attachment.cid = (cid == null || cid.length == 0 ? null : cid[0]);
+        attachment.part = part;
+
+        // Try to guess a better content type
+        // Sometimes PDF files are sent using the wrong type
+        if ("application/octet-stream".equals(attachment.type)) {
+          String extension = Helper.getExtension(attachment.name);
+          if (extension != null) {
+            String type =
+                MimeTypeMap.getSingleton()
+                    .getMimeTypeFromExtension(extension.toLowerCase(Locale.ROOT));
+            if (type != null) {
+              Log.w(Helper.TAG, "Guessing file=" + attachment.name + " type=" + type);
+              attachment.type = type;
+            }
+          }
         }
-        return raw;
+
+        if (attachment.size < 0) {
+          attachment.size = null;
+        }
+
+        result.add(attachment);
+      }
+    } else if (content instanceof Multipart) {
+      Multipart multipart = (Multipart) content;
+      for (int i = 0; i < multipart.getCount(); i++) {
+        result.addAll(getAttachments(multipart.getBodyPart(i)));
+      }
     }
+
+    return result;
+  }
+
+  String getRaw() throws IOException, MessagingException {
+    if (raw == null) {
+      ByteArrayOutputStream os = new ByteArrayOutputStream();
+      imessage.writeTo(os);
+      raw = Base64.encodeToString(os.toByteArray(), Base64.URL_SAFE);
+    }
+    return raw;
+  }
 }
