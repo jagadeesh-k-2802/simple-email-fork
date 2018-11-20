@@ -273,4 +273,5 @@
   <string name="title_no_storage_framework">Storage framework not available</string>
   <string name="title_show_details">See details</string>
   <string name="title_no_accounts_yet">You don\'t have accounts configured yet</string>
+  <string name="title_no_identities_yet">You don\'t have identities configured yet</string>
 </resources>

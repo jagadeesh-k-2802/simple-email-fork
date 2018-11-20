@@ -34,8 +34,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.List;
+import android.widget.TextView;
 
 public class FragmentIdentities extends FragmentEx {
+    private TextView tvNoIdentities;
     private RecyclerView rvIdentity;
     private ProgressBar pbWait;
     private Group grpReady;
@@ -55,6 +57,7 @@ public class FragmentIdentities extends FragmentEx {
 
         // Get controls
         rvIdentity = view.findViewById(R.id.rvIdentity);
+        tvNoIdentities = view.findViewById(R.id.tvNoIdentities);
         pbWait = view.findViewById(R.id.pbWait);
         grpReady = view.findViewById(R.id.grpReady);
         fab = view.findViewById(R.id.fab);
@@ -85,6 +88,7 @@ public class FragmentIdentities extends FragmentEx {
 
         // Initialize
         grpReady.setVisibility(View.GONE);
+        tvNoIdentities.setVisibility(View.GONE);
         pbWait.setVisibility(View.VISIBLE);
 
         return view;
@@ -103,10 +107,13 @@ public class FragmentIdentities extends FragmentEx {
                         new Observer<List<TupleIdentityEx>>() {
                             @Override
                             public void onChanged(@Nullable List<TupleIdentityEx> identities) {
-                                adapter.set(
-                                        identities == null
-                                                ? new ArrayList<TupleIdentityEx>()
-                                                : identities);
+                                if (identities == null) {
+                                    identities = new ArrayList<TupleIdentityEx>();
+                                } else if (identities.size() == 0) {
+                                    tvNoIdentities.setVisibility(View.VISIBLE);
+                                }
+
+                                adapter.set(identities);
 
                                 pbWait.setVisibility(View.GONE);
                                 grpReady.setVisibility(View.VISIBLE);
