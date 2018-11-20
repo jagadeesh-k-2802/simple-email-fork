@@ -1443,7 +1443,12 @@ public class FragmentCompose extends FragmentEx {
                                             new Runnable() {
                                                 @Override
                                                 public void run() {
-                                                    etTo.requestFocus();
+                                                    String etToText = etTo.getText().toString();
+                                                    if (etToText != null && etToText.length() > 0) {
+                                                        etBody.requestFocus();
+                                                    } else {
+                                                        etTo.requestFocus();
+                                                    }
                                                 }
                                             });
                         }
