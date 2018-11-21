@@ -22,7 +22,7 @@ The focus of SimpleEmail is be a privacy-friendly email app with a good UX/UI an
 SimpleEmail is minimalistic by design, so you can concentrate on reading and writing messages, it starts a foreground 
 service with a low priority status bar notification to make sure you'll never miss a new email.
 
-*This project has been forked from [FairEmail](https://framagit.org/dystopia-project/simple-email/blob/master/docs/FAQ.md).*
+*This project has been forked from [FairEmail](https://framagit.org/dystopia-project/simple-email/blob/master/docs/FAQ.md#what-is-the-difference-between-simpleemail-and-fairemail).*
 
 ## Features
 
