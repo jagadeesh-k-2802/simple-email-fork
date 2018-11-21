@@ -1,26 +1,25 @@
-<?xml version="1.0" encoding="utf-8"?>
-
+<?xml version='1.0' encoding='UTF-8'?>
 <resources>
-  <string name="app_copyright">Telif hakkı &#x24B8; 2018 M. Bokhorst \'a aittir</string>
+  <string name="app_copyright">Telif hakkı Ⓒ 2018 M. Bokhorst \'a aittir</string>
   <string name="channel_service">Hizmet</string>
   <string name="channel_notification">Bildirimler</string>
   <string name="channel_error">Hatalar</string>
   <plurals name="title_notification_synchronizing">
-    <item quantity="one">%1$d Hesap senkronize ediliyor</item>
-    <item quantity="other">%1$d Hesap senkronize ediliyor</item>
-  </plurals>
+	<item quantity="one">%1$d Hesap senkronize ediliyor</item>
+	<item quantity="other">%1$d Hesap senkronize ediliyor</item>
+</plurals>
   <plurals name="title_notification_operations">
-    <item quantity="one">%1$d işlem beklemede</item>
-    <item quantity="other">%1$d işlem beklemede</item>
-  </plurals>
+	<item quantity="one">%1$d işlem beklemede</item>
+	<item quantity="other">%1$d işlem beklemede</item>
+</plurals>
   <plurals name="title_notification_unseen">
-    <item quantity="one">%1$d yeni ileti</item>
-    <item quantity="other">%1$d yeni ileti</item>
-  </plurals>
+	<item quantity="one">%1$d yeni ileti</item>
+	<item quantity="other">%1$d yeni ileti</item>
+</plurals>
   <plurals name="title_notification_unsent">
-    <item quantity="one">%1$d gönderilmemiş ileti</item>
-    <item quantity="other">%1$d gönderilmemiş ileti</item>
-  </plurals>
+	<item quantity="one">%1$d gönderilmemiş ileti</item>
+	<item quantity="other">%1$d gönderilmemiş ileti</item>
+</plurals>
   <string name="title_notification_failed">\'%1$s\' başarısız oldu</string>
   <string name="menu_setup">Kurulum</string>
   <string name="menu_answers">Yanıt şablonları</string>
@@ -71,7 +70,7 @@
   <string name="title_advanced_swipe">Kaydırma eylemleri</string>
   <string name="title_advanced_compact">Kompakt mesaj görünümü</string>
   <string name="title_advanced_debug">Hata ayıklama</string>
-  <string name="title_select">Seçin &#8230;</string>
+  <string name="title_select">Seçin …</string>
   <string name="title_identity_name">Adınız</string>
   <string name="title_identity_email">E-posta adresiniz</string>
   <string name="title_identity_reply_to">Yanıtlama adresi</string>
@@ -95,7 +94,7 @@
   <string name="title_user">Kullanıcı adı</string>
   <string name="title_password">Şifre</string>
   <string name="title_authorize">Hesap seç</string>
-  <string name="title_authorizing">Hesap yetkilendiriliyor &#8230;</string>
+  <string name="title_authorizing">Hesap yetkilendiriliyor …</string>
   <string name="title_setup_advanced">Gelişmiş</string>
   <string name="title_store_sent">Gönderilen mesajları sakla (normalde gerekmez)</string>
   <string name="title_synchronize_account">Senkronize et (iletileri al)</string>
@@ -169,9 +168,9 @@
   <string name="title_no_answers">Yanıt şablonları tanımlanmadı</string>
   <string name="title_no_viewer">%1$s için kullanılabilir hiçbir görüntüleme uygulaması yok</string>
   <string name="title_attachment_saved">Ek kaydedildi</string>
-  <string name="title_attachment_unavailable">Some attachments are not downloaded and will not be forwarded, continue?</string>
+  <string name="title_attachment_unavailable">Some attachments are not downloaded and will not be forwarded, continue\?</string>
   <string name="title_ask_delete">İletiyi kalıcı olarak sil?</string>
-  <string name="title_ask_discard">Discard draft?</string>
+  <string name="title_ask_discard">Discard draft\?</string>
   <string name="title_ask_spam">İletiyi spam olarak raporla?</string>
   <string name="title_fix">Fix</string>
   <string name="title_compose">Oluştur</string>
