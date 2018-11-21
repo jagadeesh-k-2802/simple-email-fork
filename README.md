@@ -118,7 +118,7 @@ SimpleEmail uses:
 
 ## License
 
-[GNU General Public License version 3](https://framagit.org/dystopia-project/simple-email/blob/master/LICENSE)
+[![GNU General Public License version 3](https://framagit.org/dystopia-project/simple-email/blob/master/LICENSE)
 
     Copyright 2018, Marcel Bokhorst (M66B)
     Copyright 2018, Distopico (dystopia project) and contributors

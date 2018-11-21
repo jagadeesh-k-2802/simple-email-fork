@@ -9,7 +9,7 @@ are preferred in the form of [pull requests][pull-requests]).
 
 ## Translations
 
-* You can translate the in-app texts of SimpleEmail please open a [pull requests][pull-requests] (looking for a web service).
+* SimpleEmail can be translated via [Weblate](https://hosted.weblate.org/projects/simple-email/). You can log in there to help or open a [pull requests][pull-requests].
 * If your language is not listed, please open a [issue][] or send a message through [email](distopico@riseup.net)
 
 ## Source code
