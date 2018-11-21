@@ -1,30 +1,29 @@
-<?xml version="1.0" encoding="utf-8"?>
-
+<?xml version='1.0' encoding='UTF-8'?>
 <resources>
-  <string name="app_copyright">Copyright &#x24B8; 2018 by M. Bokhorst\nCopyright &#x24B8; 2018 by Distopico (dystopia project) and contributors</string>
+  <string name="app_copyright">Copyright Ⓒ 2018 by M. Bokhorst\nCopyright Ⓒ 2018 by Distopico (dystopia project) and contributors</string>
   <string name="channel_service">Service</string>
   <string name="channel_notification">Notifications</string>
   <string name="channel_error">Errors</string>
   <plurals name="title_notification_synchronizing">
-    <item quantity="one">Synchronizing %1$d account</item>
-    <item quantity="few">Synchronizing %1$d accounts</item>
-    <item quantity="other">Synchronizing %1$d accounts</item>
-  </plurals>
+	<item quantity="one">Synchronizing %1$d account</item>
+	<item quantity="few">Synchronizing %1$d accounts</item>
+	<item quantity="other">Synchronizing %1$d accounts</item>
+</plurals>
   <plurals name="title_notification_operations">
-    <item quantity="one">%1$d operation pending</item>
-    <item quantity="few">%1$d operations pending</item>
-    <item quantity="other">%1$d operations pending</item>
-  </plurals>
+	<item quantity="one">%1$d operation pending</item>
+	<item quantity="few">%1$d operations pending</item>
+	<item quantity="other">%1$d operations pending</item>
+</plurals>
   <plurals name="title_notification_unseen">
-    <item quantity="one">%1$d new message</item>
-    <item quantity="few">%1$d new messages</item>
-    <item quantity="other">%1$d new messages</item>
-  </plurals>
+	<item quantity="one">%1$d new message</item>
+	<item quantity="few">%1$d new messages</item>
+	<item quantity="other">%1$d new messages</item>
+</plurals>
   <plurals name="title_notification_unsent">
-    <item quantity="one">%1$d unsent message</item>
-    <item quantity="few">%1$d unsent messages</item>
-    <item quantity="other">%1$d unsent messages</item>
-  </plurals>
+	<item quantity="one">%1$d unsent message</item>
+	<item quantity="few">%1$d unsent messages</item>
+	<item quantity="other">%1$d unsent messages</item>
+</plurals>
   <string name="title_notification_failed">\'%1$s\' failed</string>
   <string name="menu_setup">Setup</string>
   <string name="menu_answers">Reply templates</string>
@@ -75,7 +74,7 @@
   <string name="title_advanced_swipe">Swipe actions</string>
   <string name="title_advanced_compact">Compact message view</string>
   <string name="title_advanced_debug">Debug mode</string>
-  <string name="title_select">Select &#8230;</string>
+  <string name="title_select">Select …</string>
   <string name="title_identity_name">Your name</string>
   <string name="title_identity_email">Your email address</string>
   <string name="title_identity_reply_to">Reply to address</string>
@@ -99,7 +98,7 @@
   <string name="title_user">User name</string>
   <string name="title_password">Password</string>
   <string name="title_authorize">Select account</string>
-  <string name="title_authorizing">Authorizing account &#8230;</string>
+  <string name="title_authorizing">Authorizing account …</string>
   <string name="title_setup_advanced">Advanced</string>
   <string name="title_store_sent">Store sent messages (normally not needed)</string>
   <string name="title_synchronize_account">Synchronize (receive messages)</string>
@@ -119,15 +118,15 @@
   <string name="title_no_primary_archive">No primary account or no archive folder</string>
   <string name="title_no_idle">This provider does not support push messages. This will delay reception of new messages and increase battery usage.</string>
   <string name="title_no_uidplus">IMAP UIDPLUS not supported, see the FAQ</string>
-  <string name="title_account_delete">Delete this account permanently?</string>
-  <string name="title_identity_delete">Delete this identity permanently?</string>
+  <string name="title_account_delete">Delete this account permanently\?</string>
+  <string name="title_identity_delete">Delete this identity permanently\?</string>
   <string name="title_pop">POP is not supported</string>
   <string name="title_insecure">Insecure connections are not supported</string>
   <string name="title_synchronize_now">Synchronize now</string>
   <string name="title_delete_local">Delete local messages</string>
   <string name="title_empty_trash">Empty trash</string>
   <string name="title_edit_properties">Edit properties</string>
-  <string name="title_empty_trash_ask">Delete all trashed messages permanently?</string>
+  <string name="title_empty_trash_ask">Delete all trashed messages permanently\?</string>
   <string name="title_folder_name">Folder name</string>
   <string name="title_display_name">Display name</string>
   <string name="title_hide_folder">Hide from list</string>
@@ -137,7 +136,7 @@
   <string name="title_unified_folder">Show in unified inbox</string>
   <string name="title_after">Synchronize (days)</string>
   <string name="title_folder_exists">Folder %1$s exists</string>
-  <string name="title_folder_delete">Delete folder permanently?</string>
+  <string name="title_folder_delete">Delete folder permanently\?</string>
   <string name="title_folder_unified">Unified inbox</string>
   <string name="title_folder_inbox">Inbox</string>
   <string name="title_folder_outbox">Outbox</string>
@@ -173,10 +172,10 @@
   <string name="title_no_answers">No reply templates defined</string>
   <string name="title_no_viewer">No viewer app available for %1$s</string>
   <string name="title_attachment_saved">Attachment saved</string>
-  <string name="title_attachment_unavailable">Some attachments are not downloaded and will not be forwarded, continue?</string>
-  <string name="title_ask_delete">Delete message permanently?</string>
-  <string name="title_ask_discard">Discard draft?</string>
-  <string name="title_ask_spam">Report message as spam?</string>
+  <string name="title_attachment_unavailable">Some attachments are not downloaded and will not be forwarded, continue\?</string>
+  <string name="title_ask_delete">Delete message permanently\?</string>
+  <string name="title_ask_discard">Discard draft\?</string>
+  <string name="title_ask_spam">Report message as spam\?</string>
   <string name="title_fix">Fix</string>
   <string name="title_compose">Compose</string>
   <string name="title_from">From:</string>
@@ -244,7 +243,7 @@
   <string name="title_hint_sync">Downloading messages can take some time, depending on the number of messages, the speed of your internet connection and your email provider</string>
   <string name="title_open_link">Open link</string>
   <string name="title_updated">There is an update to version %1$s available</string>
-  <string name="title_issue">Do you have a question or problem?</string>
+  <string name="title_issue">Do you have a question or problem\?</string>
   <string name="title_yes">Yes</string>
   <string name="title_no">No</string>
   <string name="title_undo">Undo</string>
