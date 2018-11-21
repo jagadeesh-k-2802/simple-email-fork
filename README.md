@@ -91,6 +91,13 @@ See [here][faqs] for a list of often asked questions.
 * For support on SimpleEmail, please open a [issue][]
 * For support on authorizing accounts you should contact your provider.
 
+## Contribution
+
+Whether you have ideas, translations, features you think are missing, design or code changes, help is always welcome!.
+You can submit [pull requests][pull-requests] to this repository, or submit translations using Weblate. 
+
+To get started, take a look at [CONTRIBUTING.md](https://framagit.org/dystopia-project/simple-email/blob/develop/CONTRIBUTING.md)
+
 ## Attribution
 
 SimpleEmail uses:
