@@ -1,7 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
-
+<?xml version='1.0' encoding='UTF-8'?>
 <resources>
-  <string name="app_copyright">版权所有 &#x24B8; 2018，M. Bokhorst</string>
+  <string name="app_copyright">版权所有 Ⓒ 2018，M. Bokhorst</string>
   <string name="channel_service">服务</string>
   <string name="channel_notification">通知</string>
   <string name="channel_error">错误</string>
@@ -67,7 +66,7 @@
   <string name="title_advanced_swipe">Swipe actions</string>
   <string name="title_advanced_compact">Compact message view</string>
   <string name="title_advanced_debug">调试模式</string>
-  <string name="title_select">选择 &#8230;</string>
+  <string name="title_select">选择 …</string>
   <string name="title_identity_name">姓名</string>
   <string name="title_identity_email">电子邮件地址</string>
   <string name="title_identity_reply_to">回复地址</string>
@@ -91,7 +90,7 @@
   <string name="title_user">用户名</string>
   <string name="title_password">密码</string>
   <string name="title_authorize">选择账户</string>
-  <string name="title_authorizing">授权帐户 &#8230;</string>
+  <string name="title_authorizing">授权帐户 …</string>
   <string name="title_setup_advanced">高级选项</string>
   <string name="title_store_sent">保存已发送的消息(通常不需要)</string>
   <string name="title_synchronize_account">同步（接收）</string>
@@ -167,7 +166,7 @@
   <string name="title_attachment_saved">附件已保存</string>
   <string name="title_attachment_unavailable">一些附件未被下载并将不会进行，仍然继续吗？</string>
   <string name="title_ask_delete">确定要永久删除邮件吗？</string>
-  <string name="title_ask_discard">Discard draft?</string>
+  <string name="title_ask_discard">Discard draft\?</string>
   <string name="title_ask_spam">确定将邮件标为垃圾邮件吗？</string>
   <string name="title_fix">Fix</string>
   <string name="title_compose">新邮件</string>
