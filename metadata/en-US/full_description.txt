@@ -1,4 +1,4 @@
-An Free Software, minimalistic and privacy friendly email app.
+A Free Software, minimalistic and privacy friendly email app.
 
 '''Highlights'''
 * Easy navigation
