@@ -1,7 +1,7 @@
 ![logo](/assets/icon_small.png)
 # SimpleEmail
 
-An [Free Software][free-software], minimalistic and privacy friendly email app for Android.
+A [Free Software][free-software], minimalistic and privacy friendly email app for Android.
 
 <a href="https://f-droid.org/packages/org.dystopia.email"><img src="https://f-droid.org/badge/get-it-on.png" alt="Get it on F-Droid" height="75"></a>
 
