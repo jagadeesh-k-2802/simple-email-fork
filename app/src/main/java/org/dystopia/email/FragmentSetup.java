@@ -65,6 +65,8 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -529,8 +531,8 @@ public class FragmentSetup extends FragmentEx {
     intent.putExtra(
         Intent.EXTRA_TITLE,
         "simpleemail_backup_"
-            + new SimpleDateFormat("yyyyMMdd").format(new Date().getTime())
-            + ".json");
+        + new SimpleDateFormat("yyyyMMdd", Locale.getDefault()).format(new Date().getTime())
+        + ".json");
     return intent;
   }
 
