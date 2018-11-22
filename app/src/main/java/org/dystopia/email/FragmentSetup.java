@@ -542,10 +542,18 @@ public class FragmentSetup extends FragmentEx {
   }
 
   private static Intent getIntentNotifications(Context context) {
-    return new Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
-        .putExtra("app_package", context.getPackageName())
-        .putExtra("app_uid", context.getApplicationInfo().uid)
-        .putExtra(Settings.EXTRA_APP_PACKAGE, context.getPackageName());
+      Intent intent = new Intent();
+
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+          intent = new Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS);
+          intent.putExtra(Settings.EXTRA_APP_PACKAGE, context.getPackageName());
+      } else {
+          intent.setAction("android.settings.APP_NOTIFICATION_SETTINGS");
+      }
+      intent.putExtra("app_package", context.getPackageName())
+          .putExtra("app_uid", context.getApplicationInfo().uid);
+
+      return intent;
   }
 
   private void handleExport(Intent data) {
