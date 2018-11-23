@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.1](https://framagit.org/dystopia-project/simple-email/compare/v1.2.0...v1.2.1) (2018-11-23)
+
+
+### Bug Fixes
+
+* check compatibility on notification settings ([36b3e25](https://framagit.org/dystopia-project/simple-email/commit/36b3e25))
+* crash on public notification without color ([4bc5d9a](https://framagit.org/dystopia-project/simple-email/commit/4bc5d9a))
+
 # [1.2.0](https://framagit.org/dystopia-project/simple-email/compare/v1.1.2...v1.2.0) (2018-11-20)
 
 
