@@ -483,7 +483,7 @@ public class ServiceSynchronize extends LifecycleService {
         getResources().getQuantityString(R.plurals.title_notification_unseen, size, size);
 
     // Summary notification
-    Notification.Builder pbuilder = getNotificationPublic(accountName, accountColor, size);
+    Notification.Builder pbuilder = getNotificationPublic(accountName, groupColor, size);
     Notification.Builder gbuilder = Helper.getNotificationBuilder(this, channelId);
 
     gbuilder.setSmallIcon(R.drawable.ic_mail_icon).setContentTitle(summaryText)
