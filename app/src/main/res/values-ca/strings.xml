@@ -1,7 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
-
+<?xml version='1.0' encoding='UTF-8'?>
 <resources>
-  <string name="app_copyright">Copyright &#x24B8; 2018 de M. Bokhorst</string>
+  <string name="app_copyright">Copyright Ⓒ 2018 de M. Bokhorst</string>
   <string name="channel_service">Servei</string>
   <string name="channel_notification">Notificacions</string>
   <string name="channel_error">Errors</string>
@@ -71,7 +70,7 @@
   <string name="title_advanced_swipe">Accions per lliscar</string>
   <string name="title_advanced_compact">Compact message view</string>
   <string name="title_advanced_debug">Mode de depuració</string>
-  <string name="title_select">Selecciona &#8230;</string>
+  <string name="title_select">Selecciona …</string>
   <string name="title_identity_name">El teu nom</string>
   <string name="title_identity_email">La teva adreça de correu-e</string>
   <string name="title_identity_reply_to">Respon a l’adreça</string>
@@ -95,7 +94,7 @@
   <string name="title_user">Nom d\'usuari</string>
   <string name="title_password">Contrasenya</string>
   <string name="title_authorize">Selecciona un compte</string>
-  <string name="title_authorizing">Autoritzant compte &#8230;</string>
+  <string name="title_authorizing">Autoritzant compte …</string>
   <string name="title_setup_advanced">Avançat</string>
   <string name="title_store_sent">Emmagatzema missatges enviats (normalment no és necessari)</string>
   <string name="title_synchronize_account">Sincronitza (rebre missatges)</string>

@@ -1,7 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
-
+<?xml version='1.0' encoding='UTF-8'?>
 <resources>
-  <string name="app_copyright">Copyright &#x24B8; 2018 par M. Bokhorst</string>
+  <string name="app_copyright">Copyright Ⓒ 2018 par M. Bokhorst</string>
   <string name="channel_service">Service</string>
   <string name="channel_notification">Notifications</string>
   <string name="channel_error">Erreurs</string>
@@ -71,7 +70,7 @@
   <string name="title_advanced_swipe">Gestes de balayage</string>
   <string name="title_advanced_compact">Affichage compact des messages</string>
   <string name="title_advanced_debug">Débogage</string>
-  <string name="title_select">Sélectionner &#8230;</string>
+  <string name="title_select">Sélectionner …</string>
   <string name="title_identity_name">Votre nom</string>
   <string name="title_identity_email">Votre adresse e-mail</string>
   <string name="title_identity_reply_to">Répondre à l\'adresse</string>
@@ -95,7 +94,7 @@
   <string name="title_user">Nom d’utilisateur</string>
   <string name="title_password">Mot de passe</string>
   <string name="title_authorize">Sélectionner un compte</string>
-  <string name="title_authorizing">Autorisation du compte en cours &#8230;</string>
+  <string name="title_authorizing">Autorisation du compte en cours …</string>
   <string name="title_setup_advanced">Avancé</string>
   <string name="title_store_sent">Stocker les messages envoyés (normalement pas nécessaire)</string>
   <string name="title_synchronize_account">Synchroniser (recevoir des messages)</string>

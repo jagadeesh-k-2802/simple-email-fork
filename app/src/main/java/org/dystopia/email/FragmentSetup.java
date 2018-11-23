@@ -65,6 +65,8 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -529,8 +531,8 @@ public class FragmentSetup extends FragmentEx {
     intent.putExtra(
         Intent.EXTRA_TITLE,
         "simpleemail_backup_"
-            + new SimpleDateFormat("yyyyMMdd").format(new Date().getTime())
-            + ".json");
+        + new SimpleDateFormat("yyyyMMdd", Locale.getDefault()).format(new Date().getTime())
+        + ".json");
     return intent;
   }
 
@@ -542,10 +544,18 @@ public class FragmentSetup extends FragmentEx {
   }
 
   private static Intent getIntentNotifications(Context context) {
-    return new Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
-        .putExtra("app_package", context.getPackageName())
-        .putExtra("app_uid", context.getApplicationInfo().uid)
-        .putExtra(Settings.EXTRA_APP_PACKAGE, context.getPackageName());
+      Intent intent = new Intent();
+
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+          intent = new Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS);
+          intent.putExtra(Settings.EXTRA_APP_PACKAGE, context.getPackageName());
+      } else {
+          intent.setAction("android.settings.APP_NOTIFICATION_SETTINGS");
+      }
+      intent.putExtra("app_package", context.getPackageName())
+          .putExtra("app_uid", context.getApplicationInfo().uid);
+
+      return intent;
   }
 
   private void handleExport(Intent data) {

@@ -1,7 +1,7 @@
 ![logo](/assets/icon_small.png)
 # SimpleEmail
 
-An [Free Software][free-software], minimalistic and privacy friendly email app for Android.
+A [Free Software][free-software], minimalistic and privacy friendly email app for Android.
 
 <a href="https://f-droid.org/packages/org.dystopia.email"><img src="https://f-droid.org/badge/get-it-on.png" alt="Get it on F-Droid" height="75"></a>
 
@@ -15,24 +15,14 @@ Alternatively, you can download directly from GitLab [Releases][gitlab-releases]
 * Privacy friendly
 * Simple design
 
-*This project has been forked from [FairEmail](https://github.com/M66B/open-source-email).*
-
 ## Why?
 
-This email app might be for you if your current email app:
-
-* takes long to receive or show messages
-* can manage only one email address
-* cannot show conversations
-* cannot work offline
-* looks outdated
-* is not maintained
-* stores your email on their servers
-* is closed source, potentially violating your privacy
-* has "pro" features for basic things and hasn't transparent way to purchase that features
+The focus of SimpleEmail is be a privacy-friendly email app with a good UX/UI and with a community development model.
 
 SimpleEmail is minimalistic by design, so you can concentrate on reading and writing messages, it starts a foreground 
-service with a low priority status bar notification to make sure you'll never miss new email.
+service with a low priority status bar notification to make sure you'll never miss a new email.
+
+*This project has been forked from [FairEmail](https://framagit.org/dystopia-project/simple-email/blob/master/docs/FAQ.md#what-is-the-difference-between-simpleemail-and-fairemail).*
 
 ## Features
 
@@ -49,6 +39,7 @@ service with a low priority status bar notification to make sure you'll never mi
 * Signatures
 * Dark theme
 * Account colors
+* Search on server
 * Encryption/decryption
 * Export settings
 
@@ -91,9 +82,6 @@ SHA256: A7:A9:0A:5F:14:ED:00:57:56:49:9A:53:4A:13:1A:F0:64:0A:C4:DF:62:2F:76:35:
 
 SimpleEmail requires at least Android 6 Marshmallow.
 
-SimpleEmail might occasionally crash on Motorola/Lenovo devices with Android 7 Nougat or earlier
-because of a [bug in Android](https://issuetracker.google.com/issues/63377371).
-
 ## Frequently asked questions
 
 See [here][faqs] for a list of often asked questions.
@@ -102,6 +90,13 @@ See [here][faqs] for a list of often asked questions.
 
 * For support on SimpleEmail, please open a [issue][]
 * For support on authorizing accounts you should contact your provider.
+
+## Contributing
+
+Whether you have ideas, translations, features you think are missing, design or code changes, help is always welcome!.
+You can submit [pull requests][pull-requests] to this repository, or submit translations using Weblate. 
+
+To get started, take a look at [CONTRIBUTING.md](https://framagit.org/dystopia-project/simple-email/blob/develop/CONTRIBUTING.md)
 
 ## Attribution
 
@@ -118,7 +113,7 @@ SimpleEmail uses:
 
 ## License
 
-[GNU General Public License version 3](https://framagit.org/dystopia-project/simple-email/blob/master/LICENSE)
+[![GNU General Public License version 3](https://www.gnu.org/graphics/gplv3-127x51.png)](https://framagit.org/dystopia-project/simple-email/blob/master/LICENSE)
 
     Copyright 2018, Marcel Bokhorst (M66B)
     Copyright 2018, Distopico (dystopia project) and contributors

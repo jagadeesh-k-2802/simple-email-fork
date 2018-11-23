@@ -1,26 +1,25 @@
-<?xml version="1.0" encoding="utf-8"?>
-
+<?xml version='1.0' encoding='UTF-8'?>
 <resources>
-  <string name="app_copyright">Müəllif hüquqları &#x24B8; 2018 M. Bokhorst-a məxsusdur</string>
+  <string name="app_copyright">Müəllif hüquqları Ⓒ 2018 M. Bokhorst-a məxsusdur</string>
   <string name="channel_service">Xidmət</string>
   <string name="channel_notification">Bildirişlər</string>
   <string name="channel_error">Xətalar</string>
   <plurals name="title_notification_synchronizing">
-    <item quantity="one">%1$d hesab eyniləşdirilir</item>
-    <item quantity="other">%1$d hesab eyniləşdirilir</item>
-  </plurals>
+	<item quantity="one">%1$d hesab eyniləşdirilir</item>
+	<item quantity="other">%1$d hesab eyniləşdirilir</item>
+</plurals>
   <plurals name="title_notification_operations">
-    <item quantity="one">%1$d əməliyyat gözləyir</item>
-    <item quantity="other">%1$d əməliyyat gözləyir</item>
-  </plurals>
+	<item quantity="one">%1$d əməliyyat gözləyir</item>
+	<item quantity="other">%1$d əməliyyat gözləyir</item>
+</plurals>
   <plurals name="title_notification_unseen">
-    <item quantity="one">%1$d yeni mesaj</item>
-    <item quantity="other">%1$d yeni mesaj</item>
-  </plurals>
+	<item quantity="one">%1$d yeni mesaj</item>
+	<item quantity="other">%1$d yeni mesaj</item>
+</plurals>
   <plurals name="title_notification_unsent">
-    <item quantity="one">%1$d göndərilməmiş mesaj</item>
-    <item quantity="other">%1$d göndərilməmiş mesaj</item>
-  </plurals>
+	<item quantity="one">%1$d göndərilməmiş mesaj</item>
+	<item quantity="other">%1$d göndərilməmiş mesaj</item>
+</plurals>
   <string name="title_notification_failed">\'%1$s\' uğursuz oldu</string>
   <string name="menu_setup">Quraşdırma</string>
   <string name="menu_answers">Cavab şablonları</string>
@@ -71,7 +70,7 @@
   <string name="title_advanced_swipe">Sürüşdürmə hərəkətləri</string>
   <string name="title_advanced_compact">Yığcam mesaj görünüşü</string>
   <string name="title_advanced_debug">Sazlama rejimi</string>
-  <string name="title_select">&#8230; seçin</string>
+  <string name="title_select">… seçin</string>
   <string name="title_identity_name">Adınız</string>
   <string name="title_identity_email">E-poçt ünvanınız</string>
   <string name="title_identity_reply_to">Cavablama ünvanı</string>
@@ -95,7 +94,7 @@
   <string name="title_user">İstifadəçi adı</string>
   <string name="title_password">Şifrə</string>
   <string name="title_authorize">Hesab seç</string>
-  <string name="title_authorizing">Hesaba səlahiyyət verilir &#8230;</string>
+  <string name="title_authorizing">Hesaba səlahiyyət verilir …</string>
   <string name="title_setup_advanced">Qabaqcıl</string>
   <string name="title_store_sent">Göndərilən mesajları saxla (normalda ehtiyac yoxdur)</string>
   <string name="title_synchronize_account">Eyniləşdir (mesajları al)</string>

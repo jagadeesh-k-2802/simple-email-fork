@@ -5,6 +5,22 @@ At the bottom you can find how to ask other questions, request features and repo
 
 ## Frequently Asked Questions
 
+#### What is the difference between SimpleEmail and FairEmail?
+
+Currently not exist a big difference, after the forked, the two apps have an independent development and different paths 
+and the focus of SimpleEmail is be a privacy-friendly app with a good UX/UI and minimalistic design.
+
+* All "pro" features on [FairEmail](https://github.com/M66B/open-source-email) are open in SimpleEmail
+* SimpleEmail has a community focus, all contributions are welcome
+* SimpleEmail will not have "pro" features
+* F-Droid friendly, no redirect to play store (potentially violating your privacy) or background fetch updates
+* Notifications group per account
+* The UI was cleaned and simplified
+* SimpleEmail will keep simple, without unnecessaries settings (FairEmail added a lot settings in the last version)
+* FairEmial require purchased basic things with no transparent way to purchase that features
+
+please see the [CHANGELOG](https://framagit.org/dystopia-project/simple-email/blob/master/CHANGELOG.md) for more detail about the changes.
+
 #### Which permissions are needed and why?
 
 * have full network access (INTERNET): to send and receive email

@@ -1,7 +1,8 @@
+<?xml version='1.0' encoding='UTF-8'?>
 <resources>
   <string name="app_name" translatable="false">SimpleEmail</string>
   <string name="app_label" translatable="false">Email</string>
-  <string name="app_copyright" translatable="false">Copyright &#x24B8; 2018 by M. Bokhorst\nCopyright &#x24B8; 2018 by Distopico (dystopia project) and contributors</string>
+  <string name="app_copyright" translatable="false">Copyright Ⓒ 2018 by M. Bokhorst\nCopyright Ⓒ 2018 by Distopico (dystopia project) and contributors</string>
   <string name="app_eula" translatable="false">This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version. This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See theGNU General Public License for more details. You should have received a copy of the GNU General Public License along with this program. If not, see http://www.gnu.org/licenses.</string>
 
   <string name="channel_service">Service</string>
@@ -14,7 +15,7 @@
     </plurals>
 
     <plurals name="title_notification_operations">
-        <item quantity="zero"></item>
+        <item quantity="zero"/>
         <item quantity="one">%1$d operation pending</item>
         <item quantity="other">%1$d operations pending</item>
     </plurals>
@@ -25,7 +26,7 @@
     </plurals>
 
     <plurals name="title_notification_unsent">
-        <item quantity="zero"></item>
+        <item quantity="zero"/>
         <item quantity="one">%1$d unsent message</item>
         <item quantity="other">%1$d unsent messages</item>
     </plurals>
@@ -92,7 +93,7 @@
   <string name="title_advanced_compact">Compact message view</string>
   <string name="title_advanced_debug">Debug mode</string>
 
-  <string name="title_select">Select &#8230;</string>
+  <string name="title_select">Select …</string>
   <string name="title_identity_name">Your name</string>
   <string name="title_identity_email">Your email address</string>
   <string name="title_identity_reply_to">Reply to address</string>
@@ -116,7 +117,7 @@
   <string name="title_user">User name</string>
   <string name="title_password">Password</string>
   <string name="title_authorize">Select account</string>
-  <string name="title_authorizing">Authorizing account &#8230;</string>
+  <string name="title_authorizing">Authorizing account …</string>
   <string name="title_setup_advanced">Advanced</string>
   <string name="title_store_sent">Store sent messages (normally not needed)</string>
   <string name="title_synchronize_account">Synchronize (receive messages)</string>
@@ -288,7 +289,7 @@
   <string name="title_no">No</string>
   <string name="title_undo">Undo</string>
 
-  <string name="title_try">Try SimpleEmail, an simple, free software,, privacy friendly email app for Android</string>
+  <string name="title_try">Try SimpleEmail, an simple, free software, privacy friendly email app for Android</string>
               
   <string name="title_unexpected_error">Unexpected error</string>
   <string name="title_log">Log</string>

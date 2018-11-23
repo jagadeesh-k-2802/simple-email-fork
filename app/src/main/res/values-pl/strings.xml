@@ -1,34 +1,29 @@
-<?xml version="1.0" encoding="utf-8"?>
-
+<?xml version='1.0' encoding='UTF-8'?>
 <resources>
-  <string name="app_copyright">Prawa autorskie &#x24B8; 2018 przez M. Bokhorst</string>
+  <string name="app_copyright">Prawa autorskie Ⓒ 2018 przez M. Bokhorst</string>
   <string name="channel_service">Usługa</string>
   <string name="channel_notification">Powiadomienia</string>
   <string name="channel_error">Błędy</string>
   <plurals name="title_notification_synchronizing">
-    <item quantity="one">Synchronizuję %1$d konto</item>
-    <item quantity="few">Synchronizuję %1$d kont</item>
-    <item quantity="many">Synchronizuję %1$d kont</item>
-    <item quantity="other">Synchronizuję %1$d kont</item>
-  </plurals>
+	<item quantity="one">Synchronizuję %1$d konto</item>
+	<item quantity="few">Synchronizuję %1$d kont</item>
+	<item quantity="many">Synchronizuję %1$d kont</item>
+</plurals>
   <plurals name="title_notification_operations">
-    <item quantity="one">%1$d oczekująca operacja</item>
-    <item quantity="few">%1$d oczekujących operacji</item>
-    <item quantity="many">%1$d oczekujących operacji</item>
-    <item quantity="other">%1$d oczekujących operacji</item>
-  </plurals>
+	<item quantity="one">%1$d oczekująca operacja</item>
+	<item quantity="few">%1$d oczekujących operacji</item>
+	<item quantity="many">%1$d oczekujących operacji</item>
+</plurals>
   <plurals name="title_notification_unseen">
-    <item quantity="one">%1$d nowa wiadomość</item>
-    <item quantity="few">%1$d nowych wiadomość</item>
-    <item quantity="many">%1$d nowych wiadomość</item>
-    <item quantity="other">%1$d nowych wiadomość</item>
-  </plurals>
+	<item quantity="one">%1$d nowa wiadomość</item>
+	<item quantity="few">%1$d nowych wiadomość</item>
+	<item quantity="many">%1$d nowych wiadomość</item>
+</plurals>
   <plurals name="title_notification_unsent">
-    <item quantity="one">%1$d niewysłana wiadomość</item>
-    <item quantity="few">%1$d niewysłanych wiadomości</item>
-    <item quantity="many">%1$d niewysłanych wiadomości</item>
-    <item quantity="other">%1$d niewysłanych wiadomości</item>
-  </plurals>
+	<item quantity="one">%1$d niewysłana wiadomość</item>
+	<item quantity="few">%1$d niewysłanych wiadomości</item>
+	<item quantity="many">%1$d niewysłanych wiadomości</item>
+</plurals>
   <string name="title_notification_failed">%1$s nie powiodło się</string>
   <string name="menu_setup">Ustawienia</string>
   <string name="menu_answers">Szablony odpowiedzi</string>
@@ -79,7 +74,7 @@
   <string name="title_advanced_swipe">Gesty przesuwania</string>
   <string name="title_advanced_compact">Widok kompaktowy</string>
   <string name="title_advanced_debug">Debuguj</string>
-  <string name="title_select">Wybierz &#8230;</string>
+  <string name="title_select">Wybierz …</string>
   <string name="title_identity_name">Twoja nazwa</string>
   <string name="title_identity_email">Twój adres e-mail</string>
   <string name="title_identity_reply_to">Odpowiedz na adres</string>
@@ -103,7 +98,7 @@
   <string name="title_user">Nazwa użytkownika</string>
   <string name="title_password">Hasło</string>
   <string name="title_authorize">Wybierz konto</string>
-  <string name="title_authorizing">Autoryzowanie konta &#8230;</string>
+  <string name="title_authorizing">Autoryzowanie konta …</string>
   <string name="title_setup_advanced">Zaawansowane</string>
   <string name="title_store_sent">Zachowuj wysłane wiadomości (normalnie nie potrzebne)</string>
   <string name="title_synchronize_account">Synchronizuj (odbierz wiadomości)</string>
