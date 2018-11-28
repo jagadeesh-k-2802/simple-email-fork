@@ -97,6 +97,9 @@ import java.util.List;
 import java.util.Locale;
 import javax.mail.Address;
 import javax.mail.internet.InternetAddress;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.xml.sax.XMLReader;
 
 public class AdapterMessage extends PagedListAdapter<TupleMessageEx, AdapterMessage.ViewHolder> {
@@ -134,6 +137,7 @@ public class AdapterMessage extends PagedListAdapter<TupleMessageEx, AdapterMess
     private ImageView ivFlagged;
     private ImageView ivAvatar;
     private TextView tvFrom;
+    private TextView tvSummary;
     private ImageView ivAddContact;
     private TextView tvSize;
     private TextView tvTime;
@@ -183,6 +187,7 @@ public class AdapterMessage extends PagedListAdapter<TupleMessageEx, AdapterMess
       ivFlagged = itemView.findViewById(R.id.ivFlagged);
       ivAvatar = itemView.findViewById(R.id.ivAvatar);
       tvFrom = itemView.findViewById(R.id.tvFrom);
+      tvSummary = itemView.findViewById(R.id.tvSummary);
       ivAddContact = itemView.findViewById(R.id.ivAddContact);
       tvSize = itemView.findViewById(R.id.tvSize);
       tvTime = itemView.findViewById(R.id.tvTime);
@@ -317,18 +322,19 @@ public class AdapterMessage extends PagedListAdapter<TupleMessageEx, AdapterMess
       if (EntityFolder.DRAFTS.equals(message.folderType)
           || EntityFolder.OUTBOX.equals(message.folderType)
           || EntityFolder.SENT.equals(message.folderType)) {
-        tvFrom.setText(MessageHelper.getFormattedAddresses(message.to, !compact));
+        tvFrom.setText(MessageHelper.getFormattedAddresses(message.to, show_expanded));
         tvTime.setText(
             DateUtils.getRelativeTimeSpanString(
                 context, message.sent == null ? message.received : message.sent));
       } else {
-        tvFrom.setText(MessageHelper.getFormattedAddresses(message.from, !compact));
+        tvFrom.setText(MessageHelper.getFormattedAddresses(message.from, show_expanded));
         tvTime.setText(DateUtils.getRelativeTimeSpanString(context, message.received));
       }
 
       tvSize.setText(
           message.size == null ? null : Helper.humanReadableByteCount(message.size, true));
       tvSize.setAlpha(message.content ? 1.0f : 0.5f);
+      tvSize.setVisibility(compact && !show_expanded ? View.GONE : View.VISIBLE);
 
       ivAttachments.setVisibility(message.attachments > 0 ? View.VISIBLE : View.GONE);
       tvSubject.setText(message.subject);
@@ -336,23 +342,39 @@ public class AdapterMessage extends PagedListAdapter<TupleMessageEx, AdapterMess
       tvFolder.setVisibility(View.GONE);
       tvAccount.setVisibility(View.GONE);
 
-      if (viewType == ViewType.UNIFIED || viewType == ViewType.FOLDER) {
-        tvAccount.setText(message.accountName);
-        tvAccount.setVisibility(View.VISIBLE);
-      } else {
-        tvFolder.setText(
-            message.folderDisplay == null
-                ? Helper.localizeFolderName(context, message.folderName)
-                : message.folderDisplay);
-        tvFolder.setVisibility(View.VISIBLE);
+      if (!compact || show_expanded) {
+        if (viewType == ViewType.UNIFIED || viewType == ViewType.FOLDER) {
+          tvAccount.setText(message.accountName);
+          tvAccount.setVisibility(View.VISIBLE);
+        } else {
+          tvFolder.setText(
+                  message.folderDisplay == null
+                          ? Helper.localizeFolderName(context, message.folderName)
+                          : message.folderDisplay);
+          tvFolder.setVisibility(View.VISIBLE);
+        }
       }
 
-      if (viewType == ViewType.THREAD) {
+      if (viewType == ViewType.THREAD || message.count == 1) {
         tvCount.setVisibility(View.GONE);
         ivThread.setVisibility(View.GONE);
       } else {
         tvCount.setText(Integer.toString(message.count));
+        tvCount.setVisibility(View.VISIBLE);
         ivThread.setVisibility(View.VISIBLE);
+      }
+
+      tvSummary.setVisibility(View.GONE);
+      if (message.content && !show_expanded)
+      {
+        try {
+          String body = message.read(context);
+          Document doc = Jsoup.parse(body);
+          String plainText = doc.body().text();
+          int limit = compact ? 60 : 120;
+          tvSummary.setText(plainText.substring(0, Math.min(plainText.length(), limit)) + "...");
+          tvSummary.setVisibility(View.VISIBLE);
+        } catch(IOException e) { }
       }
 
       if (debug) {
@@ -406,11 +428,11 @@ public class AdapterMessage extends PagedListAdapter<TupleMessageEx, AdapterMess
       tvSubject.setTypeface(null, typeface);
       tvCount.setTypeface(null, typeface);
 
-      int colorUnseen =
-          Helper.resolveColor(
-              context, message.unseen > 0 ? R.attr.colorUnread : android.R.attr.textColorSecondary);
+      int colorUnseen = Helper.resolveColor(context, R.attr.colorUnread);
+      tvSubject.setTextColor(colorUnseen);
       tvFrom.setTextColor(colorUnseen);
       tvTime.setTextColor(colorUnseen);
+      tvSummary.setTextColor(Helper.resolveColor(context, android.R.attr.textColorSecondary));
 
       grpExpanded.setVisibility(
           viewType == ViewType.THREAD && show_expanded ? View.VISIBLE : View.GONE);
@@ -710,6 +732,7 @@ public class AdapterMessage extends PagedListAdapter<TupleMessageEx, AdapterMess
             Helper.unexpectedError(context, ex);
           }
         };
+
 
     private Spanned decodeHtml(final EntityMessage message, String body) {
       return Html.fromHtml(
