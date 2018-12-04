@@ -107,7 +107,6 @@ public class FragmentAccount extends FragmentEx {
 
   private TextView tvName;
   private EditText etName;
-  private Button btnColor;
   private View vwColor;
   private ImageView ibColorDefault;
   private EditText etSignature;
@@ -183,7 +182,6 @@ public class FragmentAccount extends FragmentEx {
 
     etName = view.findViewById(R.id.etName);
     tvName = view.findViewById(R.id.tvName);
-    btnColor = view.findViewById(R.id.btnColor);
     vwColor = view.findViewById(R.id.vwColor);
     ibColorDefault = view.findViewById(R.id.ibColorDefault);
     etSignature = view.findViewById(R.id.etSignature);
@@ -372,7 +370,7 @@ public class FragmentAccount extends FragmentEx {
         });
 
     vwColor.setBackgroundColor(color);
-    btnColor.setOnClickListener(
+    vwColor.setOnClickListener(
         new View.OnClickListener() {
           @Override
           public void onClick(View v) {
@@ -1164,7 +1162,7 @@ public class FragmentAccount extends FragmentEx {
 
     GradientDrawable border = new GradientDrawable();
     border.setColor(color);
-    border.setStroke(1, Helper.resolveColor(getContext(), R.attr.colorSeparator));
+    border.setStroke(5, Helper.resolveColor(getContext(), R.attr.colorSeparator));
     vwColor.setBackground(border);
   }
 
