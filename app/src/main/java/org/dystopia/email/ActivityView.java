@@ -58,6 +58,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import com.google.android.material.snackbar.Snackbar;
+
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -66,6 +67,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.InputStreamReader;
+import java.io.FileNotFoundException;
 import java.net.URL;
 import java.text.Collator;
 import java.util.ArrayList;
@@ -1102,6 +1104,8 @@ public class ActivityView extends ActivityBase
                 while ((read = fis.read(buffer)) != -1) {
                   fos.write(buffer, 0, read);
                 }
+              } catch (FileNotFoundException ex) {
+                  Log.w(Helper.TAG, ex + "\n" + Log.getStackTraceString(ex));
               } finally {
                 try {
                   if (pfd != null) {
