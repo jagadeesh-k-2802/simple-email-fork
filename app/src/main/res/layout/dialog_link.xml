@@ -18,7 +18,7 @@
         android:id="@+id/etLink"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="https://email.faircode.eu/"
+        android:text="@string/default_link"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvOpenLink" />

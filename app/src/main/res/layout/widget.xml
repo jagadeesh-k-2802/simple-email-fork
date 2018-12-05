@@ -10,7 +10,8 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingRight="@dimen/widget_padding"
+        android:paddingStart="@dimen/padding_xs"
+        android:paddingEnd="@dimen/padding_md"
         android:layout_gravity="center_horizontal"
         android:src="@drawable/ic_action_name"
         android:tint="@color/colorWidgetForeground" />
@@ -20,7 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="--"
+        android:text="@string/default_count"
         android:textColor="@color/colorWidgetForeground"
         android:textSize="15sp"
         android:textStyle="bold" />
