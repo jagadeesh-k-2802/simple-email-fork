@@ -424,7 +424,7 @@ public class AdapterMessage extends PagedListAdapter<TupleMessageEx, AdapterMess
         tvError.setVisibility(message.error == null ? View.GONE : View.VISIBLE);
       }
 
-      int typeface = (message.unseen > 0 ? Typeface.BOLD : Typeface.NORMAL);
+      int typeface = (message.unseen <= 0 || show_expanded ? Typeface.NORMAL : Typeface.BOLD);
       tvFrom.setTypeface(null, typeface);
       tvTime.setTypeface(null, typeface);
       tvSubject.setTypeface(null, typeface);
@@ -448,8 +448,8 @@ public class AdapterMessage extends PagedListAdapter<TupleMessageEx, AdapterMess
       pbHeaders.setVisibility(View.GONE);
       grpHeaders.setVisibility(show_headers && show_expanded ? View.VISIBLE : View.GONE);
 
-      bnvActions.setVisibility(View.GONE);
-      vSeparatorBody.setVisibility(View.GONE);
+      bnvActions.setVisibility(show_expanded ? View.INVISIBLE : View.GONE);
+      vSeparatorBody.setVisibility(!show_expanded ? View.INVISIBLE : View.GONE);
       btnImages.setVisibility(View.GONE);
       pbBody.setVisibility(View.GONE);
       grpAttachments.setVisibility(
@@ -1623,14 +1623,15 @@ public class AdapterMessage extends PagedListAdapter<TupleMessageEx, AdapterMess
   private static final DiffUtil.ItemCallback<TupleMessageEx> DIFF_CALLBACK =
       new DiffUtil.ItemCallback<TupleMessageEx>() {
         @Override
-        public boolean areItemsTheSame(@NonNull TupleMessageEx prev, @NonNull TupleMessageEx next) {
+        public boolean areItemsTheSame(
+            @NonNull TupleMessageEx prev, @NonNull TupleMessageEx next) {
           return prev.id.equals(next.id);
         }
 
         @Override
         public boolean areContentsTheSame(
             @NonNull TupleMessageEx prev, @NonNull TupleMessageEx next) {
-          return prev.equals(next);
+          return prev.shallowEquals(next);
         }
       };
 
