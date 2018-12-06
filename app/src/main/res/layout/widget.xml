@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingStart="@dimen/padding_xs"
-        android:paddingEnd="@dimen/padding_md"
+        android:paddingEnd="@dimen/padding_sm"
         android:layout_gravity="center_horizontal"
         android:src="@drawable/ic_action_name"
         android:tint="@color/colorWidgetForeground" />

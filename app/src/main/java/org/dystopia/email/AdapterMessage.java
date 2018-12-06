@@ -334,7 +334,6 @@ public class AdapterMessage extends PagedListAdapter<TupleMessageEx, AdapterMess
       tvSize.setText(
           message.size == null ? null : Helper.humanReadableByteCount(message.size, true));
       tvSize.setAlpha(message.content ? 1.0f : 0.5f);
-      tvSize.setVisibility(compact && !show_expanded ? View.GONE : View.VISIBLE);
 
       ivAttachments.setVisibility(message.attachments > 0 ? View.VISIBLE : View.GONE);
       tvSubject.setText(message.subject);
@@ -342,17 +341,14 @@ public class AdapterMessage extends PagedListAdapter<TupleMessageEx, AdapterMess
       tvFolder.setVisibility(View.GONE);
       tvAccount.setVisibility(View.GONE);
 
-      if (!compact || show_expanded) {
-        if (viewType == ViewType.UNIFIED || viewType == ViewType.FOLDER) {
-          tvAccount.setText(message.accountName);
-          tvAccount.setVisibility(View.VISIBLE);
-        } else {
-          tvFolder.setText(
-                  message.folderDisplay == null
-                          ? Helper.localizeFolderName(context, message.folderName)
-                          : message.folderDisplay);
-          tvFolder.setVisibility(View.VISIBLE);
-        }
+      if (viewType == ViewType.UNIFIED || viewType == ViewType.FOLDER) {
+        tvAccount.setText(message.accountName);
+        tvAccount.setVisibility(View.VISIBLE);
+      } else {
+        tvFolder.setText(message.folderDisplay == null
+                         ? Helper.localizeFolderName(context, message.folderName)
+                         : message.folderDisplay);
+        tvFolder.setVisibility(View.VISIBLE);
       }
 
       if (viewType == ViewType.THREAD || message.count == 1) {
@@ -364,9 +360,13 @@ public class AdapterMessage extends PagedListAdapter<TupleMessageEx, AdapterMess
         ivThread.setVisibility(View.VISIBLE);
       }
 
+      if (!compact) {
+        tvFrom.setMaxLines(show_expanded ? Integer.MAX_VALUE : 1);
+        tvSubject.setMaxLines(show_expanded ? Integer.MAX_VALUE : 1);
+      }
+
       tvSummary.setVisibility(View.GONE);
-      if (message.content && !show_expanded)
-      {
+      if (message.content && !show_expanded) {
         try {
           String body = message.read(context);
           Document doc = Jsoup.parse(body);
@@ -374,7 +374,9 @@ public class AdapterMessage extends PagedListAdapter<TupleMessageEx, AdapterMess
           int limit = compact ? 60 : 120;
           tvSummary.setText(plainText.substring(0, Math.min(plainText.length(), limit)) + "...");
           tvSummary.setVisibility(View.VISIBLE);
-        } catch(IOException e) { }
+        } catch(IOException ex) {
+          Log.e(Helper.TAG, ex + "\n" + Log.getStackTraceString(ex));
+        }
       }
 
       if (debug) {
@@ -732,7 +734,6 @@ public class AdapterMessage extends PagedListAdapter<TupleMessageEx, AdapterMess
             Helper.unexpectedError(context, ex);
           }
         };
-
 
     private Spanned decodeHtml(final EntityMessage message, String body) {
       return Html.fromHtml(
