@@ -4,11 +4,11 @@ plugins:
   - - "@semantic-release/changelog"
     - changelogTitle: |-
         # Change Log
-        
+
         All notable changes to this project will be documented in this file.
         See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
   - - "@semantic-release/exec"
-    - prepareCmd: './scripts/prepare.sh ${nextRelease.version}'
+    - prepareCmd: './scripts/prepare.sh ${nextRelease.version} ${nextRelease.notes}'
   - - "@semantic-release/git"
     - assets:
         - CHANGELOG.md
