@@ -71,6 +71,7 @@ public class EntityOperation {
   public static final String BODY = "body";
   public static final String ATTACHMENT = "attachment";
   public static final String FLAG = "flag";
+  public static final String SYNC = "sync";
 
   private static List<Intent> queue = new ArrayList<>();
 
@@ -82,13 +83,6 @@ public class EntityOperation {
   static void queue(DB db, EntityMessage message, String name, Object value) {
     JSONArray jsonArray = new JSONArray();
     jsonArray.put(value);
-    queue(db, message, name, jsonArray);
-  }
-
-  static void queue(DB db, EntityMessage message, String name, Object value1, Object value2) {
-    JSONArray jsonArray = new JSONArray();
-    jsonArray.put(value1);
-    jsonArray.put(value2);
     queue(db, message, name, jsonArray);
   }
 
@@ -124,6 +118,20 @@ public class EntityOperation {
             + operation.args);
   }
 
+  private static void queue(DB db, long folder, Long message, String name, JSONArray jargs) {
+    EntityOperation operation = new EntityOperation();
+    operation.folder = folder;
+    operation.message = message;
+    operation.name = name;
+    operation.args = jargs.toString();
+    operation.created = new Date().getTime();
+    operation.id = db.operation().insertOperation(operation);
+
+    Log.i(Helper.TAG, "Queued op=" + operation.id + "/" + operation.name +
+      " msg=" + operation.folder + "/" + operation.message +
+      " args=" + operation.args);
+  }
+
   public static void process(Context context) {
     // Processing needs to be done after committing to the database
     LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(context);
@@ -132,6 +140,13 @@ public class EntityOperation {
         lbm.sendBroadcast(intent);
       }
       queue.clear();
+    }
+  }
+
+  static void sync(DB db, long folder) {
+    if (db.operation().getOperationCount(folder, EntityOperation.SYNC) == 0) {
+      queue(db, folder, null, EntityOperation.SYNC, new JSONArray());
+      db.folder().setFolderSyncState(folder, "requested");
     }
   }
 

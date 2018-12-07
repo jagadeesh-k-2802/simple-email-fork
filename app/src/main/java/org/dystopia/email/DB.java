@@ -41,7 +41,7 @@ import org.json.JSONObject;
 // https://developer.android.com/topic/libraries/architecture/room.html
 
 @Database(
-    version = 24,
+    version = 25,
     entities = {
       EntityIdentity.class,
       EntityAccount.class,
@@ -349,11 +349,20 @@ public abstract class DB extends RoomDatabase {
               @Override
               public void migrate(SupportSQLiteDatabase db) {
                 Log.i(
-                    Helper.TAG, "DB migration from version " + startVersion + " to " + endVersion);
+                  Helper.TAG, "DB migration from version " + startVersion + " to " + endVersion);
                 db.execSQL("ALTER TABLE `message` ADD COLUMN `account_name` TEXT");
               }
             })
-        .build();
+        .addMigrations(
+          new Migration(24, 25) {
+            @Override
+            public void migrate(SupportSQLiteDatabase db) {
+              Log.i(
+                Helper.TAG, "DB migration from version " + startVersion + " to " + endVersion);
+              db.execSQL("ALTER TABLE `folder` ADD COLUMN `sync_state` TEXT");
+            }
+          })
+      .build();
   }
 
   public static class Converters {

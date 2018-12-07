@@ -14,5 +14,6 @@
     <dimen name="content_margin">8dp</dimen>
     <dimen name="compose_padding">6dp</dimen>
     <dimen name="input_height">40dp</dimen>
+    <dimen name="normal_size">40dp</dimen>
     <dimen name="color_pick">24dp</dimen>
 </resources>
