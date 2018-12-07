@@ -474,7 +474,6 @@
             android:layout_marginTop="@dimen/margin_sm"
             android:layout_marginStart="@dimen/content_margin"
             android:layout_marginEnd="@dimen/content_margin"
-            android:padding="@dimen/padding_xs"
             android:minHeight="60dp"
             android:text="Body"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
