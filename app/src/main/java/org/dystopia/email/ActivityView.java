@@ -717,6 +717,11 @@ public class ActivityView extends ActivityBase
     return intent;
   }
 
+  /**
+   * Get Intent for invite to use SimpleEmail
+   *
+   * @return Intent with share/send action
+   */
   private Intent getIntentInvite() {
     Intent shareIntent = new Intent();
     shareIntent.setAction(Intent.ACTION_SEND);

@@ -257,4 +257,7 @@
   <string name="title_show_details">Details tonen</string>
   <string name="title_no_accounts_yet">Je hebt nog geen ingestelde accounts</string>
   <string name="title_no_identities_yet">Je hebt nog geen ingestelde identiteiten</string>
-</resources>
+<string name="title_try_subject">Probeer SimpleEmail</string>
+  <string name="title_try_text">Uitnodiging aan:</string>
+
+  </resources>
