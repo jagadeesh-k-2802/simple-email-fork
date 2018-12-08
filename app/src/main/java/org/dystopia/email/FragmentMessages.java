@@ -1046,6 +1046,12 @@ public class FragmentMessages extends FragmentEx {
     }
   }
 
+
+  /**
+   * Handler when OnRefreshListener is called
+   *
+   * @param args a <code>Bundle</code> with account and folder
+   */
   private void onRefreshHandler(Bundle args) {
     new SimpleTask<Boolean>() {
       @Override
