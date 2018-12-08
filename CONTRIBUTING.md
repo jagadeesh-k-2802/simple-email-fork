@@ -14,7 +14,7 @@ are preferred in the form of [pull requests][pull-requests]).
 
 ## Source code
 
-Source code contributions are welcome, there's always work to be done on the SimpleEmail codebase, building from source code is 
+Source code contributions are welcome, there's always work to be done on the SimpleEmail codebase, building from source code is
 straightforward with `./gradlew assembleDebug` Here are the general rules:
 
 * Write good commit messages, we follow the [conventional commits][commits]
@@ -25,5 +25,6 @@ straightforward with `./gradlew assembleDebug` Here are the general rules:
 * When submitting changes, you confirm that your code is licensed under the terms of the [GNU General Public License v3](https://www.gnu.org/licenses/gpl-3.0.html).
 * Please test (compile and run) your code before you submit changes
 
+ [issue]: https://framagit.org/dystopia-project/simple-email/issues
  [commits]: https://www.conventionalcommits.org/en/v1.0.0-beta.2/
  [pull-requests]: https://framagit.org/dystopia-project/simple-email/merge_requests
