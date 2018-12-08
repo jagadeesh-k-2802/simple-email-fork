@@ -2,18 +2,18 @@ package org.dystopia.email;
 
 /*
  * This file is part of FairEmail.
- * 
+ *
  * FairEmail is free software: you can redistribute it and/or modify it under the terms of the GNU
  * General Public License as published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * FairEmail is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
  * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with FairEmail. If not,
  * see <http://www.gnu.org/licenses/>.
- * 
+ *
  * Copyright 2018, Marcel Bokhorst (M66B)
  * Copyright 2018, Distopico (dystopia project) <distopico@riseup.net> and contributors
  */
@@ -59,6 +59,7 @@ import androidx.recyclerview.selection.StorageStrategy;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -73,6 +74,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class FragmentMessages extends FragmentEx {
+  private SwipeRefreshLayout swipeRefresh;
   private ViewGroup view;
   private View popupAnchor;
   private ImageButton ibHintSupport;
@@ -157,6 +159,7 @@ public class FragmentMessages extends FragmentEx {
     setHasOptionsMenu(true);
 
     // Get controls
+    swipeRefresh = view.findViewById(R.id.swipeRefresh);
     popupAnchor = view.findViewById(R.id.popupAnchor);
     ibHintSupport = view.findViewById(R.id.ibHintSupport);
     ibHintSwipe = view.findViewById(R.id.ibHintSwipe);
@@ -175,6 +178,16 @@ public class FragmentMessages extends FragmentEx {
     final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
 
     // Wire controls
+
+    swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+      @Override
+      public void onRefresh() {
+        Bundle args = new Bundle();
+        args.putLong("account", account);
+        args.putLong("folder", folder);
+        onRefreshHandler(args);
+      }
+    });
 
     ibHintSwipe.setOnClickListener(new View.OnClickListener() {
       @Override
@@ -275,10 +288,13 @@ public class FragmentMessages extends FragmentEx {
       selectionTracker.addObserver(new SelectionTracker.SelectionObserver() {
         @Override
         public void onSelectionChanged() {
+          swipeRefresh.setEnabled(false);
+
           if (selectionTracker.hasSelection()) {
             fabMove.show();
           } else {
             fabMove.hide();
+            swipeRefresh.setEnabled(true);
           }
         }
       });
@@ -718,10 +734,12 @@ public class FragmentMessages extends FragmentEx {
     });
 
     // Initialize
+    swipeRefresh.setEnabled(viewType == AdapterMessage.ViewType.UNIFIED || viewType == AdapterMessage.ViewType.FOLDER);
     tvNoEmail.setVisibility(View.GONE);
     bottom_navigation.setVisibility(View.GONE);
     grpReady.setVisibility(View.GONE);
-    pbWait.setVisibility(View.VISIBLE);
+    // TODO: implement in load more items
+    pbWait.setVisibility(View.GONE);
 
     fab.hide();
     fabMove.hide();
@@ -803,6 +821,16 @@ public class FragmentMessages extends FragmentEx {
                 } else {
                   setSubtitle(name);
                 }
+
+                boolean isRefreshing = false;
+                for (TupleFolderEx folder : folders) {
+                  if (folder.sync_state != null && "connected".equals(folder.accountState)) {
+                    isRefreshing = true;
+                    break;
+                  }
+                }
+
+                swipeRefresh.setRefreshing(isRefreshing);
               }
             });
         break;
@@ -827,6 +855,10 @@ public class FragmentMessages extends FragmentEx {
                   outbox = EntityFolder.OUTBOX.equals(folder.type);
                   getActivity().invalidateOptionsMenu();
                 }
+
+                swipeRefresh.setRefreshing(folder != null && folder.sync_state != null &&
+                                           "connected".equals(EntityFolder.OUTBOX.equals(folder.type)
+                                                              ? folder.state : folder.accountState));
               }
             });
         break;
@@ -1014,6 +1046,54 @@ public class FragmentMessages extends FragmentEx {
     }
   }
 
+  private void onRefreshHandler(Bundle args) {
+    new SimpleTask<Boolean>() {
+      @Override
+      protected Boolean onLoad(Context context, Bundle args) {
+        long aid = args.getLong("account");
+        long fid = args.getLong("folder");
+
+        DB db = DB.getInstance(context);
+        boolean isConnected = false;
+
+        try {
+          db.beginTransaction();
+
+          List<EntityFolder> folders = new ArrayList<>();
+          if (aid < 0) {
+            folders.addAll(db.folder().getUnifiedFolders());
+          } else {
+            folders.add(db.folder().getFolder(fid));
+          }
+
+          for (EntityFolder folder : folders) {
+            EntityOperation.sync(db, folder.id);
+
+            if (folder.account == null) { // outbox
+              isConnected = "connected".equals(folder.state);
+            } else {
+              EntityAccount account = db.account().getAccount(folder.account);
+              isConnected = "connected".equals(account.state);
+            }
+          }
+
+          db.setTransactionSuccessful();
+        } finally {
+          db.endTransaction();
+        }
+
+        return isConnected;
+      }
+
+      @Override
+      protected void onLoaded(Bundle args, Boolean isConnected) {
+        if (!isConnected) {
+          swipeRefresh.setRefreshing(false);
+        }
+      }
+    }.load(FragmentMessages.this, args);
+  }
+
   private void onMenuFolders() {
     getFragmentManager().popBackStack("unified", 0);
 
@@ -1098,12 +1178,12 @@ public class FragmentMessages extends FragmentEx {
                 new BoundaryCallbackMessages.IBoundaryCallbackMessages() {
                   @Override
                   public void onLoading() {
-                    pbWait.setVisibility(View.VISIBLE);
+                    swipeRefresh.setRefreshing(true);
                   }
 
                   @Override
                   public void onLoaded() {
-                    pbWait.setVisibility(View.GONE);
+                    swipeRefresh.setRefreshing(false);
                   }
 
                   @Override
@@ -1141,12 +1221,12 @@ public class FragmentMessages extends FragmentEx {
               @Override
               public void onLoading() {
                 tvNoEmail.setVisibility(View.GONE);
-                pbWait.setVisibility(View.VISIBLE);
+                swipeRefresh.setRefreshing(true);
               }
 
               @Override
               public void onLoaded() {
-                pbWait.setVisibility(View.GONE);
+                swipeRefresh.setRefreshing(false);
                 if (messages.getValue() == null || messages.getValue().size() == 0) {
                   tvNoEmail.setVisibility(View.VISIBLE);
                 }
@@ -1247,7 +1327,7 @@ public class FragmentMessages extends FragmentEx {
         boolean searching = (searchCallback != null && searchCallback.isSearching());
 
         if (!searching) {
-          pbWait.setVisibility(View.GONE);
+          swipeRefresh.setRefreshing(false);
         }
         grpReady.setVisibility(View.VISIBLE);
 

@@ -36,8 +36,10 @@ public interface DaoOperation {
   @Query("SELECT * FROM operation ORDER BY id")
   LiveData<List<EntityOperation>> liveOperations();
 
-  @Query("SELECT COUNT(id) FROM operation WHERE folder = :folder")
-  int getOperationCount(long folder);
+  @Query("SELECT COUNT(id) FROM operation" +
+    " WHERE folder = :folder" +
+    " AND (:name IS NULL OR operation.name = :name)")
+  int getOperationCount(long folder, String name);
 
   @Insert
   long insertOperation(EntityOperation operation);

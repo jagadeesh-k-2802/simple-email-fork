@@ -290,7 +290,9 @@
   <string name="title_undo">Undo</string>
 
   <string name="title_try">Try SimpleEmail, an simple, free software, privacy friendly email app for Android</string>
-              
+  <string name="title_try_subject">Try SimpleEmail</string>
+  <string name="title_try_text">Invite to:</string>
+
   <string name="title_unexpected_error">Unexpected error</string>
   <string name="title_log">Log</string>
   <string name="title_debug_info">Debug info</string>

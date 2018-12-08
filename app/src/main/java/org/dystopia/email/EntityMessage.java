@@ -83,6 +83,7 @@ import javax.mail.Address;
       @Index(value = {"ui_found"}),
       @Index(value = {"ui_ignored"})
     })
+
 public class EntityMessage implements Serializable {
   static final String TABLE_NAME = "message";
 
@@ -220,6 +221,32 @@ public class EntityMessage implements Serializable {
           && this.stored.equals(other.stored)
           && this.seen.equals(other.seen)
           && this.flagged.equals(other.flagged)
+          && this.ui_seen.equals(other.ui_seen)
+          && this.ui_flagged.equals(other.ui_flagged)
+          && this.ui_hide.equals(other.ui_hide)
+          && this.ui_found.equals(other.ui_found)
+          && this.ui_ignored.equals(other.ui_ignored)
+          && (this.error == null ? other.error == null : this.error.equals(other.error)));
+    }
+    return false;
+  }
+
+  public boolean shallowEquals(Object obj) {
+    if (obj instanceof EntityMessage) {
+      EntityMessage other = (EntityMessage) obj;
+      return ((this.msgid == null ? other.msgid == null : this.msgid.equals(other.msgid))
+          && (this.thread == null ? other.thread == null : this.thread.equals(other.thread))
+          && (this.avatar == null ? other.avatar == null : this.avatar.equals(other.avatar))
+          && equal(this.from, other.from)
+          && equal(this.to, other.to)
+          && equal(this.cc, other.cc)
+          && equal(this.bcc, other.bcc)
+          && equal(this.reply, other.reply)
+          && (this.headers == null ? other.headers == null : this.headers.equals(other.headers))
+          && (this.subject == null ? other.subject == null : this.subject.equals(other.subject))
+          && (this.size == null ? other.size == null : this.size.equals(other.size))
+          && this.content == other.content
+          && this.received.equals(other.received)
           && this.ui_seen.equals(other.ui_seen)
           && this.ui_flagged.equals(other.ui_flagged)
           && this.ui_hide.equals(other.ui_hide)

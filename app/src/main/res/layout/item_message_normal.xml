@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -49,12 +50,25 @@
             android:id="@+id/ivAvatar"
             android:layout_width="0dp"
             android:layout_height="24dp"
-            android:layout_marginStart="6dp"
+            android:layout_marginStart="@dimen/margin_sm"
             android:src="@drawable/baseline_person_24"
             app:layout_constraintBottom_toBottomOf="@+id/tvFrom"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintStart_toEndOf="@id/paddingStart"
             app:layout_constraintTop_toTopOf="@+id/tvFrom" />
+
+        <TextView
+            android:id="@+id/tvSubject"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:ellipsize="end"
+            android:fontFamily="sans-serif-light"
+            android:text="Subject"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            app:layout_constraintEnd_toStartOf="@id/paddingEnd"
+            app:layout_constraintStart_toEndOf="@id/ivAttachments"
+            app:layout_constraintTop_toBottomOf="@id/tvFrom" />
 
         <TextView
             android:id="@+id/tvFrom"
@@ -63,6 +77,7 @@
             android:layout_marginStart="6dp"
             android:layout_marginEnd="6dp"
             android:ellipsize="end"
+            android:fontFamily="sans-serif-light"
             android:text="From"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             app:layout_constraintEnd_toStartOf="@+id/tvTime"
@@ -96,70 +111,57 @@
             android:id="@+id/ivAttachments"
             android:layout_width="21dp"
             android:layout_height="21dp"
-            android:layout_marginStart="6dp"
+            android:layout_marginStart="@dimen/margin_sm"
             android:src="@drawable/baseline_attachment_24"
             app:layout_constraintBottom_toBottomOf="@id/tvSubject"
             app:layout_constraintStart_toEndOf="@id/paddingStart"
             app:layout_constraintTop_toTopOf="@+id/tvSubject" />
 
         <TextView
-            android:id="@+id/tvSubject"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="6dp"
-            android:layout_marginTop="6dp"
-            android:layout_marginEnd="6dp"
-            android:ellipsize="end"
-            android:text="Subject"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            app:layout_constraintStart_toEndOf="@id/ivAttachments"
-            app:layout_constraintEnd_toStartOf="@id/paddingEnd"
-            app:layout_constraintTop_toBottomOf="@id/tvFrom" />
-
-        <TextView
             android:id="@+id/tvAccount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="6dp"
+            android:layout_marginTop="@dimen/margin_xs"
+            android:layout_marginStart="@dimen/margin_sm"
             android:maxLines="1"
-            android:text="acount"
+            android:text="account"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
             app:layout_constraintStart_toEndOf="@id/paddingStart"
-            app:layout_constraintTop_toBottomOf="@id/tvSubject" />
+            app:layout_constraintTop_toBottomOf="@id/tvSummary" />
 
         <TextView
             android:id="@+id/tvFolder"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="6dp"
+            android:layout_marginTop="@dimen/margin_xs"
+            android:layout_marginStart="@dimen/margin_sm"
+            android:background="@color/colorAccent"
             android:maxLines="1"
-            android:text="folder"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:textColor="@color/colorActionForeground"
-            android:background="@color/colorAccent"
+            android:text="folder"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="@color/colorActionForeground"
             app:layout_constraintStart_toEndOf="@id/tvAccount"
-            app:layout_constraintTop_toBottomOf="@id/tvSubject" />
+            app:layout_constraintTop_toBottomOf="@id/tvSummary" />
 
         <TextView
             android:id="@+id/tvCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="6dp"
-            android:layout_marginTop="0.5dp"
+            android:layout_marginTop="@dimen/margin_xs"
+            android:layout_marginStart="@dimen/margin_sm"
             android:maxLines="1"
             android:text="3"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            app:layout_constraintTop_toBottomOf="@id/tvSubject"
+            app:layout_constraintTop_toBottomOf="@id/tvSummary"
             app:layout_constraintStart_toEndOf="@id/tvFolder" />
 
         <ImageView
             android:id="@+id/ivThread"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:layout_marginStart="3dp"
-            android:layout_marginTop="1dp"
+            android:layout_width="@dimen/icon_xs"
+            android:layout_height="@dimen/icon_xs"
+            android:layout_marginStart="@dimen/padding_xs"
             android:src="@drawable/baseline_message_24"
             app:layout_constraintBottom_toBottomOf="@id/tvCount"
             app:layout_constraintStart_toEndOf="@id/tvCount"
@@ -169,20 +171,35 @@
             android:id="@+id/tvSize"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="6dp"
+            android:layout_marginEnd="@dimen/margin_sm"
             android:maxLines="1"
             android:text="123 KB"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/paddingEnd"
+            app:layout_constraintTop_toBottomOf="@id/tvSummary" />
+
+        <TextView
+            android:id="@+id/tvSummary"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_lg"
+            android:layout_marginEnd="@dimen/margin_md"
+            android:fontFamily="sans-serif-light"
+            android:maxLines="2"
+            android:minLines="1"
+            android:ellipsize="end"
+            android:text="Summary"
+            android:textStyle="italic"
+            app:layout_constraintEnd_toStartOf="@id/paddingEnd"
+            app:layout_constraintStart_toStartOf="@id/paddingStart"
             app:layout_constraintTop_toBottomOf="@id/tvSubject" />
 
         <TextView
             android:id="@+id/tvError"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="6dp"
+            android:layout_marginStart="@dimen/margin_sm"
             android:layout_marginTop="6dp"
-            android:layout_marginEnd="6dp"
             android:text="error"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
             android:textColor="?attr/colorWarning"
@@ -452,12 +469,11 @@
 
         <TextView
             android:id="@+id/tvBody"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/no_size"
             android:layout_height="wrap_content"
-            android:layout_marginStart="6dp"
-            android:layout_marginTop="3dp"
-            android:layout_marginEnd="6dp"
-            android:fontFamily="monospace"
+            android:layout_marginTop="@dimen/margin_sm"
+            android:layout_marginStart="@dimen/content_margin"
+            android:layout_marginEnd="@dimen/content_margin"
             android:minHeight="60dp"
             android:text="Body"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"

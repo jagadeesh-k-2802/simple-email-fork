@@ -32,6 +32,11 @@ public class TupleMessageEx extends EntityMessage {
   public int attachments;
 
   @Override
+  public boolean shallowEquals(Object obj) {
+    return super.shallowEquals(obj);
+  }
+
+  @Override
   public boolean equals(Object obj) {
     if (obj instanceof TupleMessageEx) {
       TupleMessageEx other = (TupleMessageEx) obj;
@@ -52,6 +57,6 @@ public class TupleMessageEx extends EntityMessage {
           && this.unflagged == other.unflagged
           && this.attachments == other.attachments);
     }
-    return super.equals(obj);
+    return false;
   }
 }

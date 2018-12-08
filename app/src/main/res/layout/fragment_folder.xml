@@ -96,7 +96,7 @@
             android:id="@+id/etAfter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="7"
+            android:hint="@string/default_sync"
             android:inputType="number"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             app:layout_constraintStart_toStartOf="parent"

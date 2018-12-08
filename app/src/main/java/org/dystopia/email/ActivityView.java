@@ -58,6 +58,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import com.google.android.material.snackbar.Snackbar;
+
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -66,6 +67,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.InputStreamReader;
+import java.io.FileNotFoundException;
 import java.net.URL;
 import java.text.Collator;
 import java.util.ArrayList;
@@ -104,7 +106,6 @@ public class ActivityView extends ActivityBase
   static final int REQUEST_ERROR = 3;
 
   static final int REQUEST_ATTACHMENT = 1;
-  static final int REQUEST_INVITE = 2;
   static final int REQUEST_DECRYPT = 3;
 
   static final String ACTION_VIEW_MESSAGES = BuildConfig.APPLICATION_ID + ".VIEW_MESSAGES";
@@ -284,14 +285,12 @@ public class ActivityView extends ActivityBase
 
                 drawerArray.add(new DrawerItem(R.layout.item_drawer_separator));
 
-                if (getIntentInvite().resolveActivity(getPackageManager()) != null) {
-                  drawerArray.add(
-                      new DrawerItem(
-                          ActivityView.this,
-                          R.layout.item_drawer,
-                          R.drawable.baseline_people_24,
-                          R.string.menu_invite));
-                }
+                drawerArray.add(
+                    new DrawerItem(
+                        ActivityView.this,
+                        R.layout.item_drawer,
+                        R.drawable.baseline_share_24,
+                        R.string.menu_invite));
 
                 drawerList.setAdapter(drawerArray);
               }
@@ -714,18 +713,18 @@ public class ActivityView extends ActivityBase
     Intent intent = new Intent(Intent.ACTION_VIEW);
     intent.setData(
         Uri.parse(
-            "https://framagit.org/dystopia-project/simple-email/blob/8f7296ddc2275471d4190df1dd55dee4025a5114/docs/FAQ.md"));
+                  "https://framagit.org/dystopia-project/simple-email/blob/HEAD/docs/FAQ.md"));
     return intent;
   }
 
   private Intent getIntentInvite() {
-    Intent intent = new Intent("com.google.android.gms.appinvite.ACTION_APP_INVITE");
-    intent.setPackage("com.google.android.gms");
-    intent.putExtra("com.google.android.gms.appinvite.TITLE", getString(R.string.menu_invite));
-    intent.putExtra("com.google.android.gms.appinvite.MESSAGE", getString(R.string.title_try));
-    intent.putExtra("com.google.android.gms.appinvite.BUTTON_TEXT", getString(R.string.title_try));
-    // com.google.android.gms.appinvite.DEEP_LINK_URL
-    return intent;
+    Intent shareIntent = new Intent();
+    shareIntent.setAction(Intent.ACTION_SEND);
+    shareIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.title_try_subject));
+    shareIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.title_try));
+    shareIntent.setType("text/plain");
+
+    return Intent.createChooser(shareIntent, getString(R.string.title_try_text));
   }
 
   private void onMenuFolders(long account) {
@@ -787,7 +786,7 @@ public class ActivityView extends ActivityBase
   }
 
   private void onMenuInvite() {
-    startActivityForResult(getIntentInvite(), REQUEST_INVITE);
+    startActivity(getIntentInvite());
   }
 
   private class DrawerItem {
@@ -1102,6 +1101,8 @@ public class ActivityView extends ActivityBase
                 while ((read = fis.read(buffer)) != -1) {
                   fos.write(buffer, 0, read);
                 }
+              } catch (FileNotFoundException ex) {
+                  Log.w(Helper.TAG, ex + "\n" + Log.getStackTraceString(ex));
               } finally {
                 try {
                   if (pfd != null) {

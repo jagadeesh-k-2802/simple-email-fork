@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:ellipsize="start"
         android:singleLine="true"
-        android:text="12:34:56"
+        android:text="@string/default_timelog"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -20,7 +20,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="6dp"
-        android:text="log"
+        android:text="@string/default_log"
         android:textAppearance="@android:style/TextAppearance.Small"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/tvTime"

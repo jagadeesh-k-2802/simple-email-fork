@@ -21,6 +21,7 @@ package org.dystopia.email;
 
 public class TupleFolderEx extends EntityFolder {
   public String accountName;
+  public String accountState;
   public int messages;
   public int content;
   public int unseen;
@@ -33,6 +34,9 @@ public class TupleFolderEx extends EntityFolder {
           && (this.accountName == null
               ? other.accountName == null
               : accountName.equals(other.accountName))
+          && (this.accountState == null
+              ? other.accountState == null
+              : accountState.equals(other.accountState))
           && this.messages == other.messages
           && this.content == other.content
           && this.unseen == other.unseen);

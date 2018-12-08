@@ -6,6 +6,11 @@
     android:layout_height="match_parent"
     tools:context=".ActivityView">
 
+  <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+      android:id="@+id/swipeRefresh"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -29,7 +34,7 @@
             android:textColor="?android:attr/textColorPrimary"
             app:layout_constraintEnd_toStartOf="@+id/ibHintSupport"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" 
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
         <ImageButton
@@ -136,13 +141,12 @@
         <ProgressBar
             android:id="@+id/pbWait"
             style="@style/Base.Widget.AppCompat.ProgressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/normal_size"
+            android:layout_height="@dimen/normal_size"
             android:indeterminate="true"
-            app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/vSeparatorHintSelect" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_navigation"
@@ -180,7 +184,9 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:constraint_referenced_ids="rvFolder" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+
+      </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabMove"

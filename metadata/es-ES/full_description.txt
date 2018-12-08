@@ -1,24 +1,22 @@
 Una aplicación de correo amigable con la privacidad, minimalista y Software Libre.
 
-'''Destacado'''
-
+<h3>Destacado</h3>
 * Fácil navegación
 * No hay configuraciones innecesarias
 * No hay campanas y silbidos
 * Amigable con la privacidad
 * Diseño simple
 
-'''¿Porqué?'''
+<h3>¿Porqué?</h3>
 El enfoque de SimpleEmail es ser una aplicación de correo electrónico amigable con la privacidad con una buena interfza y expereincia de usuario
 y con un modelo de desarrollo comunitario.
 
 SimpleEmail es minimalista por diseño, por lo que puede concentrarse en leer y escribir mensajes, comienza un primer plano
 Servicio con una notificación de barra de estado de baja prioridad para asegurarse de que nunca perderá un nuevo correo electrónico.
 
-Este proyecto es un fork de [[eu.faircode.email]].
+Este proyecto es un fork de <a href="https://f-droid.org/en/packages/eu.faircode.email">FairEmail</a>.
 
-'''Caracteristicas'''
-
+<h3>Caracteristicas</h3>
 * 100% Software Libre
 * Múltiples cuentas (bandejas de entrada)
 * Identidades múltiples (buzones de salida)
@@ -36,7 +34,7 @@ Este proyecto es un fork de [[eu.faircode.email]].
 * Cifrado / descifrado
 * Exporta la configuracion
 
-'''Seguro:'''
+<h3>Seguro:</h3>
 * Permitir solo conexiones encriptadas
 * Aceptar solo certificados de seguridad válidos
 * Autenticacion requerida

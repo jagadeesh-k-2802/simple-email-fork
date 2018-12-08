@@ -13,7 +13,7 @@
         android:layout_marginTop="6dp"
         android:ellipsize="end"
         android:maxLines="1"
-        android:text="Name"
+        android:text="@string/default_name"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintEnd_toStartOf="@+id/tvSize"
         app:layout_constraintStart_toStartOf="parent"

@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-apply plugin: 'changelog'
+apply from: "${rootDir}/jdee.gradle"
 
 android {
     compileSdkVersion 28
@@ -51,16 +51,16 @@ android {
     }
 }
 
-changelog {
-    versionNum "v$android.defaultConfig.versionName"
-}
-
 repositories {
     google()
     jcenter()
     maven {
         url "https://repo1.maven.org/maven2/"
     }
+}
+
+configurations {
+  implementationDeps.extendsFrom implementation
 }
 
 dependencies {
@@ -120,5 +120,5 @@ dependencies {
     implementation "org.sufficientlysecure:openpgp-api:$openpgp_version"
 
     // https://android.googlesource.com/platform/frameworks/opt/colorpicker
-    implementation project(path: ':colorpicker')
+    implementation project(path: ':colorpicker', configuration: 'default')
 }

@@ -1,23 +1,22 @@
 A Free Software, minimalistic and privacy friendly email app.
 
-'''Highlights'''
+<h3>Highlights</h3>
 * Easy navigation
 * No unnecessary settings
 * No bells and whistles
 * Privacy friendly
 * Simple design
 
-'''Why?'''
+<h3>Why?</h3>
 
 The focus of SimpleEmail is be a privacy-friendly email app with a good UX/UI and with a community development model.
 
-SimpleEmail is minimalistic by design, so you can concentrate on reading and writing messages, it starts a foreground 
+SimpleEmail is minimalistic by design, so you can concentrate on reading and writing messages, it starts a foreground
 service with a low priority status bar notification to make sure you'll never miss a new email.
 
-This project has been forked from [[eu.faircode.email]].
+This project has been forked from <a href="https://f-droid.org/en/packages/eu.faircode.email">FairEmail</a>.
 
-'''Features'''
-
+<h3>Features</h3>
 * 100% Free Software
 * Multiple accounts (inboxes)
 * Multiple identities (outboxes)
@@ -35,7 +34,7 @@ This project has been forked from [[eu.faircode.email]].
 * Encryption/decryption
 * Export settings
 
-'''Secure:'''
+<h3>Secure:</h3>
 * Allow encrypted connections only
 * Accept valid security certificates only
 * Authentication required

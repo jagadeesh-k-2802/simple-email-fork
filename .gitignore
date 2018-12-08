@@ -33,6 +33,7 @@ proguard/
 # IDE and OS files
 .idea/
 *.iml
+*.el
 
 .DS_Store
 .externalNativeBuild
