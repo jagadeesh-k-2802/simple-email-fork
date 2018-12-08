@@ -12,6 +12,7 @@ plugins:
   - - "@semantic-release/git"
     - assets:
         - CHANGELOG.md
+        - metadata/**/*.txt
         - app/build.gradle
       message: "chore(release): v${nextRelease.version}\n\n${nextRelease.notes}"
   - "@semantic-release/gitlab"
