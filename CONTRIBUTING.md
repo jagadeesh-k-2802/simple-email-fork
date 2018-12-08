@@ -5,7 +5,7 @@ We're thrilled you're interested in contributing to SimpleEmail! There are lots 
 ## Documentation
 
 Contributions to this document and the frequently asked questions
-are preferred in the form of [pull requests][pull-requests]).
+are preferred in the form of [pull requests][pull-requests].
 
 ## Translations
 
