@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.3.0](https://framagit.org/dystopia-project/simple-email/compare/v1.2.1...v1.3.0) (2018-12-08)
+
+
+### Bug Fixes
+
+* change app Invite to share because require google account ([8299d54](https://framagit.org/dystopia-project/simple-email/commit/8299d54))
+* check error on open attachment ([87a22a9](https://framagit.org/dystopia-project/simple-email/commit/87a22a9)), closes [#10](https://framagit.org/dystopia-project/simple-email/issues/10)
+* prevent flickering on message view ([d6294c6](https://framagit.org/dystopia-project/simple-email/commit/d6294c6))
+
+
+### Features
+
+* better layout for the message list ([73aa80d](https://framagit.org/dystopia-project/simple-email/commit/73aa80d)), closes [#8](https://framagit.org/dystopia-project/simple-email/issues/8)
+* implement refresh messages list ([f5973df](https://framagit.org/dystopia-project/simple-email/commit/f5973df))
+* move color picker account outside of advanced ([7fb625c](https://framagit.org/dystopia-project/simple-email/commit/7fb625c))
+
 ## [1.2.1](https://framagit.org/dystopia-project/simple-email/compare/v1.2.0...v1.2.1) (2018-11-23)
 
 
