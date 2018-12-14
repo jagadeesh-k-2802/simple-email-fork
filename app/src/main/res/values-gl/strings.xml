@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="app_name" translatable="false">SimpleEmail</string>
+  <string name="app_label" translatable="false">Email</string>
+  <string name="app_copyright" translatable="false">Copyright Ⓒ 2018 by M. Bokhorst\nCopyright Ⓒ 2018 by Distopico (dystopia project) and contributors</string>
+  <string name="app_eula" translatable="false">This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version. This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See theGNU General Public License for more details. You should have received a copy of the GNU General Public License along with this program. If not, see http://www.gnu.org/licenses.</string>
+
+  <string name="channel_service"></string>
+  <string name="channel_notification"></string>
+  <string name="channel_error"></string>
+
+    <plurals name="title_notification_synchronizing">
+    <item quantity="one"></item>
+    <item quantity="other"></item>
+</plurals>
+
+    <plurals name="title_notification_operations">
+    <item quantity="one"></item>
+    <item quantity="other"></item>
+</plurals>
+
+    <plurals name="title_notification_unseen">
+    <item quantity="one"></item>
+    <item quantity="other"></item>
+</plurals>
+
+    <plurals name="title_notification_unsent">
+    <item quantity="one"></item>
+    <item quantity="other"></item>
+</plurals>
+
+  <string name="title_notification_failed"></string>
+
+  <string name="menu_setup"></string>
+  <string name="menu_answers"></string>
+  <string name="menu_operations"></string>
+  <string name="menu_legend"></string>
+  <string name="menu_faq"></string>
+  <string name="menu_privacy"></string>
+  <string name="menu_about"></string>
+  <string name="menu_invite"></string>
+  <string name="menu_rate"></string>
+  <string name="menu_other"></string>
+
+  <string name="title_privacy"></string>
+  <string name="title_privacy_description"><b>SimpleEmail</b> does not collect any information, does not require unnecessary permissions and is <b>100% Free Software</b>.</string>
+  <string name="title_permissions"><b>Permissions are needed and why</b></string>
+  <string name="title_permissions_list"><b>• have full network access</b> (INTERNET): \nto send and receive email <b>\n• view network connections</b> (ACCESS_NETWORK_STATE): \nto monitor internet connectivity changes <b>\n• run at startup</b> (RECEIVE_BOOT_COMPLETED): \nto start monitoring on device start <b>\n• foreground service</b> (FOREGROUND_SERVICE): \nto run a foreground service on Android 9 Pie and later <b>\n• prevent device from sleeping</b> (WAKE_LOCK): \nto keep the device awake while synchronizing messages <b>\n• [Optional] read your contacts</b> (READ_CONTACTS): \nto autocomplete addresses and to show photos <b>\n• [Optional] find accounts on the device</b> (GET_ACCOUNTS): \nto use OAuth instead of passwords</string>
+
+  <string name="title_agree"></string>
+  <string name="title_disagree"></string>
+
+  <string name="title_version"></string>
+
+  <string name="title_list_accounts"></string>
+  <string name="title_list_identities"></string>
+
+  <string name="title_edit_account"></string>
+  <string name="title_edit_identity"></string>
+  <string name="title_edit_folder"></string>
+
+  <string name="title_setup"></string>
+  <string name="title_setup_export"></string>
+  <string name="title_setup_import"></string>
+  <string name="title_setup_export_do"></string>
+  <string name="title_setup_import_do"></string>
+  <string name="title_setup_exported"></string>
+  <string name="title_setup_imported"></string>
+  <string name="title_setup_account"></string>
+  <string name="title_setup_account_remark"></string>
+  <string name="title_setup_identity"></string>
+  <string name="title_setup_identity_remark"></string>
+  <string name="title_setup_doze"></string>
+  <string name="title_setup_doze_remark"></string>
+  <string name="title_setup_doze_instructions"></string>
+  <string name="title_setup_data"></string>
+  <string name="title_setup_permissions"></string>
+  <string name="title_setup_permissions_remark"></string>
+  <string name="title_setup_notifications"></string>
+  <string name="title_setup_to_do"></string>
+  <string name="title_setup_done"></string>
+  <string name="title_setup_light_theme"></string>
+  <string name="title_setup_dark_theme"></string>
+
+  <string name="title_advanced"></string>
+  <string name="title_advanced_enabled_sync"></string>
+  <string name="title_advanced_avatars"></string>
+  <string name="title_advanced_light"></string>
+  <string name="title_advanced_browse"></string>
+  <string name="title_advanced_swipe"></string>
+  <string name="title_advanced_compact"></string>
+  <string name="title_advanced_debug"></string>
+
+  <string name="title_select"></string>
+  <string name="title_identity_name"></string>
+  <string name="title_identity_email"></string>
+  <string name="title_identity_reply_to"></string>
+  <string name="title_optional"></string>
+  <string name="title_account_linked"></string>
+  <string name="title_account_name"></string>
+  <string name="title_account_name_hint"></string>
+  <string name="title_account_signature"></string>
+  <string name="title_account_color"></string>
+  <string name="title_domain"></string>
+  <string name="title_autoconfig"></string>
+  <string name="title_no_settings"></string>
+  <string name="title_imap"></string>
+  <string name="title_smtp"></string>
+  <string name="title_provider"></string>
+  <string name="title_custom"></string>
+  <string name="title_host"></string>
+  <string name="title_starttls"></string>
+  <string name="title_allow_insecure"></string>
+  <string name="title_port"></string>
+  <string name="title_user"></string>
+  <string name="title_password"></string>
+  <string name="title_authorize"></string>
+  <string name="title_authorizing"></string>
+  <string name="title_setup_advanced"></string>
+  <string name="title_store_sent"></string>
+  <string name="title_synchronize_account"></string>
+  <string name="title_synchronize_identity"></string>
+  <string name="title_primary_account"></string>
+  <string name="title_primary_identity"></string>
+  <string name="title_keep_alive_interval"></string>
+  <string name="title_check"></string>
+  <string name="title_no_name"></string>
+  <string name="title_no_email"></string>
+  <string name="title_no_account"></string>
+  <string name="title_no_host"></string>
+  <string name="title_no_user"></string>
+  <string name="title_no_password"></string>
+  <string name="title_no_drafts"></string>
+  <string name="title_no_primary_drafts"></string>
+  <string name="title_no_primary_archive"></string>
+  <string name="title_no_idle"></string>
+  <string name="title_no_uidplus"></string>
+  <string name="title_account_delete"></string>
+  <string name="title_identity_delete"></string>
+  <string name="title_pop"></string>
+  <string name="title_insecure"></string>
+
+  <string name="title_folder_unseen" translatable="false">%1$s (%2$d)</string>
+
+  <string name="title_synchronize_now"></string>
+  <string name="title_delete_local"></string>
+  <string name="title_empty_trash"></string>
+  <string name="title_edit_properties"></string>
+
+  <string name="title_empty_trash_ask"></string>
+
+  <string name="title_folder_name"></string>
+  <string name="title_display_name"></string>
+  <string name="title_hide_folder"></string>
+  <string name="title_hide_folders"></string>
+  <string name="title_show_folders"></string>
+  <string name="title_synchronize_folder"></string>
+  <string name="title_unified_folder"></string>
+  <string name="title_after"></string>
+  <string name="title_folder_exists"></string>
+  <string name="title_folder_delete"></string>
+
+  <string name="title_folder_unified"></string>
+  <string name="title_folder_inbox"></string>
+  <string name="title_folder_outbox"></string>
+  <string name="title_folder_all"></string>
+  <string name="title_folder_drafts"></string>
+  <string name="title_folder_trash"></string>
+  <string name="title_folder_junk"></string>
+  <string name="title_folder_sent"></string>
+  <string name="title_folder_system"></string>
+  <string name="title_folder_user"></string>
+  <string name="title_folder_primary"></string>
+  <string name="title_folder_thread"></string>
+  <string name="title_no_messages"></string>
+
+  <string name="title_show_images"></string>
+  <string name="title_subject_reply"></string>
+  <string name="title_subject_forward"></string>
+
+  <string name="title_seen"></string>
+  <string name="title_unseen"></string>
+  <string name="title_flag"></string>
+  <string name="title_unflag"></string>
+  <string name="title_forward"></string>
+  <string name="title_reply_all"></string>
+  <string name="title_show_headers"></string>
+  <string name="title_show_html"></string>
+
+  <string name="title_trash"></string>
+  <string name="title_delete"></string>
+  <string name="title_more"></string>
+  <string name="title_spam"></string>
+  <string name="title_move"></string>
+  <string name="title_archive"></string>
+  <string name="title_reply"></string>
+  <string name="title_moving"></string>
+
+  <string name="title_no_answers"></string>
+  <string name="title_no_viewer"></string>
+  <string name="title_attachment_saved"></string>
+  <string name="title_attachment_unavailable"></string>
+  <string name="title_ask_delete"></string>
+  <string name="title_ask_discard"></string>
+  <string name="title_ask_spam"></string>
+  <string name="title_fix"></string>
+
+  <string name="title_compose"></string>
+  <string name="title_from"></string>
+  <string name="title_to"></string>
+  <string name="title_reply_to"></string>
+  <string name="title_cc"></string>
+  <string name="title_bcc"></string>
+  <string name="title_subject"></string>
+  <string name="title_body_hint"></string>
+  <string name="title_discard"></string>
+  <string name="title_save"></string>
+  <string name="title_send"></string>
+
+  <string name="title_clipboard_empty"></string>
+  <string name="title_style_bold"></string>
+  <string name="title_style_italic"></string>
+  <string name="title_style_link"></string>
+  <string name="title_style_image"></string>
+  <string name="title_add_attachment"></string>
+  <string name="title_show_addresses"></string>
+
+  <string name="title_from_missing"></string>
+  <string name="title_to_missing"></string>
+  <string name="title_attachments_missing"></string>
+  <string name="title_draft_deleted"></string>
+  <string name="title_draft_saved"></string>
+  <string name="title_queued"></string>
+
+  <string name="title_encrypt"></string>
+  <string name="title_decrypt"></string>
+  <string name="title_no_openpgp"></string>
+
+  <string name="title_search"></string>
+  <string name="title_search_hint"></string>
+  <string name="title_searching"></string>
+
+  <string name="title_sort_on"></string>
+  <string name="title_sort_on_time"></string>
+  <string name="title_sort_on_unread"></string>
+  <string name="title_sort_on_starred"></string>
+
+  <string name="title_move_sent"></string>
+
+  <string name="title_previous"></string>
+  <string name="title_next"></string>
+
+  <string name="title_answer_reply"></string>
+  <string name="title_answer_name"></string>
+  <string name="title_answer_text"></string>
+
+  <string name="title_legend_inbox"></string>
+  <string name="title_legend_unified"></string>
+  <string name="title_legend_archive"></string>
+  <string name="title_legend_trash"></string>
+  <string name="title_legend_primary_disconnected"></string>
+  <string name="title_legend_primary_connected"></string>
+  <string name="title_legend_cc"></string>
+  <string name="title_legend_attachment"></string>
+  <string name="title_legend_thread"></string>
+  <string name="title_legend_contacts"></string>
+  <string name="title_legend_synchronize_on"></string>
+  <string name="title_legend_synchronize_off"></string>
+  <string name="title_legend_primary"></string>
+  <string name="title_legend_disconnected"></string>
+  <string name="title_legend_connecting"></string>
+  <string name="title_legend_connected"></string>
+  <string name="title_legend_synchronizing"></string>
+  <string name="title_legend_downloading"></string>
+  <string name="title_legend_closing"></string>
+
+  <string name="title_hint_folder_actions"></string>
+  <string name="title_hint_support"></string>
+  <string name="title_hint_message_actions"></string>
+  <string name="title_hint_message_selection"></string>
+  <string name="title_hint_sync"></string>
+
+  <string name="title_open_link"></string>
+  <string name="title_updated"></string>
+  <string name="title_issue"></string>
+  <string name="title_yes"></string>
+  <string name="title_no"></string>
+  <string name="title_undo"></string>
+
+  <string name="title_try"></string>
+  <string name="title_try_subject"></string>
+  <string name="title_try_text"></string>
+
+  <string name="title_unexpected_error"></string>
+  <string name="title_log"></string>
+  <string name="title_debug_info"></string>
+  <string name="title_debug_info_remark"></string>
+  <string name="title_crash_info_remark"></string>
+
+    <array name="colorPicker">
+        <item>@color/red</item>
+        <item>@color/pink</item>
+        <item>@color/purple</item>
+        <item>@color/deep_purple</item>
+        <item>@color/indigo</item>
+        <item>@color/blue</item>
+        <item>@color/light_blue</item>
+        <item>@color/cyan</item>
+        <item>@color/teal</item>
+        <item>@color/green</item>
+        <item>@color/light_green</item>
+        <item>@color/lime</item>
+        <item>@color/yellow</item>
+        <item>@color/amber</item>
+        <item>@color/orange</item>
+        <item>@color/deep_orange</item>
+        <item>@color/brown</item>
+        <item>@color/blue_grey</item>
+        <item>@color/grey</item>
+        <item>@color/dark_grey</item>
+    </array>
+
+  <string name="fingerprint" translatable="false">BCB07BD93B29C1959C15F1CF6C3A2619BAF7A17</string>
+  <string name="title_no_storage_framework"></string>
+  <string name="title_show_details"></string>
+  <string name="title_no_accounts_yet"></string>
+  <string name="title_no_identities_yet"></string>
+</resources>
