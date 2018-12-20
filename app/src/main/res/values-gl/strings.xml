@@ -321,7 +321,7 @@
     </array>
 
   <string name="fingerprint" translatable="false">BCB07BD93B29C1959C15F1CF6C3A2619BAF7A17</string>
-  <string name="title_no_storage_framework"/>
+  <string name="title_no_storage_framework">Compoñente de almacenamento non dispoñible</string>
   <string name="title_show_details">Vexa os detalles</string>
   <string name="title_no_accounts_yet">Aínda non ten contas configuradas</string>
   <string name="title_no_identities_yet">Aínda non ten identidades configuradas</string>
