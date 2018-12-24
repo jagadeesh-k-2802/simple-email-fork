@@ -486,11 +486,11 @@ public class ServiceSynchronize extends LifecycleService {
     Notification.Builder pbuilder = getNotificationPublic(accountName, groupColor, size);
     Notification.Builder gbuilder = Helper.getNotificationBuilder(this, channelId);
 
-    gbuilder.setSmallIcon(R.drawable.ic_mail_icon).setContentTitle(summaryText)
-        .setContentIntent(piView).setNumber(messages.size()).setShowWhen(true).setColor(groupColor)
-        .setDeleteIntent(piClear).setPriority(Notification.PRIORITY_DEFAULT)
-        .setCategory(Notification.CATEGORY_STATUS).setVisibility(Notification.VISIBILITY_PRIVATE)
-        .setGroup(groupKey).setGroupSummary(true).setPublicVersion(pbuilder.build());
+    gbuilder.setSmallIcon(R.drawable.ic_mail_icon).setContentTitle(summaryText).setContentIntent(piView)
+      .setNumber(messages.size()).setShowWhen(true).setColor(groupColor).setDeleteIntent(piClear)
+        .setPriority(Notification.PRIORITY_DEFAULT).setCategory(Notification.CATEGORY_STATUS)
+        .setVisibility(Notification.VISIBILITY_PRIVATE).setGroup(groupKey).setGroupSummary(true)
+        .setPublicVersion(pbuilder.build());
 
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
       gbuilder.setSound(null);
@@ -498,29 +498,25 @@ public class ServiceSynchronize extends LifecycleService {
       gbuilder.setGroupAlertBehavior(Notification.GROUP_ALERT_CHILDREN);
     }
 
-    if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.O
-        && prefs.getBoolean("light", false)) {
+    if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.O && prefs.getBoolean("light", false)) {
       gbuilder.setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_LIGHTS);
       gbuilder.setLights(0xff00ff00, 1000, 1000);
     }
 
-    DateFormat df =
-        SimpleDateFormat.getDateTimeInstance(SimpleDateFormat.SHORT, SimpleDateFormat.SHORT);
+    DateFormat df = SimpleDateFormat.getDateTimeInstance(SimpleDateFormat.SHORT, SimpleDateFormat.SHORT);
     StringBuilder sb = new StringBuilder();
     for (EntityMessage message : messages) {
-      sb.append("<strong>").append(MessageHelper.getFormattedAddresses(message.from, false))
-          .append("</strong>");
+      sb.append("<strong>").append(MessageHelper.getFormattedAddresses(message.from, false)).append("</strong>");
 
       if (!TextUtils.isEmpty(message.subject)) {
         sb.append(": ").append(message.subject);
       }
-      sb.append(" ")
-          .append(df.format(new Date(message.sent == null ? message.received : message.sent)));
+      sb.append(" ").append(df.format(new Date(message.sent == null ? message.received : message.sent)));
       sb.append("<br>");
     }
 
-    Notification.BigTextStyle gstyle = new Notification.BigTextStyle()
-        .bigText(Html.fromHtml(sb.toString())).setSummaryText(accountName);
+    Notification.BigTextStyle gstyle = new Notification.BigTextStyle().bigText(Html.fromHtml(sb.toString()))
+        .setSummaryText(accountName);
 
     gbuilder.setStyle(gstyle);
 
@@ -567,37 +563,31 @@ public class ServiceSynchronize extends LifecycleService {
 
       Intent ignored = new Intent(this, ServiceSynchronize.class);
       ignored.setAction("ignored:" + message.id);
-      PendingIntent piDelete =
-          PendingIntent.getService(this, PI_IGNORED, ignored, PendingIntent.FLAG_UPDATE_CURRENT);
+      PendingIntent piDelete = PendingIntent.getService(this, PI_IGNORED, ignored, PendingIntent.FLAG_UPDATE_CURRENT);
 
       Intent seen = new Intent(this, ServiceSynchronize.class);
       seen.setAction("seen:" + message.id);
-      PendingIntent piSeen =
-          PendingIntent.getService(this, PI_SEEN, seen, PendingIntent.FLAG_UPDATE_CURRENT);
+      PendingIntent piSeen = PendingIntent.getService(this, PI_SEEN, seen, PendingIntent.FLAG_UPDATE_CURRENT);
 
       Intent trash = new Intent(this, ServiceSynchronize.class);
       trash.setAction("trash:" + message.id);
-      PendingIntent piTrash =
-          PendingIntent.getService(this, PI_TRASH, trash, PendingIntent.FLAG_UPDATE_CURRENT);
+      PendingIntent piTrash = PendingIntent.getService(this, PI_TRASH, trash, PendingIntent.FLAG_UPDATE_CURRENT);
 
       Notification.Action.Builder actionSeen = new Notification.Action.Builder(
-          Icon.createWithResource(this, R.drawable.baseline_visibility_24),
-          getString(R.string.title_seen), piSeen);
+          Icon.createWithResource(this, R.drawable.baseline_visibility_24), getString(R.string.title_seen), piSeen);
 
       Notification.Action.Builder actionTrash = new Notification.Action.Builder(
-          Icon.createWithResource(this, R.drawable.baseline_delete_24),
-          getString(R.string.title_trash), piTrash);
+          Icon.createWithResource(this, R.drawable.baseline_delete_24), getString(R.string.title_trash), piTrash);
 
       Notification.Builder mbuilder = Helper.getNotificationBuilder(this, channelId);
       Notification.InboxStyle mstyle = new Notification.InboxStyle();
 
       mbuilder.addExtras(mArgs).setSmallIcon(R.drawable.ic_mail_icon)
-          .setContentTitle(MessageHelper.getFormattedAddresses(message.from, true))
-          .setContentIntent(piContent).setDeleteIntent(piDelete).setSound(uri).setColor(groupColor)
-          .setWhen(message.sent == null ? message.received : message.sent)
-          .setPriority(Notification.PRIORITY_DEFAULT).setCategory(Notification.CATEGORY_STATUS)
-          .setVisibility(Notification.VISIBILITY_PRIVATE).setGroup(groupKey).setGroupSummary(false)
-          .addAction(actionSeen.build()).addAction(actionTrash.build());
+          .setContentTitle(MessageHelper.getFormattedAddresses(message.from, true)).setContentIntent(piContent)
+          .setDeleteIntent(piDelete).setSound(uri).setColor(groupColor)
+          .setWhen(message.sent == null ? message.received : message.sent).setPriority(Notification.PRIORITY_DEFAULT)
+          .setCategory(Notification.CATEGORY_STATUS).setVisibility(Notification.VISIBILITY_PRIVATE).setGroup(groupKey)
+          .setGroupSummary(false).addAction(actionSeen.build()).addAction(actionTrash.build());
 
       if (!TextUtils.isEmpty(message.subject)) {
         mbuilder.setContentText(message.subject);
@@ -608,8 +598,7 @@ public class ServiceSynchronize extends LifecycleService {
         mbuilder.setGroupAlertBehavior(Notification.GROUP_ALERT_CHILDREN);
       }
 
-      mstyle.setBigContentTitle(MessageHelper.getFormattedAddresses(message.from, false))
-          .setSummaryText(accountName);
+      mstyle.setBigContentTitle(MessageHelper.getFormattedAddresses(message.from, false)).setSummaryText(accountName);
       mbuilder.setStyle(mstyle);
 
       notifications.add(mbuilder.build());
@@ -629,9 +618,9 @@ public class ServiceSynchronize extends LifecycleService {
 
     builder.setSmallIcon(android.R.drawable.stat_notify_error)
         .setContentTitle(getString(R.string.title_notification_failed, action))
-        .setContentText(Helper.formatThrowable(ex)).setContentIntent(pi).setAutoCancel(false)
-        .setOnlyAlertOnce(true).setShowWhen(true).setPriority(Notification.PRIORITY_MAX)
-        .setCategory(Notification.CATEGORY_ERROR).setVisibility(Notification.VISIBILITY_SECRET);
+        .setContentText(Helper.formatThrowable(ex)).setContentIntent(pi).setAutoCancel(false).setOnlyAlertOnce(true)
+        .setShowWhen(true).setPriority(Notification.PRIORITY_MAX).setCategory(Notification.CATEGORY_ERROR)
+        .setVisibility(Notification.VISIBILITY_SECRET);
 
     builder.setStyle(new Notification.BigTextStyle().bigText(ex.toString()));
 
@@ -667,10 +656,9 @@ public class ServiceSynchronize extends LifecycleService {
       nm.notify(action, 1, getNotificationError(action, ex).build());
     }
 
-    if (BuildConfig.DEBUG && !(ex instanceof SendFailedException)
-        && !(ex instanceof MailConnectException) && !(ex instanceof FolderClosedException)
-        && !(ex instanceof IllegalStateException) && !(ex instanceof AuthenticationFailedException)
-        && // Also: Too many simultaneous connections
+    if (BuildConfig.DEBUG && !(ex instanceof SendFailedException) && !(ex instanceof MailConnectException)
+        && !(ex instanceof FolderClosedException) && !(ex instanceof IllegalStateException)
+        && !(ex instanceof AuthenticationFailedException) && // Also: Too many simultaneous connections
         !(ex instanceof StoreClosedException)
         && !(ex instanceof MessagingException && ex.getCause() instanceof UnknownHostException)
         && !(ex instanceof MessagingException && ex.getCause() instanceof ConnectionException)
@@ -683,8 +671,7 @@ public class ServiceSynchronize extends LifecycleService {
     }
   }
 
-  private void monitorAccount(final EntityAccount account, final ServiceState state)
-      throws NoSuchProviderException {
+  private void monitorAccount(final EntityAccount account, final ServiceState state) throws NoSuchProviderException {
     final PowerManager pm = getSystemService(PowerManager.class);
     final PowerManager.WakeLock wl0 = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
         BuildConfig.APPLICATION_ID + ":account." + account.id + ".monitor");
@@ -692,16 +679,14 @@ public class ServiceSynchronize extends LifecycleService {
       wl0.acquire();
 
       final DB db = DB.getInstance(this);
-      final ExecutorService executor =
-          Executors.newSingleThreadExecutor(Helper.backgroundThreadFactory);
+      final ExecutorService executor = Executors.newSingleThreadExecutor(Helper.backgroundThreadFactory);
 
       int backoff = CONNECT_BACKOFF_START;
       while (state.running) {
         EntityLog.log(this, account.name + " run");
 
         // Debug
-        boolean debug =
-            PreferenceManager.getDefaultSharedPreferences(this).getBoolean("debug", false);
+        boolean debug = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("debug", false);
         debug = debug || BuildConfig.DEBUG;
         System.setProperty("mail.socket.debug", Boolean.toString(debug));
 
@@ -879,15 +864,12 @@ public class ServiceSynchronize extends LifecycleService {
                               } finally {
                                 db.endTransaction();
                               }
-                              downloadMessage(ServiceSynchronize.this, folder, ifolder,
-                                  (IMAPMessage) imessage, id);
+                              downloadMessage(ServiceSynchronize.this, folder, ifolder, (IMAPMessage) imessage, id);
                             } catch (MessageRemovedException ex) {
-                              Log.w(Helper.TAG,
-                                  folder.name + " " + ex + "\n" + Log.getStackTraceString(ex));
+                              Log.w(Helper.TAG, folder.name + " " + ex + "\n" + Log.getStackTraceString(ex));
                             } catch (IOException ex) {
                               if (ex.getCause() instanceof MessageRemovedException) {
-                                Log.w(Helper.TAG,
-                                    folder.name + " " + ex + "\n" + Log.getStackTraceString(ex));
+                                Log.w(Helper.TAG, folder.name + " " + ex + "\n" + Log.getStackTraceString(ex));
                               } else {
                                 throw ex;
                               }
@@ -896,8 +878,7 @@ public class ServiceSynchronize extends LifecycleService {
                           EntityOperation.process(ServiceSynchronize.this); // download small
                                                                             // attachments
                         } catch (Throwable ex) {
-                          Log.e(Helper.TAG,
-                              folder.name + " " + ex + "\n" + Log.getStackTraceString(ex));
+                          Log.e(Helper.TAG, folder.name + " " + ex + "\n" + Log.getStackTraceString(ex));
                           reportError(account.name, folder.name, ex);
 
                           db.folder().setFolderError(folder.id, Helper.formatThrowable(ex));
@@ -925,13 +906,11 @@ public class ServiceSynchronize extends LifecycleService {
 
                               Log.i(Helper.TAG, "Deleted uid=" + uid + " count=" + count);
                             } catch (MessageRemovedException ex) {
-                              Log.w(Helper.TAG,
-                                  folder.name + " " + ex + "\n" + Log.getStackTraceString(ex));
+                              Log.w(Helper.TAG, folder.name + " " + ex + "\n" + Log.getStackTraceString(ex));
                             }
                           }
                         } catch (Throwable ex) {
-                          Log.e(Helper.TAG,
-                              folder.name + " " + ex + "\n" + Log.getStackTraceString(ex));
+                          Log.e(Helper.TAG, folder.name + " " + ex + "\n" + Log.getStackTraceString(ex));
                           reportError(account.name, folder.name, ex);
 
                           db.folder().setFolderError(folder.id, Helper.formatThrowable(ex));
@@ -963,7 +942,7 @@ public class ServiceSynchronize extends LifecycleService {
                             FetchProfile fp = new FetchProfile();
                             fp.add(UIDFolder.FetchProfileItem.UID);
                             fp.add(IMAPFolder.FetchProfileItem.FLAGS);
-                            ifolder.fetch(new Message[] {e.getMessage()}, fp);
+                            ifolder.fetch(new Message[] { e.getMessage() }, fp);
 
                             long id;
                             try {
@@ -974,22 +953,18 @@ public class ServiceSynchronize extends LifecycleService {
                             } finally {
                               db.endTransaction();
                             }
-                            downloadMessage(ServiceSynchronize.this, folder, ifolder,
-                                (IMAPMessage) e.getMessage(), id);
+                            downloadMessage(ServiceSynchronize.this, folder, ifolder, (IMAPMessage) e.getMessage(), id);
                           } catch (MessageRemovedException ex) {
-                            Log.w(Helper.TAG,
-                                folder.name + " " + ex + "\n" + Log.getStackTraceString(ex));
+                            Log.w(Helper.TAG, folder.name + " " + ex + "\n" + Log.getStackTraceString(ex));
                           } catch (IOException ex) {
                             if (ex.getCause() instanceof MessageRemovedException) {
-                              Log.w(Helper.TAG,
-                                  folder.name + " " + ex + "\n" + Log.getStackTraceString(ex));
+                              Log.w(Helper.TAG, folder.name + " " + ex + "\n" + Log.getStackTraceString(ex));
                             } else {
                               throw ex;
                             }
                           }
                         } catch (Throwable ex) {
-                          Log.e(Helper.TAG,
-                              folder.name + " " + ex + "\n" + Log.getStackTraceString(ex));
+                          Log.e(Helper.TAG, folder.name + " " + ex + "\n" + Log.getStackTraceString(ex));
                           reportError(account.name, folder.name, ex);
 
                           db.folder().setFolderError(folder.id, Helper.formatThrowable(ex));
@@ -1086,8 +1061,7 @@ public class ServiceSynchronize extends LifecycleService {
                         folder = db.folder().getFolder(fid);
                       }
 
-                      Log.i(Helper.TAG,
-                          folder.name + " run " + (shouldClose ? "offline" : "online"));
+                      Log.i(Helper.TAG, folder.name + " run " + (shouldClose ? "offline" : "online"));
 
                       if (ifolder == null) {
                         // Prevent unnecessary folder
@@ -1115,8 +1089,7 @@ public class ServiceSynchronize extends LifecycleService {
                       }
 
                     } catch (Throwable ex) {
-                      Log.e(Helper.TAG,
-                          folder.name + " " + ex + "\n" + Log.getStackTraceString(ex));
+                      Log.e(Helper.TAG, folder.name + " " + ex + "\n" + Log.getStackTraceString(ex));
                       reportError(account.name, folder.name, ex);
 
                       db.folder().setFolderError(folder.id, Helper.formatThrowable(ex));
@@ -1127,8 +1100,7 @@ public class ServiceSynchronize extends LifecycleService {
                           try {
                             ifolder.close(false);
                           } catch (MessagingException ex) {
-                            Log.w(Helper.TAG,
-                                folder.name + " " + ex + "\n" + Log.getStackTraceString(ex));
+                            Log.w(Helper.TAG, folder.name + " " + ex + "\n" + Log.getStackTraceString(ex));
                           }
                         }
                         db.folder().setFolderState(folder.id, null);
@@ -1174,8 +1146,7 @@ public class ServiceSynchronize extends LifecycleService {
           };
 
           String id = BuildConfig.APPLICATION_ID + ".POLL." + account.id;
-          PendingIntent pi =
-              PendingIntent.getBroadcast(ServiceSynchronize.this, 0, new Intent(id), 0);
+          PendingIntent pi = PendingIntent.getBroadcast(ServiceSynchronize.this, 0, new Intent(id), 0);
           registerReceiver(alarm, new IntentFilter(id));
 
           // Keep alive
@@ -1296,8 +1267,8 @@ public class ServiceSynchronize extends LifecycleService {
     }
   }
 
-  private void processOperations(EntityFolder folder, Session isession, IMAPStore istore,
-      IMAPFolder ifolder) throws MessagingException, JSONException, IOException {
+  private void processOperations(EntityFolder folder, Session isession, IMAPStore istore, IMAPFolder ifolder)
+      throws MessagingException, JSONException, IOException {
     synchronized (lock) {
       try {
         Log.i(Helper.TAG, folder.name + " start process");
@@ -1307,8 +1278,8 @@ public class ServiceSynchronize extends LifecycleService {
         Log.i(Helper.TAG, folder.name + " pending operations=" + ops.size());
         for (EntityOperation op : ops) {
           try {
-            Log.i(Helper.TAG, folder.name + " start op=" + op.id + "/" + op.name + " msg="
-                + op.message + " args=" + op.args);
+            Log.i(Helper.TAG,
+                folder.name + " start op=" + op.id + "/" + op.name + " msg=" + op.message + " args=" + op.args);
 
             EntityMessage message = db.message().getMessage(op.message);
             try {
@@ -1318,9 +1289,8 @@ public class ServiceSynchronize extends LifecycleService {
 
               db.message().setMessageError(message.id, null);
 
-              if (message.uid == null && (EntityOperation.SEEN.equals(op.name)
-                  || EntityOperation.DELETE.equals(op.name) || EntityOperation.MOVE.equals(op.name)
-                  || EntityOperation.HEADERS.equals(op.name))) {
+              if (message.uid == null && (EntityOperation.SEEN.equals(op.name) || EntityOperation.DELETE.equals(op.name)
+                  || EntityOperation.MOVE.equals(op.name) || EntityOperation.HEADERS.equals(op.name))) {
                 throw new IllegalArgumentException(op.name + " without uid " + op.args);
               }
 
@@ -1388,8 +1358,8 @@ public class ServiceSynchronize extends LifecycleService {
     }
   }
 
-  private void doSeen(EntityFolder folder, IMAPFolder ifolder, EntityMessage message,
-      JSONArray jargs, DB db) throws MessagingException, JSONException {
+  private void doSeen(EntityFolder folder, IMAPFolder ifolder, EntityMessage message, JSONArray jargs, DB db)
+      throws MessagingException, JSONException {
     // Mark message (un)seen
     boolean seen = jargs.getBoolean(0);
     if (message.seen == seen) {
@@ -1406,8 +1376,8 @@ public class ServiceSynchronize extends LifecycleService {
     db.message().setMessageSeen(message.id, seen);
   }
 
-  private void doFlag(EntityFolder folder, IMAPFolder ifolder, EntityMessage message,
-      JSONArray jargs, DB db) throws MessagingException, JSONException {
+  private void doFlag(EntityFolder folder, IMAPFolder ifolder, EntityMessage message, JSONArray jargs, DB db)
+      throws MessagingException, JSONException {
     // Star/unstar message
     boolean flagged = jargs.getBoolean(0);
     Message imessage = ifolder.getMessageByUID(message.uid);
@@ -1975,7 +1945,7 @@ public class ServiceSynchronize extends LifecycleService {
                         ContactsContract.Contacts.DISPLAY_NAME},
                     ContactsContract.CommonDataKinds.Email.ADDRESS + " = ?", new String[] {email},
                     null);
-                if (cursor.moveToNext()) {
+                if (cursor != null && cursor.moveToNext()) {
                   int colContactId =
                       cursor.getColumnIndex(ContactsContract.CommonDataKinds.Photo.CONTACT_ID);
                   int colDisplayName =
