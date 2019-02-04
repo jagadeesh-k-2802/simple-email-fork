@@ -239,7 +239,7 @@
   <string name="title_show_addresses">Mostrar CC/BBC</string>
 
   <string name="title_from_missing">Falta o remitente</string>
-  <string name="title_to_missing">Falta o destinatario</string>
+  <string name="title_to_missing">Falta o correspondente</string>
   <string name="title_attachments_missing">Aínda se están a cargar os anexos</string>
   <string name="title_draft_deleted">Borrador descartado</string>
   <string name="title_draft_saved">Borrador gardado</string>
