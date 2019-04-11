@@ -12,7 +12,7 @@
     <plurals name="title_notification_operations">
         <item quantity="one">%1$d oczekująca operacja</item>
         <item quantity="few">%1$d oczekujących operacji</item>
-        <item quantity="many">%1$d oczekujących operacji</item>
+        <item quantity="many">%1$d oczekujące operacje</item>
     </plurals>
     <plurals name="title_notification_unseen">
         <item quantity="one">%1$d nowa wiadomość</item>
