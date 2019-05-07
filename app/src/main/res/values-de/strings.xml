@@ -148,7 +148,7 @@
     <string name="title_no_messages">Keine E-Mails</string>
     <string name="title_show_images">Bilder anzeigen</string>
     <string name="title_subject_reply">Re: %1$s</string>
-    <string name="title_subject_forward">Fwd: %1$s</string>
+    <string name="title_subject_forward">Vor: %1$s</string>
     <string name="title_seen">Als gelesen markieren</string>
     <string name="title_unseen">Als ungelesen markieren</string>
     <string name="title_flag">Als Favorit markieren</string>
@@ -196,7 +196,7 @@
     <string name="title_attachments_missing">Anhänge werden noch geladen</string>
     <string name="title_draft_deleted">Entwurf verworfen</string>
     <string name="title_draft_saved">Entwurf gespeichert</string>
-    <string name="title_queued">Nachricht wird gesendet …</string>
+    <string name="title_queued">Nachricht wird gesendet</string>
     <string name="title_encrypt">Verschlüsseln</string>
     <string name="title_decrypt">Entschlüsseln</string>
     <string name="title_no_openpgp">OpenKeychain wurde nicht gefunden</string>
@@ -229,8 +229,8 @@
     <string name="title_legend_disconnected">Keine Verbindung</string>
     <string name="title_legend_connecting">Verbindungsaufbau</string>
     <string name="title_legend_connected">Verbunden</string>
-    <string name="title_legend_synchronizing">Synchronisierung …</string>
-    <string name="title_legend_downloading">Herunterladen …</string>
+    <string name="title_legend_synchronizing">Synchronisierung</string>
+    <string name="title_legend_downloading">Herunterladen</string>
     <string name="title_legend_closing">Schließen</string>
     <string name="title_hint_folder_actions">Gedrückt halten für weitere Optionen</string>
     <string name="title_hint_support">Wenn Sie eine Frage oder ein Problem haben, verwenden Sie bitte das FAQ/Support-Menü, um Hilfe zu erhalten</string>
@@ -263,7 +263,7 @@
 \n• prevent device from sleeping</b> (WAKE_LOCK): to keep the device awake while synchronizing messages <b>
 \n• [Optional] read your contacts</b> (READ_CONTACTS): to autocomplete addresses and to show photos <b>
 \n• [Optional] find accounts on the device</b> (GET_ACCOUNTS): to use OAuth instead of passwords</string>
-    <string name="title_no_storage_framework">Storage framework not available</string>
+    <string name="title_no_storage_framework">Speicher-Framework nicht verfügbar</string>
     <string name="title_show_details">Siehe Details</string>
     <string name="title_no_accounts_yet">Sie haben noch keine Konten konfiguriert</string>
     <string name="title_no_identities_yet">Sie haben noch keine Identitäten konfiguriert</string>
