@@ -29,8 +29,8 @@
     <string name="menu_privacy">Privacidade</string>
     <string name="menu_about">Sobre</string>
     <string name="menu_invite">Convite</string>
-    <string name="menu_rate">Rate this app</string>
-    <string name="menu_other">Other apps</string>
+    <string name="menu_rate">Avalie este aplicativo</string>
+    <string name="menu_other">Outros aplicativos</string>
     <string name="title_agree">Eu concordo</string>
     <string name="title_disagree">Eu discordo</string>
     <string name="title_version">Versão %1$s</string>
@@ -42,34 +42,34 @@
     <string name="title_setup">Configurar</string>
     <string name="title_setup_export">Exportar configurações</string>
     <string name="title_setup_import">Importar configurações</string>
-    <string name="title_setup_export_do">Accounts and identities will be exported without passwords</string>
-    <string name="title_setup_import_do">Imported accounts will be added, not overwritten</string>
+    <string name="title_setup_export_do">Contas e identidades serão exportadas sem senhas</string>
+    <string name="title_setup_import_do">Contas importadas serão adicionadas, não sobrescritas</string>
     <string name="title_setup_exported">Configurações exportadas</string>
     <string name="title_setup_imported">Configurações importadas</string>
     <string name="title_setup_account">Gerenciar contas</string>
     <string name="title_setup_account_remark">Receber e-mail</string>
     <string name="title_setup_identity">Gerenciar identidades</string>
     <string name="title_setup_identity_remark">Para enviar e-mail</string>
-    <string name="title_setup_doze">Disable battery optimizations</string>
-    <string name="title_setup_doze_remark">To continuously receive email (optional)</string>
-    <string name="title_setup_doze_instructions">In the next dialog, select \"All apps\" at the top, select this app and select and confirm \"Don\'t optimize\"</string>
-    <string name="title_setup_data">Disable data saving</string>
+    <string name="title_setup_doze">Desativar otimizações de bateria</string>
+    <string name="title_setup_doze_remark">Para receber continuamente email (opcional)</string>
+    <string name="title_setup_doze_instructions">Na próxima caixa de diálogo, selecione \"Todos os aplicativos\" na parte superior, selecione este aplicativo e selecione e confirme \"Não otimizar\"</string>
+    <string name="title_setup_data">Desativar a economia de dados</string>
     <string name="title_setup_permissions">Conceder permissões</string>
-    <string name="title_setup_permissions_remark">To get contact information (optional)</string>
-    <string name="title_setup_notifications">Manage notifications</string>
+    <string name="title_setup_permissions_remark">Para obter informações de contato (opcional)</string>
+    <string name="title_setup_notifications">Gerenciar notificações</string>
     <string name="title_setup_to_do">To do</string>
     <string name="title_setup_done">Feito</string>
     <string name="title_setup_light_theme">Tema claro</string>
     <string name="title_setup_dark_theme">Tema escuro</string>
     <string name="title_advanced">Opções avançadas</string>
-    <string name="title_advanced_enabled_sync">Enable sync</string>
+    <string name="title_advanced_enabled_sync">Ativar sincronização</string>
     <string name="title_advanced_avatars">Exibir fotos de contatos</string>
     <string name="title_advanced_light">Use luz de notificação</string>
-    <string name="title_advanced_browse">Browse messages on the server</string>
-    <string name="title_advanced_swipe">Swipe actions</string>
-    <string name="title_advanced_compact">Compact message view</string>
+    <string name="title_advanced_browse">Procurar mensagens no servidor</string>
+    <string name="title_advanced_swipe">Ações de Swipe</string>
+    <string name="title_advanced_compact">Vista de mensagem compacta</string>
     <string name="title_advanced_debug">Modo depuração</string>
-    <string name="title_select">Select …</string>
+    <string name="title_select">Selecione…</string>
     <string name="title_identity_name">Seu nome</string>
     <string name="title_identity_email">Seu endereço de email</string>
     <string name="title_identity_reply_to">Reply to address</string>
@@ -142,7 +142,7 @@
     <string name="title_folder_sent">Enviado</string>
     <string name="title_folder_system">Sistema</string>
     <string name="title_folder_user">Usuário</string>
-    <string name="title_folder_primary">Folders primary account</string>
+    <string name="title_folder_primary">Pastas da conta principal</string>
     <string name="title_folder_thread">Conversation</string>
     <string name="title_no_messages">Sem mensagens</string>
     <string name="title_show_images">Exibir imagens</string>
@@ -248,11 +248,10 @@
     <string name="title_debug_info">Informações de depuração</string>
     <string name="title_debug_info_remark">Por favor, descreva o problema e indique o momento em que ocorrera:</string>
     <string name="title_crash_info_remark">Please describe what you were doing when the app crashed:</string>
-    <string name="title_privacy">Privacy policy</string>
-    <string name="title_privacy_description">
-        <b>SimpleEmail</b> does not collect any information, does not require unnecessary permissions and is <b>100% Free Software</b>.</string>
+    <string name="title_privacy">Política de Privacidade</string>
+    <string name="title_privacy_description">O <b>SimpleEmail</b> não coleta nenhuma informação, não requer permissões desnecessárias e é <b>100% Software Livre</b>.</string>
     <string name="title_permissions">
-        <b>Permissions are needed and why</b>
+        <b>As permissões são necessárias e por que</b>
     </string>
     <string name="title_permissions_list">
         <b>• have full network access</b> (INTERNET): 
