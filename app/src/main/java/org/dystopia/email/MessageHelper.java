@@ -419,7 +419,15 @@ public class MessageHelper {
     return (size < 0 ? null : size);
   }
 
-  static String getFormattedAddresses(Address[] addresses, boolean full) {
+  /**
+   * Get parsed email addresses.
+   *
+   * @param addresses list of email <code>Address</code>
+   * @param full true render the full format
+   * @param displayName true display name instead of email when is not 'full'
+   * @return email addresses as string
+   */
+  static String getFormattedAddresses(Address[] addresses, boolean full, boolean displayName) {
     if (addresses == null || addresses.length == 0) {
       return "";
     }
@@ -432,11 +440,14 @@ public class MessageHelper {
         if (TextUtils.isEmpty(personal)) {
           formatted.add(address.toString());
         } else {
+          String email = a.getAddress();
           personal = personal.replaceAll("[\\,\\<\\>]", "");
           if (full) {
-            formatted.add(personal + " <" + a.getAddress() + ">");
-          } else {
+            formatted.add(personal + " <" + email + ">");
+          } else if (displayName) {
             formatted.add(personal);
+          } else {
+            formatted.add(email);
           }
         }
       } else {
@@ -444,6 +455,10 @@ public class MessageHelper {
       }
     }
     return TextUtils.join(", ", formatted);
+  }
+
+  static String getFormattedAddresses(Address[] addresses, boolean full) {
+    return getFormattedAddresses(addresses, full, true);
   }
 
   String getHtml() throws MessagingException, IOException {

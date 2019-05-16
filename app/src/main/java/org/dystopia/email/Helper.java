@@ -30,6 +30,7 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.text.TextUtils;
@@ -109,12 +110,34 @@ public class Helper {
     return intent;
   }
 
+  /**
+   * Get color by attr from theme
+   *
+   * @param context android context intance
+   * @param attr R attribute to get styled
+   * @return integer color value
+   */
   static int resolveColor(Context context, int attr) {
     int[] attrs = new int[] {attr};
     TypedArray a = context.getTheme().obtainStyledAttributes(attrs);
     int color = a.getColor(0, 0xFF0000);
     a.recycle();
     return color;
+  }
+
+  /**
+   * Get drawable resource from theme
+   *
+   * @param context android context intance
+   * @param attr R attribute to get drawable
+   * @return drawable resource
+   */
+  static Drawable resolveDrawable(Context context, int attr) {
+    int[] attrs = new int[] {attr};
+    TypedArray a = context.getTheme().obtainStyledAttributes(attrs);
+    Drawable drawable = a.getDrawable(0);
+    a.recycle();
+    return drawable;
   }
 
   static void setViewsEnabled(ViewGroup view, boolean enabled) {

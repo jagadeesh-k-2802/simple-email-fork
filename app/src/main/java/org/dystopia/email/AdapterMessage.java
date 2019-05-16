@@ -319,16 +319,23 @@ public class AdapterMessage extends PagedListAdapter<TupleMessageEx, AdapterMess
         ivFlagged.setVisibility(message.count - message.unflagged > 0 ? View.VISIBLE : View.GONE);
       }
 
+      Address[] addresses = null;
       if (EntityFolder.DRAFTS.equals(message.folderType)
           || EntityFolder.OUTBOX.equals(message.folderType)
           || EntityFolder.SENT.equals(message.folderType)) {
-        tvFrom.setText(MessageHelper.getFormattedAddresses(message.to, show_expanded));
+        addresses = message.to;
         tvTime.setText(
             DateUtils.getRelativeTimeSpanString(
                 context, message.sent == null ? message.received : message.sent));
       } else {
-        tvFrom.setText(MessageHelper.getFormattedAddresses(message.from, show_expanded));
+        addresses = message.from;
         tvTime.setText(DateUtils.getRelativeTimeSpanString(context, message.received));
+      }
+
+      if (compact && show_expanded) {
+        tvFrom.setText(MessageHelper.getFormattedAddresses(addresses, false, false));
+      } else {
+        tvFrom.setText(MessageHelper.getFormattedAddresses(addresses, show_expanded, true));
       }
 
       tvSize.setText(
@@ -360,13 +367,13 @@ public class AdapterMessage extends PagedListAdapter<TupleMessageEx, AdapterMess
         ivThread.setVisibility(View.VISIBLE);
       }
 
-      if (!compact) {
-        tvFrom.setMaxLines(show_expanded ? Integer.MAX_VALUE : 1);
-        tvSubject.setMaxLines(show_expanded ? Integer.MAX_VALUE : 1);
-      }
-
+      tvFrom.setMaxLines(show_expanded ? Integer.MAX_VALUE : 1);
+      tvSubject.setMaxLines(show_expanded ? Integer.MAX_VALUE : 1);
       tvSummary.setVisibility(View.GONE);
-      if (message.content && !show_expanded) {
+
+      if (message.content
+          && !show_expanded
+          && (!compact || viewType == ViewType.THREAD)) {
         try {
           String body = message.read(context);
           Document doc = Jsoup.parse(body);
@@ -431,10 +438,14 @@ public class AdapterMessage extends PagedListAdapter<TupleMessageEx, AdapterMess
       tvCount.setTypeface(null, typeface);
 
       int colorUnseen = Helper.resolveColor(context, R.attr.colorUnread);
+      int colorSecondary = Helper.resolveColor(context, android.R.attr.textColorSecondary);
+      Drawable backgroundSeen = Helper.resolveDrawable(context, R.attr.drawableItemBackground);
+      Drawable backgroundUnseen = Helper.resolveDrawable(context, R.attr.drawableItemUnreadBackground);
       tvSubject.setTextColor(colorUnseen);
       tvFrom.setTextColor(colorUnseen);
       tvTime.setTextColor(colorUnseen);
-      tvSummary.setTextColor(Helper.resolveColor(context, android.R.attr.textColorSecondary));
+      tvSummary.setTextColor(colorSecondary);
+      itemView.setBackground(!message.ui_seen && !show_expanded ? backgroundUnseen : backgroundSeen);
 
       grpExpanded.setVisibility(
           viewType == ViewType.THREAD && show_expanded ? View.VISIBLE : View.GONE);
