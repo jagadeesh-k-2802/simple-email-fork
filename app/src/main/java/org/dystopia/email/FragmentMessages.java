@@ -29,6 +29,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -122,6 +123,7 @@ public class FragmentMessages extends FragmentEx {
   private static final int LOCAL_PAGE_SIZE = 50;
   private static final int REMOTE_PAGE_SIZE = 10;
   private static final int UNDO_TIMEOUT = 5000; // milliseconds
+  private static final int SWIPE_REFRESH_DISTANCE = 200;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -176,9 +178,11 @@ public class FragmentMessages extends FragmentEx {
     fabMove = view.findViewById(R.id.fabMove);
 
     final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+    final DisplayMetrics metrics = getResources().getDisplayMetrics();
+    final int mSpinnerDistance = (int) (SWIPE_REFRESH_DISTANCE * metrics.density);
 
     // Wire controls
-
+    swipeRefresh.setDistanceToTriggerSync(mSpinnerDistance);
     swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
       @Override
       public void onRefresh() {
