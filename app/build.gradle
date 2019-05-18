@@ -1,4 +1,6 @@
-apply plugin: 'com.android.application'
+apply plugin: "com.android.application"
+apply plugin: "kotlin-android-extensions"
+apply plugin: "kotlin-android"
 apply from: "${rootDir}/jdee.gradle"
 
 android {
@@ -121,4 +123,7 @@ dependencies {
 
     // https://android.googlesource.com/platform/frameworks/opt/colorpicker
     implementation project(path: ':colorpicker', configuration: 'default')
+
+    // Kotlin support
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
