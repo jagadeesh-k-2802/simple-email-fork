@@ -250,8 +250,7 @@
     <string name="title_debug_info_remark">Veuillez décrire le problème et indiquer quand il est survenu :</string>
     <string name="title_crash_info_remark">Veuillez décrire ce que vous faisiez lorsque l’application s’est arrêtée :</string>
     <string name="title_privacy">Dispositions de confidentialités</string>
-    <string name="title_privacy_description">
-        <b>SimpleEmail</b> ne collecte aucune information, ne nécessite aucune autorisation inutile et est un <b>logiciel 100% gratuit</b>.</string>
+    <string name="title_privacy_description"><b>SimpleEmail</b> ne collecte aucune information, ne nécessite aucune autorisation inutile et est un <b>logiciel 100 % libre</b>.</string>
     <string name="title_permissions">
         <b>Motifs des autorisations requises</b>
     </string>
