@@ -20,7 +20,7 @@
         <item quantity="one">%1$d message non envoyé</item>
         <item quantity="other">%1$d messages non envoyés</item>
     </plurals>
-    <string name="title_notification_failed">\'%1$s\' a échoué</string>
+    <string name="title_notification_failed">« %1$s » a échoué</string>
     <string name="menu_setup">Configuration</string>
     <string name="menu_answers">Modèles de réponse</string>
     <string name="menu_operations">Opérations</string>
