@@ -20,7 +20,7 @@
         <item quantity="one">%1$d nicht gesendete Nachricht</item>
         <item quantity="other">%1$d nicht gesendete Nachrichten</item>
     </plurals>
-    <string name="title_notification_failed">%1$s fehlgeschlagen</string>
+    <string name="title_notification_failed">„%1$s“ fehlgeschlagen</string>
     <string name="menu_setup">Einstellungen</string>
     <string name="menu_answers">Antwortvorlagen</string>
     <string name="menu_operations">Vorgänge</string>
@@ -157,7 +157,7 @@
     <string name="title_reply_all">Antworten an alle</string>
     <string name="title_show_headers">Kopfzeile anzeigen</string>
     <string name="title_show_html">Original anzeigen</string>
-    <string name="title_trash">Löschen</string>
+    <string name="title_trash">Papierkorb</string>
     <string name="title_delete">Löschen</string>
     <string name="title_more">Mehr</string>
     <string name="title_spam">Spam</string>
@@ -255,13 +255,20 @@
     <string name="title_permissions">
         <b>Benötigte Berechtigungen und deren Gründe</b>
     </string>
-    <string name="title_permissions_list"><b>• Uneingeschränkter Internetzugriff</b> (INTERNET): um E-Mails zu senden und zu empfangen <b>
-\n• Netzwerkverbindungen beobachten</b> (ACCESS_NETWORK_STATE): um Änderungen an der Internetverbindung zu kontrollieren <b>
-\n• Beim Hochfahren starten</b> (RECEIVE_BOOT_COMPLETED): um Abfragen mit dem Gerätestart zu beginnen <b>
-\n• Vordergrunddienst</b> (FOREGROUND_SERVICE): um auf Android 9 Pie oder neuer einen Vordergrunddienst zu starten <b>
-\n• Ruhezustand des Geräts verhindern</b> (WAKE_LOCK): um das Gerät zur Synchronisation von Nachrichten wach zu halten <b>
-\n• [Optional] Kontakte lesen</b> (READ_CONTACTS): um Adressen zu vervollständigen und um Fotos anzuzeigen <b>
-\n• [Optional] Konten auf dem Gerät ermitteln</b> (GET_ACCOUNTS): um OAuth anstelle von Passwörtern zu verwenden</string>
+    <string name="title_permissions_list"><b>• Uneingeschränkter Internetzugriff</b> (INTERNET):
+\num E-Mails zu senden und zu empfangen <b>
+\n• Netzwerkverbindungen beobachten</b> (ACCESS_NETWORK_STATE):
+\n um Änderungen an der Internetverbindung zu kontrollieren <b>
+\n• Beim Hochfahren starten</b> (RECEIVE_BOOT_COMPLETED):
+\n um Abfragen mit dem Gerätestart zu beginnen <b>
+\n• Vordergrunddienst</b> (FOREGROUND_SERVICE):
+\n um auf Android 9 Pie oder neuer einen Vordergrunddienst zu starten <b>
+\n• Ruhezustand des Geräts verhindern</b> (WAKE_LOCK):
+\n um das Gerät zur Synchronisation von Nachrichten wach zu halten <b>
+\n• [Optional] Kontakte lesen</b> (READ_CONTACTS):
+\n um Adressen zu vervollständigen und um Fotos anzuzeigen <b>
+\n• [Optional] Konten auf dem Gerät ermitteln</b> (GET_ACCOUNTS):
+\n um OAuth anstelle von Passwörtern zu verwenden</string>
     <string name="title_no_storage_framework">Speicher-Framework nicht verfügbar</string>
     <string name="title_show_details">Siehe Details</string>
     <string name="title_no_accounts_yet">Sie haben noch keine Konten konfiguriert</string>
