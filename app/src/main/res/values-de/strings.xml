@@ -255,14 +255,13 @@
     <string name="title_permissions">
         <b>Benötigte Berechtigungen und deren Gründe</b>
     </string>
-    <string name="title_permissions_list">
-        <b>• Uneingeschränkter Internetzugriff</b> (INTERNET): um E-Mails zu senden und zu empfangen<b>
-\n• view network connections</b> (ACCESS_NETWORK_STATE): to monitor internet connectivity changes <b>
-\n• run at startup</b> (RECEIVE_BOOT_COMPLETED): to start monitoring on device start <b>
-\n• foreground service</b> (FOREGROUND_SERVICE): to run a foreground service on Android 9 Pie and later <b>
-\n• prevent device from sleeping</b> (WAKE_LOCK): to keep the device awake while synchronizing messages <b>
-\n• [Optional] read your contacts</b> (READ_CONTACTS): to autocomplete addresses and to show photos <b>
-\n• [Optional] find accounts on the device</b> (GET_ACCOUNTS): to use OAuth instead of passwords</string>
+    <string name="title_permissions_list"><b>• Uneingeschränkter Internetzugriff</b> (INTERNET): um E-Mails zu senden und zu empfangen <b>
+\n• Netzwerkverbindungen beobachten</b> (ACCESS_NETWORK_STATE): um Änderungen an der Internetverbindung zu kontrollieren <b>
+\n• Beim Hochfahren starten</b> (RECEIVE_BOOT_COMPLETED): um Abfragen mit dem Gerätestart zu beginnen <b>
+\n• Vordergrunddienst</b> (FOREGROUND_SERVICE): um auf Android 9 Pie oder neuer einen Vordergrunddienst zu starten <b>
+\n• Ruhezustand des Geräts verhindern</b> (WAKE_LOCK): um das Gerät zur Synchronisation von Nachrichten wach zu halten <b>
+\n• [Optional] Kontakte lesen</b> (READ_CONTACTS): um Adressen zu vervollständigen und um Fotos anzuzeigen <b>
+\n• [Optional] Konten auf dem Gerät ermitteln</b> (GET_ACCOUNTS): um OAuth anstelle von Passwörtern zu verwenden</string>
     <string name="title_no_storage_framework">Speicher-Framework nicht verfügbar</string>
     <string name="title_show_details">Siehe Details</string>
     <string name="title_no_accounts_yet">Sie haben noch keine Konten konfiguriert</string>
