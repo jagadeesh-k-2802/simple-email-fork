@@ -243,7 +243,7 @@
     <string name="title_yes">Sì</string>
     <string name="title_no">No</string>
     <string name="title_undo">Annulla</string>
-    <string name="title_try">"Prova SimpleEmail, un\'app email di software libero  e rispettosa della privacy per Android"</string>
+    <string name="title_try">Prova SimpleEmail, un\'app email di software libero e rispettosa della privacy per Android</string>
     <string name="title_unexpected_error">Errore imprevisto</string>
     <string name="title_log">Registro</string>
     <string name="title_debug_info">Informazioni di debug</string>
