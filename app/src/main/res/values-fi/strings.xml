@@ -2,11 +2,11 @@
 <resources>
     <string name="app_copyright">Copyright Ⓒ 2018 by M. Bokhorst\nCopyright Ⓒ 2018 by Distopico (dystopia project) and contributors</string>
     <string name="channel_service">Service</string>
-    <string name="channel_notification">Notifications</string>
-    <string name="channel_error">Virheitä</string>
+    <string name="channel_notification">Ilmoitukset</string>
+    <string name="channel_error">Virheet</string>
     <plurals name="title_notification_synchronizing">
-        <item quantity="one">Synchronizing %1$d account</item>
-        <item quantity="other">Synchronizing %1$d accounts</item>
+        <item quantity="one">Synkronoidaan %1$d tili</item>
+        <item quantity="other">Synkronoidaan %1$d tiliä</item>
     </plurals>
     <plurals name="title_notification_operations">
         <item quantity="one">%1$d operation pending</item>
@@ -20,26 +20,26 @@
         <item quantity="one">%1$d unsent message</item>
         <item quantity="other">%1$d unsent messages</item>
     </plurals>
-    <string name="title_notification_failed">\'%1$s\' failed</string>
-    <string name="menu_setup">Setup</string>
-    <string name="menu_answers">Reply templates</string>
-    <string name="menu_operations">Operations</string>
+    <string name="title_notification_failed">”%1$s” epäonnistui</string>
+    <string name="menu_setup">Asennus</string>
+    <string name="menu_answers">Vastausmallit</string>
+    <string name="menu_operations">Toiminnot</string>
     <string name="menu_legend">Legend</string>
     <string name="menu_faq">FAQ/support</string>
-    <string name="menu_privacy">Privacy</string>
-    <string name="menu_about">About</string>
-    <string name="menu_invite">Invite</string>
-    <string name="menu_rate">Rate this app</string>
-    <string name="menu_other">Other apps</string>
-    <string name="title_agree">I agree</string>
-    <string name="title_disagree">I disagree</string>
-    <string name="title_version">Version %1$s</string>
-    <string name="title_list_accounts">Accounts</string>
-    <string name="title_list_identities">Identities</string>
-    <string name="title_edit_account">Edit account</string>
-    <string name="title_edit_identity">Edit identity</string>
-    <string name="title_edit_folder">Edit folder</string>
-    <string name="title_setup">Setup</string>
+    <string name="menu_privacy">Yksityisyys</string>
+    <string name="menu_about">Tietoja</string>
+    <string name="menu_invite">Kutsu</string>
+    <string name="menu_rate">Arvostele tämä sovellus</string>
+    <string name="menu_other">Muut sovellukset</string>
+    <string name="title_agree">Hyväksyn</string>
+    <string name="title_disagree">En hyväksy</string>
+    <string name="title_version">Versio %1$s</string>
+    <string name="title_list_accounts">Tilit</string>
+    <string name="title_list_identities">Identiteetit</string>
+    <string name="title_edit_account">Muokkaa tili</string>
+    <string name="title_edit_identity">Muokkaa identiteetti</string>
+    <string name="title_edit_folder">Muokkaa kansio</string>
+    <string name="title_setup">Asennus</string>
     <string name="title_setup_export">Export settings</string>
     <string name="title_setup_import">Import settings</string>
     <string name="title_setup_export_do">Accounts and identities will be exported without passwords</string>
@@ -47,11 +47,11 @@
     <string name="title_setup_exported">Settings exported</string>
     <string name="title_setup_imported">Settings imported</string>
     <string name="title_setup_account">Manage accounts</string>
-    <string name="title_setup_account_remark">To receive email</string>
+    <string name="title_setup_account_remark">Sähköpostin vastaanottaminen</string>
     <string name="title_setup_identity">Manage identities</string>
-    <string name="title_setup_identity_remark">To send email</string>
+    <string name="title_setup_identity_remark">Sähköpostin lähettäminen</string>
     <string name="title_setup_doze">Disable battery optimizations</string>
-    <string name="title_setup_doze_remark">To continuously receive email (optional)</string>
+    <string name="title_setup_doze_remark">Sähköpostin jatkuva vastaanottaminen (valinnainen)</string>
     <string name="title_setup_doze_instructions">In the next dialog, select \"All apps\" at the top, select this app and select and confirm \"Don\'t optimize\"</string>
     <string name="title_setup_data">Disable data saving</string>
     <string name="title_setup_permissions">Grant permissions</string>
@@ -71,7 +71,7 @@
     <string name="title_advanced_debug">Debug mode</string>
     <string name="title_select">Select …</string>
     <string name="title_identity_name">Your name</string>
-    <string name="title_identity_email">Your email address</string>
+    <string name="title_identity_email">Oma sähköpostiosoite</string>
     <string name="title_identity_reply_to">Reply to address</string>
     <string name="title_optional">Optional</string>
     <string name="title_account_linked">Linked account</string>
@@ -103,7 +103,7 @@
     <string name="title_keep_alive_interval">Keep alive interval (minutes)</string>
     <string name="title_check">Check</string>
     <string name="title_no_name">Name missing</string>
-    <string name="title_no_email">Email address missing</string>
+    <string name="title_no_email">Sähköpostiosoite puuttuu</string>
     <string name="title_no_account">Account missing</string>
     <string name="title_no_host">Host name missing</string>
     <string name="title_no_user">User name missing</string>
@@ -236,11 +236,11 @@
     <string name="title_hint_message_actions">Swipe left to trash; swipe right to archive (if available)</string>
     <string name="title_hint_message_selection">Long press a message to start selecting multiple messages</string>
     <string name="title_hint_sync">Downloading messages can take some time, depending on the number of messages, the speed of your internet connection and your email provider</string>
-    <string name="title_open_link">Open link</string>
+    <string name="title_open_link">Avaa linkki</string>
     <string name="title_updated">There is an update to version %1$s available</string>
-    <string name="title_issue">Do you have a question or problem\?</string>
-    <string name="title_yes">Yes</string>
-    <string name="title_no">No</string>
+    <string name="title_issue">Onko sinulla kysyttävää tai ongelmaa\?</string>
+    <string name="title_yes">Kyllä</string>
+    <string name="title_no">Ei</string>
     <string name="title_undo">Undo</string>
     <string name="title_try">Try SimpleEmail, an simple, free software,, privacy friendly email app for Android</string>
     <string name="title_unexpected_error">Unexpected error</string>
@@ -248,7 +248,7 @@
     <string name="title_debug_info">Debug info</string>
     <string name="title_debug_info_remark">Please describe the problem and indicate the time of the problem:</string>
     <string name="title_crash_info_remark">Please describe what you were doing when the app crashed:</string>
-    <string name="title_privacy">Privacy policy</string>
+    <string name="title_privacy">Tietosuojakäytäntö</string>
     <string name="title_privacy_description">
         <b>SimpleEmail</b> does not collect any information, does not require unnecessary permissions and is <b>100% Free Software</b>.</string>
     <string name="title_permissions">
@@ -260,4 +260,5 @@
     <string name="title_show_details">See details</string>
     <string name="title_no_accounts_yet">You don\'t have accounts configured yet</string>
     <string name="title_no_identities_yet">You don\'t have identities configured yet</string>
+    <string name="title_try_subject">Kokeile SimpleEmail</string>
 </resources>
