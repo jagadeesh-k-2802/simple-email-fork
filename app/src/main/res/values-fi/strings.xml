@@ -100,7 +100,7 @@
     <string name="title_synchronize_identity">Synkronoi (lähetä viestit)</string>
     <string name="title_primary_account">Ensisijainen (oletustunnus)</string>
     <string name="title_primary_identity">Ensisijainen (oletusidentiteetti)</string>
-    <string name="title_keep_alive_interval">Keep alive interval (minutes)</string>
+    <string name="title_keep_alive_interval">Pidä aktiivisena aikavälin (minuutit)</string>
     <string name="title_check">Tarkista</string>
     <string name="title_no_name">Nimi puuttuu</string>
     <string name="title_no_email">Sähköpostiosoite puuttuu</string>
@@ -129,7 +129,7 @@
     <string name="title_show_folders">Näytä piilokansiot</string>
     <string name="title_synchronize_folder">Synkronoi (vastaanota viestit)</string>
     <string name="title_unified_folder">Näytä yhdistetyssä postilaatikossa</string>
-    <string name="title_after">Synchronize (days)</string>
+    <string name="title_after">Synkronointi (päivää)</string>
     <string name="title_folder_exists">Kansio %1$s on olemassa</string>
     <string name="title_folder_delete">Poistetaanko kansio lopullisesti\?</string>
     <string name="title_folder_unified">Yhdistetty postilaatikko</string>
@@ -142,7 +142,7 @@
     <string name="title_folder_sent">Lähetetyt</string>
     <string name="title_folder_system">System</string>
     <string name="title_folder_user">User</string>
-    <string name="title_folder_primary">Folders primary account</string>
+    <string name="title_folder_primary">Kansioiden ensisijainen tili</string>
     <string name="title_folder_thread">Keskustelu</string>
     <string name="title_no_messages">No messages</string>
     <string name="title_show_images">Näytä kuvat</string>
@@ -165,7 +165,7 @@
     <string name="title_reply">Vastaa</string>
     <string name="title_moving">Siirretään viestiä kansioon %1$s</string>
     <string name="title_no_answers">Vastauspohjia ei ole määritelty</string>
-    <string name="title_no_viewer">No viewer app available for %1$s</string>
+    <string name="title_no_viewer">%1$s ei ole saatavilla katseluohjelmaa</string>
     <string name="title_attachment_saved">Liitetiedosto tallennettu</string>
     <string name="title_attachment_unavailable">Joitain liitetiedostoja ei ole ladattu eikä niitä lähetetä eteenpäin, jatketaanko silti\?</string>
     <string name="title_ask_delete">Poistetaanko viestit lopullisesti\?</string>
