@@ -33,8 +33,8 @@
     <string name="menu_privacy">Privacy</string>
     <string name="menu_about">About</string>
     <string name="menu_invite">Invite</string>
-    <string name="menu_rate">Rate this app</string>
-    <string name="menu_other">Other apps</string>
+    <string name="menu_rate">Оцените приложение</string>
+    <string name="menu_other">Другие приложения</string>
     <string name="title_agree">I agree</string>
     <string name="title_disagree">I disagree</string>
     <string name="title_version">Version %1$s</string>
