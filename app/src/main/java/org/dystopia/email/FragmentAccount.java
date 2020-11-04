@@ -64,8 +64,6 @@ import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.Group;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
-import com.android.colorpicker.ColorPickerDialog;
-import com.android.colorpicker.ColorPickerSwatch;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import com.sun.mail.imap.IMAPFolder;
@@ -107,6 +105,8 @@ public class FragmentAccount extends FragmentEx {
 
   private TextView tvName;
   private EditText etName;
+  private ViewButtonColor btnColor;
+
   private View vwColor;
   private ImageView ibColorDefault;
   private EditText etSignature;
@@ -140,6 +140,8 @@ public class FragmentAccount extends FragmentEx {
   private long id = -1;
   private int color = Color.TRANSPARENT;
   private String authorized = null;
+
+  private static final int REQUEST_COLOR = 1;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -181,6 +183,7 @@ public class FragmentAccount extends FragmentEx {
     btnAdvanced = view.findViewById(R.id.btnAdvanced);
 
     etName = view.findViewById(R.id.etName);
+    btnColor = view.findViewById(R.id.btnColor);
     tvName = view.findViewById(R.id.tvName);
     vwColor = view.findViewById(R.id.vwColor);
     ibColorDefault = view.findViewById(R.id.ibColorDefault);
@@ -374,18 +377,15 @@ public class FragmentAccount extends FragmentEx {
         new View.OnClickListener() {
           @Override
           public void onClick(View v) {
-            int[] colors = getContext().getResources().getIntArray(R.array.colorPicker);
-            ColorPickerDialog colorPickerDialog = new ColorPickerDialog();
-            colorPickerDialog.initialize(
-                R.string.title_account_color, colors, color, 4, colors.length);
-            colorPickerDialog.setOnColorSelectedListener(
-                new ColorPickerSwatch.OnColorSelectedListener() {
-                  @Override
-                  public void onColorSelected(int color) {
-                    setColor(color);
-                  }
-                });
-            colorPickerDialog.show(getFragmentManager(), "colorpicker");
+            Bundle args = new Bundle();
+            args.putInt("color", btnColor.getColor());
+            args.putString("title", getString(R.string.title_color));
+            args.putBoolean("reset", true);
+
+            ColorDialogFragment fragment = new ColorDialogFragment();
+            fragment.setArguments(args);
+            fragment.setTargetFragment(FragmentAccount.this, REQUEST_COLOR);
+            fragment.show(getParentFragmentManager(), "account:color");
           }
         });
 
