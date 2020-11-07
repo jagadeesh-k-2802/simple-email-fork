@@ -24,7 +24,7 @@
     </provider>
     <provider
         name="Vivaldi"
-        link="https://riseup.net/en/email">
+        link="https://help.vivaldi.com/article-category/webmail/">
         <imap
             host="imap.vivaldi.net"
             port="993" />
