@@ -66,7 +66,7 @@ public class ViewButtonColor extends AppCompatButton {
     GradientDrawable background = new GradientDrawable();
     background.setColor(color);
     background.setStroke(
-      ViewHelper.dp2px(getContext(), 1),
+      ViewHelper.dp2px(getContext(), 3),
       Helper.resolveColor(getContext(), R.attr.colorSeparator));
     background.setCornerRadius(50);
     setBackground(background);

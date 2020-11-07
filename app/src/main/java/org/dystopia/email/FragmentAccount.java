@@ -40,8 +40,12 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.Html;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.text.method.LinkMovementMethod;
+import android.text.util.Linkify;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,6 +64,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.Group;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentResultListener;
@@ -100,7 +105,7 @@ public class FragmentAccount extends FragmentEx {
   private TextInputLayout tilPassword;
 
   private Button btnAuthorize;
-
+  private TextView tvGmailNote;
   private Button btnAdvanced;
 
   private TextView tvName;
@@ -184,6 +189,7 @@ public class FragmentAccount extends FragmentEx {
     tilPassword = view.findViewById(R.id.tilPassword);
 
     btnAuthorize = view.findViewById(R.id.btnAuthorize);
+    tvGmailNote = view.findViewById(R.id.tvGmailNote);
     btnAdvanced = view.findViewById(R.id.btnAdvanced);
 
     etName = view.findViewById(R.id.etName);
@@ -230,7 +236,18 @@ public class FragmentAccount extends FragmentEx {
             cbInsecure.setVisibility(position == 1 && insecure ? View.VISIBLE : View.GONE);
             grpAuthorize.setVisibility(position > 0 ? View.VISIBLE : View.GONE);
 
-            btnAuthorize.setVisibility(provider.type == null ? View.GONE : View.VISIBLE);
+            // TODO: since December 31, 2019 Gmail retricted the oAuth
+            // gmail scopes and it require privative google play services java libraries
+            // so, only with "insecure" app enabled is supported
+            // see: https://developers.google.com/terms/api-services-user-data-policy#additional-requirements-for-specific-api-scopes
+            //
+            // maybe with webview and a web library?
+            btnAuthorize.setVisibility(View.GONE);
+            tvGmailNote.setVisibility(View.GONE);
+            if (provider.type != null) {
+              tvGmailNote.setVisibility(View.VISIBLE);
+              tvGmailNote.setText(Html.fromHtml(getString(R.string.text_gmail_note)));
+            }
 
             btnAdvanced.setVisibility(position > 0 ? View.VISIBLE : View.GONE);
             if (position == 0) {
@@ -354,6 +371,24 @@ public class FragmentAccount extends FragmentEx {
           }
         });
 
+    tvGmailNote.setOnClickListener(
+      new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+          Spanned htmlMessage = Html.fromHtml(getString(R.string.message_gmail_note));
+          final SpannableString dialogMessage = new SpannableString(htmlMessage);
+          Linkify.addLinks(dialogMessage, Linkify.WEB_URLS);
+
+          AlertDialog dialog = new DialogBuilderLifecycle(getContext(), getViewLifecycleOwner())
+            .setMessage(dialogMessage)
+            .setPositiveButton(android.R.string.ok, null)
+            .show();
+
+          ((TextView) dialog.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
+        }
+      }
+    );
+
     btnAdvanced.setOnClickListener(
         new View.OnClickListener() {
           @Override
@@ -420,9 +455,7 @@ public class FragmentAccount extends FragmentEx {
             args.putString("port", etPort.getText().toString());
             args.putString("user", etUser.getText().toString());
             args.putString("password", tilPassword.getEditText().getText().toString());
-            args.putInt(
-                "auth_type",
-                authorized == null ? Helper.AUTH_TYPE_PASSWORD : provider.getAuthType());
+            args.putInt("auth_type", provider.getAuthType());
 
             new SimpleTask<CheckResult>() {
               @Override
@@ -457,14 +490,24 @@ public class FragmentAccount extends FragmentEx {
                 Session isession = Session.getInstance(props, null);
                 isession.setDebug(true);
                 IMAPStore istore = null;
+
                 try {
                   istore = (IMAPStore) isession.getStore(starttls ? "imap" : "imaps");
+                  String originalPassword = password;
                   try {
-                    istore.connect(host, Integer.parseInt(port), user, password);
-                  } catch (AuthenticationFailedException ex) {
                     if (auth_type == Helper.AUTH_TYPE_GMAIL) {
                       password = Helper.refreshToken(context, "com.google", user, password);
-                      istore.connect(host, Integer.parseInt(port), user, password);
+                    }
+                    istore.connect(host, Integer.parseInt(port), user, password);
+                  } catch (AuthenticationFailedException ex) {
+                    // Try normal imap access with gmail allowed "insecure" app enabled
+                    if (auth_type == Helper.AUTH_TYPE_GMAIL) {
+                      auth_type = Helper.AUTH_TYPE_PASSWORD;
+                      args.putInt("auth_type", auth_type);
+                      props = MessageHelper.getSessionProperties(auth_type, insecure);
+                      isession = Session.getInstance(props, null);
+                      istore = (IMAPStore) isession.getStore(starttls ? "imap" : "imaps");
+                      istore.connect(host, Integer.parseInt(port), user, originalPassword);
                     } else {
                       throw ex;
                     }
@@ -1183,7 +1226,7 @@ public class FragmentAccount extends FragmentEx {
                     }
                   }
                 },
-                null);
+              null);
             break;
           }
         }
