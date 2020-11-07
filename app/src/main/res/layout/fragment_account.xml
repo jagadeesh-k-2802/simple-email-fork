@@ -220,48 +220,41 @@
                 android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <View
-            android:id="@+id/vwColor"
-            android:layout_width="@dimen/color_pick"
-            android:layout_height="@dimen/color_pick"
-            android:layout_marginTop="@dimen/base_margin"
-            android:layout_marginStart="@dimen/content_margin"
-            android:background="@color/colorAccent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tilPassword" />
+        <LinearLayout
+           android:id="@+id/colorContainer"
+           android:orientation="horizontal"
+           android:layout_width="fill_parent"
+           android:layout_height="fill_parent"
+           android:gravity="center"
+           app:layout_constraintStart_toStartOf="parent"
+           app:layout_constraintTop_toBottomOf="@id/tilPassword">
 
-        <ImageView
-            android:id="@+id/ibColorDefault"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="12dp"
-            android:src="@drawable/baseline_delete_24"
-            app:layout_constraintBottom_toBottomOf="@id/vwColor"
-            app:layout_constraintStart_toEndOf="@id/vwColor"
-            app:layout_constraintTop_toBottomOf="@id/tilPassword" />
-
-        <TextView
-            android:id="@+id/tvColor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:text="@string/title_color"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/etName" />
-
-        <org.dystopia.email.ViewButtonColor
+          <org.dystopia.email.ViewButtonColor
             android:id="@+id/btnColor"
             style="?android:attr/buttonStyleSmall"
+            android:layout_width="@dimen/color_pick"
+            android:layout_height="@dimen/color_pick"
+            android:layout_marginStart="@dimen/margin_sm"
+            android:background="@color/colorAccent"
+            android:tag="disable" />
+
+          <TextView
+            android:id="@+id/tvColor"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="@dimen/padding_sm"
+            android:layout_weight="1"
+            android:text="@string/title_color"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+
+          <ImageView
+            android:id="@+id/ibColorReset"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:paddingHorizontal="6dp"
-            android:tag="disable"
-            android:text="@string/title_select"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvColor" />
+            android:layout_gravity="right"
+            android:src="@drawable/baseline_close_24"
+            android:visibility="invisible" />
+        </LinearLayout>
 
         <Button
             android:id="@+id/btnAdvanced"
@@ -273,7 +266,7 @@
             android:minHeight="0dp"
             android:text="@string/title_setup_advanced"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/vwColor" />
+            app:layout_constraintTop_toBottomOf="@id/colorContainer" />
 
         <!-- advanced -->
 

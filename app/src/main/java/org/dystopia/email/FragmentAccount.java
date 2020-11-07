@@ -21,13 +21,13 @@ package org.dystopia.email;
 */
 
 import static android.accounts.AccountManager.newChooseAccountIntent;
+import static android.app.Activity.RESULT_OK;
 
 import android.Manifest;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.accounts.AccountManagerCallback;
 import android.accounts.AccountManagerFuture;
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -61,8 +61,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.Group;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentResultListener;
 import androidx.lifecycle.Observer;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
@@ -105,10 +107,9 @@ public class FragmentAccount extends FragmentEx {
 
   private TextView tvName;
   private EditText etName;
-  private ViewButtonColor btnColor;
 
-  private View vwColor;
-  private ImageView ibColorDefault;
+  private ViewButtonColor btnColor;
+  private ImageView ibColorReset;
   private EditText etSignature;
 
   private CheckBox cbSynchronize;
@@ -141,8 +142,6 @@ public class FragmentAccount extends FragmentEx {
   private int color = Color.TRANSPARENT;
   private String authorized = null;
 
-  private static final int REQUEST_COLOR = 1;
-
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -150,6 +149,13 @@ public class FragmentAccount extends FragmentEx {
     // Get arguments
     Bundle args = getArguments();
     id = (args == null ? -1 : args.getLong("id", -1));
+
+    getParentFragmentManager().setFragmentResultListener(ColorDialogFragment.DIALOG_COLOR, this, new FragmentResultListener() {
+      @Override
+      public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+        setAccountColor(result);
+      }
+    });
   }
 
   @Override
@@ -179,14 +185,12 @@ public class FragmentAccount extends FragmentEx {
     tilPassword = view.findViewById(R.id.tilPassword);
 
     btnAuthorize = view.findViewById(R.id.btnAuthorize);
-
     btnAdvanced = view.findViewById(R.id.btnAdvanced);
 
     etName = view.findViewById(R.id.etName);
     btnColor = view.findViewById(R.id.btnColor);
     tvName = view.findViewById(R.id.tvName);
-    vwColor = view.findViewById(R.id.vwColor);
-    ibColorDefault = view.findViewById(R.id.ibColorDefault);
+    ibColorReset = view.findViewById(R.id.ibColorReset);
     etSignature = view.findViewById(R.id.etSignature);
 
     cbSynchronize = view.findViewById(R.id.cbSynchronize);
@@ -372,8 +376,8 @@ public class FragmentAccount extends FragmentEx {
           }
         });
 
-    vwColor.setBackgroundColor(color);
-    vwColor.setOnClickListener(
+    btnColor.setColor(color);
+    btnColor.setOnClickListener(
         new View.OnClickListener() {
           @Override
           public void onClick(View v) {
@@ -384,16 +388,16 @@ public class FragmentAccount extends FragmentEx {
 
             ColorDialogFragment fragment = new ColorDialogFragment();
             fragment.setArguments(args);
-            fragment.setTargetFragment(FragmentAccount.this, REQUEST_COLOR);
             fragment.show(getParentFragmentManager(), "account:color");
           }
         });
 
-    ibColorDefault.setOnClickListener(
+    ibColorReset.setOnClickListener(
         new View.OnClickListener() {
           @Override
           public void onClick(View v) {
-            setColor(Color.TRANSPARENT);
+            btnColor.setColor(Color.TRANSPARENT);
+            ibColorReset.setVisibility(View.GONE);
           }
         });
 
@@ -1049,7 +1053,7 @@ public class FragmentAccount extends FragmentEx {
 
                 Helper.setViewsEnabled(view, true);
 
-                setColor(color);
+                btnColor.setColor(color);
 
                 etSignature.setHint(R.string.title_optional);
                 etSignature.setEnabled(true);
@@ -1087,13 +1091,55 @@ public class FragmentAccount extends FragmentEx {
             });
   }
 
+  /**
+   * Set base account to button
+   * @param result - color dialog data from {@link FragmentResultListener} result callback
+   */
+  private void setAccountColor(Bundle result) {
+    try {
+      int resultCode = result.getInt("resultCode");
+      if (resultCode == RESULT_OK) {
+        color = result.getInt("color");
+        btnColor.setColor(color);
+        ibColorReset.setVisibility(View.VISIBLE);
+      }
+    } catch (Throwable ex) {
+      Log.e(Helper.TAG, "Set account color error: " + ex + "\n" + Log.getStackTraceString(ex));
+    }
+  }
+
   private void selectAccount() {
     Log.i(Helper.TAG, "Select account");
     Provider provider = (Provider) spProvider.getSelectedItem();
     if (provider.type != null) {
-      startActivityForResult(
-          newChooseAccountIntent(null, null, new String[] {provider.type}, null, null, null, null),
-          ActivitySetup.REQUEST_CHOOSE_ACCOUNT);
+      Intent intent = null;
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        intent = newChooseAccountIntent(
+          null,
+          null,
+          new String[] {provider.type},
+          null,
+          null,
+          null,
+          null
+        );
+      } else {
+        intent = newChooseAccountIntent(
+          null,
+          null,
+          new String[]{provider.type},
+          false,
+          null,
+          null,
+          null,
+          null
+        );
+      }
+      PackageManager pm = getContext().getPackageManager();
+      if (intent.resolveActivity(pm) == null) { // system whitelisted
+        throw new IllegalArgumentException(getString(R.string.title_no_viewer, intent));
+      }
+      startActivityForResult(intent, ActivitySetup.REQUEST_CHOOSE_ACCOUNT);
     }
   }
 
@@ -1112,7 +1158,7 @@ public class FragmentAccount extends FragmentEx {
     Log.i(
         Helper.TAG,
         "Activity result request=" + requestCode + " result=" + resultCode + " data=" + data);
-    if (resultCode == Activity.RESULT_OK) {
+    if (resultCode == RESULT_OK) {
       if (requestCode == ActivitySetup.REQUEST_CHOOSE_ACCOUNT) {
         String name = data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
         String type = data.getStringExtra(AccountManager.KEY_ACCOUNT_TYPE);
@@ -1155,15 +1201,6 @@ public class FragmentAccount extends FragmentEx {
         }
       }
     }
-  }
-
-  private void setColor(int color) {
-    FragmentAccount.this.color = color;
-
-    GradientDrawable border = new GradientDrawable();
-    border.setColor(color);
-    border.setStroke(5, Helper.resolveColor(getContext(), R.attr.colorSeparator));
-    vwColor.setBackground(border);
   }
 
   private void setFolders(List<EntityFolder> folders) {

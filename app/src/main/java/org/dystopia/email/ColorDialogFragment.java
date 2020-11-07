@@ -22,14 +22,12 @@ package org.dystopia.email;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.FragmentResultListener;
 
 import com.flask.colorpicker.ColorPickerView;
 import com.flask.colorpicker.OnColorChangedListener;
@@ -39,53 +37,23 @@ import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
 import static android.app.Activity.RESULT_OK;
 
 public class ColorDialogFragment extends DialogFragment {
-  private static int requestSequence = 0;
-  private boolean sent = false;
-  private String requestKey = null;
-  private String targetRequestKey;
-  private int targetRequestCode;
-  private int color;
+  public static final String DIALOG_COLOR = "dialog:color:select";
 
-  public String getRequestKey() {
-    if (requestKey == null)
-      requestKey = getClass().getName() + "_" + (++requestSequence);
-    return requestKey;
-  }
+  private boolean sent = false;
+  private int color;
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
     if (savedInstanceState != null) {
-      requestKey = savedInstanceState.getString("dialog:request");
-      targetRequestKey = savedInstanceState.getString("dialog:key");
-      targetRequestCode = savedInstanceState.getInt("dialog:code");
+      color = savedInstanceState.getInt("dialog:color");
     }
-
-    getParentFragmentManager().setFragmentResultListener(getRequestKey(), this, new FragmentResultListener() {
-      @Override
-      public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
-        try {
-          result.setClassLoader(ApplicationEx.class.getClassLoader());
-          int requestCode = result.getInt("requestCode");
-          int resultCode = result.getInt("resultCode");
-
-          Intent data = new Intent();
-          data.putExtra("args", result);
-          onActivityResult(requestCode, resultCode, data);
-        } catch (Throwable ex) {
-          // LOg
-        }
-      }
-    });
   }
 
   @Override
   public void onSaveInstanceState(@NonNull Bundle outState) {
     outState.putInt("dialog:color", color);
-    outState.putString("dialog:request", requestKey);
-    outState.putString("dialog:key", targetRequestKey);
-    outState.putInt("dialog:code", targetRequestCode);
     super.onSaveInstanceState(outState);
   }
 
@@ -140,18 +108,17 @@ public class ColorDialogFragment extends DialogFragment {
   }
 
   protected void sendResult(int resultCode) {
-      if (sent) {
-        return;
-      }
-      sent = true;
-      if (targetRequestKey != null) {
-        Bundle args = getArguments();
-        if (args == null) {
-          args = new Bundle();
-        }
-        args.putInt("requestCode", targetRequestCode);
-        args.putInt("resultCode", resultCode);
-        getParentFragmentManager().setFragmentResult(targetRequestKey, args);
-      }
+    if (sent) {
+      return;
+    }
+    sent = true;
+    Bundle args = getArguments();
+    if (args == null) {
+      args = new Bundle();
+    }
+    args.putInt("resultCode", resultCode);
+
+    getParentFragmentManager().setFragmentResult(DIALOG_COLOR, args);
+    dismiss();
   }
 }
