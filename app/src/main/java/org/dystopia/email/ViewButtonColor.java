@@ -16,7 +16,7 @@ package org.dystopia.email;
     You should have received a copy of the GNU General Public License
     along with SimpleEmail.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2018, Distopico (dystopia project) <distopico@riseup.net> and contributors
+    Copyright 2018-2020, Distopico (dystopia project) <distopico@riseup.net> and contributors
 */
 
 import android.content.Context;

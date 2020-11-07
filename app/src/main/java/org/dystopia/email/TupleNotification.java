@@ -2,7 +2,7 @@ package org.dystopia.email;
 
 /*
     This file is part of SimpleEmail.
-    Copyright 2018, Distopico (dystopia project) <distopico@riseup.net> and contributors
+    Copyright 2018-2020, Distopico (dystopia project) <distopico@riseup.net> and contributors
 
     This program  is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
