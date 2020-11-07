@@ -7,11 +7,11 @@ At the bottom you can find how to ask other questions, request features and repo
 
 #### What is the difference between SimpleEmail and FairEmail?
 
-Currently not exist a big difference, after the forked, the two apps have an independent development and different paths
-and the focus of SimpleEmail is be a privacy-friendly app with a good UX/UI and minimalistic design.
+Right now there big differences, after the forked, the two apps have an independent development and different paths
+and the focus of SimpleEmail is be a simple, privacy-friendly app with a good UX/UI and minimalistic design.
 
-* All "pro" features on [FairEmail](https://github.com/M66B/open-source-email) are open in SimpleEmail
-* The APK size is smaller (2.x vs 4.x MB)
+* Many "pro" features on [FairEmail](https://github.com/M66B/open-source-email) are open in SimpleEmail
+* The APK size is smaller, SimpleEmail is 3.x MB vs 15.x MB of FairEmail, even bigger than K-9 Mail
 * SimpleEmail has a community focus, all contributions are welcome
 * SimpleEmail will not have "pro" features
 * F-Droid friendly, no redirect to play store (potentially violating your privacy) or background fetch updates

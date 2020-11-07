@@ -22,8 +22,6 @@ The focus of SimpleEmail is be a privacy-friendly email app with a good UX/UI an
 SimpleEmail is minimalistic by design, so you can concentrate on reading and writing messages, it starts a foreground
 service with a low priority status bar notification to make sure you'll never miss a new email.
 
-*This project has been forked from [FairEmail](https://framagit.org/dystopia-project/simple-email/blob/master/docs/FAQ.md#what-is-the-difference-between-simpleemail-and-fairemail).*
-
 ## Features
 
 * 100% [Free Software][free-software]
@@ -78,10 +76,6 @@ SHA1: 7F:AB:59:CD:12:A1:11:E7:6B:12:9D:71:70:5E:21:76:D9:0E:59:C0
 SHA256: A7:A9:0A:5F:14:ED:00:57:56:49:9A:53:4A:13:1A:F0:64:0A:C4:DF:62:2F:76:35:F6:51:69:D8:C9:E9:19:F2
 ```
 
-## Compatibility
-
-SimpleEmail requires at least Android 6 Marshmallow.
-
 ## Frequently asked questions
 
 See [here][faqs] for a list of often asked questions.
@@ -90,6 +84,10 @@ See [here][faqs] for a list of often asked questions.
 
 * For support on SimpleEmail, please open a [issue][]
 * For support on authorizing accounts you should contact your provider.
+
+## Compatibility
+
+SimpleEmail requires at least Android 6 Marshmallow.
 
 ## Contributing
 
@@ -114,22 +112,6 @@ SimpleEmail uses:
 ## License
 
 [![GNU General Public License version 3](https://www.gnu.org/graphics/gplv3-127x51.png)](https://framagit.org/dystopia-project/simple-email/blob/master/LICENSE)
-
-    Copyright 2018, Marcel Bokhorst (M66B)
-    Copyright 2018, Distopico (dystopia project) and contributors
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 * All assets and docs are under [CC BY-SA 4.0](http://creativecommons.org/licenses/by-sa/4.0/),
 for the license of the image used in the [assets](/assets) please see the metadata under the SVG file.

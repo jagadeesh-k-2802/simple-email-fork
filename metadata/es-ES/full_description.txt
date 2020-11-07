@@ -14,8 +14,6 @@ y con un modelo de desarrollo comunitario.
 SimpleEmail es minimalista por diseño, por lo que puede concentrarse en leer y escribir mensajes, comienza un primer plano
 Servicio con una notificación de barra de estado de baja prioridad para asegurarse de que nunca perderá un nuevo correo electrónico.
 
-Este proyecto es un fork de <a href="https://f-droid.org/en/packages/eu.faircode.email">FairEmail</a>.
-
 <h3>Caracteristicas</h3>
 * 100% Software Libre
 * Múltiples cuentas (bandejas de entrada)
