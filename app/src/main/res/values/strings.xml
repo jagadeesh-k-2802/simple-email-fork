@@ -4,6 +4,7 @@
   <string name="app_label" translatable="false">Email</string>
   <string name="app_copyright" translatable="false">Copyright Ⓒ 2018 by M. Bokhorst\nCopyright Ⓒ 2018 by Distopico (dystopia project) and contributors</string>
   <string name="app_eula" translatable="false">This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version. This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See theGNU General Public License for more details. You should have received a copy of the GNU General Public License along with this program. If not, see http://www.gnu.org/licenses.</string>
+  <string name="fingerprint" translatable="false">BCB07BD93B29C1959C15F1CF6C3A2619BAF7A17</string>
 
   <string name="channel_service">Service</string>
   <string name="channel_notification">Notifications</string>
@@ -299,30 +300,6 @@
   <string name="title_debug_info_remark">Please describe the problem and indicate the time of the problem:</string>
   <string name="title_crash_info_remark">Please describe what you were doing when the app crashed:</string>
 
-    <array name="colorPicker">
-        <item>@color/red</item>
-        <item>@color/pink</item>
-        <item>@color/purple</item>
-        <item>@color/deep_purple</item>
-        <item>@color/indigo</item>
-        <item>@color/blue</item>
-        <item>@color/light_blue</item>
-        <item>@color/cyan</item>
-        <item>@color/teal</item>
-        <item>@color/green</item>
-        <item>@color/light_green</item>
-        <item>@color/lime</item>
-        <item>@color/yellow</item>
-        <item>@color/amber</item>
-        <item>@color/orange</item>
-        <item>@color/deep_orange</item>
-        <item>@color/brown</item>
-        <item>@color/blue_grey</item>
-        <item>@color/grey</item>
-        <item>@color/dark_grey</item>
-    </array>
-
-  <string name="fingerprint" translatable="false">BCB07BD93B29C1959C15F1CF6C3A2619BAF7A17</string>
   <string name="title_no_storage_framework">Storage framework not available</string>
   <string name="title_show_details">See details</string>
   <string name="title_no_accounts_yet">You don\'t have accounts configured yet</string>

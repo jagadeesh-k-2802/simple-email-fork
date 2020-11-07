@@ -271,29 +271,6 @@
     <string name="title_debug_info">Info debug</string>
     <string name="title_debug_info_remark">Silakan jelaskan masalahnya dan waktu terjadinya masalah:</string>
     <string name="title_crash_info_remark">Silakan jelaskan apa yang sedang anda lakukan saat apl crash:</string>
-    <array name="colorPicker">
-        <item>@color/red</item>
-        <item>@color/pink</item>
-        <item>@color/purple</item>
-        <item>@color/deep_purple</item>
-        <item>@color/indigo</item>
-        <item>@color/blue</item>
-        <item>@color/light_blue</item>
-        <item>@color/cyan</item>
-        <item>@color/teal</item>
-        <item>@color/green</item>
-        <item>@color/light_green</item>
-        <item>@color/lime</item>
-        <item>@color/yellow</item>
-        <item>@color/amber</item>
-        <item>@color/orange</item>
-        <item>@color/deep_orange</item>
-        <item>@color/brown</item>
-        <item>@color/blue_grey</item>
-        <item>@color/grey</item>
-        <item>@color/dark_grey</item>
-    </array>
-    <string name="fingerprint" translatable="false">BCB07BD93B29C1959C15F1CF6C3A2619BAF7A17</string>
     <string name="title_no_storage_framework">Storage framework tidak tersedia</string>
     <string name="title_show_details">Lihat detail</string>
     <string name="title_no_accounts_yet">Anda belum menyiapkan akun apapun</string>
