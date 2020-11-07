@@ -78,7 +78,7 @@
     <string name="title_account_name">Kontonavn</string>
     <string name="title_account_name_hint">Brukt til å skille mellom mapper</string>
     <string name="title_account_signature">Signaturtekst</string>
-    <string name="title_account_color">Farge</string>
+    <string name="title_account_color">Account color</string>
     <string name="title_domain">Domenenavn</string>
     <string name="title_autoconfig">Hent innstillinger</string>
     <string name="title_no_settings">Fant ikke innstillinger</string>

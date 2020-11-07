@@ -37,19 +37,19 @@
     <string name="title_privacy">Политика за поверителност</string>
     <string name="title_privacy_description"><b>SimpleEmail</b> не събира информация, не изисква ненужни разрешения и е <b>100% Безплатен Софтуер</b>.</string>
     <string name="title_permissions"><b>Необходими разрешения и защо</b></string>
-    <string name="title_permissions_list"><b>• има пълен достъп до мрежата</b> (INTERNET): 
+    <string name="title_permissions_list"><b>• има пълен достъп до мрежата</b> (INTERNET):
 \nда изпраща и получава имейл <b>
-\n• преглед на мрежовите връзки</b> (ACCESS_NETWORK_STATE): 
+\n• преглед на мрежовите връзки</b> (ACCESS_NETWORK_STATE):
 \nда следи промените в интернет връзката <b>
-\n• стартирайте при стартиране</b> (RECEIVE_BOOT_COMPLETED): 
+\n• стартирайте при стартиране</b> (RECEIVE_BOOT_COMPLETED):
 \nза мониторинг при стартиране на устройството<b>
-\n• услуга на преден план</b> (FOREGROUND_SERVICE): 
+\n• услуга на преден план</b> (FOREGROUND_SERVICE):
 \nза стартиране услуга за преден план на Android 9 Pie и по-нови версии <b>
-\n• не позволява на устройството да спи</b> (WAKE_LOCK): 
+\n• не позволява на устройството да спи</b> (WAKE_LOCK):
 \nза да поддържа устройството будно, докато синхронизира съобщенията <b>
-\n• [По желание] чете вашите контакти</b> (READ_CONTACTS): 
+\n• [По желание] чете вашите контакти</b> (READ_CONTACTS):
 \nза автоматично попълване на адреси и показване на снимки <b>
-\n• [По избор] намерете профилите на устройството</b> (GET_ACCOUNTS): 
+\n• [По избор] намерете профилите на устройството</b> (GET_ACCOUNTS):
 \nда използват OAuth вместо пароли</string>
     <string name="title_agree">Съгласен съм</string>
     <string name="title_disagree">Не съм съгласен</string>
@@ -98,7 +98,7 @@
     <string name="title_account_name">Име на профил</string>
     <string name="title_account_name_hint">Използва се за разграничаване на папките</string>
     <string name="title_account_signature">Текст на подписа</string>
-    <string name="title_account_color">Цвят</string>
+    <string name="title_account_color">Account color</string>
     <string name="title_domain">Име на домейн</string>
     <string name="title_autoconfig">Вземи настройки</string>
     <string name="title_no_settings">Не са намерени настройки</string>

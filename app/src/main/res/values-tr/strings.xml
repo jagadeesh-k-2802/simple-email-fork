@@ -79,7 +79,7 @@
     <string name="title_account_name">Hesap adı</string>
     <string name="title_account_name_hint">Klasörleri ayırt etmek için kullanılır</string>
     <string name="title_account_signature">İmza Metni</string>
-    <string name="title_account_color">Renk</string>
+    <string name="title_account_color">Account color</string>
     <string name="title_domain">Alan adı</string>
     <string name="title_autoconfig">Ayarları al</string>
     <string name="title_no_settings">Ayarlar bulunamadı</string>
@@ -255,19 +255,19 @@
     <string name="title_permissions">
         <b>İzinler gerekli ve sebebi</b>
     </string>
-    <string name="title_permissions_list"><b>• tam ağ erişimine sahip olmak</b> (INTERNET): 
+    <string name="title_permissions_list"><b>• tam ağ erişimine sahip olmak</b> (INTERNET):
 \ne-posta göndermek ve almak için <b>
-\n• ağ bağlantılarını görüntülemek</b> (ACCESS_NETWORK_STATE): 
+\n• ağ bağlantılarını görüntülemek</b> (ACCESS_NETWORK_STATE):
 \ninternet bağlantısındaki değişiklikleri izlemek için <b>
-\n• başlangıçta çalışmak</b> (RECEIVE_BOOT_COMPLETED): 
+\n• başlangıçta çalışmak</b> (RECEIVE_BOOT_COMPLETED):
 \naygıt başlangıcında izlemeye başlamak için <b>
-\n• ön plan hizmeti</b> (FOREGROUND_SERVICE): 
+\n• ön plan hizmeti</b> (FOREGROUND_SERVICE):
 \nAndroid 9 Pie ve sonrasında ön plan hizmeti çalıştırmak için <b>
-\n• aygıtın uyku moduna geçmesini önlemek</b> (WAKE_LOCK): 
+\n• aygıtın uyku moduna geçmesini önlemek</b> (WAKE_LOCK):
 \nmesajları eşzamanlarken aygıtı uyanık tutmak için <b>
-\n• [İsteğe bağlı] kişilerinizi okumak</b> (READ_CONTACTS): 
+\n• [İsteğe bağlı] kişilerinizi okumak</b> (READ_CONTACTS):
 \nadresleri otomatik tamamlamak ve fotoğrafları göstermek için <b>
-\n• [İsteğe bağlı] aygıttaki hesapları bulmak</b> (GET_ACCOUNTS): 
+\n• [İsteğe bağlı] aygıttaki hesapları bulmak</b> (GET_ACCOUNTS):
 \nparola yerine OAuth kullanmak için</string>
     <string name="title_no_storage_framework">Depolama iskeleti mevcut değil</string>
     <string name="title_show_details">Ayrıntıları gör</string>

@@ -37,19 +37,19 @@
     <string name="title_privacy">Dispositions de confidentialités</string>
     <string name="title_privacy_description"><b>SimpleEmail</b> ne collecte aucune information, ne nécessite aucune autorisation inutile et est un <b>logiciel 100 % libre</b>.</string>
     <string name="title_permissions"><b>Motifs des autorisations requises</b></string>
-    <string name="title_permissions_list"><b>• accéder totalement au réseau</b> (INTERNET) : 
+    <string name="title_permissions_list"><b>• accéder totalement au réseau</b> (INTERNET) :
 \npour envoyer et recevoir des messages <b>
-\n• voir les connections réseau</b> (ACCESS_NETWORK_STATE) : 
+\n• voir les connections réseau</b> (ACCESS_NETWORK_STATE) :
 \npour suivre l\'état de la connectivité Internet <b>
-\n• lancer au démarrage</b> (RECEIVE_BOOT_COMPLETED) : 
+\n• lancer au démarrage</b> (RECEIVE_BOOT_COMPLETED) :
 \npour déclencher le suivi dès le démarrage de l\'appareil <b>
-\n• lancer des service en premier plan</b> (FOREGROUND_SERVICE) : 
+\n• lancer des service en premier plan</b> (FOREGROUND_SERVICE) :
 \npour effectuer des services en premier plan à partir d\'Android 9 Pie <b>
-\n• bloquer la mise en veille</b> (WAKE_LOCK) : 
+\n• bloquer la mise en veille</b> (WAKE_LOCK) :
 \ngarde l\'appareil éveillé pendant la synchronisation des messages <b>
-\n• [facultatif] voir les contacts</b> (READ_CONTACTS) : 
+\n• [facultatif] voir les contacts</b> (READ_CONTACTS) :
 \npour saisir automatiquement les adresses et pour afficher les avatars <b>
-\n• [facultatif] accéder aux comptes de l\'appareil</b> (GET_ACCOUNTS) : 
+\n• [facultatif] accéder aux comptes de l\'appareil</b> (GET_ACCOUNTS) :
 \npour utiliser OAuth plutôt que des mots de passe</string>
     <string name="title_agree">J\'accepte</string>
     <string name="title_disagree">Je refuse</string>
@@ -98,7 +98,7 @@
     <string name="title_account_name">Nom du compte</string>
     <string name="title_account_name_hint">Utilisé pour distinguer les dossiers</string>
     <string name="title_account_signature">Texte de signature</string>
-    <string name="title_account_color">Couleur</string>
+    <string name="title_account_color">Account color</string>
     <string name="title_domain">Nom de domaine</string>
     <string name="title_autoconfig">Obtenir les paramètres</string>
     <string name="title_no_settings">Paramètres non trouvés</string>

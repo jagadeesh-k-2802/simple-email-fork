@@ -82,7 +82,7 @@
     <string name="title_account_name">Account name</string>
     <string name="title_account_name_hint">Used to differentiate folders</string>
     <string name="title_account_signature">Текст подписи</string>
-    <string name="title_account_color">Цвет</string>
+    <string name="title_account_color">Account color</string>
     <string name="title_domain">Доменное имя</string>
     <string name="title_autoconfig">Get settings</string>
     <string name="title_no_settings">Настройки не найдены</string>

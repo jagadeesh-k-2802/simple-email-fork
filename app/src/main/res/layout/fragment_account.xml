@@ -244,7 +244,7 @@
             android:layout_height="wrap_content"
             android:paddingHorizontal="@dimen/padding_sm"
             android:layout_weight="1"
-            android:text="@string/title_color"
+            android:text="@string/title_account_color"
             android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
           <ImageView

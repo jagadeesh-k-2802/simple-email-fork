@@ -78,7 +78,7 @@
     <string name="title_account_name">Nome da conta</string>
     <string name="title_account_name_hint">Usado para diferenciar pastas</string>
     <string name="title_account_signature">Texto da assinatura</string>
-    <string name="title_account_color">Cor</string>
+    <string name="title_account_color">Account color</string>
     <string name="title_domain">Nome do domínio</string>
     <string name="title_autoconfig">Obter configurações</string>
     <string name="title_no_settings">Configurações não encontradas</string>
@@ -253,19 +253,19 @@
     <string name="title_permissions">
         <b>Permissões necessárias e motivos</b>
     </string>
-    <string name="title_permissions_list"><b>• ter acesso total à rede</b> (INTERNET): 
+    <string name="title_permissions_list"><b>• ter acesso total à rede</b> (INTERNET):
 \npara enviar e receber email <b>
-\n• ver conexões de rede</b> (ACCESS_NETWORK_STATE): 
+\n• ver conexões de rede</b> (ACCESS_NETWORK_STATE):
 \npara monitorizar <b>alterações na conectividade da rede
-\n• executar ao iniciar</b> (RECEIVE_BOOT_COMPLETED): 
+\n• executar ao iniciar</b> (RECEIVE_BOOT_COMPLETED):
 \npara começar a monitorizar ao ligar o aparelho <b>
-\n• serviço em segundo plano</b> (FOREGROUND_SERVICE): 
+\n• serviço em segundo plano</b> (FOREGROUND_SERVICE):
 \npara executar um serviço em segundo plano no Android 9 Pie e posterior <b>
-\n• impedir que o aparelho adormeça</b> (WAKE_LOCK): 
+\n• impedir que o aparelho adormeça</b> (WAKE_LOCK):
 \npara manter o aparelho ligado enquanto sincroniza mensagens <b>
-\n• [Opcional] ler os seus contactos</b> (READ_CONTACTS): 
+\n• [Opcional] ler os seus contactos</b> (READ_CONTACTS):
 \npara completar automaticamente endereços e mostrar fotografias <b>
-\n• [Opcional] encontrar contas no aparelho</b> (GET_ACCOUNTS): 
+\n• [Opcional] encontrar contas no aparelho</b> (GET_ACCOUNTS):
 \npara usar a autenticação com o OAuth em vez de palavras-passe</string>
     <string name="title_no_storage_framework">Framework de armazenamento não disponível</string>
     <string name="title_show_details">Ver detalhes</string>

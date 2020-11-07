@@ -78,7 +78,7 @@
     <string name="title_account_name">Tilin nimi</string>
     <string name="title_account_name_hint">Käytetään kansioiden erottelemiseen</string>
     <string name="title_account_signature">Allekirjoitusteksti</string>
-    <string name="title_account_color">Väri</string>
+    <string name="title_account_color">Account color</string>
     <string name="title_domain">Verkkotunnuksen nimi</string>
     <string name="title_autoconfig">Hae asetukset</string>
     <string name="title_no_settings">Asetuksia ei löytynyt</string>

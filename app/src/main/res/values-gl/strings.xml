@@ -41,19 +41,19 @@
         <b>Permisos necesarios e razón</b>
     </string>
     <string name="title_permissions_list">
-        <b>• ter acceso completo a rede</b> (INTERNET): 
+        <b>• ter acceso completo a rede</b> (INTERNET):
 \npara enviar e recibir email <b>
-\n• ver conexións de rede</b> (ACCESS_NETWORK_STATE): 
+\n• ver conexións de rede</b> (ACCESS_NETWORK_STATE):
 \npara detectar cambios na conexión a internet <b>
-\n• inicio do sistema</b> (RECEIVE_BOOT_COMPLETED): 
+\n• inicio do sistema</b> (RECEIVE_BOOT_COMPLETED):
 \npara comezar a funcionar no inicio do sistema <b>
-\n• servizo en primeiro plano</b> (FOREGROUND_SERVICE): 
+\n• servizo en primeiro plano</b> (FOREGROUND_SERVICE):
 \npara ter un servizo en primeiro plano en Android 9 Pie e posterior <b>
-\n• evitar que o dispositivo se desactive</b> (WAKE_LOCK): 
+\n• evitar que o dispositivo se desactive</b> (WAKE_LOCK):
 \npara manter o dispositivo activo mentras sincroniza mensaxes <b>
-\n• [Optativo] ler os seus contactos</b> (READ_CONTACTS): 
+\n• [Optativo] ler os seus contactos</b> (READ_CONTACTS):
 \npara autocompletar enderezos e mostrar foto<b>
-\n• [Optativo] atopar contas no dispositivo</b> (GET_ACCOUNTS): 
+\n• [Optativo] atopar contas no dispositivo</b> (GET_ACCOUNTS):
 \npara utilizar OAuth no lugar de contrasinais</string>
     <string name="title_agree">Acepto</string>
     <string name="title_disagree">Rexeito</string>
@@ -102,7 +102,7 @@
     <string name="title_account_name">Nome da conta</string>
     <string name="title_account_name_hint">Utilizado para diferenciar cartafoles</string>
     <string name="title_account_signature">Texto de firma</string>
-    <string name="title_account_color">Cor</string>
+    <string name="title_account_color">Account color</string>
     <string name="title_domain">Nome de dominio</string>
     <string name="title_autoconfig">Obter axustes</string>
     <string name="title_no_settings">Non se atoparon os axustes</string>

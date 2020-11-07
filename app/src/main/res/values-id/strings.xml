@@ -37,19 +37,19 @@
         <b>Izin yang diperlukan dan alasannya</b>
     </string>
     <string name="title_permissions_list">
-        <b>• dapatkan akses jaringan penuh</b> (INTERNET): 
+        <b>• dapatkan akses jaringan penuh</b> (INTERNET):
 \nuntuk mengirim dan menerima surel<b>
-\n• melihat sambungan jaringan</b> (ACCESS_NETWORK_STATE): 
+\n• melihat sambungan jaringan</b> (ACCESS_NETWORK_STATE):
 \nuntuk memonitor perubahan sambungan internet<b>
-\n• dijalankan saat dimulai</b> (RECEIVE_BOOT_COMPLETED): 
+\n• dijalankan saat dimulai</b> (RECEIVE_BOOT_COMPLETED):
 \nuntuk mulai monitor saat perangkat dinyalakan<b>
-\n• jalankan layanan di latar depan</b> (FOREGROUND_SERVICE): 
+\n• jalankan layanan di latar depan</b> (FOREGROUND_SERVICE):
 \nuntuk menjalankan layanan latar depan pada Android 9 Pie dan terbaru<b>
-\n• mencegah ponsel menjadi tidak aktif</b> (WAKE_LOCK): 
+\n• mencegah ponsel menjadi tidak aktif</b> (WAKE_LOCK):
 \nuntuk menjaga ponsel tetap aktif saat menyinkronisasi pesan<b>
-\n• [Opsional] baca kontak anda</b> (READ_CONTACTS): 
+\n• [Opsional] baca kontak anda</b> (READ_CONTACTS):
 \nuntuk melengkapi alamat surel dan menampilkan foto secara otomatis<b>
-\n• [Opsional] cari akun pada perangkat</b> (GET_ACCOUNTS): 
+\n• [Opsional] cari akun pada perangkat</b> (GET_ACCOUNTS):
 \nuntuk menggunakan OAuth daripada sandi</string>
     <string name="title_agree">Setuju</string>
     <string name="title_disagree">Tidak setuju</string>
@@ -98,7 +98,7 @@
     <string name="title_account_name">Nama akun</string>
     <string name="title_account_name_hint">Digunakan untuk membedakan folder</string>
     <string name="title_account_signature">Teks tanda tangan</string>
-    <string name="title_account_color">Warna</string>
+    <string name="title_account_color">Account color</string>
     <string name="title_domain">Nama domain</string>
     <string name="title_autoconfig">Ambil pengaturan</string>
     <string name="title_no_settings">Pengaturan tidak ditemukan</string>
