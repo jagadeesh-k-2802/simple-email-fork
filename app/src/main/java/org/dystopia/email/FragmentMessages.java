@@ -359,8 +359,8 @@ public class FragmentMessages extends FragmentEx {
           return;
         }
 
-        boolean inbox = (EntityFolder.ARCHIVE.equals(message.folderType)
-            || EntityFolder.TRASH.equals(message.folderType));
+        boolean toInboxOrArchive = !EntityFolder.INBOX.equals(message.folderType);
+        boolean toArchiveOrTrash = EntityFolder.TRASH.equals(message.folderType);
 
         View itemView = viewHolder.itemView;
         int margin = Math.round(12 * (getResources().getDisplayMetrics().density));
@@ -372,7 +372,7 @@ public class FragmentMessages extends FragmentEx {
               (float) itemView.getBottom(), color);
           // Right swipe
           Drawable d = getResources().getDrawable(
-              inbox ? R.drawable.baseline_move_to_inbox_24 : R.drawable.baseline_archive_24,
+              toInboxOrArchive ? R.drawable.baseline_move_to_inbox_24 : R.drawable.baseline_archive_24,
               getContext().getTheme());
           int padding = (itemView.getHeight() - d.getIntrinsicHeight());
           d.setBounds(itemView.getLeft() + margin, itemView.getTop() + padding / 2,
@@ -386,7 +386,7 @@ public class FragmentMessages extends FragmentEx {
 
           // Left swipe
           Drawable d = getResources().getDrawable(
-              inbox ? R.drawable.baseline_move_to_inbox_24 : R.drawable.baseline_delete_24,
+              toArchiveOrTrash ? R.drawable.baseline_archive_24 : R.drawable.baseline_delete_24,
               getContext().getTheme());
           int padding = (itemView.getHeight() - d.getIntrinsicHeight());
           d.setBounds(itemView.getLeft() + itemView.getWidth() - d.getIntrinsicWidth() - margin,
@@ -434,21 +434,20 @@ public class FragmentMessages extends FragmentEx {
               db.beginTransaction();
 
               EntityMessage message = db.message().getMessage(id);
-
               EntityFolder folder = db.folder().getFolder(message.folder);
-              if (EntityFolder.ARCHIVE.equals(folder.type)
-                  || EntityFolder.TRASH.equals(folder.type)) {
-                target = db.folder().getFolderByType(message.account, EntityFolder.INBOX);
+
+              boolean toInbox = !EntityFolder.INBOX.equals(folder.type);
+              boolean toArchive = EntityFolder.TRASH.equals(folderType);
+              EntityFolder inboxFolder = db.folder().getFolderByType(message.account, EntityFolder.INBOX);
+              EntityFolder archiveFolder = db.folder().getFolderByType(message.account, EntityFolder.ARCHIVE);
+              EntityFolder trashFolder = db.folder().getFolderByType(message.account, EntityFolder.TRASH);
+
+              if (direction == ItemTouchHelper.RIGHT) {
+                target = toInbox ? inboxFolder : archiveFolder;
+              } else if (direction == ItemTouchHelper.LEFT) {
+                target = toArchive ? archiveFolder : trashFolder;
               } else {
-                if (direction == ItemTouchHelper.RIGHT) {
-                  target = db.folder().getFolderByType(message.account, EntityFolder.ARCHIVE);
-                }
-                if (direction == ItemTouchHelper.LEFT || target == null) {
-                  target = db.folder().getFolderByType(message.account, EntityFolder.TRASH);
-                }
-                if (target == null) {
-                  target = db.folder().getFolderByType(message.account, EntityFolder.INBOX);
-                }
+                target = folder;
               }
 
               result.target = target.name;
