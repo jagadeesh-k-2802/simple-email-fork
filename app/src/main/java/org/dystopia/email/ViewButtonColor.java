@@ -68,6 +68,7 @@ public class ViewButtonColor extends AppCompatButton {
     background.setStroke(
       ViewHelper.dp2px(getContext(), 1),
       Helper.resolveColor(getContext(), R.attr.colorSeparator));
+    background.setCornerRadius(50);
     setBackground(background);
 
     if (color == Color.TRANSPARENT)

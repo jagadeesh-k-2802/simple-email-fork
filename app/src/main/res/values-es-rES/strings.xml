@@ -262,4 +262,7 @@
     <string name="title_show_details">Ver detalles</string>
     <string name="title_no_accounts_yet">Aún no tienes cuentas configuradas</string>
     <string name="title_no_identities_yet">Aún no tienes identidades configuradas</string>
+    <string name="title_reset">Reiniciar</string>
+    <string name="title_color">Color</string>
+    <string name="title_cancel">Cancelar</string>
 </resources>

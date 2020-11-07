@@ -34,7 +34,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -54,14 +53,13 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.Group;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentResultListener;
@@ -109,7 +107,7 @@ public class FragmentAccount extends FragmentEx {
   private EditText etName;
 
   private ViewButtonColor btnColor;
-  private ImageView ibColorReset;
+  private LinearLayout llContainerColor;
   private EditText etSignature;
 
   private CheckBox cbSynchronize;
@@ -178,6 +176,7 @@ public class FragmentAccount extends FragmentEx {
     btnAutoConfig = view.findViewById(R.id.btnAutoConfig);
 
     etHost = view.findViewById(R.id.etHost);
+    llContainerColor = view.findViewById(R.id.llContainerColor);
     etPort = view.findViewById(R.id.etPort);
     cbStartTls = view.findViewById(R.id.cbStartTls);
     cbInsecure = view.findViewById(R.id.cbInsecure);
@@ -190,7 +189,6 @@ public class FragmentAccount extends FragmentEx {
     etName = view.findViewById(R.id.etName);
     btnColor = view.findViewById(R.id.btnColor);
     tvName = view.findViewById(R.id.tvName);
-    ibColorReset = view.findViewById(R.id.ibColorReset);
     etSignature = view.findViewById(R.id.etSignature);
 
     cbSynchronize = view.findViewById(R.id.cbSynchronize);
@@ -377,7 +375,7 @@ public class FragmentAccount extends FragmentEx {
         });
 
     btnColor.setColor(color);
-    btnColor.setOnClickListener(
+    llContainerColor.setOnClickListener(
         new View.OnClickListener() {
           @Override
           public void onClick(View v) {
@@ -389,15 +387,6 @@ public class FragmentAccount extends FragmentEx {
             ColorDialogFragment fragment = new ColorDialogFragment();
             fragment.setArguments(args);
             fragment.show(getParentFragmentManager(), "account:color");
-          }
-        });
-
-    ibColorReset.setOnClickListener(
-        new View.OnClickListener() {
-          @Override
-          public void onClick(View v) {
-            btnColor.setColor(Color.TRANSPARENT);
-            ibColorReset.setVisibility(View.GONE);
           }
         });
 
@@ -1101,7 +1090,6 @@ public class FragmentAccount extends FragmentEx {
       if (resultCode == RESULT_OK) {
         color = result.getInt("color");
         btnColor.setColor(color);
-        ibColorReset.setVisibility(View.VISIBLE);
       }
     } catch (Throwable ex) {
       Log.e(Helper.TAG, "Set account color error: " + ex + "\n" + Log.getStackTraceString(ex));

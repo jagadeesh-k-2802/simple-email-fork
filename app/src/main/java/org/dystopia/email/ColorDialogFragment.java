@@ -64,6 +64,7 @@ public class ColorDialogFragment extends DialogFragment {
     color = savedInstanceState == null ? args.getInt("color") : savedInstanceState.getInt("dialog:color");
     String title = args.getString("title");
     boolean reset = args.getBoolean("reset", false);
+    boolean hasColor = color != Color.TRANSPARENT;
 
     Context context = getContext();
     int editTextColor = Helper.resolveColor(context, android.R.attr.editTextColor);
@@ -90,12 +91,15 @@ public class ColorDialogFragment extends DialogFragment {
           }
         });
 
-    if (color != Color.TRANSPARENT) {
+    if (!hasColor) {
+      builder.initialColor(Helper.resolveColor(getContext(), android.R.attr.colorPrimary));
+    } else {
       builder.initialColor(color);
     }
 
     if (reset) {
-      builder.setNegativeButton(R.string.title_reset, new DialogInterface.OnClickListener() {
+      int negativeText = !hasColor ? R.string.title_cancel : R.string.title_reset;
+      builder.setNegativeButton(negativeText, new DialogInterface.OnClickListener() {
           @Override
           public void onClick(DialogInterface dialog, int which) {
             getArguments().putInt("color", Color.TRANSPARENT);

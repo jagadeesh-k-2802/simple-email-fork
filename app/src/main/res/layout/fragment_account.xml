@@ -221,39 +221,34 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
-           android:id="@+id/colorContainer"
-           android:orientation="horizontal"
-           android:layout_width="fill_parent"
-           android:layout_height="fill_parent"
-           android:gravity="center"
-           app:layout_constraintStart_toStartOf="parent"
-           app:layout_constraintTop_toBottomOf="@id/tilPassword">
-
-          <org.dystopia.email.ViewButtonColor
-            android:id="@+id/btnColor"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="@dimen/color_pick"
-            android:layout_height="@dimen/color_pick"
-            android:layout_marginStart="@dimen/margin_sm"
-            android:background="@color/colorAccent"
-            android:tag="disable" />
+            android:id="@+id/llContainerColor"
+            android:clickable="true"
+            android:focusable="true"
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tilPassword">
 
           <TextView
             android:id="@+id/tvColor"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="@dimen/padding_sm"
             android:layout_weight="1"
             android:text="@string/title_account_color"
             android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
-          <ImageView
-            android:id="@+id/ibColorReset"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+          <org.dystopia.email.ViewButtonColor
+              android:id="@+id/btnColor"
+              android:clickable="false"
+            android:focusable="false"
+            android:layout_width="@dimen/color_pick"
+            android:layout_height="@dimen/color_pick"
+            android:layout_marginEnd="@dimen/margin_sm"
             android:layout_gravity="right"
-            android:src="@drawable/baseline_close_24"
-            android:visibility="invisible" />
+            android:background="@color/colorAccent"
+            android:tag="disable" />
         </LinearLayout>
 
         <Button
@@ -266,7 +261,7 @@
             android:minHeight="0dp"
             android:text="@string/title_setup_advanced"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/colorContainer" />
+            app:layout_constraintTop_toBottomOf="@id/llContainerColor" />
 
         <!-- advanced -->
 
