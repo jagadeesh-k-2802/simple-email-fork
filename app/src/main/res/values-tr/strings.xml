@@ -238,12 +238,12 @@
     <string name="title_hint_message_selection">Birden fazla mesaj seçmeye başlamak için bir mesaja uzun basın</string>
     <string name="title_hint_sync">Mesajların sayısı, mesaj sayısına, internet bağlantınızın hızına ve e-posta sağlayıcınıza bağlı olarak biraz zaman alabilir</string>
     <string name="title_open_link">Bağlantıyı aç</string>
-    <string name="title_updated">Sürüm %1$s için bir güncelleştirme mevcut</string>
+    <string name="title_updated">%1$s sürümü için bir güncelleme var</string>
     <string name="title_issue">Bir sorunuz ya da probleminiz mi var?</string>
     <string name="title_yes">Evet</string>
     <string name="title_no">Hayır</string>
-    <string name="title_undo">Geri Al</string>
-    <string name="title_try">SimpleEmail basit, bedava bir yazılım ve Android için gizlilik dostu e-posta uygulamasını deneyin</string>
+    <string name="title_undo">Geri al</string>
+    <string name="title_try">Basit, özgür yazılım ve Android için gizlilik dostu bir e-posta uygulaması olan SimpleEmail\'i deneyin</string>
     <string name="title_unexpected_error">Beklenmedik hata</string>
     <string name="title_log">Kayıt defteri</string>
     <string name="title_debug_info">Hata ayıklama bilgisi</string>
@@ -269,10 +269,14 @@
 \nadresleri otomatik tamamlamak ve fotoğrafları göstermek için <b>
 \n• [İsteğe bağlı] aygıttaki hesapları bulmak</b> (GET_ACCOUNTS):
 \nparola yerine OAuth kullanmak için</string>
-    <string name="title_no_storage_framework">Depolama iskeleti mevcut değil</string>
+    <string name="title_no_storage_framework">Kullanılabilir depolama çerçevesi yok</string>
     <string name="title_show_details">Ayrıntıları gör</string>
     <string name="title_no_accounts_yet">Henüz yapılandırılmış hesabınız yok</string>
     <string name="title_no_identities_yet">Henüz yapılandırılmış kimliğiniz yok</string>
-    <string name="title_try_subject">SimpleEmail\'i Deneyin</string>
+    <string name="title_try_subject">SimpleEmail\'i deneyin</string>
     <string name="title_try_text">Şuna davet et:</string>
+    <string name="text_gmail_note">oAuth olmayan kimlik doğrulamasının etkinleştirilmesi gerekiyor. <font color="#0055C7">Daha fazla bilgi</font></string>
+    <string name="title_cancel">İptal</string>
+    <string name="title_color">Renk</string>
+    <string name="title_reset">Sıfırla</string>
 </resources>
