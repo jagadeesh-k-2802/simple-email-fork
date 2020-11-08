@@ -68,10 +68,10 @@ Without [IMAP IDLE](https://en.wikipedia.org/wiki/IMAP_IDLE) emails need to be p
 
 #### How can I login to Gmail / G suite?
 
-Since January 2020 Gmail restricted the scopes, now requires authorization 'oAuth' to be able to authenticate,
-we have plans to fix this and allow oAuth authentication without privative libraries.
+Since January 2020 Gmail restricted the oAuth scopes, now requires authorization to be able to authenticate,
+we are looking the best way to fix oAuth authentication without privative libraries.
 
-As a temporary solution you need to allow IMAP authentication or how Google says "less secure apps".
+As a temporary solution you need to allow normal authentication (non-oAuth) or how Google says "less secure apps".
 See here for instructions: [https://support.google.com/accounts/answer/6010255](https://support.google.com/accounts/answer/6010255)
 
 #### Why are messages in the outbox not moved to the sent folder?

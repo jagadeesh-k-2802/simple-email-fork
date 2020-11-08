@@ -307,6 +307,6 @@
   <string name="title_reset">Reset</string>
   <string name="title_color">Color</string>
   <string name="title_cancel">Cancel</string>
-  <string name="text_gmail_note"><![CDATA[Require have plain IMAP authentication enabled <font color=\'#0055C7\'>More info</font>]]></string>
-  <string name="message_gmail_note"><![CDATA[Since January 2020 Gmail restricted the oAuth scopes, now requires authorization to be able to authenticate, we have plans to fix this and allow oAuth authentication without privative libraries.<br/><br/> As a temporary solution you need to allow IMAP authentication or how Google says <i>\"less secure apps\"</i>.<br/><br/><b>Instructions here:</b> https://support.google.com/accounts/answer/6010255</br>]]></string>
+  <string name="text_gmail_note"><![CDATA[Require have non-oAuth authentication enabled <font color=\'#0055C7\'>More info</font>]]></string>
+  <string name="message_gmail_note"><![CDATA[Since January 2020 Gmail restricted the oAuth scopes, now requires authorization to be able to authenticate, we are looking the best way to fix oAuth authentication without privative libraries.<br/><br/> As a temporary solution you need to allow normal authentication or how Google says <i>\"less secure apps\"</i>.<br/><br/><b>Instructions here:</b> https://support.google.com/accounts/answer/6010255</br>]]></string>
 </resources>
