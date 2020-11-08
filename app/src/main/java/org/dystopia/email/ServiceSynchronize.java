@@ -506,7 +506,7 @@ public class ServiceSynchronize extends LifecycleService {
     DateFormat df = SimpleDateFormat.getDateTimeInstance(SimpleDateFormat.SHORT, SimpleDateFormat.SHORT);
     StringBuilder sb = new StringBuilder();
     for (EntityMessage message : messages) {
-      sb.append("<strong>").append(MessageHelper.getFormattedAddresses(message.from, false)).append("</strong>");
+      sb.append("<strong>").append(MessageHelper.getFormattedAddresses(message.from, null)).append("</strong>");
 
       if (!TextUtils.isEmpty(message.subject)) {
         sb.append(": ").append(message.subject);
@@ -583,7 +583,7 @@ public class ServiceSynchronize extends LifecycleService {
       Notification.InboxStyle mstyle = new Notification.InboxStyle();
 
       mbuilder.addExtras(mArgs).setSmallIcon(R.drawable.ic_mail_icon)
-          .setContentTitle(MessageHelper.getFormattedAddresses(message.from, true)).setContentIntent(piContent)
+          .setContentTitle(MessageHelper.getFormattedAddresses(message.from, MessageHelper.ADDRESS_FULL)).setContentIntent(piContent)
           .setDeleteIntent(piDelete).setSound(uri).setColor(groupColor)
           .setWhen(message.sent == null ? message.received : message.sent).setPriority(Notification.PRIORITY_DEFAULT)
           .setCategory(Notification.CATEGORY_STATUS).setVisibility(Notification.VISIBILITY_PRIVATE).setGroup(groupKey)
@@ -598,7 +598,7 @@ public class ServiceSynchronize extends LifecycleService {
         mbuilder.setGroupAlertBehavior(Notification.GROUP_ALERT_CHILDREN);
       }
 
-      mstyle.setBigContentTitle(MessageHelper.getFormattedAddresses(message.from, false)).setSummaryText(accountName);
+      mstyle.setBigContentTitle(MessageHelper.getFormattedAddresses(message.from, null)).setSummaryText(accountName);
       mbuilder.setStyle(mstyle);
 
       notifications.add(mbuilder.build());

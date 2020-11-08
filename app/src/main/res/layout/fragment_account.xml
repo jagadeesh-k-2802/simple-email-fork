@@ -256,7 +256,7 @@
           android:id="@+id/btnColor"
           android:layout_width="@dimen/color_pick"
           android:layout_height="@dimen/color_pick"
-          android:layout_gravity="center|right"
+          android:layout_gravity="center|end"
           android:layout_marginTop="@dimen/margin_lg"
           android:layout_marginEnd="@dimen/margin_sm"
           android:layout_marginBottom="@dimen/margin_lg"

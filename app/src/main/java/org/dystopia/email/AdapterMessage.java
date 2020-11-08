@@ -333,9 +333,9 @@ public class AdapterMessage extends PagedListAdapter<TupleMessageEx, AdapterMess
       }
 
       if (compact && show_expanded) {
-        tvFrom.setText(MessageHelper.getFormattedAddresses(addresses, false, false));
+        tvFrom.setText(MessageHelper.getFormattedAddresses(addresses, null));
       } else {
-        tvFrom.setText(MessageHelper.getFormattedAddresses(addresses, show_expanded, true));
+        tvFrom.setText(MessageHelper.getFormattedAddresses(addresses, show_expanded ? MessageHelper.ADDRESS_FULL : MessageHelper.ADDRESS_NAME));
       }
 
       tvSize.setText(
@@ -481,11 +481,11 @@ public class AdapterMessage extends PagedListAdapter<TupleMessageEx, AdapterMess
           tvTimeEx.setText(df.format(new Date(message.received)));
         }
 
-        tvFromEx.setText(MessageHelper.getFormattedAddresses(message.from, true));
-        tvTo.setText(MessageHelper.getFormattedAddresses(message.to, true));
-        tvReplyTo.setText(MessageHelper.getFormattedAddresses(message.reply, true));
-        tvCc.setText(MessageHelper.getFormattedAddresses(message.cc, true));
-        tvBcc.setText(MessageHelper.getFormattedAddresses(message.bcc, true));
+        tvFromEx.setText(MessageHelper.getFormattedAddresses(message.from, MessageHelper.ADDRESS_FULL));
+        tvTo.setText(MessageHelper.getFormattedAddresses(message.to, MessageHelper.ADDRESS_FULL));
+        tvReplyTo.setText(MessageHelper.getFormattedAddresses(message.reply, MessageHelper.ADDRESS_FULL));
+        tvCc.setText(MessageHelper.getFormattedAddresses(message.cc, MessageHelper.ADDRESS_FULL));
+        tvBcc.setText(MessageHelper.getFormattedAddresses(message.bcc, MessageHelper.ADDRESS_FULL));
         tvSubjectEx.setText(message.subject);
 
         tvHeaders.setText(show_headers ? message.headers : null);
@@ -1268,7 +1268,7 @@ public class AdapterMessage extends PagedListAdapter<TupleMessageEx, AdapterMess
       lbm.sendBroadcast(
           new Intent(ActivityView.ACTION_VIEW_FULL)
               .putExtra("id", data.message.id)
-              .putExtra("from", MessageHelper.getFormattedAddresses(data.message.from, true)));
+              .putExtra("from", MessageHelper.getFormattedAddresses(data.message.from, MessageHelper.ADDRESS_FULL)));
     }
 
     private void onDecrypt(ActionData data) {

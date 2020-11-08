@@ -85,6 +85,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -779,58 +780,93 @@ public class FragmentCompose extends FragmentEx {
   }
 
   private void handlePickContact(int requestCode, Intent data) {
-    Cursor cursor = null;
-    try {
-      Uri uri = data.getData();
-      if (uri != null) {
-        cursor =
-            getContext()
-                .getContentResolver()
-                .query(
-                    uri,
-                    new String[] {
-                      ContactsContract.CommonDataKinds.Email.ADDRESS,
-                      ContactsContract.Contacts.DISPLAY_NAME
-                    },
-                    null,
-                    null,
-                    null);
-      }
-      if (cursor != null && cursor.moveToFirst()) {
-        int colEmail = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Email.ADDRESS);
-        int colName = cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
-        String email = cursor.getString(colEmail);
-        String name = cursor.getString(colName);
+    Uri uri = data.getData();
+    if (uri == null)
+      return;
 
-        String text = null;
-        if (requestCode == ActivityCompose.REQUEST_CONTACT_TO) {
-          text = etTo.getText().toString();
-        } else if (requestCode == ActivityCompose.REQUEST_CONTACT_CC) {
-          text = etCc.getText().toString();
-        } else if (requestCode == ActivityCompose.REQUEST_CONTACT_BCC) {
-          text = etBcc.getText().toString();
+    Bundle args = new Bundle();
+    args.putLong("id", working);
+    args.putInt("requestCode", requestCode);
+    args.putParcelable("uri", uri);
+
+    new SimpleTask<EntityMessage>() {
+      @Override
+      protected EntityMessage onLoad(Context context, Bundle args) throws Throwable {
+        long id = args.getLong("id");
+        int requestCode = args.getInt("requestCode");
+        Uri uri = args.getParcelable("uri");
+
+        EntityMessage draft = null;
+        DB db = DB.getInstance(context);
+
+        try (Cursor cursor = context.getContentResolver().query(
+          uri,
+          new String[]{
+            ContactsContract.CommonDataKinds.Email.ADDRESS,
+            ContactsContract.Contacts.DISPLAY_NAME
+          },
+          null, null, null)) {
+          if (cursor != null && cursor.moveToFirst()) {
+            int colEmail = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Email.ADDRESS);
+            int colName = cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
+            String email = MessageHelper.sanitizeEmail(cursor.getString(colEmail));
+            String name = cursor.getString(colName);
+
+            try {
+              db.beginTransaction();
+
+              draft = db.message().getMessage(id);
+              if (draft == null)
+                return null;
+
+              Address[] address = null;
+              if (requestCode == ActivityCompose.REQUEST_CONTACT_TO) {
+                address = draft.to;
+              } else if (requestCode == ActivityCompose.REQUEST_CONTACT_CC) {
+                address = draft.cc;
+              } else if (requestCode == ActivityCompose.REQUEST_CONTACT_BCC) {
+                address = draft.bcc;
+              }
+
+              List<Address> list = new ArrayList<>();
+              if (address != null)
+                list.addAll(Arrays.asList(address));
+
+              list.add(new InternetAddress(email, name, StandardCharsets.UTF_8.name()));
+
+              if (requestCode == ActivityCompose.REQUEST_CONTACT_TO) {
+                draft.to = list.toArray(new Address[0]);
+              } else if (requestCode == ActivityCompose.REQUEST_CONTACT_CC) {
+                draft.cc = list.toArray(new Address[0]);
+              } else if (requestCode == ActivityCompose.REQUEST_CONTACT_BCC) {
+                draft.bcc = list.toArray(new Address[0]);
+              }
+              db.message().updateMessage(draft);
+
+              db.setTransactionSuccessful();
+            } finally {
+              db.endTransaction();
+            }
+          }
         }
 
-        InternetAddress address = new InternetAddress(email, name);
-        StringBuilder sb = new StringBuilder(text);
-        sb.append(address.toString().replace(",", "")).append(", ");
+        return draft;
+      }
 
-        if (requestCode == ActivityCompose.REQUEST_CONTACT_TO) {
-          etTo.setText(sb.toString());
-        } else if (requestCode == ActivityCompose.REQUEST_CONTACT_CC) {
-          etCc.setText(sb.toString());
-        } else if (requestCode == ActivityCompose.REQUEST_CONTACT_BCC) {
-          etBcc.setText(sb.toString());
+      @Override
+      protected void onLoaded(Bundle args, EntityMessage draft) {
+        if (draft != null) {
+          etTo.setText(MessageHelper.getAddressesCompose(draft.to));
+          etCc.setText(MessageHelper.getAddressesCompose(draft.cc));
+          etBcc.setText(MessageHelper.getAddressesCompose(draft.bcc));
         }
       }
-    } catch (Throwable ex) {
-      Log.e(Helper.TAG, ex + "\n" + Log.getStackTraceString(ex));
-      Helper.unexpectedError(getContext(), ex);
-    } finally {
-      if (cursor != null) {
-        cursor.close();
+
+      @Override
+      protected void onException(Bundle args, Throwable ex) {
+        Helper.unexpectedError(getContext(), ex);
       }
-    }
+    }.load(this, args);
   }
 
   private void handleAddAttachment(Intent data, final boolean image) {
@@ -1121,7 +1157,7 @@ public class FragmentCompose extends FragmentEx {
                 String from = Helper.canonicalAddress(((InternetAddress) ref.from[0]).getAddress());
                 Log.i(
                     Helper.TAG,
-                    "From=" + from + " to=" + MessageHelper.getFormattedAddresses(ref.to, false));
+                    "From=" + from + " to=" + MessageHelper.getFormattedAddresses(ref.to, null));
                 for (EntityIdentity identity : identities) {
                   String email = Helper.canonicalAddress(identity.email);
                   if (from.equals(email)) {
@@ -1229,7 +1265,7 @@ public class FragmentCompose extends FragmentEx {
                     String.format(
                         "<p>%s %s:</p><blockquote>%s</blockquote>",
                         Html.escapeHtml(new Date(time).toString()),
-                        Html.escapeHtml(MessageHelper.getFormattedAddresses(draft.to, true)),
+                        Html.escapeHtml(MessageHelper.getFormattedAddresses(draft.to, MessageHelper.ADDRESS_FULL)),
                         HtmlHelper.sanitize(ref.read(context)));
               } else if ("forward".equals(action)) {
                 draft.subject = context.getString(R.string.title_subject_forward, ref.subject);
@@ -1237,7 +1273,7 @@ public class FragmentCompose extends FragmentEx {
                     String.format(
                         "<p>%s %s:</p><blockquote>%s</blockquote>",
                         Html.escapeHtml(new Date(time).toString()),
-                        Html.escapeHtml(MessageHelper.getFormattedAddresses(ref.from, true)),
+                        Html.escapeHtml(MessageHelper.getFormattedAddresses(ref.from, MessageHelper.ADDRESS_FULL)),
                         HtmlHelper.sanitize(ref.read(context)));
               }
 
@@ -1328,9 +1364,9 @@ public class FragmentCompose extends FragmentEx {
 
           setSubtitle(draft.account_name);
 
-          etTo.setText(MessageHelper.getFormattedAddresses(draft.to, true));
-          etCc.setText(MessageHelper.getFormattedAddresses(draft.cc, true));
-          etBcc.setText(MessageHelper.getFormattedAddresses(draft.bcc, true));
+          etTo.setText(MessageHelper.getFormattedAddresses(draft.to, MessageHelper.ADDRESS_FULL));
+          etCc.setText(MessageHelper.getFormattedAddresses(draft.cc, MessageHelper.ADDRESS_FULL));
+          etBcc.setText(MessageHelper.getFormattedAddresses(draft.bcc, MessageHelper.ADDRESS_FULL));
           etSubject.setText(draft.subject);
 
           etBody.setText(null);

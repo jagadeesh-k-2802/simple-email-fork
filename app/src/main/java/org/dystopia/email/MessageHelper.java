@@ -17,6 +17,7 @@ package org.dystopia.email;
     along with FairEmail.  If not, see <http://www.gnu.org/licenses/>.
 
     Copyright 2018, Marcel Bokhorst (M66B)
+    Copyright 2018-2020, Distopico (dystopia project) <distopico@riseup.net> and contributors
 */
 
 import android.content.Context;
@@ -38,6 +39,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
+import java.util.regex.Pattern;
+
 import javax.activation.DataHandler;
 import javax.activation.FileDataSource;
 import javax.activation.FileTypeMap;
@@ -49,6 +52,7 @@ import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.Part;
 import javax.mail.Session;
+import javax.mail.internet.AddressException;
 import javax.mail.internet.ContentType;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
@@ -60,6 +64,10 @@ import org.jsoup.Jsoup;
 public class MessageHelper {
   private MimeMessage imessage;
   private String raw = null;
+
+  static final String ADDRESS_FULL = "full";
+  static final String ADDRESS_NAME = "displayName";
+  static final String ADDRESS_COMPOSE = "compose";
 
   static final int NETWORK_TIMEOUT = 60 * 1000; // milliseconds
 
@@ -423,11 +431,13 @@ public class MessageHelper {
    * Get parsed email addresses.
    *
    * @param addresses list of email <code>Address</code>
-   * @param full true render the full format
-   * @param displayName true display name instead of email when is not 'full'
-   * @return email addresses as string
+   * @param formatType - the name type of format that will be perform , it can be
+   *                   {@link MessageHelper#ADDRESS_FULL} to display full email address and name
+   *                   {@link MessageHelper#ADDRESS_NAME} to only display name
+   *                   {@link MessageHelper#ADDRESS_COMPOSE} to display compose rfc822 format
+   * @return formatted addresses as string
    */
-  static String getFormattedAddresses(Address[] addresses, boolean full, boolean displayName) {
+  static String getFormattedAddresses(Address[] addresses, String formatType) {
     if (addresses == null || addresses.length == 0) {
       return "";
     }
@@ -442,9 +452,25 @@ public class MessageHelper {
         } else {
           String email = a.getAddress();
           personal = personal.replaceAll("[\\,\\<\\>]", "");
-          if (full) {
+
+          if (ADDRESS_COMPOSE.equals(formatType)) {
+            boolean quote = false;
+            personal = personal.replace("\"", "");
+            for (int c = 0; c < personal.length(); c++) {
+              // https://tools.ietf.org/html/rfc822
+              if ("()<>@,;:\\\".[]".indexOf(personal.charAt(c)) >= 0) {
+                quote = true;
+                break;
+              }
+            }
+            if (quote) {
+              personal = "\"" + personal + "\"";
+            }
+          }
+
+          if (ADDRESS_FULL.equals(formatType) || ADDRESS_COMPOSE.equals(formatType)) {
             formatted.add(personal + " <" + email + ">");
-          } else if (displayName) {
+          } else if (ADDRESS_NAME.equals(formatType)) {
             formatted.add(personal);
           } else {
             formatted.add(email);
@@ -457,8 +483,35 @@ public class MessageHelper {
     return TextUtils.join(", ", formatted);
   }
 
-  static String getFormattedAddresses(Address[] addresses, boolean full) {
-    return getFormattedAddresses(addresses, full, true);
+  /**
+   * Get email addresses formatted and ready for email compose fields
+   * @param addresses - list of email address to perform format
+   * @return lists of emails addresses as string
+   */
+  static String getAddressesCompose(Address[] addresses) {
+    String result = getFormattedAddresses(addresses, ADDRESS_COMPOSE);
+    if (!TextUtils.isEmpty(result))
+      result += ", ";
+    return result;
+  }
+
+  /**
+   * Sanitize/clean pre-format email address.
+   * e.g "User name <user@email.com>"
+   * @param email - per-format address email
+   * @return lists of emails addresses as string
+   */
+  static String sanitizeEmail(String email) {
+    if (Pattern.matches("<|>", email)) {
+      try {
+        InternetAddress address = new InternetAddress(email);
+        return address.getAddress();
+      } catch (AddressException ignored) {
+        return email;
+      }
+    }
+
+    return email;
   }
 
   String getHtml() throws MessagingException, IOException {
