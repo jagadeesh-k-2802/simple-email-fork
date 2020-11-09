@@ -37,6 +37,10 @@ before_script:
   - export PATH=$PATH:$ANDROID_HOME/platform-tools/
   - chmod +x ./gradlew
 
+.setup_credentials: &setup_credentials
+  - git config --global user.email $GIT_AUTHOR_EMAIL
+  - git config --global user.name $GIT_AUTHOR_NAME
+
 lintAll:
   stage: test
   except:
@@ -89,6 +93,18 @@ buildRelease:
     paths:
       - app/build/outputs/
 
+approveRelease:
+  stage: deploy
+  when: manual
+  only:
+    - deploy
+  before_script:
+    - *setup_credentials
+  script:
+    - git fetch
+    - git checkout main
+    - git merge origin/develop
+
 release:
   stage: deploy
   only:
@@ -101,8 +117,7 @@ release:
     - eval $(ssh-agent -s)
     - ssh-add <(echo "$GIT_SSH_KEY")
     - mkdir -p ~/.ssh && ssh-keyscan $GITLAB_URL >> ~/.ssh/known_hosts
-    - git config --global user.email $GIT_AUTHOR_EMAIL
-    - git config --global user.name $GIT_AUTHOR_NAME
+    - *setup_credentials
   cache: {}
   script:
     - npm install -g semantic-release @semantic-release/commit-analyzer @semantic-release/release-notes-generator @semantic-release/changelog @semantic-release/exec @semantic-release/git @semantic-release/gitlab
