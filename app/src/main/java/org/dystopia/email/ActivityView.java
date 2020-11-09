@@ -1076,8 +1076,10 @@ public class ActivityView extends ActivityBase
   @Override
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     Log.i(
-        Helper.TAG,
-        "View onActivityResult request=" + requestCode + " result=" + resultCode + " data=" + data);
+      Helper.TAG,
+      "View onActivityResult request=" + requestCode + " result=" + resultCode + " data=" + data);
+    super.onActivityResult(requestCode, resultCode, data);
+
     if (resultCode == Activity.RESULT_OK) {
       if (requestCode == REQUEST_ATTACHMENT) {
         if (data != null) {
@@ -1107,7 +1109,7 @@ public class ActivityView extends ActivityBase
                   fos.write(buffer, 0, read);
                 }
               } catch (FileNotFoundException ex) {
-                  Log.w(Helper.TAG, ex + "\n" + Log.getStackTraceString(ex));
+                Log.w(Helper.TAG, ex + "\n" + Log.getStackTraceString(ex));
               } finally {
                 try {
                   if (pfd != null) {
@@ -1138,7 +1140,7 @@ public class ActivityView extends ActivityBase
             @Override
             protected void onLoaded(Bundle args, Void data) {
               Toast.makeText(ActivityView.this, R.string.title_attachment_saved, Toast.LENGTH_LONG)
-                  .show();
+                .show();
             }
 
             @Override
