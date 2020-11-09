@@ -248,11 +248,8 @@
     <string name="title_debug_info_remark">Lütfen sorunu açıklayın ve sorunun zamanını belirtin:</string>
     <string name="title_crash_info_remark">Lütfen uygulama çöktüğü sırada ne yaptığınızı açıklayın:</string>
     <string name="title_privacy">Gizlilik İlkesi</string>
-    <string name="title_privacy_description">
-        <b>SimpleEmail</b> hiçbir bilgi toplamaz, gereksiz izinler gerektirmez ve <b>%100 Bedava Yazılım</b>dır.</string>
-    <string name="title_permissions">
-        <b>İzinler gerekli ve sebebi</b>
-    </string>
+    <string name="title_privacy_description"><b>SimpleEmail</b> hiçbir bilgi toplamaz, gereksiz izinler gerektirmez ve <b>%100 Özgür Yazılımdır</b>.</string>
+    <string name="title_permissions"><b>İzinler gerekli ve sebebi</b></string>
     <string name="title_permissions_list"><b>• tam ağ erişimine sahip olmak</b> (INTERNET):
 \ne-posta göndermek ve almak için <b>
 \n• ağ bağlantılarını görüntülemek</b> (ACCESS_NETWORK_STATE):
@@ -276,4 +273,6 @@
     <string name="title_cancel">İptal</string>
     <string name="title_color">Renk</string>
     <string name="title_reset">Sıfırla</string>
+    <string name="message_gmail_note">Ocak 2020\'den itibaren Gmail oAuth kapsamını sınırlandırdı, artık kimlik doğrulama için yetkilendirme gerekiyor, oAuth kimlik doğrulamasını özel kütüphaneler olmadan çözmenin en iyi yolunu arıyoruz.&lt;br/&gt;&lt;br/&gt; Geçici bir çözüm olarak normal kimlik doğrulamaya, veya Google\'ın dediği gibi &lt;i&gt;\"daha az güvenli uygulamalara\"&lt;/i&gt; izin vermeniz gerekiyor.&lt;br/&gt;&lt;br/&gt;&lt;b&gt;Talimatlar için:&lt;/b&gt; https://support.google.com/accounts/answer/6010255&lt;/br&gt;</string>
+    <string name="text_gmail_note">oAuth olmayan kimlik doğrulamasının etkinleştirilmesi gerekiyor. <font color="#0055C7">Daha fazla bilgi</font></string>
 </resources>
