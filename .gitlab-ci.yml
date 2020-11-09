@@ -97,7 +97,7 @@ release:
     - apt-get update -qq && apt-get install -y -qq pandoc wget
     - wget --quiet --output-document=/tmp/nvm-install.sh https://raw.githubusercontent.com/creationix/nvm/v0.33.6/install.sh
     - bash /tmp/nvm-install.sh
-    - export NVM_DIR="$HOME/.nvm" &&. "$NVM_DIR/nvm.sh" && nvm install 8
+    - export NVM_DIR="$HOME/.nvm" &&. "$NVM_DIR/nvm.sh" && nvm install --lts
     - eval $(ssh-agent -s)
     - ssh-add <(echo "$GIT_SSH_KEY")
     - mkdir -p ~/.ssh && ssh-keyscan $GITLAB_URL >> ~/.ssh/known_hosts
