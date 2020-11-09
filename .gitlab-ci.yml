@@ -40,7 +40,7 @@ before_script:
 lintAll:
   stage: test
   except:
-    - master
+    - main
   script:
     - ./gradlew --console=plain lint
     - ./gradlew --console=plain checkstyle
@@ -48,7 +48,7 @@ lintAll:
 lintRelease:
   stage: test
   only:
-    - master
+    - main
   script:
     - ./gradlew --console=plain lintRelease
     - ./gradlew --console=plain checkstyle
@@ -56,21 +56,21 @@ lintRelease:
 testAll:
   stage: test
   except:
-    - master
+    - main
   script:
     - ./gradlew --console=plain test
 
 testRelease:
   stage: test
   only:
-    - master
+    - main
   script:
     - ./gradlew --console=plain testReleaseUnitTest
 
 buildDebug:
   stage: build
   except:
-    - master
+    - main
   script:
     - ./gradlew assembleDebug
   artifacts:
@@ -81,7 +81,7 @@ buildDebug:
 buildRelease:
   stage: build
   only:
-    - master
+    - main
   script:
     - ./gradlew assembleRelease
   artifacts:
@@ -92,7 +92,7 @@ buildRelease:
 release:
   stage: deploy
   only:
-    - master
+    - main
   before_script:
     - apt-get update -qq && apt-get install -y -qq pandoc wget
     - wget --quiet --output-document=/tmp/nvm-install.sh https://raw.githubusercontent.com/creationix/nvm/v0.33.6/install.sh
@@ -109,5 +109,5 @@ release:
     - semantic-release
     - git fetch
     - git checkout develop
-    - git rebase origin/master
+    - git rebase origin/main
     - git push git@${GITLAB_URL}:${CI_PROJECT_PATH}.git develop
