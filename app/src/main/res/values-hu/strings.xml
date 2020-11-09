@@ -1,6 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
-  <string name="app_copyright">Copyright Ⓒ 2018 by M. Bokhorst\nCopyright Ⓒ 2018 by Distopico (dystopia project) and contributors</string>
   <string name="channel_service">Szolgáltatás</string>
   <string name="channel_notification">Értesítések</string>
   <string name="channel_error">Hibák</string>
@@ -31,7 +30,6 @@
   <string name="menu_invite">Meghívás</string>
   <string name="menu_rate">Alkalmazás értékelése</string>
   <string name="menu_other">Egyéb alkalmazások</string>
-  <string name="title_eula">Végfelhasználói licencszerződés</string>
   <string name="title_agree">Elfogadom</string>
   <string name="title_disagree">Nem fogadom el</string>
   <string name="title_version">Verzió: %1$s</string>

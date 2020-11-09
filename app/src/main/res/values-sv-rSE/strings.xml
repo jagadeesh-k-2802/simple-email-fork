@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_copyright">Copyright Ⓒ 2018 av M. Bokhorst</string>
     <string name="channel_service">Tjänst</string>
     <string name="channel_notification">Aviseringar</string>
     <string name="channel_error">Fel</string>
@@ -31,7 +30,6 @@
     <string name="menu_invite">Bjud in</string>
     <string name="menu_rate">Betygsätt denna app</string>
     <string name="menu_other">Andra appar</string>
-    <string name="title_eula">Licensavtal för slutanvändare</string>
     <string name="title_agree">Jag godkänner</string>
     <string name="title_disagree">Jag godkänner inte</string>
     <string name="title_version">Version %1$s</string>

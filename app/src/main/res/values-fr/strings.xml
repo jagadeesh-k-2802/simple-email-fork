@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_copyright">Copyright Ⓒ 2018 par M. Bokhorst</string>
     <string name="channel_service">Service</string>
     <string name="channel_notification">Notifications</string>
     <string name="channel_error">Erreurs</string>
@@ -31,7 +30,6 @@
     <string name="menu_invite">Inviter</string>
     <string name="menu_rate">Noter cette application</string>
     <string name="menu_other">Autres applications</string>
-    <string name="title_eula">Contrat de licence d\'utilisateur final</string>
     <string name="title_agree">J\'accepte</string>
     <string name="title_disagree">Je refuse</string>
     <string name="title_version">Version %1$s</string>

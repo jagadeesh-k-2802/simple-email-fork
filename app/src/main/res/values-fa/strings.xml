@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_copyright">Copyright Ⓒ 2018 by M. Bokhorst\nCopyright Ⓒ 2018 by Distopico (dystopia project) and contributors</string>
     <string name="channel_service">سرویس</string>
     <string name="channel_notification">اعلان‌ها</string>
     <string name="channel_error">خطاها</string>
@@ -31,7 +30,6 @@
     <string name="menu_invite">دعوت کردن</string>
     <string name="menu_rate">به این برنامه امتیاز دهید</string>
     <string name="menu_other">دیگر برنامه‌ها</string>
-    <string name="title_eula">توافقنامه مجوز نهایی کاربر</string>
     <string name="title_agree">موافقم</string>
     <string name="title_disagree">مخالفم</string>
     <string name="title_version">نگارش %1$s</string>

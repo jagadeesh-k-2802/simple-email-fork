@@ -1,6 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
-  <string name="app_copyright">Müəllif hüquqları Ⓒ 2018 M. Bokhorst-a məxsusdur</string>
   <string name="channel_service">Xidmət</string>
   <string name="channel_notification">Bildirişlər</string>
   <string name="channel_error">Xətalar</string>
@@ -31,7 +30,6 @@
   <string name="menu_invite">Dəvət et</string>
   <string name="menu_rate">Bu tətbiqi qiymətləndir</string>
   <string name="menu_other">Digər tətbiqlər</string>
-  <string name="title_eula">Son istifadəçi lisenziya müqaviləsi</string>
   <string name="title_agree">Razıyam</string>
   <string name="title_disagree">Razı deyiləm</string>
   <string name="title_version">Versiya %1$s</string>

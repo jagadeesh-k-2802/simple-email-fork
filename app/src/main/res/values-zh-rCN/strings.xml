@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_copyright">版权所有 Ⓒ 2018，M. Bokhorst</string>
     <string name="channel_service">服务</string>
     <string name="channel_notification">通知</string>
     <string name="channel_error">错误</string>
@@ -27,7 +26,6 @@
     <string name="menu_invite">邀请</string>
     <string name="menu_rate">给这个应用打分</string>
     <string name="menu_other">其他应用</string>
-    <string name="title_eula">最终用户许可协议</string>
     <string name="title_agree">我同意</string>
     <string name="title_disagree">我不同意</string>
     <string name="title_version">版本 %1$s</string>

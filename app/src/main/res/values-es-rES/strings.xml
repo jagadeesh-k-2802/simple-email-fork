@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_copyright">Copyright Ⓒ 2018 por M. Bokhorst</string>
     <string name="channel_service">Servicio</string>
     <string name="channel_notification">Notificaciones</string>
     <string name="channel_error">Errores</string>
@@ -31,7 +30,6 @@
     <string name="menu_invite">Invitar</string>
     <string name="menu_rate">Califica esta app</string>
     <string name="menu_other">Otras apps</string>
-    <string name="title_eula">Acuerdo de licencia de usuario</string>
     <string name="title_agree">Estoy de acuerdo</string>
     <string name="title_disagree">No estoy de acuerdo</string>
     <string name="title_version">Versión %1$s</string>
@@ -269,5 +267,4 @@
     <string name="title_color">Color</string>
     <string name="title_cancel">Cancelar</string>
     <string name="message_gmail_note">Desde enero de 2020 Gmail restringió los alcances de oAuth, ahora requiere autorización para poder autenticarse, estamos buscando la mejor manera de arreglar la autenticación de oAuth sin librerías privativas.&lt;br/&gt;&lt;br/&gt; Como solución temporal necesitas permitir la autenticación normal o como dice Google &lt;i&gt;\"aplicaciones menos seguras\"&lt;/i&gt;.&lt;br/&gt;&lt;br/&gt;&lt;b&gt; Instrucciones aquí:&lt;/b&gt; https://support.google.com/accounts/answer/6010255&lt;/br&gt;</string>
-    <string name="text_gmail_note">Requerir que se habilite la autenticación no oAuth <font color="#0055C7">Más Información</font></string>
 </resources>

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_copyright">Telif hakkı Ⓒ 2018 M. Bokhorst \'a aittir</string>
     <string name="channel_service">Hizmet</string>
     <string name="channel_notification">Bildirimler</string>
     <string name="channel_error">Hatalar</string>
@@ -31,7 +30,6 @@
     <string name="menu_invite">Davet et</string>
     <string name="menu_rate">Bu uygulamaya puan verin</string>
     <string name="menu_other">Diğer uygulamalar</string>
-    <string name="title_eula">Son Kullanıcı Lisans Sözleşmesi</string>
     <string name="title_agree">Kabul ediyorum</string>
     <string name="title_disagree">Kabul etmiyorum</string>
     <string name="title_version">Sürüm %1$s</string>
@@ -275,7 +273,6 @@
     <string name="title_no_identities_yet">Henüz yapılandırılmış kimliğiniz yok</string>
     <string name="title_try_subject">SimpleEmail\'i deneyin</string>
     <string name="title_try_text">Şuna davet et:</string>
-    <string name="text_gmail_note">oAuth olmayan kimlik doğrulamasının etkinleştirilmesi gerekiyor. <font color="#0055C7">Daha fazla bilgi</font></string>
     <string name="title_cancel">İptal</string>
     <string name="title_color">Renk</string>
     <string name="title_reset">Sıfırla</string>

@@ -1,6 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
-  <string name="app_copyright">Drepturi de autor Ⓒ 2018 de M. Bokhorst</string>
   <string name="channel_service">Serviciu</string>
   <string name="channel_notification">Notificări</string>
   <string name="channel_error">Erori</string>
@@ -35,7 +34,6 @@
   <string name="menu_invite">Invită</string>
   <string name="menu_rate">Evaluează această aplicație</string>
   <string name="menu_other">Alte aplicații</string>
-  <string name="title_eula">Licența de utilizare</string>
   <string name="title_agree">Sunt de acord</string>
   <string name="title_disagree">Nu sunt de acord</string>
   <string name="title_version">Versiunea %1$s</string>

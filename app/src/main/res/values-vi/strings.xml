@@ -1,6 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
-  <string name="app_copyright">Copyright Ⓒ 2018 by M. Bokhorst\nCopyright Ⓒ 2018 by Distopico (dystopia project) and contributors</string>
   <string name="channel_service">Service</string>
   <string name="channel_notification">Notifications</string>
   <string name="channel_error">Errors</string>

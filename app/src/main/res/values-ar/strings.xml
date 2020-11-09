@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_copyright">حقوق النشر بواسطه M. Bokhorst</string>
     <string name="channel_service">خدمة</string>
     <string name="channel_notification">الاشعارات</string>
     <string name="channel_error">أخطاء</string>
@@ -47,7 +46,6 @@
     <string name="menu_invite">دعوة</string>
     <string name="menu_rate">قيّم هذا التطبيق</string>
     <string name="menu_other">تطبيقات أخرى</string>
-    <string name="title_eula">اتفاقية ترخيص المستخدم النهائي</string>
     <string name="title_agree">أوافق</string>
     <string name="title_disagree">لا أوافق</string>
     <string name="title_version">الإصدار %1$s</string>

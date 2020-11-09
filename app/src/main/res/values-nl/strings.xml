@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_copyright">Copyright Ⓒ 2018 door M. Bokhorst</string>
     <string name="channel_service">Dienst</string>
     <string name="channel_notification">Meldingen</string>
     <string name="channel_error">Fouten</string>
@@ -31,7 +30,6 @@
     <string name="menu_invite">Uitnodigen</string>
     <string name="menu_rate">Beoordeel deze app</string>
     <string name="menu_other">Andere apps</string>
-    <string name="title_eula">Licentieovereenkomst voor eindgebruikers</string>
     <string name="title_agree">Ik ga akkoord</string>
     <string name="title_disagree">Ik ga niet akkoord</string>
     <string name="title_version">Versie %1$s</string>
