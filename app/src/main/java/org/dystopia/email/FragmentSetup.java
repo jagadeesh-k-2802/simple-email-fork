@@ -36,7 +36,6 @@ import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.util.Log;

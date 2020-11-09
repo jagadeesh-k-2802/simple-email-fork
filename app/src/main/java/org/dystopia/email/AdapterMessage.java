@@ -381,7 +381,7 @@ public class AdapterMessage extends PagedListAdapter<TupleMessageEx, AdapterMess
           int limit = compact ? 60 : 120;
           tvSummary.setText(plainText.substring(0, Math.min(plainText.length(), limit)) + "...");
           tvSummary.setVisibility(View.VISIBLE);
-        } catch(IOException ex) {
+        } catch (IOException ex) {
           Log.e(Helper.TAG, ex + "\n" + Log.getStackTraceString(ex));
         }
       }

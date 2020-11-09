@@ -17,6 +17,7 @@ package org.dystopia.email;
     along with FairEmail.  If not, see <http://www.gnu.org/licenses/>.
 
     Copyright 2018, Marcel Bokhorst (M66B)
+    Copyright 2018-2020, Distopico (dystopia project) <distopico@riseup.net> and contributors
 */
 
 import android.app.job.JobInfo;

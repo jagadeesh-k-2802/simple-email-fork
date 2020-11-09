@@ -33,7 +33,6 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.graphics.drawable.Icon;
 import android.media.RingtoneManager;
 import android.net.ConnectivityManager;
 import android.net.Network;
