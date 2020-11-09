@@ -257,4 +257,9 @@
     <string name="title_no_identities_yet">Je hebt nog geen ingestelde identiteiten</string>
     <string name="title_try_subject">Probeer SimpleEmail</string>
     <string name="title_try_text">Uitnodiging aan:</string>
+    <string name="message_gmail_note">Since January 2020 Gmail restricted the oAuth scopes, now requires authorization to be able to authenticate, we are looking the best way to fix oAuth authentication without privative libraries.&lt;br/&gt;&lt;br/&gt; As a temporary solution you need to allow normal authentication or how Google says &lt;i&gt;\"less secure apps\"&lt;/i&gt;.&lt;br/&gt;&lt;br/&gt;&lt;b&gt;Instructions here:&lt;/b&gt; https://support.google.com/accounts/answer/6010255&lt;/br&gt;</string>
+    <string name="text_gmail_note">Vereist niet-oAuth-authenticatie. <font color="#0055C7">Meer informatie</font></string>
+    <string name="title_cancel">Annuleren</string>
+    <string name="title_color">Kleur</string>
+    <string name="title_reset">Standaardwaarden</string>
 </resources>
