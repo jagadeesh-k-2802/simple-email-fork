@@ -97,7 +97,7 @@ approveRelease:
   stage: deploy
   when: manual
   only:
-    - deploy
+    - develop
   before_script:
     - *setup_credentials
   script:
