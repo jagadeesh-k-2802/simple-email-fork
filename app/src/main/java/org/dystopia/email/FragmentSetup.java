@@ -67,6 +67,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import org.dystopia.email.util.CompatibilityUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -369,8 +370,14 @@ public class FragmentSetup extends FragmentEx {
   public void onResume() {
     super.onResume();
 
-    PowerManager pm = getContext().getSystemService(PowerManager.class);
-    boolean ignoring = pm.isIgnoringBatteryOptimizations(BuildConfig.APPLICATION_ID);
+    boolean ignoring = true;
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+      Intent intent = new Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
+      PackageManager packageManager = getContext().getPackageManager();
+      if (intent.resolveActivity(packageManager) != null) { // system whitelisted
+        ignoring = CompatibilityUtils.isIgnoringOptimizations(getContext());
+      }
+    }
     btnDoze.setEnabled(!ignoring);
     tvDozeDone.setText(ignoring ? R.string.title_setup_done : R.string.title_setup_to_do);
     tvDozeDone.setCompoundDrawablesWithIntrinsicBounds(ignoring ? check : null, null, null, null);

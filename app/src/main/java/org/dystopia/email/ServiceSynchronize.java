@@ -114,6 +114,8 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.search.ComparisonTerm;
 import javax.mail.search.ReceivedDateTerm;
 import javax.net.ssl.SSLException;
+
+import org.dystopia.email.util.CompatibilityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -160,8 +162,8 @@ public class ServiceSynchronize extends LifecycleService {
     db.account().liveStats().observe(this, new Observer<TupleAccountStats>() {
       @Override
       public void onChanged(@Nullable TupleAccountStats stats) {
-        NotificationManager nm = getSystemService(NotificationManager.class);
-        nm.notify(NOTIFICATION_SYNCHRONIZE, getNotificationService(stats).build());
+        NotificationManager notificationManager = CompatibilityUtils.getNotificationManger(getBaseContext());
+        notificationManager.notify(NOTIFICATION_SYNCHRONIZE, getNotificationService(stats).build());
       }
     });
 
@@ -171,7 +173,7 @@ public class ServiceSynchronize extends LifecycleService {
 
       @Override
       public void onChanged(List<TupleNotification> messages) {
-        NotificationManager nm = getSystemService(NotificationManager.class);
+        NotificationManager notificationManager = CompatibilityUtils.getNotificationManger(getBaseContext());
         LongSparseArray<List<TupleNotification>> messagesByAccount = new LongSparseArray<>();
         LongSparseArray<List<Integer>> removed = notifying.clone();
 
@@ -179,7 +181,7 @@ public class ServiceSynchronize extends LifecycleService {
         setWidgetUnseen(messages);
 
         if (messages.size() == 0) {
-          nm.cancelAll();
+          notificationManager.cancelAll();
           return;
         }
 
@@ -232,7 +234,7 @@ public class ServiceSynchronize extends LifecycleService {
             Integer id = (int) notification.extras.getLong("id", 0);
 
             if ((id == 0 && added.size() > 0) || added.contains(id)) {
-              nm.notify(tag, id, notification);
+              notificationManager.notify(tag, id, notification);
             }
           }
 
@@ -247,7 +249,7 @@ public class ServiceSynchronize extends LifecycleService {
           String tag = "unseen-" + accountId;
 
           for (Integer id : notifyRemove) {
-            nm.cancel(tag, id);
+            notificationManager.cancel(tag, id);
           }
         }
       }
@@ -267,8 +269,8 @@ public class ServiceSynchronize extends LifecycleService {
 
     stopForeground(true);
 
-    NotificationManager nm = getSystemService(NotificationManager.class);
-    nm.cancel(NOTIFICATION_SYNCHRONIZE);
+    NotificationManager notificationManager = CompatibilityUtils.getNotificationManger(this);
+    notificationManager.cancel(NOTIFICATION_SYNCHRONIZE);
 
     super.onDestroy();
   }
@@ -574,10 +576,10 @@ public class ServiceSynchronize extends LifecycleService {
       PendingIntent piTrash = PendingIntent.getService(this, PI_TRASH, trash, PendingIntent.FLAG_UPDATE_CURRENT);
 
       Notification.Action.Builder actionSeen = new Notification.Action.Builder(
-          Icon.createWithResource(this, R.drawable.baseline_visibility_24), getString(R.string.title_seen), piSeen);
+          R.drawable.baseline_visibility_24, getString(R.string.title_seen), piSeen);
 
       Notification.Action.Builder actionTrash = new Notification.Action.Builder(
-          Icon.createWithResource(this, R.drawable.baseline_delete_24), getString(R.string.title_trash), piTrash);
+          R.drawable.baseline_delete_24, getString(R.string.title_trash), piTrash);
 
       Notification.Builder mbuilder = Helper.getNotificationBuilder(this, channelId);
       Notification.InboxStyle mstyle = new Notification.InboxStyle();
@@ -652,8 +654,8 @@ public class ServiceSynchronize extends LifecycleService {
     EntityLog.log(this, action + " " + Helper.formatThrowable(ex));
 
     if (ex instanceof SendFailedException) {
-      NotificationManager nm = getSystemService(NotificationManager.class);
-      nm.notify(action, 1, getNotificationError(action, ex).build());
+      NotificationManager notificationManager = CompatibilityUtils.getNotificationManger(this);
+      notificationManager.notify(action, 1, getNotificationError(action, ex).build());
     }
 
     if (BuildConfig.DEBUG && !(ex instanceof SendFailedException) && !(ex instanceof MailConnectException)
@@ -666,14 +668,14 @@ public class ServiceSynchronize extends LifecycleService {
         && !(ex instanceof MessagingException && ex.getCause() instanceof SocketTimeoutException)
         && !(ex instanceof MessagingException && ex.getCause() instanceof SSLException)
         && !(ex instanceof MessagingException && "connection failure".equals(ex.getMessage()))) {
-      NotificationManager nm = getSystemService(NotificationManager.class);
-      nm.notify(action, 1, getNotificationError(action, ex).build());
+      NotificationManager notificationManager = CompatibilityUtils.getNotificationManger(this);
+      notificationManager.notify(action, 1, getNotificationError(action, ex).build());
     }
   }
 
   private void monitorAccount(final EntityAccount account, final ServiceState state) throws NoSuchProviderException {
-    final PowerManager pm = getSystemService(PowerManager.class);
-    final PowerManager.WakeLock wl0 = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
+    final PowerManager powerManager = CompatibilityUtils.getPowerManager(getBaseContext());
+    final PowerManager.WakeLock wl0 = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
         BuildConfig.APPLICATION_ID + ":account." + account.id + ".monitor");
     try {
       wl0.acquire();
@@ -702,7 +704,7 @@ public class ServiceSynchronize extends LifecycleService {
         try {
           // Listen for store events
           istore.addStoreListener(new StoreListener() {
-            PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
+            PowerManager.WakeLock wl = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
                 BuildConfig.APPLICATION_ID + ":account." + account.id + ".store");
 
             @Override
@@ -721,7 +723,7 @@ public class ServiceSynchronize extends LifecycleService {
 
           // Listen for folder events
           istore.addFolderListener(new FolderAdapter() {
-            PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
+            PowerManager.WakeLock wl = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
                 BuildConfig.APPLICATION_ID + ":account." + account.id + ".folder");
 
             @Override
@@ -822,7 +824,7 @@ public class ServiceSynchronize extends LifecycleService {
 
             // Synchronize folder
             Thread sync = new Thread(new Runnable() {
-              PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
+              PowerManager.WakeLock wl = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
                   BuildConfig.APPLICATION_ID + ":account." + account.id + ".sync");
 
               @Override
@@ -1033,7 +1035,7 @@ public class ServiceSynchronize extends LifecycleService {
             @Override
             public void onReceive(Context context, final Intent intent) {
               executor.submit(new Runnable() {
-                PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
+                PowerManager.WakeLock wl = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
                     BuildConfig.APPLICATION_ID + ":account." + account.id + ".process");
 
                 @Override
@@ -1150,13 +1152,13 @@ public class ServiceSynchronize extends LifecycleService {
           registerReceiver(alarm, new IntentFilter(id));
 
           // Keep alive
-          AlarmManager am = getSystemService(AlarmManager.class);
+          AlarmManager alarmManager = CompatibilityUtils.getAlarmManager(this);
           try {
             while (state.running) {
               // Schedule keep alive alarm
               EntityLog.log(this, account.name + " wait=" + account.poll_interval);
-              am.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,
-                  System.currentTimeMillis() + account.poll_interval * 60 * 1000L, pi);
+              CompatibilityUtils.setAndAllowWhileIdle(alarmManager, AlarmManager.RTC_WAKEUP,
+                System.currentTimeMillis() + account.poll_interval * 60 * 1000L, pi);
 
               try {
                 wl0.release();
@@ -1185,7 +1187,7 @@ public class ServiceSynchronize extends LifecycleService {
             }
           } finally {
             // Cleanup
-            am.cancel(pi);
+            alarmManager.cancel(pi);
             unregisterReceiver(alarm);
             lbm.unregisterReceiver(processFolder);
           }
@@ -2027,8 +2029,8 @@ public class ServiceSynchronize extends LifecycleService {
     List<EntityAttachment> attachments = db.attachment().getAttachments(message.id);
     MessageHelper helper = new MessageHelper(imessage);
 
-    ConnectivityManager cm = context.getSystemService(ConnectivityManager.class);
-    boolean metered = (cm == null || cm.isActiveNetworkMetered());
+    ConnectivityManager connectivityManager = CompatibilityUtils.getConnectivityManager(context);
+    boolean metered = (connectivityManager  == null || connectivityManager.isActiveNetworkMetered());
 
     boolean fetch = false;
     if (!message.content) {
@@ -2102,8 +2104,8 @@ public class ServiceSynchronize extends LifecycleService {
 
     @Override
     public void onAvailable(Network network) {
-      ConnectivityManager cm = getSystemService(ConnectivityManager.class);
-      NetworkInfo ni = cm.getNetworkInfo(network);
+      ConnectivityManager connectivityManager = CompatibilityUtils.getConnectivityManager(ServiceSynchronize.this);
+      NetworkInfo ni = connectivityManager.getNetworkInfo(network);
       EntityLog.log(ServiceSynchronize.this,
           "Network available " + network + " running=" + running + " " + ni);
 
@@ -2124,8 +2126,8 @@ public class ServiceSynchronize extends LifecycleService {
       EntityLog.log(ServiceSynchronize.this, "Network lost " + network + " running=" + running);
 
       if (running) {
-        ConnectivityManager cm = getSystemService(ConnectivityManager.class);
-        NetworkInfo ani = (network == null ? null : cm.getActiveNetworkInfo());
+        ConnectivityManager connectivityManager = CompatibilityUtils.getConnectivityManager(ServiceSynchronize.this);
+        NetworkInfo ani = (network == null ? null : connectivityManager.getActiveNetworkInfo());
         EntityLog.log(ServiceSynchronize.this,
             "Network active=" + (ani == null ? null : ani.toString()));
         if (ani == null || !ani.isConnected()) {
@@ -2151,9 +2153,9 @@ public class ServiceSynchronize extends LifecycleService {
 
         @Override
         public void run() {
-          PowerManager pm = getSystemService(PowerManager.class);
+          PowerManager powerManager = CompatibilityUtils.getPowerManager(ServiceSynchronize.this);
           PowerManager.WakeLock wl =
-              pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, BuildConfig.APPLICATION_ID + ":start");
+              powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, BuildConfig.APPLICATION_ID + ":start");
           try {
             wl.acquire();
 
@@ -2259,9 +2261,9 @@ public class ServiceSynchronize extends LifecycleService {
     }
 
     private void stop() {
-      PowerManager pm = getSystemService(PowerManager.class);
+      PowerManager powerManager = CompatibilityUtils.getPowerManager(ServiceSynchronize.this);
       PowerManager.WakeLock wl =
-          pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, BuildConfig.APPLICATION_ID + ":stop");
+          powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, BuildConfig.APPLICATION_ID + ":stop");
       try {
         wl.acquire();
         EntityLog.log(ServiceSynchronize.this, "Main stop");
@@ -2324,8 +2326,8 @@ public class ServiceSynchronize extends LifecycleService {
         executor.submit(new Runnable() {
           @Override
           public void run() {
-            PowerManager pm = getSystemService(PowerManager.class);
-            PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
+            PowerManager powerManager = CompatibilityUtils.getPowerManager(context);
+            PowerManager.WakeLock wl = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
                 BuildConfig.APPLICATION_ID + ":outbox");
 
             try {

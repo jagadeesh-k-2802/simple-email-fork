@@ -36,6 +36,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentTransaction;
+
+import org.dystopia.email.util.CompatibilityUtils;
+
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
@@ -69,7 +72,9 @@ public class FragmentAbout extends FragmentEx {
     btnLog = view.findViewById(R.id.btnLog);
     btnDebugInfo = view.findViewById(R.id.btnDebugInfo);
 
-    tvVersion.setText(getString(R.string.title_version, BuildConfig.VERSION_NAME));
+    int version = R.string.title_version;
+    String versionName = getString(version, BuildConfig.VERSION_NAME);
+    tvVersion.setText(versionName);
 
     btnLog.setOnClickListener(
         new View.OnClickListener() {
@@ -126,8 +131,7 @@ public class FragmentAbout extends FragmentEx {
                 sb.append(String.format(locale, "Id: %s\r\n", Build.ID));
                 sb.append("\r\n");
 
-                PowerManager pm = getContext().getSystemService(PowerManager.class);
-                boolean ignoring = pm.isIgnoringBatteryOptimizations(BuildConfig.APPLICATION_ID);
+                boolean ignoring = CompatibilityUtils.isIgnoringOptimizations(getContext());
                 sb.append(String.format(locale, "Battery optimizations: %b\r\n", !ignoring));
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {

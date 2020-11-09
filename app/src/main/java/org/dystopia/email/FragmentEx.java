@@ -20,6 +20,7 @@ package org.dystopia.email;
     Copyright 2018-2020, Distopico (dystopia project) <distopico@riseup.net> and contributors
 */
 
+import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,6 +32,8 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Lifecycle;
+
+import org.dystopia.email.util.CompatibilityUtils;
 
 public class FragmentEx extends Fragment {
   private String title = "";
@@ -113,10 +116,10 @@ public class FragmentEx extends Fragment {
   public void onDetach() {
     super.onDetach();
 
-    InputMethodManager im = getContext().getSystemService(InputMethodManager.class);
+    InputMethodManager inputMethodManager = CompatibilityUtils.getInputMethodManager(getContext());
     View focused = getActivity().getCurrentFocus();
     if (focused != null) {
-      im.hideSoftInputFromWindow(focused.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+      inputMethodManager.hideSoftInputFromWindow(focused.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
   }
 

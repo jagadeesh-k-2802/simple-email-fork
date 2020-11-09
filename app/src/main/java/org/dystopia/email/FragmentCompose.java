@@ -100,6 +100,8 @@ import javax.mail.Session;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+
+import org.dystopia.email.util.CompatibilityUtils;
 import org.openintents.openpgp.OpenPgpError;
 import org.openintents.openpgp.util.OpenPgpApi;
 import org.openintents.openpgp.util.OpenPgpServiceConnection;
@@ -483,9 +485,9 @@ public class FragmentCompose extends FragmentEx {
           break;
         case R.id.menu_link:
           Uri uri = null;
-          ClipboardManager cbm = getContext().getSystemService(ClipboardManager.class);
-          if (cbm.hasPrimaryClip()) {
-            String link = cbm.getPrimaryClip().getItemAt(0).coerceToText(getContext()).toString();
+          ClipboardManager clipboardManager = CompatibilityUtils.getClipboardManager(getContext());
+          if (clipboardManager.hasPrimaryClip()) {
+            String link = clipboardManager.getPrimaryClip().getItemAt(0).coerceToText(getContext()).toString();
             uri = Uri.parse(link);
             if (uri.getScheme() == null) {
               uri = null;
