@@ -30,7 +30,7 @@ def getImplementation = { project ->
         } else {
             // get jar from aar
             def cacheFolder = new File("${System.getProperty('user.home')}/.gradle/caches")
-            
+
             if( cacheFolder.exists() ) {
                 cacheFolder.eachFileRecurse(FILES) {
                     if(!transforms.contains(dep.name) && it.path.contains(dep.name) &&
@@ -42,7 +42,7 @@ def getImplementation = { project ->
             }
         }
     }
-    
+
     files
 }
 
@@ -102,7 +102,7 @@ def prj = { project ->
                    + project.configurations.testCompile.getFiles()
                    + getImplementation(project)
                    + jarFiles(project)
-                  ))
+                ))
         }
     }
 }

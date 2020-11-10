@@ -42,8 +42,9 @@ android {
         htmlReport true
         textReport true
         lintConfig file("${rootProject.getRootDir()}/lint.xml")
-        warningsAsErrors true
-        abortOnError false
+        warningsAsErrors false
+        ignoreWarnings true
+        abortOnError true
         explainIssues true
         absolutePaths false
     }
@@ -59,13 +60,13 @@ repositories {
     maven {
         url "https://repo1.maven.org/maven2/"
     }
-	  maven {
+    maven {
         url "https://jitpack.io"
     }
 }
 
 configurations {
-  implementationDeps.extendsFrom implementation
+    implementationDeps.extendsFrom implementation
 }
 
 dependencies {

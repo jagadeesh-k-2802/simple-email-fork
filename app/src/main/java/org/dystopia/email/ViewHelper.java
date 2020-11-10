@@ -23,23 +23,25 @@ import android.content.Context;
 
 public class ViewHelper {
 
-  /**
-   * Convert density-independent pixels units to pixel units.
-   * @param context - android content context to get density
-   * @param dp - density-independent pixel value
-   */
-  static int dp2px(Context context, int dp) {
-    float scale = context.getResources().getDisplayMetrics().density;
-    return Math.round(dp * scale);
-  }
+    /**
+     * Convert density-independent pixels units to pixel units.
+     *
+     * @param context - android content context to get density
+     * @param dp      - density-independent pixel value
+     */
+    static int dp2px(Context context, int dp) {
+        float scale = context.getResources().getDisplayMetrics().density;
+        return Math.round(dp * scale);
+    }
 
-  /**
-   * Convert pixel units to density-independent pixels units.
-   * @param context - android content context to get density
-   * @param px - pixels value
-   */
-  static int px2dp(Context context, float px) {
-    float scale = context.getResources().getDisplayMetrics().density;
-    return Math.round(px / scale);
-  }
+    /**
+     * Convert pixel units to density-independent pixels units.
+     *
+     * @param context - android content context to get density
+     * @param px      - pixels value
+     */
+    static int px2dp(Context context, float px) {
+        float scale = context.getResources().getDisplayMetrics().density;
+        return Math.round(px / scale);
+    }
 }

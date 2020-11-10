@@ -36,97 +36,97 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class JobDaily extends JobService {
-  private ExecutorService executor =
-      Executors.newSingleThreadExecutor(Helper.backgroundThreadFactory);
+    private ExecutorService executor =
+        Executors.newSingleThreadExecutor(Helper.backgroundThreadFactory);
 
-  private static final long CLEANUP_INTERVAL = 4 * 3600 * 1000L; // milliseconds
+    private static final long CLEANUP_INTERVAL = 4 * 3600 * 1000L; // milliseconds
 
-  public static void schedule(Context context) {
-    Log.i(Helper.TAG, "Scheduling daily job");
+    public static void schedule(Context context) {
+        Log.i(Helper.TAG, "Scheduling daily job");
 
-    JobInfo.Builder job =
-        new JobInfo.Builder(Helper.JOB_DAILY, new ComponentName(context, JobDaily.class))
-            .setPeriodic(CLEANUP_INTERVAL)
-            .setRequiresDeviceIdle(true);
+        JobInfo.Builder job =
+            new JobInfo.Builder(Helper.JOB_DAILY, new ComponentName(context, JobDaily.class))
+                .setPeriodic(CLEANUP_INTERVAL)
+                .setRequiresDeviceIdle(true);
 
-    JobScheduler scheduler = CompatibilityUtils.getJobScheduler(context);
-    scheduler.cancel(Helper.JOB_DAILY);
-    if (scheduler.schedule(job.build()) == JobScheduler.RESULT_SUCCESS) {
-      Log.i(Helper.TAG, "Scheduled daily job");
-    } else {
-      Log.e(Helper.TAG, "Scheduling daily job failed");
+        JobScheduler scheduler = CompatibilityUtils.getJobScheduler(context);
+        scheduler.cancel(Helper.JOB_DAILY);
+        if (scheduler.schedule(job.build()) == JobScheduler.RESULT_SUCCESS) {
+            Log.i(Helper.TAG, "Scheduled daily job");
+        } else {
+            Log.e(Helper.TAG, "Scheduling daily job failed");
+        }
     }
-  }
 
-  @Override
-  public boolean onStartJob(JobParameters args) {
-    EntityLog.log(this, "Daily cleanup");
+    @Override
+    public boolean onStartJob(JobParameters args) {
+        EntityLog.log(this, "Daily cleanup");
 
-    final DB db = DB.getInstance(this);
+        final DB db = DB.getInstance(this);
 
-    executor.submit(
-        new Runnable() {
-          @Override
-          public void run() {
-            try {
-              db.beginTransaction();
+        executor.submit(
+            new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        db.beginTransaction();
 
-              Log.i(Helper.TAG, "Start daily job");
+                        Log.i(Helper.TAG, "Start daily job");
 
-              // Cleanup message files
-              Log.i(Helper.TAG, "Cleanup message files");
-              File[] messages = new File(getFilesDir(), "messages").listFiles();
-              if (messages != null) {
-                for (File file : messages) {
-                  if (file.isFile()) {
-                    long id = Long.parseLong(file.getName());
-                    if (db.message().countMessage(id) == 0) {
-                      Log.i(Helper.TAG, "Cleanup message id=" + id);
-                      if (!file.delete()) {
-                        Log.w(Helper.TAG, "Error deleting " + file);
-                      }
+                        // Cleanup message files
+                        Log.i(Helper.TAG, "Cleanup message files");
+                        File[] messages = new File(getFilesDir(), "messages").listFiles();
+                        if (messages != null) {
+                            for (File file : messages) {
+                                if (file.isFile()) {
+                                    long id = Long.parseLong(file.getName());
+                                    if (db.message().countMessage(id) == 0) {
+                                        Log.i(Helper.TAG, "Cleanup message id=" + id);
+                                        if (!file.delete()) {
+                                            Log.w(Helper.TAG, "Error deleting " + file);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        // Cleanup attachment files
+                        Log.i(Helper.TAG, "Cleanup attachment files");
+                        File[] attachments = new File(getFilesDir(), "attachments").listFiles();
+                        if (attachments != null) {
+                            for (File file : attachments) {
+                                if (file.isFile()) {
+                                    long id = Long.parseLong(file.getName());
+                                    if (db.attachment().countAttachment(id) == 0) {
+                                        Log.i(Helper.TAG, "Cleanup attachment id=" + id);
+                                        if (!file.delete()) {
+                                            Log.w(Helper.TAG, "Error deleting " + file);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        Log.i(Helper.TAG, "Cleanup log");
+                        long before = new Date().getTime() - 24 * 3600 * 1000L;
+                        int logs = db.log().deleteLogs(before);
+                        Log.i(Helper.TAG, "Deleted logs=" + logs);
+
+                        db.setTransactionSuccessful();
+                    } catch (Throwable ex) {
+                        Log.e(Helper.TAG, ex + "\n" + Log.getStackTraceString(ex));
+                    } finally {
+                        db.endTransaction();
+                        Log.i(Helper.TAG, "End daily job");
                     }
-                  }
                 }
-              }
+            });
 
-              // Cleanup attachment files
-              Log.i(Helper.TAG, "Cleanup attachment files");
-              File[] attachments = new File(getFilesDir(), "attachments").listFiles();
-              if (attachments != null) {
-                for (File file : attachments) {
-                  if (file.isFile()) {
-                    long id = Long.parseLong(file.getName());
-                    if (db.attachment().countAttachment(id) == 0) {
-                      Log.i(Helper.TAG, "Cleanup attachment id=" + id);
-                      if (!file.delete()) {
-                        Log.w(Helper.TAG, "Error deleting " + file);
-                      }
-                    }
-                  }
-                }
-              }
+        return false;
+    }
 
-              Log.i(Helper.TAG, "Cleanup log");
-              long before = new Date().getTime() - 24 * 3600 * 1000L;
-              int logs = db.log().deleteLogs(before);
-              Log.i(Helper.TAG, "Deleted logs=" + logs);
-
-              db.setTransactionSuccessful();
-            } catch (Throwable ex) {
-              Log.e(Helper.TAG, ex + "\n" + Log.getStackTraceString(ex));
-            } finally {
-              db.endTransaction();
-              Log.i(Helper.TAG, "End daily job");
-            }
-          }
-        });
-
-    return false;
-  }
-
-  @Override
-  public boolean onStopJob(JobParameters args) {
-    return false;
-  }
+    @Override
+    public boolean onStopJob(JobParameters args) {
+        return false;
+    }
 }

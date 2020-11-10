@@ -27,6 +27,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -35,122 +36,122 @@ import androidx.lifecycle.Lifecycle;
 import org.dystopia.email.util.CompatibilityUtils;
 
 public class FragmentEx extends Fragment {
-  private String title = "";
-  private String subtitle = " ";
-  private boolean finish = false;
+    private String title = "";
+    private String subtitle = " ";
+    private boolean finish = false;
 
-  protected void setTitle(int resid) {
-    setTitle(getString(resid));
-  }
-
-  protected void setTitle(String subtitle) {
-    this.title = subtitle;
-    updateTitle();
-  }
-
-  protected void setSubtitle(int resid) {
-    setSubtitle(getString(resid));
-  }
-
-  protected void setSubtitle(String subtitle) {
-    this.subtitle = subtitle;
-    updateSubtitle();
-  }
-
-  protected void finish() {
-    if (getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.RESUMED)) {
-      getFragmentManager().popBackStack();
-    } else {
-      finish = true;
+    protected void setTitle(int resid) {
+        setTitle(getString(resid));
     }
-  }
 
-  @Override
-  public void onSaveInstanceState(Bundle outState) {
-    Log.i(Helper.TAG, "Save instance " + this);
-    super.onSaveInstanceState(outState);
-    outState.putString("subtitle", subtitle);
-  }
-
-  @Override
-  public void onCreate(Bundle savedInstanceState) {
-    Log.i(Helper.TAG, "Create " + this + " saved=" + (savedInstanceState != null));
-    super.onCreate(savedInstanceState);
-    if (savedInstanceState != null) {
-      subtitle = savedInstanceState.getString("subtitle");
+    protected void setTitle(String subtitle) {
+        this.title = subtitle;
+        updateTitle();
     }
-  }
 
-  @Override
-  public View onCreateView(
-      LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    Log.i(Helper.TAG, "Create view " + this);
-    return super.onCreateView(inflater, container, savedInstanceState);
-  }
-
-  @Override
-  public void onActivityCreated(Bundle savedInstanceState) {
-    Log.i(Helper.TAG, "Activity " + this + " saved=" + (savedInstanceState != null));
-    super.onActivityCreated(savedInstanceState);
-  }
-
-  @Override
-  public void onResume() {
-    Log.i(Helper.TAG, "Resume " + this);
-    super.onResume();
-    updateSubtitle();
-    if (finish) {
-      getFragmentManager().popBackStack();
-      finish = false;
+    protected void setSubtitle(int resid) {
+        setSubtitle(getString(resid));
     }
-  }
 
-  @Override
-  public void onPause() {
-    Log.i(Helper.TAG, "Pause " + this);
-    super.onPause();
-  }
-
-  @Override
-  public void onDetach() {
-    super.onDetach();
-
-    InputMethodManager inputMethodManager = CompatibilityUtils.getInputMethodManager(getContext());
-    View focused = getActivity().getCurrentFocus();
-    if (focused != null) {
-      inputMethodManager.hideSoftInputFromWindow(focused.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+    protected void setSubtitle(String subtitle) {
+        this.subtitle = subtitle;
+        updateSubtitle();
     }
-  }
 
-  @Override
-  public void onConfigurationChanged(Configuration newConfig) {
-    Log.i(Helper.TAG, "Config " + this);
-    super.onConfigurationChanged(newConfig);
-  }
-
-  @Override
-  public void onDestroy() {
-    Log.i(Helper.TAG, "Destroy " + this);
-    super.onDestroy();
-  }
-
-  private void updateTitle() {
-    AppCompatActivity activity = (AppCompatActivity) getActivity();
-    if (activity != null) {
-      ActionBar actionbar = activity.getSupportActionBar();
-      if (actionbar != null) {
-        actionbar.setTitle(title);
-      }
+    protected void finish() {
+        if (getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.RESUMED)) {
+            getFragmentManager().popBackStack();
+        } else {
+            finish = true;
+        }
     }
-  }
 
-  private void updateSubtitle() {
-    AppCompatActivity activity = (AppCompatActivity) getActivity();
-    if (activity != null) {
-      ActionBar actionbar = activity.getSupportActionBar();
-      if (actionbar != null) {
-        actionbar.setSubtitle(subtitle);
-      }
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        Log.i(Helper.TAG, "Save instance " + this);
+        super.onSaveInstanceState(outState);
+        outState.putString("subtitle", subtitle);
     }
-  }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        Log.i(Helper.TAG, "Create " + this + " saved=" + (savedInstanceState != null));
+        super.onCreate(savedInstanceState);
+        if (savedInstanceState != null) {
+            subtitle = savedInstanceState.getString("subtitle");
+        }
+    }
+
+    @Override
+    public View onCreateView(
+        LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Log.i(Helper.TAG, "Create view " + this);
+        return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        Log.i(Helper.TAG, "Activity " + this + " saved=" + (savedInstanceState != null));
+        super.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
+    public void onResume() {
+        Log.i(Helper.TAG, "Resume " + this);
+        super.onResume();
+        updateSubtitle();
+        if (finish) {
+            getFragmentManager().popBackStack();
+            finish = false;
+        }
+    }
+
+    @Override
+    public void onPause() {
+        Log.i(Helper.TAG, "Pause " + this);
+        super.onPause();
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+
+        InputMethodManager inputMethodManager = CompatibilityUtils.getInputMethodManager(getContext());
+        View focused = getActivity().getCurrentFocus();
+        if (focused != null) {
+            inputMethodManager.hideSoftInputFromWindow(focused.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        Log.i(Helper.TAG, "Config " + this);
+        super.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    public void onDestroy() {
+        Log.i(Helper.TAG, "Destroy " + this);
+        super.onDestroy();
+    }
+
+    private void updateTitle() {
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+        if (activity != null) {
+            ActionBar actionbar = activity.getSupportActionBar();
+            if (actionbar != null) {
+                actionbar.setTitle(title);
+            }
+        }
+    }
+
+    private void updateSubtitle() {
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+        if (activity != null) {
+            ActionBar actionbar = activity.getSupportActionBar();
+            if (actionbar != null) {
+                actionbar.setSubtitle(subtitle);
+            }
+        }
+    }
 }

@@ -21,42 +21,42 @@ package org.dystopia.email;
 */
 
 public class TupleMessageEx extends EntityMessage {
-  public String accountName;
-  public Integer accountColor;
-  public String folderName;
-  public String folderDisplay;
-  public String folderType;
-  public int count;
-  public int unseen;
-  public int unflagged;
-  public int attachments;
+    public String accountName;
+    public Integer accountColor;
+    public String folderName;
+    public String folderDisplay;
+    public String folderType;
+    public int count;
+    public int unseen;
+    public int unflagged;
+    public int attachments;
 
-  @Override
-  public boolean shallowEquals(Object obj) {
-    return super.shallowEquals(obj);
-  }
-
-  @Override
-  public boolean equals(Object obj) {
-    if (obj instanceof TupleMessageEx) {
-      TupleMessageEx other = (TupleMessageEx) obj;
-      return (super.equals(obj)
-          && (this.accountName == null
-              ? other.accountName == null
-              : this.accountName.equals(other.accountName))
-          && (this.accountColor == null
-              ? other.accountColor == null
-              : this.accountColor.equals(other.accountColor))
-          && this.folderName.equals(other.folderName)
-          && (this.folderDisplay == null
-              ? other.folderDisplay == null
-              : this.folderDisplay.equals(other.folderDisplay))
-          && this.folderType.equals(other.folderType)
-          && this.count == other.count
-          && this.unseen == other.unseen
-          && this.unflagged == other.unflagged
-          && this.attachments == other.attachments);
+    @Override
+    public boolean shallowEquals(Object obj) {
+        return super.shallowEquals(obj);
     }
-    return false;
-  }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof TupleMessageEx) {
+            TupleMessageEx other = (TupleMessageEx) obj;
+            return (super.equals(obj)
+                && (this.accountName == null
+                ? other.accountName == null
+                : this.accountName.equals(other.accountName))
+                && (this.accountColor == null
+                ? other.accountColor == null
+                : this.accountColor.equals(other.accountColor))
+                && this.folderName.equals(other.folderName)
+                && (this.folderDisplay == null
+                ? other.folderDisplay == null
+                : this.folderDisplay.equals(other.folderDisplay))
+                && this.folderType.equals(other.folderType)
+                && this.count == other.count
+                && this.unseen == other.unseen
+                && this.unflagged == other.unflagged
+                && this.attachments == other.attachments);
+        }
+        return false;
+    }
 }

@@ -34,71 +34,71 @@ import org.dystopia.email.BuildConfig;
 
 public class CompatibilityUtils {
 
-  static public NotificationManager getNotificationManger(Context context) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-      return context.getSystemService(NotificationManager.class);
+    static public NotificationManager getNotificationManger(Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            return context.getSystemService(NotificationManager.class);
+        }
+        return (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
     }
-    return (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-  }
 
-  static public PowerManager getPowerManager(Context context) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-      return context.getSystemService(PowerManager.class);
+    static public PowerManager getPowerManager(Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            return context.getSystemService(PowerManager.class);
+        }
+        return (PowerManager) context.getSystemService(Context.POWER_SERVICE);
     }
-    return (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-  }
 
-  static public AlarmManager getAlarmManager(Context context) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-      return context.getSystemService(AlarmManager.class);
+    static public AlarmManager getAlarmManager(Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            return context.getSystemService(AlarmManager.class);
+        }
+        return (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
     }
-    return (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-  }
 
-  static public ConnectivityManager getConnectivityManager(Context context) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-      return context.getSystemService(ConnectivityManager.class);
+    static public ConnectivityManager getConnectivityManager(Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            return context.getSystemService(ConnectivityManager.class);
+        }
+        return (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
     }
-    return (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-  }
 
-  static public InputMethodManager getInputMethodManager(Context context) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-      return context.getSystemService(InputMethodManager.class);
+    static public InputMethodManager getInputMethodManager(Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            return context.getSystemService(InputMethodManager.class);
+        }
+        return (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
     }
-    return (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-  }
 
-  static public JobScheduler getJobScheduler(Context context) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-      return context.getSystemService(JobScheduler.class);
-    } else {
-      return (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
+    static public JobScheduler getJobScheduler(Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            return context.getSystemService(JobScheduler.class);
+        } else {
+            return (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
+        }
     }
-  }
 
-  static public ClipboardManager getClipboardManager(Context context) {
-    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-      return context.getSystemService(ClipboardManager.class);
+    static public ClipboardManager getClipboardManager(Context context) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            return context.getSystemService(ClipboardManager.class);
+        }
+        return (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
     }
-    return  (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-  }
 
-  static public Boolean isIgnoringOptimizations(Context context) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-      PowerManager powerManager = getPowerManager(context);
-      if (powerManager != null) {
-        return powerManager.isIgnoringBatteryOptimizations(BuildConfig.APPLICATION_ID);
-      }
+    static public Boolean isIgnoringOptimizations(Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            PowerManager powerManager = getPowerManager(context);
+            if (powerManager != null) {
+                return powerManager.isIgnoringBatteryOptimizations(BuildConfig.APPLICATION_ID);
+            }
+        }
+        return true;
     }
-    return true;
-  }
 
-  static public void setAndAllowWhileIdle(AlarmManager alarmManager, int type, long triggerAtMillis, PendingIntent operation) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-      alarmManager.setAndAllowWhileIdle(type, triggerAtMillis, operation);
-      return;
+    static public void setAndAllowWhileIdle(AlarmManager alarmManager, int type, long triggerAtMillis, PendingIntent operation) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            alarmManager.setAndAllowWhileIdle(type, triggerAtMillis, operation);
+            return;
+        }
+        alarmManager.setExact(type, triggerAtMillis, operation);
     }
-    alarmManager.setExact(type, triggerAtMillis, operation);
-  }
 }

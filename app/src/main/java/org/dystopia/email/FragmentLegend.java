@@ -23,20 +23,21 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 public class FragmentLegend extends FragmentEx {
-  @Override
-  @Nullable
-  public View onCreateView(
-      @NonNull LayoutInflater inflater,
-      @Nullable ViewGroup container,
-      @Nullable Bundle savedInstanceState) {
-    setSubtitle(R.string.menu_legend);
+    @Override
+    @Nullable
+    public View onCreateView(
+        @NonNull LayoutInflater inflater,
+        @Nullable ViewGroup container,
+        @Nullable Bundle savedInstanceState) {
+        setSubtitle(R.string.menu_legend);
 
-    View view = inflater.inflate(R.layout.fragment_legend, container, false);
+        View view = inflater.inflate(R.layout.fragment_legend, container, false);
 
-    return view;
-  }
+        return view;
+    }
 }

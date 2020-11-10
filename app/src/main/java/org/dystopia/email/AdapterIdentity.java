@@ -27,11 +27,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListUpdateCallback;
 import androidx.recyclerview.widget.RecyclerView;
+
 import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -40,191 +42,191 @@ import java.util.List;
 import java.util.Locale;
 
 public class AdapterIdentity extends RecyclerView.Adapter<AdapterIdentity.ViewHolder> {
-  private Context context;
+    private Context context;
 
-  private List<TupleIdentityEx> all = new ArrayList<>();
-  private List<TupleIdentityEx> filtered = new ArrayList<>();
+    private List<TupleIdentityEx> all = new ArrayList<>();
+    private List<TupleIdentityEx> filtered = new ArrayList<>();
 
-  public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-    View itemView;
-    ImageView ivPrimary;
-    TextView tvName;
-    ImageView ivSync;
-    TextView tvUser;
-    TextView tvHost;
-    ImageView ivState;
-    TextView tvAccount;
-    TextView tvError;
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        View itemView;
+        ImageView ivPrimary;
+        TextView tvName;
+        ImageView ivSync;
+        TextView tvUser;
+        TextView tvHost;
+        ImageView ivState;
+        TextView tvAccount;
+        TextView tvError;
 
-    ViewHolder(View itemView) {
-      super(itemView);
+        ViewHolder(View itemView) {
+            super(itemView);
 
-      this.itemView = itemView;
-      ivPrimary = itemView.findViewById(R.id.ivPrimary);
-      tvName = itemView.findViewById(R.id.tvName);
-      ivSync = itemView.findViewById(R.id.ivSync);
-      tvUser = itemView.findViewById(R.id.tvUser);
-      tvHost = itemView.findViewById(R.id.tvHost);
-      ivState = itemView.findViewById(R.id.ivState);
-      tvAccount = itemView.findViewById(R.id.tvAccount);
-      tvError = itemView.findViewById(R.id.tvError);
+            this.itemView = itemView;
+            ivPrimary = itemView.findViewById(R.id.ivPrimary);
+            tvName = itemView.findViewById(R.id.tvName);
+            ivSync = itemView.findViewById(R.id.ivSync);
+            tvUser = itemView.findViewById(R.id.tvUser);
+            tvHost = itemView.findViewById(R.id.tvHost);
+            ivState = itemView.findViewById(R.id.ivState);
+            tvAccount = itemView.findViewById(R.id.tvAccount);
+            tvError = itemView.findViewById(R.id.tvError);
+        }
+
+        private void wire() {
+            itemView.setOnClickListener(this);
+        }
+
+        private void unwire() {
+            itemView.setOnClickListener(null);
+        }
+
+        private void bindTo(TupleIdentityEx identity) {
+            ivPrimary.setVisibility(identity.primary ? View.VISIBLE : View.INVISIBLE);
+            tvName.setText(identity.name);
+            ivSync.setImageResource(
+                identity.synchronize
+                    ? R.drawable.baseline_sync_24
+                    : R.drawable.baseline_sync_disabled_24);
+            tvUser.setText(identity.email);
+            tvHost.setText(String.format(Locale.US, "%s:%d", identity.host, identity.port));
+            tvAccount.setText(identity.accountName);
+
+            if ("connected".equals(identity.state)) {
+                ivState.setImageResource(R.drawable.baseline_cloud_24);
+            } else if ("connecting".equals(identity.state)) {
+                ivState.setImageResource(R.drawable.baseline_cloud_queue_24);
+            } else {
+                ivState.setImageDrawable(null);
+            }
+            ivState.setVisibility(identity.synchronize ? View.VISIBLE : View.INVISIBLE);
+
+            tvError.setText(identity.error);
+            tvError.setVisibility(identity.error == null ? View.GONE : View.VISIBLE);
+        }
+
+        @Override
+        public void onClick(View view) {
+            int pos = getAdapterPosition();
+            if (pos == RecyclerView.NO_POSITION) {
+                return;
+            }
+            TupleIdentityEx identity = filtered.get(pos);
+
+            LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(context);
+            lbm.sendBroadcast(new Intent(ActivitySetup.ACTION_EDIT_IDENTITY).putExtra("id", identity.id));
+        }
     }
 
-    private void wire() {
-      itemView.setOnClickListener(this);
+    AdapterIdentity(Context context) {
+        this.context = context;
+        setHasStableIds(true);
     }
 
-    private void unwire() {
-      itemView.setOnClickListener(null);
+    public void set(@NonNull List<TupleIdentityEx> identities) {
+        Log.i(Helper.TAG, "Set identities=" + identities.size());
+
+        final Collator collator = Collator.getInstance(Locale.getDefault());
+        collator.setStrength(Collator.SECONDARY); // Case insensitive, process accents etc
+
+        Collections.sort(
+            identities,
+            new Comparator<TupleIdentityEx>() {
+                @Override
+                public int compare(TupleIdentityEx i1, TupleIdentityEx i2) {
+                    return collator.compare(i1.host, i2.host);
+                }
+            });
+
+        all = identities;
+
+        DiffUtil.DiffResult diff = DiffUtil.calculateDiff(new MessageDiffCallback(filtered, all));
+
+        filtered.clear();
+        filtered.addAll(all);
+
+        diff.dispatchUpdatesTo(
+            new ListUpdateCallback() {
+                @Override
+                public void onInserted(int position, int count) {
+                    Log.i(Helper.TAG, "Inserted @" + position + " #" + count);
+                }
+
+                @Override
+                public void onRemoved(int position, int count) {
+                    Log.i(Helper.TAG, "Removed @" + position + " #" + count);
+                }
+
+                @Override
+                public void onMoved(int fromPosition, int toPosition) {
+                    Log.i(Helper.TAG, "Moved " + fromPosition + ">" + toPosition);
+                }
+
+                @Override
+                public void onChanged(int position, int count, Object payload) {
+                    Log.i(Helper.TAG, "Changed @" + position + " #" + count);
+                }
+            });
+        diff.dispatchUpdatesTo(this);
     }
 
-    private void bindTo(TupleIdentityEx identity) {
-      ivPrimary.setVisibility(identity.primary ? View.VISIBLE : View.INVISIBLE);
-      tvName.setText(identity.name);
-      ivSync.setImageResource(
-          identity.synchronize
-              ? R.drawable.baseline_sync_24
-              : R.drawable.baseline_sync_disabled_24);
-      tvUser.setText(identity.email);
-      tvHost.setText(String.format(Locale.US, "%s:%d", identity.host, identity.port));
-      tvAccount.setText(identity.accountName);
+    private class MessageDiffCallback extends DiffUtil.Callback {
+        private List<TupleIdentityEx> prev;
+        private List<TupleIdentityEx> next;
 
-      if ("connected".equals(identity.state)) {
-        ivState.setImageResource(R.drawable.baseline_cloud_24);
-      } else if ("connecting".equals(identity.state)) {
-        ivState.setImageResource(R.drawable.baseline_cloud_queue_24);
-      } else {
-        ivState.setImageDrawable(null);
-      }
-      ivState.setVisibility(identity.synchronize ? View.VISIBLE : View.INVISIBLE);
+        MessageDiffCallback(List<TupleIdentityEx> prev, List<TupleIdentityEx> next) {
+            this.prev = prev;
+            this.next = next;
+        }
 
-      tvError.setText(identity.error);
-      tvError.setVisibility(identity.error == null ? View.GONE : View.VISIBLE);
+        @Override
+        public int getOldListSize() {
+            return prev.size();
+        }
+
+        @Override
+        public int getNewListSize() {
+            return next.size();
+        }
+
+        @Override
+        public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
+            TupleIdentityEx i1 = prev.get(oldItemPosition);
+            TupleIdentityEx i2 = next.get(newItemPosition);
+            return i1.id.equals(i2.id);
+        }
+
+        @Override
+        public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
+            TupleIdentityEx i1 = prev.get(oldItemPosition);
+            TupleIdentityEx i2 = next.get(newItemPosition);
+            return i1.equals(i2);
+        }
     }
 
     @Override
-    public void onClick(View view) {
-      int pos = getAdapterPosition();
-      if (pos == RecyclerView.NO_POSITION) {
-        return;
-      }
-      TupleIdentityEx identity = filtered.get(pos);
-
-      LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(context);
-      lbm.sendBroadcast(new Intent(ActivitySetup.ACTION_EDIT_IDENTITY).putExtra("id", identity.id));
-    }
-  }
-
-  AdapterIdentity(Context context) {
-    this.context = context;
-    setHasStableIds(true);
-  }
-
-  public void set(@NonNull List<TupleIdentityEx> identities) {
-    Log.i(Helper.TAG, "Set identities=" + identities.size());
-
-    final Collator collator = Collator.getInstance(Locale.getDefault());
-    collator.setStrength(Collator.SECONDARY); // Case insensitive, process accents etc
-
-    Collections.sort(
-        identities,
-        new Comparator<TupleIdentityEx>() {
-          @Override
-          public int compare(TupleIdentityEx i1, TupleIdentityEx i2) {
-            return collator.compare(i1.host, i2.host);
-          }
-        });
-
-    all = identities;
-
-    DiffUtil.DiffResult diff = DiffUtil.calculateDiff(new MessageDiffCallback(filtered, all));
-
-    filtered.clear();
-    filtered.addAll(all);
-
-    diff.dispatchUpdatesTo(
-        new ListUpdateCallback() {
-          @Override
-          public void onInserted(int position, int count) {
-            Log.i(Helper.TAG, "Inserted @" + position + " #" + count);
-          }
-
-          @Override
-          public void onRemoved(int position, int count) {
-            Log.i(Helper.TAG, "Removed @" + position + " #" + count);
-          }
-
-          @Override
-          public void onMoved(int fromPosition, int toPosition) {
-            Log.i(Helper.TAG, "Moved " + fromPosition + ">" + toPosition);
-          }
-
-          @Override
-          public void onChanged(int position, int count, Object payload) {
-            Log.i(Helper.TAG, "Changed @" + position + " #" + count);
-          }
-        });
-    diff.dispatchUpdatesTo(this);
-  }
-
-  private class MessageDiffCallback extends DiffUtil.Callback {
-    private List<TupleIdentityEx> prev;
-    private List<TupleIdentityEx> next;
-
-    MessageDiffCallback(List<TupleIdentityEx> prev, List<TupleIdentityEx> next) {
-      this.prev = prev;
-      this.next = next;
+    public long getItemId(int position) {
+        return filtered.get(position).id;
     }
 
     @Override
-    public int getOldListSize() {
-      return prev.size();
+    public int getItemCount() {
+        return filtered.size();
     }
 
     @Override
-    public int getNewListSize() {
-      return next.size();
+    @NonNull
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new ViewHolder(
+            LayoutInflater.from(context).inflate(R.layout.item_identity, parent, false));
     }
 
     @Override
-    public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-      TupleIdentityEx i1 = prev.get(oldItemPosition);
-      TupleIdentityEx i2 = next.get(newItemPosition);
-      return i1.id.equals(i2.id);
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        holder.unwire();
+
+        TupleIdentityEx identity = filtered.get(position);
+        holder.bindTo(identity);
+
+        holder.wire();
     }
-
-    @Override
-    public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
-      TupleIdentityEx i1 = prev.get(oldItemPosition);
-      TupleIdentityEx i2 = next.get(newItemPosition);
-      return i1.equals(i2);
-    }
-  }
-
-  @Override
-  public long getItemId(int position) {
-    return filtered.get(position).id;
-  }
-
-  @Override
-  public int getItemCount() {
-    return filtered.size();
-  }
-
-  @Override
-  @NonNull
-  public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-    return new ViewHolder(
-        LayoutInflater.from(context).inflate(R.layout.item_identity, parent, false));
-  }
-
-  @Override
-  public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-    holder.unwire();
-
-    TupleIdentityEx identity = filtered.get(position);
-    holder.bindTo(identity);
-
-    holder.wire();
-  }
 }

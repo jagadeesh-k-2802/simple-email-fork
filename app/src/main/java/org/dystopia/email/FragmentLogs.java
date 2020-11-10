@@ -24,77 +24,79 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.Group;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class FragmentLogs extends FragmentEx {
-  private RecyclerView rvLog;
-  private ProgressBar pbWait;
-  private Group grpReady;
+    private RecyclerView rvLog;
+    private ProgressBar pbWait;
+    private Group grpReady;
 
-  private AdapterLog adapter;
+    private AdapterLog adapter;
 
-  @Override
-  @Nullable
-  public View onCreateView(
-      @NonNull LayoutInflater inflater,
-      @Nullable ViewGroup container,
-      @Nullable Bundle savedInstanceState) {
-    setSubtitle(R.string.title_log);
+    @Override
+    @Nullable
+    public View onCreateView(
+        @NonNull LayoutInflater inflater,
+        @Nullable ViewGroup container,
+        @Nullable Bundle savedInstanceState) {
+        setSubtitle(R.string.title_log);
 
-    View view = inflater.inflate(R.layout.fragment_logs, container, false);
+        View view = inflater.inflate(R.layout.fragment_logs, container, false);
 
-    // Get controls
-    rvLog = view.findViewById(R.id.rvLog);
-    pbWait = view.findViewById(R.id.pbWait);
-    grpReady = view.findViewById(R.id.grpReady);
+        // Get controls
+        rvLog = view.findViewById(R.id.rvLog);
+        pbWait = view.findViewById(R.id.pbWait);
+        grpReady = view.findViewById(R.id.grpReady);
 
-    // Wire controls
+        // Wire controls
 
-    rvLog.setHasFixedSize(false);
-    LinearLayoutManager llm = new LinearLayoutManager(getContext());
-    rvLog.setLayoutManager(llm);
+        rvLog.setHasFixedSize(false);
+        LinearLayoutManager llm = new LinearLayoutManager(getContext());
+        rvLog.setLayoutManager(llm);
 
-    adapter = new AdapterLog(getContext());
-    rvLog.setAdapter(adapter);
+        adapter = new AdapterLog(getContext());
+        rvLog.setAdapter(adapter);
 
-    // Initialize
-    grpReady.setVisibility(View.GONE);
-    pbWait.setVisibility(View.VISIBLE);
+        // Initialize
+        grpReady.setVisibility(View.GONE);
+        pbWait.setVisibility(View.VISIBLE);
 
-    return view;
-  }
+        return view;
+    }
 
-  @Override
-  public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-    super.onActivityCreated(savedInstanceState);
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
 
-    long from = new Date().getTime() - 24 * 3600 * 1000L;
+        long from = new Date().getTime() - 24 * 3600 * 1000L;
 
-    DB db = DB.getInstance(getContext());
-    db.log()
-        .liveLogs(from)
-        .observe(
-            getViewLifecycleOwner(),
-            new Observer<List<EntityLog>>() {
-              @Override
-              public void onChanged(List<EntityLog> logs) {
-                if (logs == null) {
-                  logs = new ArrayList<>();
-                }
+        DB db = DB.getInstance(getContext());
+        db.log()
+            .liveLogs(from)
+            .observe(
+                getViewLifecycleOwner(),
+                new Observer<List<EntityLog>>() {
+                    @Override
+                    public void onChanged(List<EntityLog> logs) {
+                        if (logs == null) {
+                            logs = new ArrayList<>();
+                        }
 
-                adapter.set(logs);
+                        adapter.set(logs);
 
-                pbWait.setVisibility(View.GONE);
-                grpReady.setVisibility(View.VISIBLE);
-              }
-            });
-  }
+                        pbWait.setVisibility(View.GONE);
+                        grpReady.setVisibility(View.VISIBLE);
+                    }
+                });
+    }
 }

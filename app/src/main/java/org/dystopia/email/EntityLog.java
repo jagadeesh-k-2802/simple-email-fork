@@ -21,10 +21,12 @@ package org.dystopia.email;
 
 import android.content.Context;
 import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
+
 import java.util.Date;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -34,42 +36,44 @@ import java.util.concurrent.Executors;
     foreignKeys = {},
     indices = {@Index(value = {"time"})})
 public class EntityLog {
-  static final String TABLE_NAME = "log";
+    static final String TABLE_NAME = "log";
 
-  @PrimaryKey(autoGenerate = true)
-  public Long id;
+    @PrimaryKey(autoGenerate = true)
+    public Long id;
 
-  @NonNull public Long time;
-  @NonNull public String data;
+    @NonNull
+    public Long time;
+    @NonNull
+    public String data;
 
-  private static ExecutorService executor =
-      Executors.newSingleThreadExecutor(Helper.backgroundThreadFactory);
+    private static ExecutorService executor =
+        Executors.newSingleThreadExecutor(Helper.backgroundThreadFactory);
 
-  static void log(Context context, String data) {
-    Log.i(Helper.TAG, data);
+    static void log(Context context, String data) {
+        Log.i(Helper.TAG, data);
 
-    final EntityLog entry = new EntityLog();
-    entry.time = new Date().getTime();
-    entry.data = data;
+        final EntityLog entry = new EntityLog();
+        entry.time = new Date().getTime();
+        entry.data = data;
 
-    final DB db = DB.getInstance(context);
+        final DB db = DB.getInstance(context);
 
-    executor.submit(
-        new Runnable() {
-          @Override
-          public void run() {
-            db.log().insertLog(entry);
-          }
-        });
-  }
-
-  @Override
-  public boolean equals(Object obj) {
-    if (obj instanceof EntityLog) {
-      EntityLog other = (EntityLog) obj;
-      return (this.time.equals(other.time) && this.data.equals(other.data));
-    } else {
-      return false;
+        executor.submit(
+            new Runnable() {
+                @Override
+                public void run() {
+                    db.log().insertLog(entry);
+                }
+            });
     }
-  }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof EntityLog) {
+            EntityLog other = (EntityLog) obj;
+            return (this.time.equals(other.time) && this.data.equals(other.data));
+        } else {
+            return false;
+        }
+    }
 }

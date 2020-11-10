@@ -24,75 +24,77 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.Group;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class FragmentOperations extends FragmentEx {
-  private RecyclerView rvOperation;
-  private ProgressBar pbWait;
-  private Group grpReady;
+    private RecyclerView rvOperation;
+    private ProgressBar pbWait;
+    private Group grpReady;
 
-  private AdapterOperation adapter;
+    private AdapterOperation adapter;
 
-  @Override
-  @Nullable
-  public View onCreateView(
-      @NonNull LayoutInflater inflater,
-      @Nullable ViewGroup container,
-      @Nullable Bundle savedInstanceState) {
-    setSubtitle(R.string.menu_operations);
+    @Override
+    @Nullable
+    public View onCreateView(
+        @NonNull LayoutInflater inflater,
+        @Nullable ViewGroup container,
+        @Nullable Bundle savedInstanceState) {
+        setSubtitle(R.string.menu_operations);
 
-    View view = inflater.inflate(R.layout.fragment_operations, container, false);
+        View view = inflater.inflate(R.layout.fragment_operations, container, false);
 
-    // Get controls
-    rvOperation = view.findViewById(R.id.rvOperation);
-    pbWait = view.findViewById(R.id.pbWait);
-    grpReady = view.findViewById(R.id.grpReady);
+        // Get controls
+        rvOperation = view.findViewById(R.id.rvOperation);
+        pbWait = view.findViewById(R.id.pbWait);
+        grpReady = view.findViewById(R.id.grpReady);
 
-    // Wire controls
+        // Wire controls
 
-    rvOperation.setHasFixedSize(false);
-    LinearLayoutManager llm = new LinearLayoutManager(getContext());
-    rvOperation.setLayoutManager(llm);
+        rvOperation.setHasFixedSize(false);
+        LinearLayoutManager llm = new LinearLayoutManager(getContext());
+        rvOperation.setLayoutManager(llm);
 
-    adapter = new AdapterOperation(getContext(), getViewLifecycleOwner());
-    rvOperation.setAdapter(adapter);
+        adapter = new AdapterOperation(getContext(), getViewLifecycleOwner());
+        rvOperation.setAdapter(adapter);
 
-    // Initialize
-    grpReady.setVisibility(View.GONE);
-    pbWait.setVisibility(View.VISIBLE);
+        // Initialize
+        grpReady.setVisibility(View.GONE);
+        pbWait.setVisibility(View.VISIBLE);
 
-    return view;
-  }
+        return view;
+    }
 
-  @Override
-  public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-    super.onActivityCreated(savedInstanceState);
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
 
-    // Observe folders
-    DB.getInstance(getContext())
-        .operation()
-        .liveOperations()
-        .observe(
-            getViewLifecycleOwner(),
-            new Observer<List<EntityOperation>>() {
-              @Override
-              public void onChanged(@Nullable List<EntityOperation> operations) {
-                if (operations == null) {
-                  operations = new ArrayList<>();
-                }
+        // Observe folders
+        DB.getInstance(getContext())
+            .operation()
+            .liveOperations()
+            .observe(
+                getViewLifecycleOwner(),
+                new Observer<List<EntityOperation>>() {
+                    @Override
+                    public void onChanged(@Nullable List<EntityOperation> operations) {
+                        if (operations == null) {
+                            operations = new ArrayList<>();
+                        }
 
-                adapter.set(operations);
+                        adapter.set(operations);
 
-                pbWait.setVisibility(View.GONE);
-                grpReady.setVisibility(View.VISIBLE);
-              }
-            });
-  }
+                        pbWait.setVisibility(View.GONE);
+                        grpReady.setVisibility(View.VISIBLE);
+                    }
+                });
+    }
 }

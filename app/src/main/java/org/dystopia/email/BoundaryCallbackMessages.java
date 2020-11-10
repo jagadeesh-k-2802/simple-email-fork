@@ -22,106 +22,108 @@ package org.dystopia.email;
 import android.content.Context;
 import android.os.Handler;
 import android.util.Log;
+
 import androidx.lifecycle.GenericLifecycleObserver;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.paging.PagedList;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class BoundaryCallbackMessages extends PagedList.BoundaryCallback<TupleMessageEx> {
-  private ViewModelBrowse model;
-  private Handler handler;
-  private IBoundaryCallbackMessages intf;
-  private boolean searching = false;
+    private ViewModelBrowse model;
+    private Handler handler;
+    private IBoundaryCallbackMessages intf;
+    private boolean searching = false;
 
-  private static ExecutorService executor =
-      Executors.newSingleThreadExecutor(Helper.backgroundThreadFactory);
+    private static ExecutorService executor =
+        Executors.newSingleThreadExecutor(Helper.backgroundThreadFactory);
 
-  interface IBoundaryCallbackMessages {
-    void onLoading();
+    interface IBoundaryCallbackMessages {
+        void onLoading();
 
-    void onLoaded();
+        void onLoaded();
 
-    void onError(Context context, Throwable ex);
-  }
+        void onError(Context context, Throwable ex);
+    }
 
-  BoundaryCallbackMessages(
-      LifecycleOwner owner, ViewModelBrowse _model, IBoundaryCallbackMessages intf) {
-    this.model = _model;
-    this.handler = new Handler();
-    this.intf = intf;
+    BoundaryCallbackMessages(
+        LifecycleOwner owner, ViewModelBrowse _model, IBoundaryCallbackMessages intf) {
+        this.model = _model;
+        this.handler = new Handler();
+        this.intf = intf;
 
-    owner
-        .getLifecycle()
-        .addObserver(
-            new GenericLifecycleObserver() {
-              @Override
-              public void onStateChanged(LifecycleOwner source, Lifecycle.Event event) {
-                if (event == Lifecycle.Event.ON_DESTROY) {
-                  executor.submit(
-                      new Runnable() {
-                        @Override
-                        public void run() {
-                          model.clear();
+        owner
+            .getLifecycle()
+            .addObserver(
+                new GenericLifecycleObserver() {
+                    @Override
+                    public void onStateChanged(LifecycleOwner source, Lifecycle.Event event) {
+                        if (event == Lifecycle.Event.ON_DESTROY) {
+                            executor.submit(
+                                new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        model.clear();
+                                    }
+                                });
                         }
-                      });
+                    }
+                });
+    }
+
+    boolean isSearching() {
+        return searching;
+    }
+
+    @Override
+    public void onZeroItemsLoaded() {
+        Log.i(Helper.TAG, "onZeroItemsLoaded");
+        load();
+    }
+
+    @Override
+    public void onItemAtEndLoaded(final TupleMessageEx itemAtEnd) {
+        Log.i(Helper.TAG, "onItemAtEndLoaded");
+        load();
+    }
+
+    private void load() {
+        executor.submit(
+            new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        searching = true;
+                        handler.post(
+                            new Runnable() {
+                                @Override
+                                public void run() {
+                                    intf.onLoading();
+                                }
+                            });
+                        model.load();
+                    } catch (final Throwable ex) {
+                        Log.e(Helper.TAG, "Boundary " + ex + "\n" + Log.getStackTraceString(ex));
+                        handler.post(
+                            new Runnable() {
+                                @Override
+                                public void run() {
+                                    intf.onError(model.getContext(), ex);
+                                }
+                            });
+                    } finally {
+                        searching = false;
+                        handler.post(
+                            new Runnable() {
+                                @Override
+                                public void run() {
+                                    intf.onLoaded();
+                                }
+                            });
+                    }
                 }
-              }
             });
-  }
-
-  boolean isSearching() {
-    return searching;
-  }
-
-  @Override
-  public void onZeroItemsLoaded() {
-    Log.i(Helper.TAG, "onZeroItemsLoaded");
-    load();
-  }
-
-  @Override
-  public void onItemAtEndLoaded(final TupleMessageEx itemAtEnd) {
-    Log.i(Helper.TAG, "onItemAtEndLoaded");
-    load();
-  }
-
-  private void load() {
-    executor.submit(
-        new Runnable() {
-          @Override
-          public void run() {
-            try {
-              searching = true;
-              handler.post(
-                  new Runnable() {
-                    @Override
-                    public void run() {
-                      intf.onLoading();
-                    }
-                  });
-              model.load();
-            } catch (final Throwable ex) {
-              Log.e(Helper.TAG, "Boundary " + ex + "\n" + Log.getStackTraceString(ex));
-              handler.post(
-                  new Runnable() {
-                    @Override
-                    public void run() {
-                      intf.onError(model.getContext(), ex);
-                    }
-                  });
-            } finally {
-              searching = false;
-              handler.post(
-                  new Runnable() {
-                    @Override
-                    public void run() {
-                      intf.onLoaded();
-                    }
-                  });
-            }
-          }
-        });
-  }
+    }
 }
