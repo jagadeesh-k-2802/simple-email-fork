@@ -11,13 +11,13 @@
         <item quantity="other">Menyinkronisasi %1$d akun</item>
     </plurals>
     <plurals name="title_notification_operations">
-        <item quantity="other">%1$d proses ditunda</item>
+        <item quantity="other">%1$d proses tertunda</item>
     </plurals>
     <plurals name="title_notification_unseen">
         <item quantity="other">%1$d pesan baru</item>
     </plurals>
     <plurals name="title_notification_unsent">
-        <item quantity="other">%1$d pesan tidak terkirim</item>
+        <item quantity="other">%1$d pesan belum terkirim</item>
     </plurals>
     <string name="title_notification_failed">\'%1$s\' gagal</string>
     <string name="menu_setup">Persiapan</string>
@@ -31,13 +31,9 @@
     <string name="menu_rate">Rate apl ini</string>
     <string name="menu_other">Apl lainnya</string>
     <string name="title_privacy">Kebijakan privasi</string>
-    <string name="title_privacy_description">
-        <b>SimpleEmail</b> tidak mengumpulkan informasi apapun, tidak membutuhkan izin yang tidak perlu dan <b>100% Perangkat Lunak Bebas</b>.</string>
-    <string name="title_permissions">
-        <b>Izin yang diperlukan dan alasannya</b>
-    </string>
-    <string name="title_permissions_list">
-        <b>• dapatkan akses jaringan penuh</b> (INTERNET):
+    <string name="title_privacy_description"><b>SimpleEmail</b> tidak mengumpulkan informasi apapun, tidak membutuhkan izin yang tidak perlu dan <b>100% Perangkat Lunak Bebas</b>.</string>
+    <string name="title_permissions"><b>Izin yang diperlukan dan alasannya</b></string>
+    <string name="title_permissions_list"><b>• dapatkan akses jaringan penuh</b> (INTERNET):
 \nuntuk mengirim dan menerima surel<b>
 \n• melihat sambungan jaringan</b> (ACCESS_NETWORK_STATE):
 \nuntuk memonitor perubahan sambungan internet<b>
@@ -275,4 +271,9 @@
     <string name="title_show_details">Lihat detail</string>
     <string name="title_no_accounts_yet">Anda belum menyiapkan akun apapun</string>
     <string name="title_no_identities_yet">Anda belum menyiapkan identitas apapun</string>
+    <string name="message_gmail_note">Sejak Januari 2020 Gmail membatasi lingkup oAuth, sekarang membutuhkan otorisasi untuk bisa mengotentikasi, kami mencari cara yang terbaik untuk memperbaiki masalah otentikasi oAuth tanpa bantuan pustaka privat.&lt;br/&gt;&lt;br/&gt; Sebagai solusi sementara anda perlu mengizinkan otentikasi normal atau seperti yang Google katakan &lt;i&gt;\"aplikasi kurang aman\"&lt;/i&gt;..&lt;br/&gt;&lt;br/&gt;&lt;b&gt;Instruksi:&lt;/b&gt; https://support.google.com/accounts/answer/6010255&lt;/br&gt;</string>
+    <string name="text_gmail_note">Membutuhkan otentikasi non-oAuth diaktifkan. <font color="#0055C7">Info lengkap</font></string>
+    <string name="title_cancel">Batal</string>
+    <string name="title_color">Warna</string>
+    <string name="title_reset">Setel ulang</string>
 </resources>
