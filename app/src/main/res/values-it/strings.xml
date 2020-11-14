@@ -19,7 +19,7 @@
         <item quantity="one">%1$d messaggio non inviato</item>
         <item quantity="other">%1$d messaggi non inviati</item>
     </plurals>
-    <string name="title_notification_failed">\'%1$s\' fallito</string>
+    <string name="title_notification_failed">«%1$s» fallito</string>
     <string name="menu_setup">Configurazione</string>
     <string name="menu_answers">Modelli di risposta</string>
     <string name="menu_operations">Operazioni</string>
@@ -248,17 +248,31 @@
     <string name="title_debug_info_remark">Si prega di descrivere il problema ed indicare il momento in cui è avvenuto:</string>
     <string name="title_crash_info_remark">Descrivi cosa stavi facendo quando l\'app si è interrotta:</string>
     <string name="title_privacy">Informativa sulla privacy</string>
-    <string name="title_privacy_description">
-        <b>SimpleEmail</b> non raccoglie alcuna informazione, non richiede autorizzazioni non necessarie ed è <b>100% software libero</b>.</string>
-    <string name="title_permissions">
-        <b>Le autorizzazioni necessarie e perché</b>
-    </string>
-    <string name="title_permissions_list">
-        <b>• have full network access</b> (INTERNET):  to send and receive email <b>\n• view network connections</b> (ACCESS_NETWORK_STATE):  to monitor internet connectivity changes <b>\n• run at startup</b> (RECEIVE_BOOT_COMPLETED):  to start monitoring on device start <b>\n• foreground service</b> (FOREGROUND_SERVICE):  to run a foreground service on Android 9 Pie and later <b>\n• prevent device from sleeping</b> (WAKE_LOCK):  to keep the device awake while synchronizing messages <b>\n• [Optional] read your contacts</b> (READ_CONTACTS):  to autocomplete addresses and to show photos <b>\n• [Optional] find accounts on the device</b> (GET_ACCOUNTS):  to use OAuth instead of passwords</string>
+    <string name="title_privacy_description"><b>SimpleEmail</b> non raccoglie alcuna informazione, non richiede autorizzazioni non necessarie ed è <b>100% software libero</b>.</string>
+    <string name="title_permissions"><b>Le autorizzazioni necessarie e perché</b></string>
+    <string name="title_permissions_list"><b> • avere accesso completo alla rete </b> (INTERNET):
+\nper inviare e ricevere e-mail <b>
+\n• visualizzare le connessioni di rete </b> (ACCESS_NETWORK_STATE):
+\nmonitorare le modifiche alla connettività Internet <b>
+\n• esegui all\'avvio </b> (RECEIVE_BOOT_COMPLETED):
+\nper avviare il monitoraggio all\'avvio del dispositivo <b>
+\n• servizio in primo piano </b> (FOREGROUND_SERVICE):
+\nper eseguire un servizio in primo piano su Android 9 Pie e versioni successive <b>
+\n• impedisce al dispositivo di dormire </b> (WAKE_LOCK):
+\nper mantenere attivo il dispositivo durante la sincronizzazione dei messaggi <b>
+\n• [Facoltativo] leggi i tuoi contatti </b> (READ_CONTACTS):
+\nper completare automaticamente gli indirizzi e mostrare le foto <b>
+\n• [Facoltativo] trova gli account sul dispositivo </b> (GET_ACCOUNTS):
+\nutilizzare OAuth al posto delle password</string>
     <string name="title_no_storage_framework">Struttura di stoccaggio non disponibile</string>
     <string name="title_show_details">Vedi i dettagli</string>
     <string name="title_no_accounts_yet">Non hai ancora account configurati</string>
     <string name="title_no_identities_yet">Non hai ancora configurato le identità</string>
     <string name="title_try_subject">Prova SimpleEmail</string>
     <string name="title_try_text">Invita a:</string>
+    <string name="message_gmail_note">Da gennaio 2020 Gmail limita gli ambiti oAuth, ora richiede l\'autorizzazione per essere in grado di autenticarsi, stiamo cercando il modo migliore per correggere l\'autenticazione oAuth senza librerie privative.&lt;br/&gt;&lt;br/&gt;Come soluzione temporanea devi consentire la normale autenticazione o come dice Google &lt;i&gt;«applicazioni meno sicure»&lt;/i&gt;.&lt;br/&gt;&lt;br/&gt;&lt;b&gt;Istruzioni qui:&lt;/b&gt;https://support.google.com/accounts/answer/6010255&lt;/br&gt;</string>
+    <string name="text_gmail_note">Richiede che sia abilitata l\'autenticazione non oAuth.<font color="#0055C7">Maggiori informazioni</font></string>
+    <string name="title_cancel">Annulla</string>
+    <string name="title_color">Colore</string>
+    <string name="title_reset">Ripristina</string>
 </resources>
