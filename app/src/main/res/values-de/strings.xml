@@ -24,7 +24,7 @@
     <string name="menu_answers">Antwortvorlagen</string>
     <string name="menu_operations">Vorgänge</string>
     <string name="menu_legend">Legende</string>
-    <string name="menu_faq">FAQ/Support</string>
+    <string name="menu_faq">Häufige Fragen/Support</string>
     <string name="menu_privacy">Datenschutz</string>
     <string name="menu_about">Über</string>
     <string name="menu_invite">Einladen</string>
@@ -56,7 +56,7 @@
     <string name="title_setup_permissions">Berechtigungen erteilen</string>
     <string name="title_setup_permissions_remark">Um Kontaktinformationen zu erhalten (optional)</string>
     <string name="title_setup_notifications">Benachrichtigungen verwalten</string>
-    <string name="title_setup_to_do">To-do</string>
+    <string name="title_setup_to_do">Zu tun</string>
     <string name="title_setup_done">Erledigt</string>
     <string name="title_setup_light_theme">Helles Thema</string>
     <string name="title_setup_dark_theme">Dunkles Thema</string>
@@ -111,7 +111,7 @@
     <string name="title_no_primary_drafts">Kein Hauptkonto oder kein Entwürfe-Ordner</string>
     <string name="title_no_primary_archive">Kein Hauptkonto oder kein Archiv-Ordner</string>
     <string name="title_no_idle">Dieser Anbieter unterstützt keine Push-Nachrichten. Dies verzögert den Empfang neuer Nachrichten und erhöht den Batterieverbrauch.</string>
-    <string name="title_no_uidplus">IMAP UIDPLUS wird nicht unterstützt, lesen Sie die FAQ</string>
+    <string name="title_no_uidplus">IMAP UIDPLUS wird nicht unterstützt, lesen Sie die häufigen Fragen</string>
     <string name="title_account_delete">Möchten Sie dieses Konto unwiderruflich löschen?</string>
     <string name="title_identity_delete">Möchten Sie diese Identität unwiderruflich löschen?</string>
     <string name="title_pop">POP wird nicht unterstützt</string>
@@ -231,12 +231,12 @@
     <string name="title_legend_downloading">Herunterladen</string>
     <string name="title_legend_closing">Schließen</string>
     <string name="title_hint_folder_actions">Gedrückt halten für weitere Optionen</string>
-    <string name="title_hint_support">Wenn Sie eine Frage oder ein Problem haben, verwenden Sie bitte das FAQ/Support-Menü, um Hilfe zu erhalten</string>
+    <string name="title_hint_support">Wenn Sie eine Frage oder ein Problem haben, verwenden Sie bitte das Häufige Fragen/Support-Menü, um Hilfe zu erhalten</string>
     <string name="title_hint_message_actions">Nach links wischen, um zu löschen; nach rechts wischen, um zu archivieren (falls vorhanden)</string>
     <string name="title_hint_message_selection">Lange auf eine Nachricht drücken, um mehrere Nachrichten auszuwählen</string>
     <string name="title_hint_sync">Das Herunterladen der Nachrichten kann einige Zeit beanspruchen, abhängig von der Anzahl der Nachrichten, der Geschwindigkeit Ihrer Internetverbindung und Ihrem E-Mail-Anbieter</string>
     <string name="title_open_link">Link öffnen</string>
-    <string name="title_updated">Es ist ein Update auf Version %1$s verfügbar</string>
+    <string name="title_updated">Es gibt eine Aktualisierung auf Version %1$s verfügbar</string>
     <string name="title_issue">Haben Sie eine Frage oder ein Problem?</string>
     <string name="title_yes">Ja</string>
     <string name="title_no">Nein</string>
@@ -248,11 +248,8 @@
     <string name="title_debug_info_remark">Bitte beschreiben Sie das Problem und zu welchem Zeitpunkt es aufgetreten ist:</string>
     <string name="title_crash_info_remark">Bitte beschreiben Sie, was Sie getan haben, kurz bevor die App abgestürzt ist:</string>
     <string name="title_privacy">Datenschutzbestimmung</string>
-    <string name="title_privacy_description">
-        <b>SimpleEmail</b> sammelt keinerlei Informationen, benötigt keine unnötigen Berechtigungen und ist <b>100 % quelloffene Software</b>.</string>
-    <string name="title_permissions">
-        <b>Benötigte Berechtigungen und deren Gründe</b>
-    </string>
+    <string name="title_privacy_description"><b>SimpleEmail</b> sammelt keinerlei Informationen, benötigt keine unnötigen Berechtigungen und ist <b>100 % quelloffene Software</b>.</string>
+    <string name="title_permissions"><b>Benötigte Berechtigungen und deren Gründe</b></string>
     <string name="title_permissions_list"><b>• Uneingeschränkter Internetzugriff</b> (INTERNET):
 \num E-Mails zu senden und zu empfangen <b>
 \n• Netzwerkverbindungen beobachten</b> (ACCESS_NETWORK_STATE):
@@ -273,4 +270,9 @@
     <string name="title_no_identities_yet">Sie haben noch keine Identitäten konfiguriert</string>
     <string name="title_try_subject">SimpleMail testen</string>
     <string name="title_try_text">Einladen zu:</string>
+    <string name="message_gmail_note">Seit Januar 2020 hat Gmail die oAuth-Bereiche eingeschränkt. Jetzt ist eine Autorisierung erforderlich, um sich authentifizieren zu können. Wir suchen nach dem besten Weg, um die oAuth-Authentifizierung ohne private Bibliotheken zu beheben.&lt;br/&gt;&lt;br/&gt;Als temporäre Lösung müssen Sie eine normale Authentifizierung zulassen oder wie Google sagt: &lt;i&gt;„weniger sichere Anwendungen“&lt;/i&gt;.&lt;br/&gt;&lt;br/&gt;&lt;b&gt;Anweisungen hier:&lt;/b&gt; https://support.google.com/accounts/answer/6010255&lt;/br&gt;</string>
+    <string name="text_gmail_note">Erfordert, dass die Nicht-oAuth-Authentifizierung aktiviert ist.<font color="#0055C7">Weitere Informationen</font></string>
+    <string name="title_cancel">Abbrechen</string>
+    <string name="title_color">Farbe</string>
+    <string name="title_reset">Zurücksetzen</string>
 </resources>
