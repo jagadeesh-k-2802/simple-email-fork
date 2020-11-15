@@ -246,7 +246,7 @@
     <string name="title_log">Logg</string>
     <string name="title_debug_info">Feilrettingsinfo</string>
     <string name="title_debug_info_remark">Beskriv problemet og indiker når problemet inntraff:</string>
-    <string name="title_crash_info_remark">Beskriv hva du gjorde da programmet kræsjet:</string>
+    <string name="title_crash_info_remark">Beskriv hva du gjorde da programmet krasjet:</string>
     <string name="title_privacy">Personvernspraksis</string>
     <string name="title_privacy_description">
         <b>SimpleEmail</b> samler ikke inn info, og krever ikke unødvendige tilganger, og er <b>100% fri programvare</b>.</string>
