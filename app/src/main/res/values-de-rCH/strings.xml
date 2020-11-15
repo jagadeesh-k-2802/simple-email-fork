@@ -12,23 +12,23 @@
         <item quantity="other">%1$d Konten werden synchroniesiert</item>
     </plurals>
     <plurals name="title_notification_operations">
-        <item quantity="one"/>
-        <item quantity="other"/>
+        <item quantity="one">%1$d Vorgang ausstehend</item>
+        <item quantity="other">%1$d Vorgänge ausstehend</item>
     </plurals>
     <plurals name="title_notification_unseen">
         <item quantity="one">%1$d neue Nachricht</item>
         <item quantity="other">%1$d neue Nachrichten</item>
     </plurals>
     <plurals name="title_notification_unsent">
-        <item quantity="one"/>
-        <item quantity="other"/>
+        <item quantity="one">%1$d nicht gesendete Nachricht</item>
+        <item quantity="other">%1$d nicht gesendete Nachrichten</item>
     </plurals>
     <string name="title_notification_failed">«%1$s» fehlgeschlagen</string>
     <string name="menu_setup">Einstellungen</string>
     <string name="menu_answers">Antwortvorlagen</string>
     <string name="menu_operations">Vorgänge</string>
     <string name="menu_legend">Legende</string>
-    <string name="menu_faq">FAQ/Support</string>
+    <string name="menu_faq">Häufige Fragen/Support</string>
     <string name="menu_privacy">Datenschutz</string>
     <string name="menu_about">Über</string>
     <string name="menu_invite">Einladen</string>
@@ -132,7 +132,7 @@
     <string name="title_no_primary_drafts">Kein Hauptkonto oder kein Entwürfe-Ordner</string>
     <string name="title_no_primary_archive">Kein Hauptkonto oder kein Archiv-Ordner</string>
     <string name="title_no_idle">Dieser Anbieter unterstützt keine Push-Nachrichten. Dies verzögert den Empfang neuer Nachrichten und erhöht den Batterieverbrauch.</string>
-    <string name="title_no_uidplus">IMAP UIDPLUS wird nicht unterstützt, lesen Sie die FAQ</string>
+    <string name="title_no_uidplus">IMAP UIDPLUS wird nicht unterstützt, lesen Sie die häufigen Fragen</string>
     <string name="title_account_delete">Möchten Sie dieses Konto unwiderruflich löschen\?</string>
     <string name="title_identity_delete">Möchten Sie diese Identität unwiderruflich löschen\?</string>
     <string name="title_pop">POP wird nicht unterstützt</string>
@@ -253,7 +253,7 @@
     <string name="title_legend_downloading">Herunterladen</string>
     <string name="title_legend_closing">Schliessen</string>
     <string name="title_hint_folder_actions">Gedrückt halten für weitere Optionen</string>
-    <string name="title_hint_support">Wenn Sie eine Frage oder ein Problem haben, verwenden Sie bitte das FAQ/Support-Menü, um Hilfe zu erhalten</string>
+    <string name="title_hint_support">Wenn Sie eine Frage oder ein Problem haben, verwenden Sie bitte das Häufige Fragen/Support-Menü, um Hilfe zu erhalten</string>
     <string name="title_hint_message_actions">Nach links wischen, um zu löschen; nach rechts wischen, um zu archivieren (falls vorhanden)</string>
     <string name="title_hint_message_selection">Lange auf eine Nachricht drücken, um mehrere Nachrichten auszuwählen</string>
     <string name="title_hint_sync">Das Herunterladen der Nachrichten kann einige Zeit beanspruchen, abhängig von der Anzahl der Nachrichten, der Geschwindigkeit Ihrer Internetverbindung und Ihrem E-Mail-Anbieter</string>
@@ -275,4 +275,9 @@
     <string name="title_show_details">Siehe Details</string>
     <string name="title_no_accounts_yet">Sie haben noch keine Konten konfiguriert</string>
     <string name="title_no_identities_yet">Sie haben noch keine Identitäten konfiguriert</string>
+    <string name="message_gmail_note">Seit Januar 2020 hat Gmail die oAuth-Bereiche eingeschränkt. Jetzt ist eine Autorisierung erforderlich, um sich authentifizieren zu können. Wir suchen nach dem besten Weg, um die oAuth-Authentifizierung ohne private Bibliotheken zu beheben.&lt;br/&gt;&lt;br/&gt;Als temporäre Lösung müssen Sie eine normale Authentifizierung zulassen oder wie Google sagt: &lt;i&gt;«weniger sichere Anwendungen»&lt;/i&gt;.&lt;br/&gt;&lt;br/&gt;&lt;b&gt;Anweisungen hier:&lt;/b&gt; https://support.google.com/accounts/answer/6010255&lt;/br&gt;</string>
+    <string name="text_gmail_note">Erfordert, dass die Nicht-oAuth-Authentifizierung aktiviert ist.<font color="#0055C7">Weitere Informationen</font></string>
+    <string name="title_cancel">Abbrechen</string>
+    <string name="title_color">Farbe</string>
+    <string name="title_reset">Zurücksetzen</string>
 </resources>
