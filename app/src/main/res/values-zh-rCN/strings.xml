@@ -7,13 +7,13 @@
         <item quantity="other">正在同步%1$d个账户</item>
     </plurals>
     <plurals name="title_notification_operations">
-        <item quantity="other">有%1$d个操作待执行</item>
+        <item quantity="other">%1$d 个操作待执行</item>
     </plurals>
     <plurals name="title_notification_unseen">
         <item quantity="other">%1$d条新消息</item>
     </plurals>
     <plurals name="title_notification_unsent">
-        <item quantity="other">%1$d条消息未发送</item>
+        <item quantity="other">有 %1$d 条未发送信息</item>
     </plurals>
     <string name="title_notification_failed">“%1$s”失败</string>
     <string name="menu_setup">设置</string>
@@ -73,7 +73,7 @@
     <string name="title_account_name">账户名</string>
     <string name="title_account_name_hint">用于区分文件夹</string>
     <string name="title_account_signature">签名文本</string>
-    <string name="title_account_color">颜色</string>
+    <string name="title_account_color">账户颜色</string>
     <string name="title_domain">域名</string>
     <string name="title_autoconfig">获取设置</string>
     <string name="title_no_settings">设置未找到</string>
@@ -246,11 +246,29 @@
     <string name="title_privacy">隐私政策</string>
     <string name="title_privacy_description"><b> SimpleEmail </b>不收集任何信息，不需要不必要的权限，并且是<b> 100％免费软件</b>。</string>
     <string name="title_permissions"><b>需要权限以及原因</b></string>
-    <string name="title_permissions_list"><b>• have full network access</b> (INTERNET):  to send and receive email <b>\n• view network connections</b> (ACCESS_NETWORK_STATE):  to monitor internet connectivity changes <b>\n• run at startup</b> (RECEIVE_BOOT_COMPLETED):  to start monitoring on device start <b>\n• foreground service</b> (FOREGROUND_SERVICE):  to run a foreground service on Android 9 Pie and later <b>\n• prevent device from sleeping</b> (WAKE_LOCK):  to keep the device awake while synchronizing messages <b>\n• [Optional] read your contacts</b> (READ_CONTACTS):  to autocomplete addresses and to show photos <b>\n• [Optional] find accounts on the device</b> (GET_ACCOUNTS):  to use OAuth instead of passwords</string>
+    <string name="title_permissions_list"><b>• 完整的网络访问权限</b> (INTERNET):
+\n发送及接收电子邮件 <b>
+\n• 查看网络连接</b> (ACCESS_NETWORK_STATE):
+\n监视互联网连接变化 <b>
+\n• 开机时运行</b> (RECEIVE_BOOT_COMPLETED):
+\n设备启动时开始监控 <b>
+\n• 前台服务</b> (FOREGROUND_SERVICE):
+\n在 Android 9 Pie 及更新系统上运行一个前台服务 <b>
+\n• 防止设备睡眠</b> (WAKE_LOCK):
+\n同步消息时保持设备处于清醒状态 <b>
+\n• [可选] 读取联系人</b> (READ_CONTACTS):
+\n自动完成地址并显示照片 <b>
+\n• [可选] 查找设备账户</b> (GET_ACCOUNTS):
+\n使用 OAuth 而非密码</string>
     <string name="title_no_storage_framework">存储框架不可用</string>
     <string name="title_show_details">查看详细信息</string>
     <string name="title_no_accounts_yet">您尚未配置帐户</string>
     <string name="title_no_identities_yet">您尚未配置账号</string>
     <string name="title_try_text">邀请：</string>
     <string name="title_try_subject">试试SimpleEmail</string>
+    <string name="message_gmail_note">自2020年1月Gmail限制oAuth范围以来，现在需要授权才能进行身份验证，我们正在寻找修复oAuth身份验证而无需私有库的最佳方法。&lt;br/&gt;&lt;br/&gt; 作为一个临时的解决方案，你需要允许正常的认证或谷歌所谓的&lt;i&gt;\"不太安全的应用程序\"&lt;/i&gt;。&lt;br/&gt;&lt;br/&gt;&lt;b&gt;有关说明：&lt;/b&gt;https://support.google.com/accounts/answer/6010255&lt;/br&gt;</string>
+    <string name="text_gmail_note">需要启用非oAuth验证。<font color="#0055C7">更多信息</font></string>
+    <string name="title_cancel">取消</string>
+    <string name="title_color">颜色</string>
+    <string name="title_reset">重置</string>
 </resources>
