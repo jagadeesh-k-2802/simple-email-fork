@@ -24,7 +24,7 @@
     <string name="menu_answers">Modèles de réponse</string>
     <string name="menu_operations">Opérations</string>
     <string name="menu_legend">Légende</string>
-    <string name="menu_faq">FAQ / Aide</string>
+    <string name="menu_faq">FAQ/Assistance</string>
     <string name="menu_privacy">Confidentialité</string>
     <string name="menu_about">À propos</string>
     <string name="menu_invite">Inviter</string>
@@ -70,7 +70,7 @@
     <string name="title_advanced_debug">Débogage</string>
     <string name="title_select">Sélectionner …</string>
     <string name="title_identity_name">Votre nom</string>
-    <string name="title_identity_email">Votre adresse de courriel</string>
+    <string name="title_identity_email">Votre adresse courriel</string>
     <string name="title_identity_reply_to">Répondre à l\'adresse</string>
     <string name="title_optional">Facultatif</string>
     <string name="title_account_linked">Compte associé</string>
@@ -102,7 +102,7 @@
     <string name="title_keep_alive_interval">Délai de connexion (en minutes)</string>
     <string name="title_check">Vérifier</string>
     <string name="title_no_name">Nom manquant</string>
-    <string name="title_no_email">Adresse de courriel manquante</string>
+    <string name="title_no_email">Adresse courriel manquante</string>
     <string name="title_no_account">Compte manquant</string>
     <string name="title_no_host">Nom d\'hôte manquant</string>
     <string name="title_no_user">Nom d\'utilisateur manquant</string>
@@ -249,11 +249,8 @@
     <string name="title_crash_info_remark">Veuillez décrire ce que vous faisiez lorsque l’application s’est arrêtée :</string>
     <string name="title_privacy">Dispositions de confidentialités</string>
     <string name="title_privacy_description"><b>SimpleEmail</b> ne collecte aucune information, ne nécessite aucune autorisation inutile et est un <b>logiciel 100 % libre</b>.</string>
-    <string name="title_permissions">
-        <b>Motifs des autorisations requises</b>
-    </string>
-    <string name="title_permissions_list">
-        <b>• accéder totalement au réseau</b> (INTERNET) :
+    <string name="title_permissions"><b>Motifs des autorisations requises</b></string>
+    <string name="title_permissions_list"><b>• accéder totalement au réseau</b> (INTERNET) :
 \npour envoyer et recevoir des messages <b>
 \n• voir les connections réseau</b> (ACCESS_NETWORK_STATE) :
 \npour suivre l\'état de la connectivité Internet <b>
@@ -273,4 +270,9 @@
     <string name="title_no_identities_yet">Encore aucun profil configuré</string>
     <string name="title_try_subject">Essayer SimpleEmail</string>
     <string name="title_try_text">Inviter à :</string>
+    <string name="message_gmail_note">Depuis janvier 2020, Gmail restreint les portées oAuth, il nécessite désormais une autorisation pour pouvoir s\'authentifier, nous recherchons le meilleur moyen de corriger l\'authentification oAuth sans bibliothèques privatives.&lt;br/&gt;&lt;br/&gt;En tant que solution temporaire, vous devez autoriser l\'authentification normale ou comme Google dit&lt;i&gt;« applications moins sécurisées »&lt;/i&gt;.&lt;br/&gt;&lt;br/&gt;&lt;b&gt;Instructions ici :&lt;/b&gt; https://support.google.com/accounts/answer/6010255 &lt;/br&gt;</string>
+    <string name="text_gmail_note">Nécessite l\'activation de l\'authentification non oAuth. <font color="#0055C7">Plus d\'infos</font></string>
+    <string name="title_cancel">Annuler</string>
+    <string name="title_color">Couleur</string>
+    <string name="title_reset">Réinitialiser</string>
 </resources>
