@@ -261,4 +261,8 @@
     <string name="title_no_identities_yet">Du har ikke satt opp noen identiteter enda.</string>
     <string name="title_try_subject">Prøv SimpleEmail</string>
     <string name="title_try_text">Inviter til:</string>
+    <string name="text_gmail_note">Krever at noe annet en OAuth-identitetsbekreftelse er påskrudd. <font color="#0055C7">Mer info</font></string>
+    <string name="title_cancel">Avbryt</string>
+    <string name="title_color">Farge</string>
+    <string name="title_reset">Tilbakestill</string>
 </resources>
