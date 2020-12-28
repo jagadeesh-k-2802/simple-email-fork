@@ -16,8 +16,8 @@
         <item quantity="other">%1$d novas mensagens</item>
     </plurals>
     <plurals name="title_notification_unsent">
-        <item quantity="one">%1$d mensagem por enviar</item>
-        <item quantity="other">%1$d mensagens por enviar</item>
+        <item quantity="one">%1$d mensagem não enviada</item>
+        <item quantity="other">%1$d mensagens não enviadas</item>
     </plurals>
     <string name="title_notification_failed">\'%1$s\' falhou</string>
     <string name="menu_setup">Configurar</string>
@@ -71,66 +71,66 @@
     <string name="title_select">Selecione…</string>
     <string name="title_identity_name">Seu nome</string>
     <string name="title_identity_email">Seu endereço de email</string>
-    <string name="title_identity_reply_to">Reply to address</string>
+    <string name="title_identity_reply_to">Responder para o endereçao</string>
     <string name="title_optional">Opcional</string>
-    <string name="title_account_linked">Linked account</string>
+    <string name="title_account_linked">Conta vinculada</string>
     <string name="title_account_name">Nome da conta</string>
     <string name="title_account_name_hint">Usada para diferenciar pastas</string>
-    <string name="title_account_signature">Signature text</string>
+    <string name="title_account_signature">Texto de assinatura</string>
     <string name="title_account_color">Account color</string>
-    <string name="title_domain">Domain name</string>
-    <string name="title_autoconfig">Get settings</string>
-    <string name="title_no_settings">Settings not found</string>
+    <string name="title_domain">Nome de domínio</string>
+    <string name="title_autoconfig">Obter configurações</string>
+    <string name="title_no_settings">As configurações não encontradas</string>
     <string name="title_imap">IMAP</string>
     <string name="title_smtp">SMTP</string>
     <string name="title_provider">Provedor</string>
     <string name="title_custom">Personalizado</string>
     <string name="title_host">Nome do servidor</string>
     <string name="title_starttls">STARTTLS</string>
-    <string name="title_allow_insecure">Allow insecure connections</string>
+    <string name="title_allow_insecure">Permitir conexões inseguras</string>
     <string name="title_port">Número da porta</string>
     <string name="title_user">Nome de usuário</string>
     <string name="title_password">Senha</string>
-    <string name="title_authorize">Select account</string>
-    <string name="title_authorizing">Authorizing account …</string>
+    <string name="title_authorize">Selecionar a conta</string>
+    <string name="title_authorizing">Autorização da conta …</string>
     <string name="title_setup_advanced">Avançado</string>
-    <string name="title_store_sent">Store sent messages (normally not needed)</string>
+    <string name="title_store_sent">Armazenar as mensagens enviadas (normalmente não são necessárias)</string>
     <string name="title_synchronize_account">Sincronizar (receber mensagens)</string>
     <string name="title_synchronize_identity">Sincronizar (enviar mensagens)</string>
     <string name="title_primary_account">Primária (conta padrão)</string>
     <string name="title_primary_identity">Primária (identidade padrão)</string>
-    <string name="title_keep_alive_interval">Keep alive interval (minutes)</string>
-    <string name="title_check">Check</string>
-    <string name="title_no_name">Name missing</string>
-    <string name="title_no_email">Email address missing</string>
-    <string name="title_no_account">Account missing</string>
+    <string name="title_keep_alive_interval">Intervalos para manter ativo (minutos)</string>
+    <string name="title_check">Verificar</string>
+    <string name="title_no_name">Falta o nome</string>
+    <string name="title_no_email">Falta o endereço de e-mail</string>
+    <string name="title_no_account">Falta uma conta</string>
     <string name="title_no_host">Nome do servidor faltante</string>
     <string name="title_no_user">Nome do usuário faltante</string>
     <string name="title_no_password">Senha faltante</string>
-    <string name="title_no_drafts">No drafts folder selected</string>
-    <string name="title_no_primary_drafts">No primary account or no drafts folder</string>
-    <string name="title_no_primary_archive">No primary account or no archive folder</string>
-    <string name="title_no_idle">This provider does not support push messages. This will delay reception of new messages and increase battery usage.</string>
-    <string name="title_no_uidplus">IMAP UIDPLUS not supported, see the FAQ</string>
-    <string name="title_account_delete">Delete this account permanently\?</string>
-    <string name="title_identity_delete">Delete this identity permanently\?</string>
-    <string name="title_pop">POP is not supported</string>
-    <string name="title_insecure">Insecure connections are not supported</string>
-    <string name="title_synchronize_now">Synchronize now</string>
+    <string name="title_no_drafts">Nenhuma pasta de rascunhos selecionada</string>
+    <string name="title_no_primary_drafts">Sem conta padrão ou sem pasta de rascunhos</string>
+    <string name="title_no_primary_archive">Sem conta padrão ou sem pasta de arquivos</string>
+    <string name="title_no_idle">Este fornecedor não suporta as mensagens Push. Isto atrasará o recebimento de novas mensagens e aumentará o uso da bateria.</string>
+    <string name="title_no_uidplus">IMAP UIDPLUS não suportado, veja o FAQ</string>
+    <string name="title_account_delete">Excluir esta conta permanentemente\?</string>
+    <string name="title_identity_delete">Excluir esta identidade permanentemente\?</string>
+    <string name="title_pop">POP não é suportado</string>
+    <string name="title_insecure">Conexões inseguras não são suportadas</string>
+    <string name="title_synchronize_now">Sincronizar agora</string>
     <string name="title_delete_local">Delete local messages</string>
-    <string name="title_empty_trash">Empty trash</string>
+    <string name="title_empty_trash">Esvaziar a lixeira</string>
     <string name="title_edit_properties">Editar propriedades</string>
-    <string name="title_empty_trash_ask">Delete all trashed messages permanently\?</string>
-    <string name="title_folder_name">Folder name</string>
-    <string name="title_display_name">Display name</string>
-    <string name="title_hide_folder">Hide from list</string>
-    <string name="title_hide_folders">Hide hidden folders</string>
-    <string name="title_show_folders">Show hidden folders</string>
+    <string name="title_empty_trash_ask">Excluir permanentemente todas as mensagens da lixeira\?</string>
+    <string name="title_folder_name">Nome da pasta</string>
+    <string name="title_display_name">Nome exibido</string>
+    <string name="title_hide_folder">Ocultar da lista</string>
+    <string name="title_hide_folders">Esconder pastas ocultas</string>
+    <string name="title_show_folders">Mostrar pastas ocultas</string>
     <string name="title_synchronize_folder">Sincronizar (receber mensagens)</string>
-    <string name="title_unified_folder">Show in unified inbox</string>
+    <string name="title_unified_folder">Mostrar em caixa de entrada unificada</string>
     <string name="title_after">Sincronizar (dias)</string>
-    <string name="title_folder_exists">Folder %1$s exists</string>
-    <string name="title_folder_delete">Delete folder permanently\?</string>
+    <string name="title_folder_exists">Pasta %1$s existe</string>
+    <string name="title_folder_delete">Excluir a pasta permanentemente\?</string>
     <string name="title_folder_unified">Caixa de entrada unificada</string>
     <string name="title_folder_inbox">Caixa de entrada</string>
     <string name="title_folder_outbox">Caixa de saída</string>
@@ -142,19 +142,19 @@
     <string name="title_folder_system">Sistema</string>
     <string name="title_folder_user">Usuário</string>
     <string name="title_folder_primary">Pastas da conta principal</string>
-    <string name="title_folder_thread">Conversation</string>
+    <string name="title_folder_thread">Conversação</string>
     <string name="title_no_messages">Sem mensagens</string>
     <string name="title_show_images">Exibir imagens</string>
     <string name="title_subject_reply">Re: %1$s</string>
     <string name="title_subject_forward">Enc: %1$s</string>
-    <string name="title_seen">Mark read</string>
-    <string name="title_unseen">Mark unread</string>
-    <string name="title_flag">Add star</string>
-    <string name="title_unflag">Remove star</string>
+    <string name="title_seen">Marcar como lida</string>
+    <string name="title_unseen">Markar como não lida</string>
+    <string name="title_flag">Adicionar estrela</string>
+    <string name="title_unflag">Excluir estrela</string>
     <string name="title_forward">Encaminhar</string>
     <string name="title_reply_all">Responder a todos</string>
-    <string name="title_show_headers">Show headers</string>
-    <string name="title_show_html">Show original</string>
+    <string name="title_show_headers">Mostrar cabeçalhos</string>
+    <string name="title_show_html">Mostrar original</string>
     <string name="title_trash">Lixeira</string>
     <string name="title_delete">Deletar</string>
     <string name="title_more">Mais</string>
@@ -163,49 +163,49 @@
     <string name="title_archive">Arquivar</string>
     <string name="title_reply">Responder</string>
     <string name="title_moving">Movendo mensagem para %1$s</string>
-    <string name="title_no_answers">No reply templates defined</string>
-    <string name="title_no_viewer">No viewer app available for %1$s</string>
-    <string name="title_attachment_saved">Attachment saved</string>
-    <string name="title_attachment_unavailable">Some attachments are not downloaded and will not be forwarded, continue\?</string>
+    <string name="title_no_answers">Nenhum modelo de resposta definido</string>
+    <string name="title_no_viewer">Nenhum app adequado disponível para %1$s</string>
+    <string name="title_attachment_saved">O anexo foi salvo</string>
+    <string name="title_attachment_unavailable">Alguns anexos não foram baixados e não serão encaminhados, continue\?</string>
     <string name="title_ask_delete">Deletar mensagem permanentemente?</string>
-    <string name="title_ask_discard">Discard draft\?</string>
+    <string name="title_ask_discard">Descartar o rascunho\?</string>
     <string name="title_ask_spam">Reportar mensagem com spam?</string>
-    <string name="title_fix">Fix</string>
+    <string name="title_fix">Solucionar</string>
     <string name="title_compose">Escrever</string>
     <string name="title_from">De:</string>
     <string name="title_to">Para:</string>
-    <string name="title_reply_to">Reply to:</string>
+    <string name="title_reply_to">Responder a:</string>
     <string name="title_cc">CC:</string>
     <string name="title_bcc">BCC:</string>
     <string name="title_subject">Assunto:</string>
     <string name="title_body_hint">Sua mensagem</string>
-    <string name="title_discard">Discard</string>
+    <string name="title_discard">Descartar</string>
     <string name="title_save">Salvar</string>
     <string name="title_send">Enviar</string>
-    <string name="title_clipboard_empty">Clipboard empty</string>
+    <string name="title_clipboard_empty">O Clipboard está vazio</string>
     <string name="title_style_bold">Negrito</string>
     <string name="title_style_italic">Itálico</string>
     <string name="title_style_link">Inserir link</string>
     <string name="title_style_image">Inserir imagem</string>
-    <string name="title_add_attachment">Add attachment</string>
-    <string name="title_show_addresses">Show CC/BCC</string>
+    <string name="title_add_attachment">Adicionar um anexo</string>
+    <string name="title_show_addresses">Mostrar o CC/BCC</string>
     <string name="title_from_missing">Remetente faltante</string>
     <string name="title_to_missing">Destinatário faltante</string>
-    <string name="title_attachments_missing">Attachments still loading</string>
-    <string name="title_draft_deleted">Draft discarded</string>
+    <string name="title_attachments_missing">Anexos ainda estão carregando</string>
+    <string name="title_draft_deleted">Rascunho foi descartado</string>
     <string name="title_draft_saved">Rascunho salvo</string>
-    <string name="title_queued">Sending message</string>
-    <string name="title_encrypt">Encrypt</string>
-    <string name="title_decrypt">Decrypt</string>
-    <string name="title_no_openpgp">OpenKeychain not found</string>
+    <string name="title_queued">Enviando a mensagem</string>
+    <string name="title_encrypt">Criptografar</string>
+    <string name="title_decrypt">Descriptografar</string>
+    <string name="title_no_openpgp">OpenKeychain não foi encontrado</string>
     <string name="title_search">Buscar</string>
     <string name="title_search_hint">Buscar no servidor</string>
     <string name="title_searching">Buscando \'%1$s\'</string>
     <string name="title_sort_on">Ordenar por</string>
     <string name="title_sort_on_time">Hora</string>
-    <string name="title_sort_on_unread">Unread</string>
-    <string name="title_sort_on_starred">Starred</string>
-    <string name="title_move_sent">Move to sent</string>
+    <string name="title_sort_on_unread">Não lido</string>
+    <string name="title_sort_on_starred">Com estrela</string>
+    <string name="title_move_sent">Mover para enviados</string>
     <string name="title_previous">Anterior</string>
     <string name="title_next">Seguinte</string>
     <string name="title_answer_reply">Modelo de resposta</string>
@@ -215,29 +215,29 @@
     <string name="title_legend_unified">Caixa de entrada unificada</string>
     <string name="title_legend_archive">Arquivo</string>
     <string name="title_legend_trash">Lixeira</string>
-    <string name="title_legend_primary_disconnected">Account disconnected</string>
-    <string name="title_legend_primary_connected">Account connected</string>
+    <string name="title_legend_primary_disconnected">Conta desconectada</string>
+    <string name="title_legend_primary_connected">Conta conectada</string>
     <string name="title_legend_cc">CC/BCC</string>
-    <string name="title_legend_attachment">Attachment</string>
-    <string name="title_legend_thread">Conversation</string>
+    <string name="title_legend_attachment">Anexo</string>
+    <string name="title_legend_thread">Conversação</string>
     <string name="title_legend_contacts">Contacts</string>
-    <string name="title_legend_synchronize_on">Synchronize on</string>
-    <string name="title_legend_synchronize_off">Synchronize off</string>
-    <string name="title_legend_primary">Primary/starred</string>
-    <string name="title_legend_disconnected">Disconnected</string>
-    <string name="title_legend_connecting">Connecting</string>
-    <string name="title_legend_connected">Connected</string>
-    <string name="title_legend_synchronizing">Synchronizing</string>
+    <string name="title_legend_synchronize_on">Sincronizar em</string>
+    <string name="title_legend_synchronize_off">Sincronização desligada</string>
+    <string name="title_legend_primary">Principal/com estrela</string>
+    <string name="title_legend_disconnected">Desconectado</string>
+    <string name="title_legend_connecting">Conectando</string>
+    <string name="title_legend_connected">Conectado</string>
+    <string name="title_legend_synchronizing">Sincronizando</string>
     <string name="title_legend_downloading">Baixando</string>
     <string name="title_legend_closing">Fechando</string>
-    <string name="title_hint_folder_actions">Long press for options</string>
-    <string name="title_hint_support">If you have a question or a problem, please use the support menu to get help</string>
-    <string name="title_hint_message_actions">Swipe left to trash; swipe right to archive (if available)</string>
-    <string name="title_hint_message_selection">Long press a message to start selecting multiple messages</string>
-    <string name="title_hint_sync">Downloading messages can take some time, depending on the number of messages, the speed of your internet connection and your email provider</string>
+    <string name="title_hint_folder_actions">Pressionar e segurar para ver as opções</string>
+    <string name="title_hint_support">Se você tiver uma pergunta ou um problema, por favor, use o menu de suporte para obter ajuda</string>
+    <string name="title_hint_message_actions">Deslizar à esquerda para tirar ao lixo; Deslizar à direita para arquivar (se disponível)</string>
+    <string name="title_hint_message_selection">Pressione e segure a mensagem para começar a selecionar várias delas</string>
+    <string name="title_hint_sync">O download de mensagens pode levar algum tempo, dependendo do número de mensagens, da velocidade de sua conexão à Internet e de seu provedor de e-mail</string>
     <string name="title_open_link">Abrir link</string>
-    <string name="title_updated">There is an update to version %1$s available</string>
-    <string name="title_issue">Do you have a question or problem\?</string>
+    <string name="title_updated">Atualização disponível para a versão %1$s</string>
+    <string name="title_issue">Tem alguma pergunta ou problema\?</string>
     <string name="title_yes">Sim</string>
     <string name="title_no">Não</string>
     <string name="title_undo">Desfazer</string>
@@ -246,31 +246,33 @@
     <string name="title_log">Log</string>
     <string name="title_debug_info">Informações de depuração</string>
     <string name="title_debug_info_remark">Por favor, descreva o problema e indique o momento em que ocorrera:</string>
-    <string name="title_crash_info_remark">Please describe what you were doing when the app crashed:</string>
+    <string name="title_crash_info_remark">Por favor, descreva o que você estava fazendo quando o aplicativo falhou:</string>
     <string name="title_privacy">Política de Privacidade</string>
     <string name="title_privacy_description">O <b>SimpleEmail</b> não coleta nenhuma informação, não requer permissões desnecessárias e é <b>100% Software Livre</b>.</string>
-    <string name="title_permissions">
-        <b>As permissões são necessárias e por que</b>
-    </string>
-    <string name="title_permissions_list">
-        <b>• have full network access</b> (INTERNET):
-\nto send and receive email <b>
-\n• view network connections</b> (ACCESS_NETWORK_STATE):
-\nto monitor internet connectivity changes <b>
-\n• run at startup</b> (RECEIVE_BOOT_COMPLETED):
-\nto start monitoring on device start <b>
-\n• foreground service</b> (FOREGROUND_SERVICE):
-\nto run a foreground service on Android 9 Pie and later <b>
-\n• prevent device from sleeping</b> (WAKE_LOCK):
-\nto keep the device awake while synchronizing messages <b>
-\n• [Optional] read your contacts</b> (READ_CONTACTS):
-\nto autocomplete addresses and to show photos <b>
-\n• [Optional] find accounts on the device</b> (GET_ACCOUNTS):
-\nto use OAuth instead of passwords</string>
-    <string name="title_no_storage_framework">Storage framework not available</string>
-    <string name="title_show_details">See details</string>
-    <string name="title_no_accounts_yet">You don\'t have accounts configured yet</string>
-    <string name="title_no_identities_yet">You don\'t have identities configured yet</string>
+    <string name="title_permissions"><b>As permissões são necessárias e por que</b></string>
+    <string name="title_permissions_list"><b>• ter acesso total à rede</b> (INTERNET):
+\npara enviar e receber os e-mails <b>
+\n• ver conexões de rede</b> (ACCESS_NETWORK_STATE):
+\npara monitorar mudanças na conectividade da Internet <b>
+\n• executar ao iniciar</b> (RECEIVE_BOOT_COMPLETED):
+\npara iniciar o monitoramento na iniciação do dispositivo <b>
+\n• serviço em primeiro plano</b> (FOREGROUND_SERVICE):
+\npara executar o serviço de primeiro plano no Android 9 Pie e mais novos <b>
+\n• impedir de entrar no modo de suspensão</b> (WAKE_LOCK):
+\npara manter o dispositivo ativo ao sincronizar as mensagens <b>
+\n• [Opcional] ler seus contatos</b> (READ_CONTACTS):
+\npara autocompletar os endereços e mostrar as fotos <b>
+\n• [Opcional] encontrar contas no dispositivo</b> (GET_ACCOUNTS):
+\npara usar OAuth ao invés de senhas</string>
+    <string name="title_no_storage_framework">Plataforma de armazenamento não está disponível</string>
+    <string name="title_show_details">Ver os detalhes</string>
+    <string name="title_no_accounts_yet">Você ainda não tem contas configuradas</string>
+    <string name="title_no_identities_yet">Você ainda não tem nenhuma identidade configurada</string>
     <string name="title_try_subject">Experimente o SimpleEmail</string>
     <string name="title_try_text">Convidar:</string>
+    <string name="title_color">Cor</string>
+    <string name="message_gmail_note">Desde janeiro de 2020 o Gmail restringiu a capacidade do oAuth, agora requer a autorização para poder autenticar, estamos procurando a melhor maneira de corrigir a autenticação via oAuth sem bibliotecas privativas.&lt;br/&gt;&lt;br/&gt; Como uma solução temporária você precisa permitir a autenticação normal ou uso de, como o Google diz&lt;i&gt;\"aplicativos menos seguros\"&lt;/i&gt;.&lt;br/&gt;&lt;br/&gt;b&gt;Instruções aqui:&lt;/b&gt; https://support.google.com/accounts/answer/6010255&lt;/br&gt;</string>
+    <string name="text_gmail_note">Requer uma autenticação não-oAuth habilitada. <font color="#0055C7">Saiba mais</font></string>
+    <string name="title_cancel">Cancelar</string>
+    <string name="title_reset">Redefinir</string>
 </resources>
