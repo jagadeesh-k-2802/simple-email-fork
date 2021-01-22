@@ -271,7 +271,7 @@
     <string name="title_show_details">Lihat detail</string>
     <string name="title_no_accounts_yet">Anda belum menyiapkan akun apapun</string>
     <string name="title_no_identities_yet">Anda belum menyiapkan identitas apapun</string>
-    <string name="message_gmail_note">Sejak Januari 2020 Gmail membatasi lingkup oAuth, sekarang membutuhkan otorisasi untuk bisa mengotentikasi, kami mencari cara yang terbaik untuk memperbaiki masalah otentikasi oAuth tanpa bantuan pustaka privat.&lt;br/&gt;&lt;br/&gt; Sebagai solusi sementara anda perlu mengizinkan otentikasi normal atau seperti yang Google katakan &lt;i&gt;\"aplikasi kurang aman\"&lt;/i&gt;..&lt;br/&gt;&lt;br/&gt;&lt;b&gt;Instruksi:&lt;/b&gt; https://support.google.com/accounts/answer/6010255&lt;/br&gt;</string>
+    <string name="message_gmail_note">Sejak Januari 2020, Gmail membatasi lingkup OAuth, dan sekarang membutuhkan otorisasi untuk otentikasi, kami mencari cara yang terbaik untuk memperbaiki masalah otentikasi OAuth tanpa bantuan pustaka privat.&lt;br/&gt;&lt;br/&gt; Sebagai solusi sementara anda perlu mengizinkan otentikasi normal atau seperti yang Google katakan &lt;i&gt;\"aplikasi kurang aman\"&lt;/i&gt;..&lt;br/&gt;&lt;br/&gt;&lt;b&gt;Instruksi:&lt;/b&gt; https://support.google.com/accounts/answer/6010255&lt;/br&gt;</string>
     <string name="text_gmail_note">Membutuhkan otentikasi non-oAuth diaktifkan. <font color="#0055C7">Info lengkap</font></string>
     <string name="title_cancel">Batal</string>
     <string name="title_color">Warna</string>
