@@ -266,7 +266,7 @@
     <string name="title_no_identities_yet">您尚未配置账号</string>
     <string name="title_try_text">邀请：</string>
     <string name="title_try_subject">试试SimpleEmail</string>
-    <string name="message_gmail_note">自2020年1月Gmail限制oAuth范围以来，现在需要授权才能进行身份验证，我们正在寻找修复oAuth身份验证而无需私有库的最佳方法。&lt;br/&gt;&lt;br/&gt; 作为一个临时的解决方案，你需要允许正常的认证或谷歌所谓的&lt;i&gt;\"不太安全的应用程序\"&lt;/i&gt;。&lt;br/&gt;&lt;br/&gt;&lt;b&gt;有关说明：&lt;/b&gt;https://support.google.com/accounts/answer/6010255&lt;/br&gt;</string>
+    <string name="message_gmail_note">自2020年1月起，Gmail限制了 OAuth 范围，现在需要授权才能进行身份验证，我们正在寻找修复 OAuth 身份验证而无需私有库的最佳方法。&lt;br/&gt;&lt;br/&gt; 作为一个临时的解决方案，你需要允许正常的认证或谷歌所谓的&lt;i&gt;\"不太安全的应用程序\"&lt;/i&gt;。&lt;br/&gt;&lt;br/&gt;&lt;b&gt;有关说明：&lt;/b&gt;https://support.google.com/accounts/answer/6010255&lt;/br&gt;</string>
     <string name="text_gmail_note">需要启用非oAuth验证。<font color="#0055C7">更多信息</font></string>
     <string name="title_cancel">取消</string>
     <string name="title_color">颜色</string>
