@@ -43,7 +43,7 @@
 \nuntuk menjalankan layanan latar depan pada Android 9 Pie dan terbaru<b>
 \n• mencegah ponsel menjadi tidak aktif</b> (WAKE_LOCK):
 \nuntuk menjaga ponsel tetap aktif saat menyinkronisasi pesan<b>
-\n• [Opsional] baca kontak anda</b> (READ_CONTACTS):
+\n• [Opsional] baca kontak Anda</b> (READ_CONTACTS):
 \nuntuk melengkapi alamat surel dan menampilkan foto secara otomatis<b>
 \n• [Opsional] cari akun pada perangkat</b> (GET_ACCOUNTS):
 \nuntuk menggunakan OAuth daripada sandi</string>
@@ -196,7 +196,7 @@
     <string name="title_cc">CC:</string>
     <string name="title_bcc">BCC:</string>
     <string name="title_subject">Subyek:</string>
-    <string name="title_body_hint">Pesan anda</string>
+    <string name="title_body_hint">Pesan Anda</string>
     <string name="title_discard">Buang</string>
     <string name="title_save">Simpan</string>
     <string name="title_send">Kirim</string>
@@ -249,13 +249,13 @@
     <string name="title_legend_downloading">Mengunduh</string>
     <string name="title_legend_closing">Menutup</string>
     <string name="title_hint_folder_actions">Tekan lama untuk opsi</string>
-    <string name="title_hint_support">Jika anda memiliki pertanyaan atau masalah, silakan dukungan menu dukungan untuk mendapatkan bantuan</string>
+    <string name="title_hint_support">Jika Anda memiliki pertanyaan atau masalah, silakan dukungan menu dukungan untuk mendapatkan bantuan</string>
     <string name="title_hint_message_actions">Geser ke kiri untuk hapus; geser ke kanan untuk arsip (jika tersedia)</string>
     <string name="title_hint_message_selection">Tekan lama pesan untuk mulai memilih beberapa pesan</string>
-    <string name="title_hint_sync">Mengunduh pesan membutuhkan waktu yang tidak sebentar, tergantung jumlah pesan, kecepatan internet anda dan penyedia layanan surel anda</string>
+    <string name="title_hint_sync">Mengunduh pesan membutuhkan waktu yang tidak sebentar, tergantung jumlah pesan, kecepatan internet Anda dan penyedia layanan surel Anda</string>
     <string name="title_open_link">Buka tautan</string>
     <string name="title_updated">Pembaruan ke versi %1$s telah tersedia</string>
-    <string name="title_issue">Apakah anda memiliki pertanyaan atau masalah\?</string>
+    <string name="title_issue">Apakah Anda memiliki pertanyaan atau masalah\?</string>
     <string name="title_yes">Ya</string>
     <string name="title_no">Tidak</string>
     <string name="title_undo">Urungkan</string>
@@ -266,12 +266,12 @@
     <string name="title_log">Log</string>
     <string name="title_debug_info">Info debug</string>
     <string name="title_debug_info_remark">Silakan jelaskan masalahnya dan waktu terjadinya masalah:</string>
-    <string name="title_crash_info_remark">Silakan jelaskan apa yang sedang anda lakukan saat apl crash:</string>
+    <string name="title_crash_info_remark">Silakan jelaskan apa yang sedang Anda lakukan saat apl crash:</string>
     <string name="title_no_storage_framework">Storage framework tidak tersedia</string>
     <string name="title_show_details">Lihat detail</string>
     <string name="title_no_accounts_yet">Anda belum menyiapkan akun apapun</string>
     <string name="title_no_identities_yet">Anda belum menyiapkan identitas apapun</string>
-    <string name="message_gmail_note">Sejak Januari 2020, Gmail membatasi lingkup OAuth, dan sekarang membutuhkan otorisasi untuk otentikasi, kami mencari cara yang terbaik untuk memperbaiki masalah otentikasi OAuth tanpa bantuan pustaka privat.&lt;br/&gt;&lt;br/&gt; Sebagai solusi sementara anda perlu mengizinkan otentikasi normal atau seperti yang Google katakan &lt;i&gt;\"aplikasi kurang aman\"&lt;/i&gt;..&lt;br/&gt;&lt;br/&gt;&lt;b&gt;Instruksi:&lt;/b&gt; https://support.google.com/accounts/answer/6010255&lt;/br&gt;</string>
+    <string name="message_gmail_note">Sejak Januari 2020, Gmail membatasi lingkup OAuth, dan sekarang membutuhkan otorisasi untuk otentikasi, kami mencari cara yang terbaik untuk memperbaiki masalah otentikasi OAuth tanpa bantuan pustaka privat.&lt;br/&gt;&lt;br/&gt; Sebagai solusi sementara Anda perlu mengizinkan otentikasi normal atau seperti yang Google katakan &lt;i&gt;\"aplikasi kurang aman\"&lt;/i&gt;..&lt;br/&gt;&lt;br/&gt;&lt;b&gt;Instruksi:&lt;/b&gt; https://support.google.com/accounts/answer/6010255&lt;/br&gt;</string>
     <string name="text_gmail_note">Membutuhkan otentikasi non-oAuth diaktifkan. <font color="#0055C7">Info lengkap</font></string>
     <string name="title_cancel">Batal</string>
     <string name="title_color">Warna</string>
