@@ -271,7 +271,7 @@
     <string name="title_try_subject">Experimente o SimpleEmail</string>
     <string name="title_try_text">Convidar:</string>
     <string name="title_color">Cor</string>
-    <string name="message_gmail_note">Desde janeiro de 2020 o Gmail restringiu a capacidade do oAuth, agora requer a autorização para poder autenticar, estamos procurando a melhor maneira de corrigir a autenticação via oAuth sem bibliotecas privativas.&lt;br/&gt;&lt;br/&gt; Como uma solução temporária você precisa permitir a autenticação normal ou uso de, como o Google diz&lt;i&gt;\"aplicativos menos seguros\"&lt;/i&gt;.&lt;br/&gt;&lt;br/&gt;b&gt;Instruções aqui:&lt;/b&gt; https://support.google.com/accounts/answer/6010255&lt;/br&gt;</string>
+    <string name="message_gmail_note">Desde janeiro de 2020, o Gmail restringiu os escopos do OAuth e agora requer autorização para autenticar, estamos procurando a melhor maneira de consertar a autenticação OAuth sem bibliotecas privadas.&lt;br/&gt;&lt;br/&gt; Como solução temporária, você precisa permitir a autenticação normal ou o que o Google chama de &lt;i&gt;\"aplicativos pouco seguros\"&lt;/i&gt;.&lt;br/&gt;&lt;br/&gt;&lt;b&gt;Instruções aqui:&lt;/b&gt; https://support.google.com/accounts/answer/6010255&lt;/br&gt;</string>
     <string name="text_gmail_note">Requer uma autenticação não-oAuth habilitada. <font color="#0055C7">Saiba mais</font></string>
     <string name="title_cancel">Cancelar</string>
     <string name="title_reset">Redefinir</string>
