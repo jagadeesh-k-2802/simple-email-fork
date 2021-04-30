@@ -232,7 +232,7 @@
     <string name="title_legend_closing">A fechar</string>
     <string name="title_hint_folder_actions">Premir longo para ver opções</string>
     <string name="title_hint_support">Se tem alguma questão ou um problema, por favor use o menu de ajuda</string>
-    <string name="title_hint_message_actions">Deslizar para a esquerda para mover para o lixo; deslizar para a direita para arquivar /se disponível)</string>
+    <string name="title_hint_message_actions">Deslizar para a esquerda para mover para o lixo; deslizar para a direita para arquivar (se disponível)</string>
     <string name="title_hint_message_selection">Premir longo numa mensagem para começar a selecionar várias mensagens</string>
     <string name="title_hint_sync">O descarregamento de mensagens pode demorar algum tempo, dependendo da quantidade de mensagens, a velocidade da sua ligação à Internet e do seu fornecedor de email</string>
     <string name="title_open_link">Abrir ligação</string>
@@ -249,9 +249,7 @@
     <string name="title_crash_info_remark">Por favor descreva o que estava a fazer quando a aplicação bloqueou:</string>
     <string name="title_privacy">Política de privacidade</string>
     <string name="title_privacy_description">O <b>SimpleEmail</b> não recolhe qualquer informação, não requer permissões desnecessárias e é um <b>programa 100% livre</b>.</string>
-    <string name="title_permissions">
-        <b>Permissões necessárias e motivos</b>
-    </string>
+    <string name="title_permissions"><b>Permissões necessárias e motivos</b></string>
     <string name="title_permissions_list"><b>• ter acesso total à rede</b> (INTERNET):
 \npara enviar e receber email <b>
 \n• ver conexões de rede</b> (ACCESS_NETWORK_STATE):
@@ -272,4 +270,9 @@
     <string name="title_no_identities_yet">Ainda não tem identidades configuradas</string>
     <string name="title_try_subject">Experimente o SimpleEmail</string>
     <string name="title_try_text">Convite para:</string>
+    <string name="message_gmail_note">Desde janeiro de 2020, o Gmail restringiu o OAuth e agora requer autorização para autenticar. Estamos a procurar a melhor maneira de corrigir a autenticação OAuth sem bibliotecas privadas. &lt;br/&gt; &lt;br/&gt; Como solução temporária, tem de permitir a autenticação normal ou o que o Google chama de &lt;i&gt; \"aplicações menos seguras\" &lt;/i&gt;. &lt;br/&gt; &lt;br/&gt; &lt;b&gt; Instruções: &lt;/b&gt; https://support.google.com/accounts/answer/6010255 &lt;/br&gt;</string>
+    <string name="text_gmail_note">Requer ter autenticação não-oAuth ativada. <font color="#0055C7">Mais informações</font></string>
+    <string name="title_cancel">Cancelar</string>
+    <string name="title_color">Cor</string>
+    <string name="title_reset">Reiniciar</string>
 </resources>
