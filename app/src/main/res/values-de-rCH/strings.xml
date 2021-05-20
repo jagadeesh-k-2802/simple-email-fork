@@ -275,7 +275,7 @@
     <string name="title_show_details">Siehe Details</string>
     <string name="title_no_accounts_yet">Sie haben noch keine Konten konfiguriert</string>
     <string name="title_no_identities_yet">Sie haben noch keine Identitäten konfiguriert</string>
-    <string name="message_gmail_note">Seit Januar 2020 hat Gmail die oAuth-Bereiche eingeschränkt. Jetzt ist eine Autorisierung erforderlich, um sich authentifizieren zu können. Wir suchen nach dem besten Weg, um die oAuth-Authentifizierung ohne private Bibliotheken zu beheben.&lt;br/&gt;&lt;br/&gt;Als temporäre Lösung müssen Sie eine normale Authentifizierung zulassen oder wie Google sagt: &lt;i&gt;«weniger sichere Anwendungen»&lt;/i&gt;.&lt;br/&gt;&lt;br/&gt;&lt;b&gt;Anweisungen hier:&lt;/b&gt; https://support.google.com/accounts/answer/6010255&lt;/br&gt;</string>
+    <string name="message_gmail_note">Seit Januar 2020 hat Gmail die OAuth-Bereiche eingeschränkt. Jetzt ist eine Autorisierung erforderlich, um sich authentifizieren zu können. Wir suchen nach dem besten Weg, um die OAuth-Authentifizierung ohne private Bibliotheken zu beheben.&lt;br/&gt;&lt;br/&gt;Als temporäre Lösung müssen Sie eine normale Authentifizierung zulassen oder was Google heisst: &lt;i&gt;«weniger sichere Anwendungen»&lt;/i&gt;.&lt;br/&gt;&lt;br/&gt;&lt;b&gt;Anweisungen hier:&lt;/b&gt; https://support.google.com/accounts/answer/6010255&lt;/br&gt;</string>
     <string name="text_gmail_note">Erfordert, dass die Nicht-oAuth-Authentifizierung aktiviert ist.<font color="#0055C7">Weitere Informationen</font></string>
     <string name="title_cancel">Abbrechen</string>
     <string name="title_color">Farbe</string>
