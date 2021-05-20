@@ -24,8 +24,8 @@
     <string name="menu_answers">Modelli di risposta</string>
     <string name="menu_operations">Operazioni</string>
     <string name="menu_legend">Legenda</string>
-    <string name="menu_faq">FAQ/supporto</string>
-    <string name="menu_privacy">Privacy</string>
+    <string name="menu_faq">Domande frequenti/supporto</string>
+    <string name="menu_privacy">Riservatezza</string>
     <string name="menu_about">Al riguardo</string>
     <string name="menu_invite">Invita</string>
     <string name="menu_rate">Valuta questa app</string>
@@ -247,7 +247,7 @@
     <string name="title_debug_info">Informazioni di debug</string>
     <string name="title_debug_info_remark">Si prega di descrivere il problema ed indicare il momento in cui è avvenuto:</string>
     <string name="title_crash_info_remark">Descrivi cosa stavi facendo quando l\'app si è interrotta:</string>
-    <string name="title_privacy">Informativa sulla privacy</string>
+    <string name="title_privacy">Informativa sulla riservatezza</string>
     <string name="title_privacy_description"><b>SimpleEmail</b> non raccoglie alcuna informazione, non richiede autorizzazioni non necessarie ed è <b>100% software libero</b>.</string>
     <string name="title_permissions"><b>Le autorizzazioni necessarie e perché</b></string>
     <string name="title_permissions_list"><b> • avere accesso completo alla rete </b> (INTERNET):
@@ -270,7 +270,7 @@
     <string name="title_no_identities_yet">Non hai ancora configurato le identità</string>
     <string name="title_try_subject">Prova SimpleEmail</string>
     <string name="title_try_text">Invita a:</string>
-    <string name="message_gmail_note">Da gennaio 2020 Gmail limita gli ambiti oAuth, ora richiede l\'autorizzazione per essere in grado di autenticarsi, stiamo cercando il modo migliore per correggere l\'autenticazione oAuth senza librerie privative.&lt;br/&gt;&lt;br/&gt;Come soluzione temporanea devi consentire la normale autenticazione o come dice Google &lt;i&gt;«applicazioni meno sicure»&lt;/i&gt;.&lt;br/&gt;&lt;br/&gt;&lt;b&gt;Istruzioni qui:&lt;/b&gt;https://support.google.com/accounts/answer/6010255&lt;/br&gt;</string>
+    <string name="message_gmail_note">Da gennaio 2020 Gmail limita gli ambiti OAuth, ora richiede l\'autorizzazione per essere in grado di autenticarsi, stiamo cercando il modo migliore per correggere l\'autenticazione OAuth senza librerie private.&lt;br/&gt;&lt;br/&gt;Come soluzione temporanea devi consentire la normale autenticazione o ciò che Google chiama&lt;i&gt;«applicazioni meno sicure»&lt;/i&gt;.&lt;br/&gt;&lt;br/&gt;&lt;b&gt;Istruzioni qui:&lt;/b&gt;https://support.google.com/accounts/answer/6010255&lt;/br&gt;</string>
     <string name="text_gmail_note">Richiede che sia abilitata l\'autenticazione non oAuth.<font color="#0055C7">Maggiori informazioni</font></string>
     <string name="title_cancel">Annulla</string>
     <string name="title_color">Colore</string>
