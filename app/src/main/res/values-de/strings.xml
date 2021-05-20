@@ -28,8 +28,8 @@
     <string name="menu_privacy">Datenschutz</string>
     <string name="menu_about">Über</string>
     <string name="menu_invite">Einladen</string>
-    <string name="menu_rate">Diese App bewerten</string>
-    <string name="menu_other">Weitere Apps</string>
+    <string name="menu_rate">Diese Anwendung bewerten</string>
+    <string name="menu_other">Weitere Anwendungen</string>
     <string name="title_agree">Ich stimme zu</string>
     <string name="title_disagree">Ich stimme nicht zu</string>
     <string name="title_version">Version %1$s</string>
@@ -270,7 +270,7 @@
     <string name="title_no_identities_yet">Sie haben noch keine Identitäten konfiguriert</string>
     <string name="title_try_subject">SimpleMail testen</string>
     <string name="title_try_text">Einladen zu:</string>
-    <string name="message_gmail_note">Seit Januar 2020 hat Gmail die oAuth-Bereiche eingeschränkt. Jetzt ist eine Autorisierung erforderlich, um sich authentifizieren zu können. Wir suchen nach dem besten Weg, um die oAuth-Authentifizierung ohne private Bibliotheken zu beheben.&lt;br/&gt;&lt;br/&gt;Als temporäre Lösung müssen Sie eine normale Authentifizierung zulassen oder wie Google sagt: &lt;i&gt;„weniger sichere Anwendungen“&lt;/i&gt;.&lt;br/&gt;&lt;br/&gt;&lt;b&gt;Anweisungen hier:&lt;/b&gt; https://support.google.com/accounts/answer/6010255&lt;/br&gt;</string>
+    <string name="message_gmail_note">Seit Januar 2020 hat Gmail die OAuth-Bereiche eingeschränkt. Jetzt ist eine Autorisierung erforderlich, um sich authentifizieren zu können. Wir suchen nach dem besten Weg, um die OAuth-Authentifizierung ohne private Bibliotheken zu beheben.&lt;br/&gt;&lt;br/&gt;Als temporäre Lösung müssen Sie eine normale Authentifizierung zulassen oder was Google heißt: &lt;i&gt;„weniger sichere Anwendungen“&lt;/i&gt;.&lt;br/&gt;&lt;br/&gt;&lt;b&gt;Anweisungen hier:&lt;/b&gt; https://support.google.com/accounts/answer/6010255&lt;/br&gt;</string>
     <string name="text_gmail_note">Erfordert, dass die Nicht-oAuth-Authentifizierung aktiviert ist.<font color="#0055C7">Weitere Informationen</font></string>
     <string name="title_cancel">Abbrechen</string>
     <string name="title_color">Farbe</string>
