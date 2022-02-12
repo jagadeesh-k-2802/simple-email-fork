@@ -265,4 +265,5 @@
     <string name="title_cancel">Avbryt</string>
     <string name="title_color">Farge</string>
     <string name="title_reset">Tilbakestill</string>
+    <string name="message_gmail_note">Siden Januar 2020 har Gmail begrenset tilgangen til OAuth, og krever nå identitetsbekreftelse. Vi er på utkikk etter den beste måten å fikse OAuth-identitetsbekreftelse uten private bibliotek.&lt;br/&gt;&lt;br/&gt;Som en midlertidig løsning må du nå tillate normal identitetsbekreftelse, eller det Google kaller &lt;i&gt;«mindre sikre programmer»&lt;/i&gt;.&lt;br/&gt;&lt;br/&gt;&lt;b&gt;Instruks finner du her:&lt;/b&gt; https://support.google.com/accounts/answer/6010255&lt;/br&gt;</string>
 </resources>
