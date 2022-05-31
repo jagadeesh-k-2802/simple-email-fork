@@ -42,7 +42,7 @@
     <string name="title_disagree">Я не согласен</string>
     <string name="title_version">Версия %1$s</string>
     <string name="title_list_accounts">Учетные записи</string>
-    <string name="title_list_identities">Identities</string>
+    <string name="title_list_identities">Личности</string>
     <string name="title_edit_account">Изменить аккаунт</string>
     <string name="title_edit_identity">Изменить личность</string>
     <string name="title_edit_folder">Изменить папку</string>
