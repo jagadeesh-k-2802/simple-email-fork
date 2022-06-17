@@ -157,8 +157,8 @@
     <string name="title_subject_forward">Отпр: %1$s</string>
     <string name="title_seen">Отметить как прочитанное</string>
     <string name="title_unseen">Отметить как непрочитанное</string>
-    <string name="title_flag">Add star</string>
-    <string name="title_unflag">Remove star</string>
+    <string name="title_flag">Добавить звездочку</string>
+    <string name="title_unflag">Убрать звездочку</string>
     <string name="title_forward">Отправить</string>
     <string name="title_reply_all">Ответить всем</string>
     <string name="title_show_headers">Показать заголовки</string>
@@ -212,7 +212,7 @@
     <string name="title_sort_on">Сортировать по</string>
     <string name="title_sort_on_time">Время</string>
     <string name="title_sort_on_unread">Не прочитано</string>
-    <string name="title_sort_on_starred">Starred</string>
+    <string name="title_sort_on_starred">Со звёздочкой</string>
     <string name="title_move_sent">Переместить в отправленные</string>
     <string name="title_previous">Предыдущий</string>
     <string name="title_next">Следующий</string>
@@ -258,13 +258,20 @@
     <string name="title_privacy">Политика конфиденциальности</string>
     <string name="title_privacy_description"><b>SimpleEmail</b> не собирает никакой информации, не требует лишних разрешений и является <b>100% бесплатным программным обеспечением</b>.</string>
     <string name="title_permissions"><b>Какие разрешения необходимы и для чего</b></string>
-    <string name="title_permissions_list"><b>• полный доступ к сети необходим</b> (INTERNET): для отправки и получения по электронной почте <b>
-\n• просмотр сетевых подключений</b> (ACCESS_NETWORK_STATE): для отслеживания изменений Интернет подключений <b>
-\n• выполнение при запуске</b> (RECEIVE_BOOT_COMPLETED): для запуска отслеживания при запуске устройства <b>
-\n• служба фонового режима</b> (FOREGROUND_SERVICE): для запуска службы фонового режима на Android 9 Pie и более поздних версиях<b>
-\n• предотвращение засыпания устройства</b> (WAKE_LOCK): чтобы устройство не переходило в режим сна во время синхронизации сообщений <b>
-\n• [Опционально] чтение ваших контактов</b> (READ_CONTACTS): для автозаполнения адресов и отображения фотографий <b>
-\n• [Опционально] поиск учетных записей на устройстве</b> (GET_ACCOUNTS): для использования OAuth вместо паролей</string>
+    <string name="title_permissions_list"><b>• полный доступ к сети необходим</b> (INTERNET):
+\nдля отправки и получения по электронной почте <b>
+\n• просмотр сетевых подключений</b> (ACCESS_NETWORK_STATE):
+\nдля отслеживания изменений Интернет подключений <b>
+\n• выполнение при запуске</b> (RECEIVE_BOOT_COMPLETED):
+\nдля запуска отслеживания при запуске устройства <b>
+\n• служба фонового режима</b> (FOREGROUND_SERVICE):
+\nдля запуска службы фонового режима на Android 9 Pie и более поздних версиях<b>
+\n• предотвращение засыпания устройства</b> (WAKE_LOCK):
+\nчтобы устройство не переходило в режим сна во время синхронизации сообщений <b>
+\n• [Опционально] чтение ваших контактов</b> (READ_CONTACTS):
+\nдля автозаполнения адресов и отображения фотографий <b>
+\n• [Опционально] поиск учетных записей на устройстве</b> (GET_ACCOUNTS):
+\nдля использования OAuth вместо паролей</string>
     <string name="title_no_storage_framework">Система хранения недоступна</string>
     <string name="title_show_details">Просмотреть детали</string>
     <string name="title_no_accounts_yet">У вас еще не настроены учетные записи</string>
