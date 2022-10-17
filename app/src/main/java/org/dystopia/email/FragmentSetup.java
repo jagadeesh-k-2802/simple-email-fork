@@ -57,7 +57,7 @@ import androidx.lifecycle.Observer;
 
 import com.google.android.material.snackbar.Snackbar;
 
-import org.dystopia.email.util.CompatibilityUtils;
+import org.dystopia.email.util.CompatibilityHelper;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -377,7 +377,7 @@ public class FragmentSetup extends FragmentEx {
             Intent intent = new Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
             PackageManager packageManager = getContext().getPackageManager();
             if (intent.resolveActivity(packageManager) != null) { // system whitelisted
-                ignoring = CompatibilityUtils.isIgnoringOptimizations(getContext());
+                ignoring = CompatibilityHelper.isIgnoringOptimizations(getContext());
             }
         }
         btnDoze.setEnabled(!ignoring);

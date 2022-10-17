@@ -4,7 +4,9 @@ apply plugin: "kotlin-android-extensions"
 apply from: "${rootDir}/jdee.gradle"
 
 android {
+    namespace 'org.dystopia.email'
     compileSdkVersion 30
+
     defaultConfig {
         applicationId "org.dystopia.email"
         minSdkVersion 21
@@ -26,32 +28,35 @@ android {
             applicationIdSuffix ".debug"
             debuggable = true
             minifyEnabled !rootProject.ext.ci
-            useProguard = true
         }
         release {
             debuggable = false
             minifyEnabled = true
-            useProguard = true
             shrinkResources true
         }
     }
 
-
-    lintOptions {
-        lintConfig file("${rootProject.getRootDir()}/lint.xml")
-        baseline file("lint-baseline.xml")
-        xmlReport false
-        htmlReport true
-        textReport true
-        warningsAsErrors false
-        ignoreWarnings true
-        abortOnError true
-        explainIssues true
-        absolutePaths false
+    buildFeatures {
+        viewBinding true
     }
 
     packagingOptions {
-        pickFirst 'META-INF/LICENSE.txt'
+        resources {
+            pickFirsts += ['META-INF/LICENSE.txt']
+        }
+    }
+
+    lint {
+        lintConfig file("${rootProject.getRootDir()}/lint.xml")
+        baseline file("lint-baseline.xml")
+        abortOnError true
+        absolutePaths false
+        explainIssues true
+        htmlReport true
+        ignoreWarnings true
+        textReport true
+        warningsAsErrors false
+        xmlReport false
     }
 }
 

@@ -5,18 +5,26 @@
     <string name="channel_error">Erreurs</string>
     <plurals name="title_notification_synchronizing">
         <item quantity="one">Synchronisation d\'%1$d compte</item>
+        <item quantity="few">Synchronisation %1$d comptes</item>
+	    <item quantity="many">Synchronisation %1$d comptes</item>
         <item quantity="other">Synchronisation de %1$d comptes</item>
     </plurals>
     <plurals name="title_notification_operations">
         <item quantity="one">%1$d opération en attente</item>
+        <item quantity="few">%1$d opérations en attente</item>
+	    <item quantity="many">%1$d opérations en attente</item>
         <item quantity="other">%1$d opérations en attente</item>
     </plurals>
     <plurals name="title_notification_unseen">
         <item quantity="one">%1$d nouveau message</item>
-        <item quantity="other">%1$d nouveaux messages</item>
+        <item quantity="few">%1$d nouveaux messages</item>
+	    <item quantity="many">%1$d nouveaux messages</item>
+        <item quantity="other">%1$d nouveaux messages</item>
     </plurals>
     <plurals name="title_notification_unsent">
         <item quantity="one">%1$d message non envoyé</item>
+        <item quantity="few">%1$d messages non envoyés</item>
+        <item quantity="many">%1$d messages non envoyés</item>
         <item quantity="other">%1$d messages non envoyés</item>
     </plurals>
     <string name="title_notification_failed">« %1$s » a échoué</string>

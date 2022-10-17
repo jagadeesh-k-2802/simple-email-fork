@@ -33,7 +33,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Lifecycle;
 
-import org.dystopia.email.util.CompatibilityUtils;
+import org.dystopia.email.util.CompatibilityHelper;
 
 public class FragmentEx extends Fragment {
     private String title = "";
@@ -116,7 +116,7 @@ public class FragmentEx extends Fragment {
     public void onDetach() {
         super.onDetach();
 
-        InputMethodManager inputMethodManager = CompatibilityUtils.getInputMethodManager(getContext());
+        InputMethodManager inputMethodManager = CompatibilityHelper.getInputMethodManager(getContext());
         View focused = getActivity().getCurrentFocus();
         if (focused != null) {
             inputMethodManager.hideSoftInputFromWindow(focused.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);

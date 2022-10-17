@@ -65,7 +65,7 @@ import com.sun.mail.imap.IMAPStore;
 import com.sun.mail.util.FolderClosedIOException;
 import com.sun.mail.util.MailConnectException;
 
-import org.dystopia.email.util.CompatibilityUtils;
+import org.dystopia.email.util.CompatibilityHelper;
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -166,7 +166,7 @@ public class ServiceSynchronize extends LifecycleService {
         db.account().liveStats().observe(this, new Observer<TupleAccountStats>() {
             @Override
             public void onChanged(@Nullable TupleAccountStats stats) {
-                NotificationManager notificationManager = CompatibilityUtils.getNotificationManger(getBaseContext());
+                NotificationManager notificationManager = CompatibilityHelper.getNotificationManger(getBaseContext());
                 notificationManager.notify(NOTIFICATION_SYNCHRONIZE, getNotificationService(stats).build());
             }
         });
@@ -177,7 +177,7 @@ public class ServiceSynchronize extends LifecycleService {
 
             @Override
             public void onChanged(List<TupleNotification> messages) {
-                NotificationManager notificationManager = CompatibilityUtils.getNotificationManger(getBaseContext());
+                NotificationManager notificationManager = CompatibilityHelper.getNotificationManger(getBaseContext());
                 LongSparseArray<List<TupleNotification>> messagesByAccount = new LongSparseArray<>();
                 LongSparseArray<List<Integer>> removed = notifying.clone();
 
@@ -273,7 +273,7 @@ public class ServiceSynchronize extends LifecycleService {
 
         stopForeground(true);
 
-        NotificationManager notificationManager = CompatibilityUtils.getNotificationManger(this);
+        NotificationManager notificationManager = CompatibilityHelper.getNotificationManger(this);
         notificationManager.cancel(NOTIFICATION_SYNCHRONIZE);
 
         super.onDestroy();
@@ -658,7 +658,7 @@ public class ServiceSynchronize extends LifecycleService {
         EntityLog.log(this, action + " " + Helper.formatThrowable(ex));
 
         if (ex instanceof SendFailedException) {
-            NotificationManager notificationManager = CompatibilityUtils.getNotificationManger(this);
+            NotificationManager notificationManager = CompatibilityHelper.getNotificationManger(this);
             notificationManager.notify(action, 1, getNotificationError(action, ex).build());
         }
 
@@ -672,13 +672,13 @@ public class ServiceSynchronize extends LifecycleService {
             && !(ex instanceof MessagingException && ex.getCause() instanceof SocketTimeoutException)
             && !(ex instanceof MessagingException && ex.getCause() instanceof SSLException)
             && !(ex instanceof MessagingException && "connection failure".equals(ex.getMessage()))) {
-            NotificationManager notificationManager = CompatibilityUtils.getNotificationManger(this);
+            NotificationManager notificationManager = CompatibilityHelper.getNotificationManger(this);
             notificationManager.notify(action, 1, getNotificationError(action, ex).build());
         }
     }
 
     private void monitorAccount(final EntityAccount account, final ServiceState state) throws NoSuchProviderException {
-        final PowerManager powerManager = CompatibilityUtils.getPowerManager(getBaseContext());
+        final PowerManager powerManager = CompatibilityHelper.getPowerManager(getBaseContext());
         final PowerManager.WakeLock wl0 = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
             BuildConfig.APPLICATION_ID + ":account." + account.id + ".monitor");
         try {
@@ -1156,12 +1156,12 @@ public class ServiceSynchronize extends LifecycleService {
                     registerReceiver(alarm, new IntentFilter(id));
 
                     // Keep alive
-                    AlarmManager alarmManager = CompatibilityUtils.getAlarmManager(this);
+                    AlarmManager alarmManager = CompatibilityHelper.getAlarmManager(this);
                     try {
                         while (state.running) {
                             // Schedule keep alive alarm
                             EntityLog.log(this, account.name + " wait=" + account.poll_interval);
-                            CompatibilityUtils.setAndAllowWhileIdle(alarmManager, AlarmManager.RTC_WAKEUP,
+                            CompatibilityHelper.setAndAllowWhileIdle(alarmManager, AlarmManager.RTC_WAKEUP,
                                 System.currentTimeMillis() + account.poll_interval * 60 * 1000L, pi);
 
                             try {
@@ -2033,7 +2033,7 @@ public class ServiceSynchronize extends LifecycleService {
         List<EntityAttachment> attachments = db.attachment().getAttachments(message.id);
         MessageHelper helper = new MessageHelper(imessage);
 
-        ConnectivityManager connectivityManager = CompatibilityUtils.getConnectivityManager(context);
+        ConnectivityManager connectivityManager = CompatibilityHelper.getConnectivityManager(context);
         boolean metered = (connectivityManager == null || connectivityManager.isActiveNetworkMetered());
 
         boolean fetch = false;
@@ -2108,7 +2108,7 @@ public class ServiceSynchronize extends LifecycleService {
 
         @Override
         public void onAvailable(Network network) {
-            ConnectivityManager connectivityManager = CompatibilityUtils.getConnectivityManager(ServiceSynchronize.this);
+            ConnectivityManager connectivityManager = CompatibilityHelper.getConnectivityManager(ServiceSynchronize.this);
             NetworkInfo ni = connectivityManager.getNetworkInfo(network);
             EntityLog.log(ServiceSynchronize.this,
                 "Network available " + network + " running=" + running + " " + ni);
@@ -2130,7 +2130,7 @@ public class ServiceSynchronize extends LifecycleService {
             EntityLog.log(ServiceSynchronize.this, "Network lost " + network + " running=" + running);
 
             if (running) {
-                ConnectivityManager connectivityManager = CompatibilityUtils.getConnectivityManager(ServiceSynchronize.this);
+                ConnectivityManager connectivityManager = CompatibilityHelper.getConnectivityManager(ServiceSynchronize.this);
                 NetworkInfo ani = (network == null ? null : connectivityManager.getActiveNetworkInfo());
                 EntityLog.log(ServiceSynchronize.this,
                     "Network active=" + (ani == null ? null : ani.toString()));
@@ -2157,7 +2157,7 @@ public class ServiceSynchronize extends LifecycleService {
 
                 @Override
                 public void run() {
-                    PowerManager powerManager = CompatibilityUtils.getPowerManager(ServiceSynchronize.this);
+                    PowerManager powerManager = CompatibilityHelper.getPowerManager(ServiceSynchronize.this);
                     PowerManager.WakeLock wl =
                         powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, BuildConfig.APPLICATION_ID + ":start");
                     try {
@@ -2265,7 +2265,7 @@ public class ServiceSynchronize extends LifecycleService {
         }
 
         private void stop() {
-            PowerManager powerManager = CompatibilityUtils.getPowerManager(ServiceSynchronize.this);
+            PowerManager powerManager = CompatibilityHelper.getPowerManager(ServiceSynchronize.this);
             PowerManager.WakeLock wl =
                 powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, BuildConfig.APPLICATION_ID + ":stop");
             try {
@@ -2330,7 +2330,7 @@ public class ServiceSynchronize extends LifecycleService {
                 executor.submit(new Runnable() {
                     @Override
                     public void run() {
-                        PowerManager powerManager = CompatibilityUtils.getPowerManager(context);
+                        PowerManager powerManager = CompatibilityHelper.getPowerManager(context);
                         PowerManager.WakeLock wl = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
                             BuildConfig.APPLICATION_ID + ":outbox");
 
