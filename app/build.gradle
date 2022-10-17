@@ -38,10 +38,11 @@ android {
 
 
     lintOptions {
+        lintConfig file("${rootProject.getRootDir()}/lint.xml")
+        baseline file("lint-baseline.xml")
         xmlReport false
         htmlReport true
         textReport true
-        lintConfig file("${rootProject.getRootDir()}/lint.xml")
         warningsAsErrors false
         ignoreWarnings true
         abortOnError true
