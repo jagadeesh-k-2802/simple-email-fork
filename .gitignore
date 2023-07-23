@@ -2,6 +2,7 @@
 .*
 !.gitignore
 !.editorconfig
+!.envrc
 
 # Gtags
 GTAGS
@@ -51,7 +52,3 @@ proguard/
 # Node
 node_modules
 package-lock.json
-
-# Until guix add kotlin
-.envrc
-flake*
