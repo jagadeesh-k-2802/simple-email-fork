@@ -1,3 +1,13 @@
+# General
+.*
+!.gitignore
+!.editorconfig
+
+# Gtags
+GTAGS
+GPATH
+GRTAGS
+
 # Project files
 /captures
 /tools/config.sh
@@ -41,3 +51,7 @@ proguard/
 # Node
 node_modules
 package-lock.json
+
+# Until guix add kotlin
+.envrc
+flake*
