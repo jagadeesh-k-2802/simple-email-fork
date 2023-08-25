@@ -994,8 +994,8 @@ public class FragmentCompose extends FragmentEx {
         try {
             cursor = context.getContentResolver().query(uri, null, null, null, null, null);
             if (cursor != null && cursor.moveToFirst()) {
-                name = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
-                s = cursor.getString(cursor.getColumnIndex(OpenableColumns.SIZE));
+                name = cursor.getString(Math.abs(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)));
+                s = cursor.getString(Math.abs(cursor.getColumnIndex(OpenableColumns.SIZE)));
             }
 
         } finally {

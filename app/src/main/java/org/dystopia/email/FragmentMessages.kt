@@ -293,18 +293,18 @@ class FragmentMessages : FragmentEx() {
                 super.onChildDraw(canvas, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
             }
 
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, directionSwiped: Int) {
                 val pos = viewHolder.adapterPosition
                 if (pos == RecyclerView.NO_POSITION) {
                     return
                 }
-                val message = (binding.rvFolder.getAdapter() as AdapterMessage?)!!.currentList!![pos]
+                val currentMessage = (binding.rvFolder.getAdapter() as AdapterMessage?)!!.currentList!![pos]
                         ?: return
-                Log.i(Helper.TAG, "Swiped dir=" + direction + " message=" + message.id)
-                val args = Bundle()
-                args.putLong("id", message.id)
-                args.putBoolean("thread", viewType != ViewType.THREAD)
-                args.putInt("direction", direction)
+                Log.i(Helper.TAG, "Swiped dir=" + directionSwiped + " message=" + currentMessage.id)
+                val argsSwiped = Bundle()
+                argsSwiped.putLong("id", currentMessage.id)
+                argsSwiped.putBoolean("thread", viewType != ViewType.THREAD)
+                argsSwiped.putInt("direction", directionSwiped)
                 object : SimpleTask<MessageTarget?>() {
                     override fun onLoad(context: Context, args: Bundle): MessageTarget {
                         val id = args.getLong("id")
@@ -362,14 +362,14 @@ class FragmentMessages : FragmentEx() {
                                 Snackbar.LENGTH_INDEFINITE)
                         snackbar.setAction(R.string.title_undo) {
                             snackbar.dismiss()
-                            val args = Bundle()
-                            args.putSerializable("result", result)
+                            val argsAction = Bundle()
+                            argsAction.putSerializable("result", result)
 
                             // Show message again
                             object : SimpleTask<Void?>() {
                                 override fun onLoad(context: Context, args: Bundle): Void? {
-                                    val result = args.getSerializable("result") as MessageTarget?
-                                    for (id in result!!.ids) {
+                                    val resultTarget = args.getSerializable("result") as MessageTarget?
+                                    for (id in resultTarget!!.ids) {
                                         Log.i(Helper.TAG, "Move undo id=$id")
                                         DB.getInstance(context).message().setMessageUiHide(id, false)
                                     }
@@ -379,7 +379,7 @@ class FragmentMessages : FragmentEx() {
                                 override fun onException(args: Bundle, ex: Throwable) {
                                     super.onException(args, ex)
                                 }
-                            }.load(this@FragmentMessages, args)
+                            }.load(this@FragmentMessages, argsAction)
                         }
                         snackbar.show()
 
@@ -391,14 +391,14 @@ class FragmentMessages : FragmentEx() {
                             if (snackbar.isShown) {
                                 snackbar.dismiss()
                             }
-                            val args = Bundle()
-                            args.putSerializable("result", result)
+                            val argsDelayed = Bundle()
+                            argsDelayed.putSerializable("result", result)
 
                             // Process move in a thread
                             // - the fragment could be gone
                             executor.submit {
                                 try {
-                                    val messageTarget = args.getSerializable("result") as MessageTarget
+                                    val messageTarget = argsDelayed.getSerializable("result") as MessageTarget
                                     val db = DB.getInstance(snackbar.context)
                                     try {
                                         db.beginTransaction()
@@ -425,7 +425,7 @@ class FragmentMessages : FragmentEx() {
                     override fun onException(args: Bundle, ex: Throwable) {
                         Helper.unexpectedError(context, ex)
                     }
-                }.load(this@FragmentMessages, args)
+                }.load(this@FragmentMessages, argsSwiped)
             }
 
             inner class MessageTarget : Serializable {
@@ -436,12 +436,15 @@ class FragmentMessages : FragmentEx() {
         }).attachToRecyclerView(binding.rvFolder)
         binding.bottomNavigation.setOnNavigationItemSelectedListener(
                 BottomNavigationView.OnNavigationItemSelectedListener { menuItem ->
-                    val pn = binding.bottomNavigation.getTag() as Array<ViewModelMessages.Target>
-                    val target = if (menuItem.itemId == R.id.action_prev) pn[0] else pn[1]
+                    val pn = binding.bottomNavigation.tag as? Array<ViewModelMessages.Target>
+                    val target = if (menuItem.itemId == R.id.action_prev) pn?.get(0) else pn?.get(1)
                     val lbm = LocalBroadcastManager.getInstance(requireContext())
-                    lbm.sendBroadcast(Intent(ActivityView.ACTION_VIEW_THREAD)
+                    if (target != null) {
+                        lbm.sendBroadcast(Intent(ActivityView.ACTION_VIEW_THREAD)
                             .putExtra("account", target.account).putExtra("thread", target.thread))
-                    true
+                        true
+                    }
+                    false
                 })
         binding.fab.setOnClickListener(View.OnClickListener {
             startActivity(Intent(context, ActivityCompose::class.java).putExtra("action", "new")
