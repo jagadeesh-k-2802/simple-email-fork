@@ -229,7 +229,7 @@ class FragmentMessages : FragmentEx() {
                 if (pos == RecyclerView.NO_POSITION) {
                     return 0
                 }
-                val message = (binding.rvFolder?.getAdapter() as AdapterMessage?)!!.currentList!![pos]
+                val message = (binding.rvFolder.getAdapter() as AdapterMessage?)!!.currentList!![pos]
                 if (message == null || expanded.contains(message.id)
                         || EntityFolder.OUTBOX == message.folderType) {
                     return 0
@@ -298,7 +298,7 @@ class FragmentMessages : FragmentEx() {
                 if (pos == RecyclerView.NO_POSITION) {
                     return
                 }
-                val message = (binding.rvFolder?.getAdapter() as AdapterMessage?)!!.currentList!![pos]
+                val message = (binding.rvFolder.getAdapter() as AdapterMessage?)!!.currentList!![pos]
                         ?: return
                 Log.i(Helper.TAG, "Swiped dir=" + direction + " message=" + message.id)
                 val args = Bundle()
@@ -311,7 +311,7 @@ class FragmentMessages : FragmentEx() {
                         val thread = args.getBoolean("thread")
                         val direction = args.getInt("direction")
                         val result = MessageTarget()
-                        var target: EntityFolder? = null
+                        var target: EntityFolder?
 
                         // Get target folder and hide message
                         val db = DB.getInstance(context)
@@ -356,8 +356,8 @@ class FragmentMessages : FragmentEx() {
 
                     protected override fun onLoaded(args: Bundle?, result: MessageTarget?) {
                         // Show undo snackbar
-                        val snackbar = Snackbar.make(view!!,
-                                getString(R.string.title_moving,
+                        val snackbar = Snackbar.make(view,
+                                String.format(getString(R.string.title_moving),
                                         Helper.localizeFolderName(context, result?.display)),
                                 Snackbar.LENGTH_INDEFINITE)
                         snackbar.setAction(R.string.title_undo) {
@@ -398,15 +398,15 @@ class FragmentMessages : FragmentEx() {
                             // - the fragment could be gone
                             executor.submit {
                                 try {
-                                    val result = args.getSerializable("result") as MessageTarget
+                                    val messageTarget = args.getSerializable("result") as MessageTarget
                                     val db = DB.getInstance(snackbar.context)
                                     try {
                                         db.beginTransaction()
-                                        for (id in result.ids) {
+                                        for (id in messageTarget.ids) {
                                             val resultMessage = db.message().getMessage(id)
                                             if (resultMessage != null && resultMessage.ui_hide) {
-                                                Log.i(Helper.TAG, "Move id=" + id + " target=" + result.target)
-                                                val folder = db.folder().getFolderByName(resultMessage.account, result.target)
+                                                Log.i(Helper.TAG, "Move id=" + id + " target=" + messageTarget.target)
+                                                val folder = db.folder().getFolderByName(resultMessage.account, messageTarget.target)
                                                 EntityOperation.queue(db, resultMessage, EntityOperation.MOVE, folder.id)
                                             }
                                         }
@@ -470,8 +470,8 @@ class FragmentMessages : FragmentEx() {
                                 EntityFolder.FOLDER_SORT_ORDER.indexOf(f2.type))
                         if (s != 0) {
                             s
-                        } else collator.compare(if (f1.name == null) "" else f1.name,
-                                if (f2.name == null) "" else f2.name)
+                        } else collator.compare(if (f1.name.isEmpty()) "" else f1.name,
+                                if (f2.name.isEmpty()) "" else f2.name)
                     }
                     return targets
                 }
@@ -638,7 +638,7 @@ class FragmentMessages : FragmentEx() {
                     })
             ViewType.THREAD -> setSubtitle(R.string.title_folder_thread)
             ViewType.SEARCH -> setSubtitle(getString(R.string.title_searching, search))
-            else -> null
+            else -> {}
         }
 
         // Folders and messages
@@ -927,7 +927,7 @@ class FragmentMessages : FragmentEx() {
                 ViewType.THREAD -> messages = LivePagedListBuilder(
                         db.message().pagedThread(account, folder, thread, sort, debug), LOCAL_PAGE_SIZE)
                         .build()
-                else -> null
+                else -> {}
             }
         } else {
             if (searchCallback == null) {

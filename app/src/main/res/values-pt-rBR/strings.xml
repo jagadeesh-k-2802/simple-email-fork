@@ -275,4 +275,5 @@
     <string name="text_gmail_note">Requer uma autenticação não-oAuth habilitada. <font color="#0055C7">Saiba mais</font></string>
     <string name="title_cancel">Cancelar</string>
     <string name="title_reset">Redefinir</string>
+  <string name="title_attachment_downloading">Downloading attachment: %1$s</string>
 </resources>

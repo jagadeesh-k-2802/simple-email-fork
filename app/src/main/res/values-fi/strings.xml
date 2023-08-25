@@ -263,4 +263,5 @@
     <string name="title_no_identities_yet">Et ole konfiguroinut identiteettejä vielä</string>
     <string name="title_try_subject">Kokeile SimpleEmail</string>
     <string name="title_try_text">Kutsu:</string>
+  <string name="title_attachment_downloading">Downloading attachment: %1$s</string>
 </resources>

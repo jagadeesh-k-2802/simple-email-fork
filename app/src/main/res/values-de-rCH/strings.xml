@@ -280,4 +280,5 @@
     <string name="title_cancel">Abbrechen</string>
     <string name="title_color">Farbe</string>
     <string name="title_reset">Zurücksetzen</string>
+  <string name="title_attachment_downloading">Downloading attachment: %1$s</string>
 </resources>

@@ -275,4 +275,5 @@
     <string name="title_show_details">Виж детайлите</string>
     <string name="title_no_accounts_yet">Все още няма конфигурирани профили</string>
     <string name="title_no_identities_yet">Все още няма конфигурирани идентичности</string>
+  <string name="title_attachment_downloading">Downloading attachment: %1$s</string>
 </resources>

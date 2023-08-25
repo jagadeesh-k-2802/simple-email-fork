@@ -271,4 +271,5 @@
     <string name="title_color">顏色</string>
     <string name="title_reset">重設</string>
     <string name="title_try_text">邀請：</string>
+  <string name="title_attachment_downloading">Downloading attachment: %1$s</string>
 </resources>

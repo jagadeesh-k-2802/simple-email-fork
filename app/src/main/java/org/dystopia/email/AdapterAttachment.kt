@@ -17,6 +17,7 @@
  */
 package org.dystopia.email
 
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -140,36 +141,17 @@ class AdapterAttachment(
                 else -> {
                     if (attachment.available) {
                         onShare(attachment)
+                        return
+                    }
+                    if (attachment.progress == null) {
+                        startDownload(attachment)
                     } else {
-                        if (attachment.progress == null) {
-                            val args = Bundle()
-                            args.putLong("id", attachment.id)
-                            args.putLong("message", attachment.message)
-                            args.putInt("sequence", attachment.sequence)
-                            object : SimpleTask<Unit>() {
-                                override fun onLoad(context: Context, args: Bundle) {
-                                    val id = args.getLong("id")
-                                    val message = args.getLong("message")
-                                    val sequence = args.getInt("sequence").toLong()
-                                    val db = DB.getInstance(context)
-                                    try {
-                                        db.beginTransaction()
-                                        db.attachment().setProgress(id, 0)
-                                        val msg = db.message().getMessage(message)
-                                        EntityOperation.queue(
-                                            db,
-                                            msg,
-                                            EntityOperation.ATTACHMENT,
-                                            sequence
-                                        )
-                                        db.setTransactionSuccessful()
-                                    } finally {
-                                        db.endTransaction()
-                                    }
-                                    EntityOperation.process(context)
-                                }
-                            }.load(context, owner, args)
-                        }
+                        Toast.makeText(
+                            context,
+                            String.format(context.getString(R.string.title_attachment_downloading),
+                                String.format("%s%%", attachment.progress)),
+                            Toast.LENGTH_LONG
+                        ).show()
                     }
                 }
             }
@@ -179,6 +161,36 @@ class AdapterAttachment(
     init {
         debug = PreferenceManager.getDefaultSharedPreferences(context).getBoolean("debug", false)
         setHasStableIds(true)
+    }
+
+    fun startDownload(attachment: EntityAttachment) {
+        val args = Bundle()
+        args.putLong("id", attachment.id)
+        args.putLong("message", attachment.message)
+        args.putInt("sequence", attachment.sequence)
+        object : SimpleTask<Unit>() {
+            override fun onLoad(context: Context, args: Bundle) {
+                val id = args.getLong("id")
+                val message = args.getLong("message")
+                val sequence = args.getInt("sequence").toLong()
+                val db = DB.getInstance(context)
+                try {
+                    db.beginTransaction()
+                    db.attachment().setProgress(id, 0)
+                    val msg = db.message().getMessage(message)
+                    EntityOperation.queue(
+                        db,
+                        msg,
+                        EntityOperation.ATTACHMENT,
+                        sequence
+                    )
+                    db.setTransactionSuccessful()
+                } finally {
+                    db.endTransaction()
+                }
+                EntityOperation.process(context)
+            }
+        }.load(context, owner, args)
     }
 
     fun onShare(attachment: EntityAttachment) {
@@ -214,17 +226,24 @@ class AdapterAttachment(
                 Log.e(Helper.TAG, "Error opening attachment $err")
             }
 
-            if (ris == null || ris.isEmpty()) {
+            if (ris.isNullOrEmpty()) {
                 Toast.makeText(
                     context,
                     String.format(context.getString(R.string.title_no_viewer), type),
                     Toast.LENGTH_LONG
                 ).show()
-            } else {
-                context.startActivity(intent)
+                return
             }
-        } else {
+        }
+
+        try {
             context.startActivity(intent)
+        } catch (err: ActivityNotFoundException) {
+            Toast.makeText(
+                context,
+                String.format(context.getString(R.string.title_no_viewer), type),
+                Toast.LENGTH_LONG
+            ).show()
         }
     }
 

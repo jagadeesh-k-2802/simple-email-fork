@@ -276,4 +276,5 @@
     <string name="title_cancel">Batal</string>
     <string name="title_color">Warna</string>
     <string name="title_reset">Setel ulang</string>
+  <string name="title_attachment_downloading">Downloading attachment: %1$s</string>
 </resources>
