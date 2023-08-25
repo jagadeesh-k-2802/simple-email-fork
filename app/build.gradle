@@ -1,6 +1,6 @@
 apply plugin: "com.android.application"
 apply plugin: "kotlin-android"
-apply from: "${rootDir}/jdee.gradle"
+apply from: "${rootDir}/dirlocal.gradle"
 
 android {
     namespace 'org.dystopia.email'
