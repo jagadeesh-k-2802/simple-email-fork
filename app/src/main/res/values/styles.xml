@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <attr name="colorUnread" format="reference" />
     <attr name="colorSeparator" format="reference" />
     <attr name="colorWarning" format="reference" />
@@ -9,7 +9,7 @@
     <attr name="drawableItemBackground" format="reference" />
     <attr name="drawableItemUnreadBackground" format="reference" />
 
-    <style name="AppThemeLight" parent="Base.Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppThemeLight" parent="Base.Theme.AppCompat.Light">
         <item name="android:windowDisablePreview">true</item>
 
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -31,6 +31,12 @@
         <item name="android:buttonStyle">@style/buttonStyle</item>
         <item name="android:buttonStyleSmall">@style/buttonStyleSmall</item>
         <item name="android:buttonStyleToggle">@style/buttonStyleToggle</item>
+
+        <item name="actionBarStyle">@style/actionBarStyleLight</item>
+        <!-- <item name="android:statusBarColor">@android:color/background_dark</item> -->
+        <!-- Light status bar on API >= 23 -->
+        <item name="android:statusBarColor" tools:targetApi="23">@android:color/background_light</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="23">true</item>
     </style>
 
     <style name="AppThemeDark" parent="Base.Theme.AppCompat">
@@ -55,6 +61,11 @@
         <item name="android:buttonStyle">@style/buttonStyle</item>
         <item name="android:buttonStyleSmall">@style/buttonStyleSmall</item>
         <item name="android:buttonStyleToggle">@style/buttonStyleToggle</item>
+
+        <item name="actionBarStyle">@style/actionBarStyleDark</item>
+        <item name="android:statusBarColor">@android:color/background_dark</item>
+        <!-- Force dark status bar on API >= 23 -->
+        <item name="android:windowLightStatusBar" tools:targetApi="23">false</item>
     </style>
 
     <style name="Theme.Transparent" parent="Base.Theme.AppCompat">
@@ -81,5 +92,21 @@
 
     <style name="buttonStyleToggle" parent="Base.Widget.AppCompat.Button">
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Medium</item>
+    </style>
+
+    <style name="actionBarStyleLight" parent="Base.Widget.AppCompat.ActionBar">
+        <item name="android:background">@android:color/background_light</item>
+        <item name="titleTextStyle">@style/actionBarTitleStyleLight</item>
+    </style>
+    <style name="actionBarStyleDark" parent="Base.Widget.AppCompat.ActionBar">
+        <item name="android:background">@android:color/background_dark</item>
+        <item name="titleTextStyle">@style/actionBarTitleStyleDark</item>
+    </style>
+
+    <style name="actionBarTitleStyleLight" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+    <style name="actionBarTitleStyleDark" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/colorPrimaryDark</item>
     </style>
 </resources>

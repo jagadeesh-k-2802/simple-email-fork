@@ -153,8 +153,8 @@
     <string name="title_folder_thread">Беседа</string>
     <string name="title_no_messages">Нет сообщений</string>
     <string name="title_show_images">Показать изображения</string>
-    <string name="title_subject_reply">Отв: %1$s</string>
-    <string name="title_subject_forward">Отпр: %1$s</string>
+    <string name="title_subject_reply">Re: %1$s</string>
+    <string name="title_subject_forward">Fwd: %1$s</string>
     <string name="title_seen">Отметить как прочитанное</string>
     <string name="title_unseen">Отметить как непрочитанное</string>
     <string name="title_flag">Добавить звездочку</string>

@@ -8,8 +8,8 @@
         <item quantity="other">Synkronisera %1$d konton</item>
     </plurals>
     <plurals name="title_notification_operations">
-        <item quantity="one">%1$d aktivitet väntar</item>
-        <item quantity="other">%1$d aktiviteter väntar</item>
+        <item quantity="one">%1$d åtgärd väntar</item>
+        <item quantity="other">%1$d åtgärder väntar</item>
     </plurals>
     <plurals name="title_notification_unseen">
         <item quantity="one">%1$d nytt meddelande</item>
@@ -257,5 +257,8 @@
     <string name="title_no_identities_yet">Du har inga identiteter konfigurerade än</string>
     <string name="title_try_text">Bjud in:</string>
     <string name="title_try_subject">Pröva SimpleEmail</string>
-  <string name="title_attachment_downloading">Downloading attachment: %1$s</string>
+    <string name="title_cancel">Avbryt</string>
+    <string name="title_color">Färg</string>
+    <string name="title_reset">Återställ</string>
+    <string name="title_attachment_downloading">Downloading attachment: %1$s</string>
 </resources>
