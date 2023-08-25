@@ -5,12 +5,12 @@ apply from: "${rootDir}/jdee.gradle"
 
 android {
     namespace 'org.dystopia.email'
-    compileSdkVersion 30
+    compileSdkVersion 31
 
     defaultConfig {
         applicationId "org.dystopia.email"
         minSdkVersion 21
-        targetSdkVersion 30
+        targetSdkVersion 31
         versionCode 116
         versionName "1.4.0"
         archivesBaseName = "SimpleEmail-v$versionName"

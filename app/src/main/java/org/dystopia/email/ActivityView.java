@@ -1,27 +1,25 @@
-package org.dystopia.email;
-
 /*
-    This file is part of FairEmail.
-
-    FairEmail is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    FairEmail is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with FairEmail.  If not, see <http://www.gnu.org/licenses/>.
-
-    Copyright 2018, Marcel Bokhorst (M66B)
-    Copyright 2018-2020, Distopico (dystopia project) <distopico@riseup.net> and contributors
-*/
+ * This file is part of FairEmail.
+ *
+ * FairEmail is free software: you can redistribute it and/or modify it under the terms of the GNU
+ * General Public License as published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * FairEmail is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+ * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with FairEmail. If not,
+ * see <http://www.gnu.org/licenses/>.
+ *
+ * Copyright 2018, Marcel Bokhorst (M66B)
+ * Copyright 2018-2023, Distopico (dystopia project) <distopico@riseup.net> and contributors
+ */
+package org.dystopia.email;
 
 import android.app.Activity;
 import android.app.PendingIntent;
+import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -29,6 +27,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
+import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Build;
@@ -940,9 +939,16 @@ public class ActivityView extends ActivityBase
         create.addCategory(Intent.CATEGORY_OPENABLE);
         create.setType(intent.getStringExtra("type"));
         create.putExtra(Intent.EXTRA_TITLE, intent.getStringExtra("name"));
-        if (create.resolveActivity(getPackageManager()) != null) {
+
+        List<ResolveInfo> activities = getPackageManager().queryIntentActivities(create, 0);
+
+        if (activities.isEmpty()) {
+            Snackbar.make(view, R.string.title_no_storage_framework, Snackbar.LENGTH_LONG).show();
+        }
+
+        try {
             startActivityForResult(create, REQUEST_ATTACHMENT);
-        } else {
+        } catch (ActivityNotFoundException _err) {
             Snackbar.make(view, R.string.title_no_storage_framework, Snackbar.LENGTH_LONG).show();
         }
     }
