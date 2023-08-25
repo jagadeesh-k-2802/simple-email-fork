@@ -37,7 +37,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentTransaction;
 
-import org.dystopia.email.util.CompatibilityUtils;
+import org.dystopia.email.util.CompatibilityHelper;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -132,7 +132,7 @@ public class FragmentAbout extends FragmentEx {
                             sb.append(String.format(locale, "Id: %s\r\n", Build.ID));
                             sb.append("\r\n");
 
-                            boolean ignoring = CompatibilityUtils.isIgnoringOptimizations(getContext());
+                            boolean ignoring = CompatibilityHelper.isIgnoringOptimizations(getContext());
                             sb.append(String.format(locale, "Battery optimizations: %b\r\n", !ignoring));
 
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {

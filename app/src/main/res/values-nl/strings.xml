@@ -262,4 +262,5 @@
     <string name="title_cancel">Annuleren</string>
     <string name="title_color">Kleur</string>
     <string name="title_reset">Standaardwaarden</string>
+  <string name="title_attachment_downloading">Downloading attachment: %1$s</string>
 </resources>

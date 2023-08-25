@@ -6,21 +6,25 @@
   <plurals name="title_notification_synchronizing">
 	<item quantity="one">Synchronizing %1$d account</item>
 	<item quantity="few">Synchronizing %1$d accounts</item>
+	<item quantity="many">Synchronizing %1$d accounts</item>
 	<item quantity="other">Synchronizing %1$d accounts</item>
-</plurals>
+  </plurals>
   <plurals name="title_notification_operations">
 	<item quantity="one">%1$d operation pending</item>
 	<item quantity="few">%1$d operations pending</item>
+	<item quantity="many">%1$d operations pending</item>
 	<item quantity="other">%1$d operations pending</item>
 </plurals>
   <plurals name="title_notification_unseen">
 	<item quantity="one">%1$d new message</item>
 	<item quantity="few">%1$d new messages</item>
+	<item quantity="many">%1$d new messages</item>
 	<item quantity="other">%1$d new messages</item>
 </plurals>
   <plurals name="title_notification_unsent">
 	<item quantity="one">%1$d unsent message</item>
 	<item quantity="few">%1$d unsent messages</item>
+	<item quantity="many">%1$d unsent messages</item>
 	<item quantity="other">%1$d unsent messages</item>
 </plurals>
   <string name="title_notification_failed">\'%1$s\' failed</string>
@@ -260,4 +264,5 @@
   <string name="title_show_details">See details</string>
   <string name="title_no_accounts_yet">You don\'t have accounts configured yet</string>
   <string name="title_no_identities_yet">You don\'t have identities configured yet</string>
+  <string name="title_attachment_downloading">Downloading attachment: %1$s</string>
 </resources>

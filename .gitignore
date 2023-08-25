@@ -1,3 +1,14 @@
+# General
+.*
+!.gitignore
+!.editorconfig
+!.envrc
+
+# Gtags
+GTAGS
+GPATH
+GRTAGS
+
 # Project files
 /captures
 /tools/config.sh

@@ -78,7 +78,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
-import org.dystopia.email.util.CompatibilityUtils;
+import org.dystopia.email.util.CompatibilityHelper;
 import org.openintents.openpgp.OpenPgpError;
 import org.openintents.openpgp.util.OpenPgpApi;
 import org.openintents.openpgp.util.OpenPgpServiceConnection;
@@ -489,7 +489,7 @@ public class FragmentCompose extends FragmentEx {
                     break;
                 case R.id.menu_link:
                     Uri uri = null;
-                    ClipboardManager clipboardManager = CompatibilityUtils.getClipboardManager(getContext());
+                    ClipboardManager clipboardManager = CompatibilityHelper.getClipboardManager(getContext());
                     if (clipboardManager.hasPrimaryClip()) {
                         String link = clipboardManager.getPrimaryClip().getItemAt(0).coerceToText(getContext()).toString();
                         uri = Uri.parse(link);
@@ -994,8 +994,8 @@ public class FragmentCompose extends FragmentEx {
         try {
             cursor = context.getContentResolver().query(uri, null, null, null, null, null);
             if (cursor != null && cursor.moveToFirst()) {
-                name = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
-                s = cursor.getString(cursor.getColumnIndex(OpenableColumns.SIZE));
+                name = cursor.getString(Math.abs(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)));
+                s = cursor.getString(Math.abs(cursor.getColumnIndex(OpenableColumns.SIZE)));
             }
 
         } finally {

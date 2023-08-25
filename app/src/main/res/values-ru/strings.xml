@@ -283,4 +283,5 @@
     <string name="title_reset">Сброс</string>
     <string name="message_gmail_note">С января 2020 года Gmail ограничил возможности OAuth и теперь требует авторизации для аутентификации, мы ищем лучший способ исправить аутентификацию OAuth без частных библиотек.&lt;br/&gt;&lt;br/&gt;В качестве временного решения вам необходимо разрешить обычную аутентификацию или то, что Google называет &lt;i&gt;Ненадёжными приложениями&lt;/i&gt;.&lt;br/&gt;В настройках безопасности вашей учётной записи называется как &lt;i&gt;Ненадёжные приложения, у которых есть доступ к аккаунту&lt;/i&gt;.&lt;br/&gt;&lt;br/&gt;&lt;b&gt; Инструкции здесь: &lt;/b&gt; https://support.google.com/accounts/answer/6010255&lt;/br&gt;</string>
     <string name="text_gmail_note">Необходимо включить аутентификацию отличную от oAuth. <font color="#0055C7">Больше информации</font></string>
+  <string name="title_attachment_downloading">Downloading attachment: %1$s</string>
 </resources>

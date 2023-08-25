@@ -1,14 +1,15 @@
 apply plugin: "com.android.application"
 apply plugin: "kotlin-android"
-apply plugin: "kotlin-android-extensions"
-apply from: "${rootDir}/jdee.gradle"
+apply from: "${rootDir}/dirlocal.gradle"
 
 android {
-    compileSdkVersion 30
+    namespace 'org.dystopia.email'
+    compileSdkVersion 33
+
     defaultConfig {
         applicationId "org.dystopia.email"
         minSdkVersion 21
-        targetSdkVersion 30
+        targetSdkVersion 33
         versionCode 116
         versionName "1.4.0"
         archivesBaseName = "SimpleEmail-v$versionName"
@@ -26,32 +27,35 @@ android {
             applicationIdSuffix ".debug"
             debuggable = true
             minifyEnabled !rootProject.ext.ci
-            useProguard = true
         }
         release {
             debuggable = false
             minifyEnabled = true
-            useProguard = true
             shrinkResources true
         }
     }
 
-
-    lintOptions {
-        lintConfig file("${rootProject.getRootDir()}/lint.xml")
-        baseline file("lint-baseline.xml")
-        xmlReport false
-        htmlReport true
-        textReport true
-        warningsAsErrors false
-        ignoreWarnings true
-        abortOnError true
-        explainIssues true
-        absolutePaths false
+    buildFeatures {
+        viewBinding true
     }
 
     packagingOptions {
-        pickFirst 'META-INF/LICENSE.txt'
+        resources {
+            pickFirsts += ['META-INF/LICENSE.txt']
+        }
+    }
+
+    lint {
+        lintConfig file("${rootProject.getRootDir()}/lint.xml")
+        baseline file("lint-baseline.xml")
+        abortOnError true
+        absolutePaths false
+        explainIssues true
+        htmlReport true
+        ignoreWarnings true
+        textReport true
+        warningsAsErrors false
+        xmlReport false
     }
 }
 
@@ -71,8 +75,6 @@ configurations {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-
     def androidx_version = "1.0.0"
     def appcompat_version = "1.2.0"
     def fragment_version = "1.3.0-beta01"

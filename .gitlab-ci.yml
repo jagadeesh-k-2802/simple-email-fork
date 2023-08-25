@@ -1,4 +1,4 @@
-image: openjdk:8-jdk
+image: openjdk:11-jdk
 
 stages:
   - test
@@ -8,7 +8,8 @@ stages:
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
   GITLAB_URL: "framagit.org"
-  ANDROID_SDK_TOOLS: "4333796"
+  ANDROID_SDK_TOOLS: "8512546"
+  ANDROID_PLATFORM_TOOLS: "33.0.3"
   ANDROID_HOME: "$CI_PROJECT_DIR/.android-sdk"
 
 cache:
@@ -27,10 +28,14 @@ before_script:
   # Fetch the specified SDK tools version to build with
   # Currently framagit.org have all runner with the same tag and don't use a distributed cache, so validate if restored the cache per pipeline ID
   - if [ ! -d "$ANDROID_HOME" ]; then
-  -   wget --quiet --output-document=/tmp/android-sdk.zip https://dl.google.com/android/repository/sdk-tools-linux-${ANDROID_SDK_TOOLS}.zip
-  -   unzip -q -o -d $ANDROID_HOME /tmp/android-sdk.zip
+  -   mkdir $ANDROID_HOME
+  -   wget --quiet --output-document=/tmp/android-cmdline-tools.zip https://dl.google.com/android/repository/commandlinetools-linux-${ANDROID_SDK_TOOLS}_latest.zip
+  -   unzip -q -o -d $ANDROID_HOME/cmdline-tools /tmp/android-cmdline-tools.zip
+  -   mv $ANDROID_HOME/cmdline-tools/cmdline-tools $ANDROID_HOME/cmdline-tools/latest
+  -   wget --quiet --output-document=/tmp/android-platform-tools.zip https://dl.google.com/android/repository/platform-tools_r${ANDROID_PLATFORM_TOOLS}-linux.zip
+  -   unzip -q -o -d $ANDROID_HOME /tmp/android-platform-tools.zip
   #   Install platform tools and Android SDK for the compile target
-  -   echo y | $ANDROID_HOME/tools/bin/sdkmanager "platforms;android-${ANDROID_COMPILE_SDK}" >/dev/null
+  -   echo y | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "platforms;android-${ANDROID_COMPILE_SDK}" >/dev/null
   - fi
   # Adds to environment path
   - echo $CI_PROJECT_DIR

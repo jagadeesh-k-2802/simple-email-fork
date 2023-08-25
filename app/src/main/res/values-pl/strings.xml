@@ -265,4 +265,5 @@
     <string name="title_no_identities_yet">Nie masz jeszcze skonfigurowanych tożsamości</string>
     <string name="title_try_subject">Wypróbuj SimpleEmail</string>
     <string name="title_try_text">Zapraszam do:</string>
+  <string name="title_attachment_downloading">Downloading attachment: %1$s</string>
 </resources>

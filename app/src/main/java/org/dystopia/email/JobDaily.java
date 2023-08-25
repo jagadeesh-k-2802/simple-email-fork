@@ -28,7 +28,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.util.Log;
 
-import org.dystopia.email.util.CompatibilityUtils;
+import org.dystopia.email.util.CompatibilityHelper;
 
 import java.io.File;
 import java.util.Date;
@@ -49,7 +49,7 @@ public class JobDaily extends JobService {
                 .setPeriodic(CLEANUP_INTERVAL)
                 .setRequiresDeviceIdle(true);
 
-        JobScheduler scheduler = CompatibilityUtils.getJobScheduler(context);
+        JobScheduler scheduler = CompatibilityHelper.getJobScheduler(context);
         scheduler.cancel(Helper.JOB_DAILY);
         if (scheduler.schedule(job.build()) == JobScheduler.RESULT_SUCCESS) {
             Log.i(Helper.TAG, "Scheduled daily job");

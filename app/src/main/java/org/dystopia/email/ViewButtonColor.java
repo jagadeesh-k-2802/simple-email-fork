@@ -30,6 +30,8 @@ import android.view.View;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.graphics.ColorUtils;
 
+import org.dystopia.email.util.ViewHelper;
+
 public class ViewButtonColor extends AppCompatButton {
     private int color = Color.TRANSPARENT;
 

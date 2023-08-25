@@ -278,4 +278,5 @@
     <string name="title_reset">إعادة تعيين</string>
     <string name="title_try_text">دعوة إلى:</string>
     <string name="title_try_subject">جرب SimpleEmail</string>
+  <string name="title_attachment_downloading">Downloading attachment: %1$s</string>
 </resources>
