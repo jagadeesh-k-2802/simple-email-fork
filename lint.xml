@@ -30,5 +30,6 @@
     <issue id="RestrictedApi" severity="ignore" /> <!-- TODO http://b.android.com/230387 -->
     <issue id="ClickableViewAccessibility" severity="informational" />
     <issue id="OldTargetApi" severity="informational" />
+    <issue id="MissingTranslation" severity="ignore" />
     <issue id="ExpiringTargetSdkVersion" severity="ignore" /> <!-- we are not restricted by Google Play policies -->
 </lint>
