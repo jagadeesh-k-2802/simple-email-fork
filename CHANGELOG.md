@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.1](https://framagit.org/dystopia-project/simple-email/compare/v1.5.0...v1.5.1) (2023-08-26)
+
+
+### Bug Fixes
+
+* **compose:** Unable to insert attachments ([bfcbb19](https://framagit.org/dystopia-project/simple-email/commit/bfcbb19fa7a638f8ffc6562194b6e7405dea807c))
+
 # [1.5.0](https://framagit.org/dystopia-project/simple-email/compare/v1.4.0...v1.5.0) (2023-08-26)
 
 
