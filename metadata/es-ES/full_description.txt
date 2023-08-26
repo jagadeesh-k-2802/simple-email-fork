@@ -8,11 +8,14 @@ Una aplicación de correo amigable con la privacidad, minimalista y Software Lib
 * Diseño simple
 
 <h3>¿Porqué?</h3>
-El enfoque de SimpleEmail es ser una aplicación de correo electrónico amigable con la privacidad con una buena interfza y expereincia de usuario
-y con un modelo de desarrollo comunitario.
+El enfoque de SimpleEmail es ser una aplicación de correo
+electrónico amigable con la privacidad con una buena interfza y expereincia de
+usuario y con un modelo de desarrollo comunitario.
 
-SimpleEmail es minimalista por diseño, por lo que puede concentrarse en leer y escribir mensajes, comienza un primer plano
-Servicio con una notificación de barra de estado de baja prioridad para asegurarse de que nunca perderá un nuevo correo electrónico.
+SimpleEmail es minimalista por diseño, por lo que puede concentrarse en leer y
+escribir mensajes, comienza un primer plano Servicio con una notificación de
+barra de estado de baja prioridad para asegurarse de que nunca perderá un nuevo
+correo electrónico.
 
 <h3>Caracteristicas</h3>
 * 100% Software Libre

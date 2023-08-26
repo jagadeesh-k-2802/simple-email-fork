@@ -17,10 +17,12 @@ Alternatively, you can download directly from GitLab [Releases][gitlab-releases]
 
 ## Why?
 
-The focus of SimpleEmail is be a privacy-friendly email app with a good UX/UI and with a community development model.
+The focus of SimpleEmail is be a privacy-friendly email app with a good UX/UI
+and with a community development model.
 
-SimpleEmail is minimalistic by design, so you can concentrate on reading and writing messages, it starts a foreground
-service with a low priority status bar notification to make sure you'll never miss a new email.
+SimpleEmail is minimalistic by design, so you can concentrate on reading and
+writing messages, it starts a foreground service with a low priority status bar
+notification to make sure you'll never miss a new email.
 
 ## Features
 
@@ -91,8 +93,10 @@ SimpleEmail requires at least Android 6 Marshmallow.
 
 ## Contributing
 
-Whether you have ideas, translations, features you think are missing, design or code changes, help is always welcome!.
-You can submit [pull requests][pull-requests] to this repository, or submit translations using [Weblate](https://hosted.weblate.org/projects/simple-email/).
+Whether you have ideas, translations, features you think are missing, design or
+code changes, help is always welcome!.
+You can submit [pull requests][pull-requests] to this repository, or submit
+translations using [Weblate](https://hosted.weblate.org/projects/simple-email/).
 
 To get started, take a look at [CONTRIBUTING.md](https://framagit.org/dystopia-project/simple-email/blob/develop/CONTRIBUTING.md)
 
