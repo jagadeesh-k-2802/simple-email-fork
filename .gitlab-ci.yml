@@ -8,8 +8,8 @@ stages:
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
   GITLAB_URL: "framagit.org"
-  ANDROID_SDK_TOOLS: "8512546"
-  ANDROID_PLATFORM_TOOLS: "33.0.3"
+  ANDROID_SDK_TOOLS: "10406996"
+  ANDROID_PLATFORM_TOOLS: "34.0.4"
   ANDROID_HOME: "$CI_PROJECT_DIR/.android-sdk"
 
 cache:
@@ -109,6 +109,7 @@ approveRelease:
     - git fetch
     - git checkout main
     - git merge origin/develop
+    - git push git@${GITLAB_URL}:${CI_PROJECT_PATH}.git main
 
 release:
   stage: deploy
