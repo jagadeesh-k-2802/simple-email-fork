@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0](https://framagit.org/dystopia-project/simple-email/compare/v1.4.0...v1.5.0) (2023-08-26)
+
+
+### Bug Fixes
+
+* Open and share/save attachments on android >= 10 ([fd22a16](https://framagit.org/dystopia-project/simple-email/commit/fd22a1671667d572fec9d0794bbd6c7cbf4453d4))
+
+
+### Features
+
+* **design:** white/black action bar + status bar ([2f7bdfa](https://framagit.org/dystopia-project/simple-email/commit/2f7bdfa60b706f7dcc9a83d094eedb697b57721b))
+* display downloading attachment status ([930adac](https://framagit.org/dystopia-project/simple-email/commit/930adac7f17b19da4a191b1cb617d803f393f350))
+* Start migration to Kotlin ([5035274](https://framagit.org/dystopia-project/simple-email/commit/5035274e91975c18351b58eee5ea584f94275af3))
+
 # [1.4.0](https://framagit.org/dystopia-project/simple-email/compare/v1.3.0...v1.4.0) (2020-11-09)
 
 
