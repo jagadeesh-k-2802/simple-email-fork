@@ -1,3 +1,4 @@
+#!/bin/sh
 
 function prop {
   grep "${1}" local.properties|cut -d'=' -f2

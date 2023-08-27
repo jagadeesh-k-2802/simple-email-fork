@@ -27,6 +27,7 @@ GRTAGS
 app/release
 bin/
 gen/
+kls/
 
 # Gradle files
 .gradle/
