@@ -1,4 +1,4 @@
-image: openjdk:17-jdk
+image: openjdk:17-bullseye
 
 stages:
   - test
