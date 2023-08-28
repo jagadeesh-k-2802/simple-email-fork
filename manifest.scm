@@ -9,7 +9,7 @@
 (concatenate-manifests
  (list (packages->manifest
         (append (list (list gcc "lib")
-                      (list openjdk11 "jdk")
+                      (list openjdk17 "jdk")
                       (list util-linux "lib"))
                 %base-packages))
        (specifications->manifest
