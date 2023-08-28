@@ -15,26 +15,22 @@ buildscript {
     }
 }
 
+configure<CheckstyleExtension> {
+    toolVersion = "8.13"
+    isIgnoreFailures = false
+    isShowViolations = true
+}
+
 val ci by extra { project.hasProperty("ci") }
 
-tasks.register("clean", Delete::class) {
+tasks.register<Delete>("clean") {
     delete(rootProject.buildDir)
 }
 
-// checkstyle {
-//     toolVersion = "8.13"
-//     configFile = file("checkstyle.xml")
-//     isIgnoreFailures = false
-//     isShowViolations = true
-// }
-
-configure<CheckstyleExtension> {
-    toolVersion = "8.13"
-    configFile = rootProject.file("checkstyle.xml")
-    sourceSets = sourceSets
-    // sourceSets
-    isIgnoreFailures = false
-    isShowViolations = true
-    //include("**/*.java")
-    //classpath = files()
+tasks.register<Checkstyle>("checkstyle") {
+    configFile = file("checkstyle.xml")
+    source("app/src/main/java")
+    include("**/*.java")
+    exclude("**/gen/**")
+    classpath = files()
 }
