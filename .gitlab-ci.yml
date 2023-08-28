@@ -19,6 +19,7 @@ cache:
     - .gradle/
 
 before_script:
+  - apt-get update -qq && apt-get install -y -qq wget
   # Get sdk version from project
   - export ANDROID_COMPILE_SDK=`egrep '^[[:blank:]]+compileSdkVersion'  app/build.gradle | awk '{print $2}'`
   # Explict output for logging purpose only
