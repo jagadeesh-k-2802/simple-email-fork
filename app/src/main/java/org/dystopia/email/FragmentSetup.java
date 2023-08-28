@@ -100,7 +100,9 @@ public class FragmentSetup extends FragmentEx {
 
     private Drawable check;
 
-    private static final String[] permissions = new String[] {Manifest.permission.READ_CONTACTS};
+    private static final String[] permissions = new String[] {
+        Manifest.permission.READ_CONTACTS
+    };
 
     static final List<String> EXPORT_SETTINGS =
         Arrays.asList("enabled", "avatars", "light", "browse", "swipe", "compat", "insecure", "sort");

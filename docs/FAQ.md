@@ -29,12 +29,19 @@ please see the [CHANGELOG](https://framagit.org/dystopia-project/simple-email/bl
 #### Which permissions are needed and why?
 
 * have full network access (INTERNET): to send and receive email
-* view network connections (ACCESS_NETWORK_STATE): to monitor internet connectivity changes
+* view network connections (ACCESS_NETWORK_STATE): to monitor internet
+  connectivity changes
+* allow show notifications (POST_NOTIFICATIONS): to show new message
+  notifications on Android 13 and later
 * run at startup (RECEIVE_BOOT_COMPLETED): to start monitoring on device start
-* foreground service (FOREGROUND_SERVICE): to run a foreground service on Android 9 Pie and later, see also the next question
-* prevent device from sleeping (WAKE_LOCK): to keep the device awake while synchronizing messages
-* Optional: read your contacts (READ_CONTACTS): to autocomplete addresses and to show photos
-* Optional: find accounts on the device (GET_ACCOUNTS): to use [OAuth](https://en.wikipedia.org/wiki/OAuth) instead of passwords
+* foreground service (FOREGROUND_SERVICE/_DATA_SYNC): to run a foreground service on
+  Android 9 Pie and later, see also the next question
+* prevent device from sleeping (WAKE_LOCK): to keep the device awake while
+  synchronizing messages
+* Optional: read your contacts (READ_CONTACTS): to autocomplete addresses and to
+  show photos
+* Optional: find accounts on the device (GET_ACCOUNTS): to use
+  [OAuth](https://en.wikipedia.org/wiki/OAuth) instead of passwords
 
 #### Why is there a permanent notification shown?
 
