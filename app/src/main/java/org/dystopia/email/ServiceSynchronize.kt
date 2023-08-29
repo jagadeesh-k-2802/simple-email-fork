@@ -107,6 +107,7 @@ class ServiceSynchronize : LifecycleService() {
     private val lock = Any()
     private var lastStats: TupleAccountStats? = null
     private val serviceManager = ServiceManager()
+
     override fun onCreate() {
         Log.i(Helper.TAG, "Service create version=" + BuildConfig.VERSION_NAME)
         super.onCreate()
@@ -114,10 +115,12 @@ class ServiceSynchronize : LifecycleService() {
         // Listen for network changes
         val cm = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
         val builder = NetworkRequest.Builder()
+
         builder.addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
         // Removed because of Android VPN service
         // builder.addCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED);
         cm.registerNetworkCallback(builder.build(), serviceManager)
+
         val db = DB.getInstance(this)
         db.account().liveStats().observe(this) { stats ->
             val notificationManager = getNotificationManger(baseContext)
@@ -136,7 +139,7 @@ class ServiceSynchronize : LifecycleService() {
 
                 // Update unseen for all account
                 setWidgetUnseen(messages)
-                if (messages.size == 0) {
+                if (messages.isEmpty()) {
                     notificationManager.cancelAll()
                     return
                 }
@@ -219,6 +222,7 @@ class ServiceSynchronize : LifecycleService() {
         Log.i(Helper.TAG, "Service command intent=$intent action=$action")
         startForeground(NOTIFICATION_SYNCHRONIZE, getNotificationService(null).build())
         super.onStartCommand(intent, flags, startId)
+
         if (action != null) {
             if ("start" == action) {
                 serviceManager.queue_start()
