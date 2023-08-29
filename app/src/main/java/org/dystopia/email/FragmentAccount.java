@@ -1242,7 +1242,6 @@ public class FragmentAccount extends FragmentEx {
             }
         }
     }
-
     private void setFolders(List<EntityFolder> folders) {
         final Collator collator = Collator.getInstance(Locale.getDefault());
         collator.setStrength(Collator.SECONDARY); // Case insensitive, process accents etc
