@@ -28,7 +28,7 @@
         <item quantity="other">%1$d неотправленных сообщений</item>
     </plurals>
     <string name="title_notification_failed">\'%1$s\' не удалось</string>
-    <string name="menu_setup">Настроить</string>
+    <string name="menu_setup">Настройки</string>
     <string name="menu_answers">Шаблоны ответов</string>
     <string name="menu_operations">Операции</string>
     <string name="menu_legend">Legend</string>
@@ -181,12 +181,12 @@
     <string name="title_fix">Fix</string>
     <string name="title_compose">Написать</string>
     <string name="title_from">От:</string>
-    <string name="title_to">Для:</string>
+    <string name="title_to">Кому:</string>
     <string name="title_reply_to">Ответить на:</string>
     <string name="title_cc">CC:</string>
     <string name="title_bcc">BCC:</string>
     <string name="title_subject">Тема:</string>
-    <string name="title_body_hint">Ваше сообщение</string>
+    <string name="title_body_hint">Сообщение</string>
     <string name="title_discard">Отказаться</string>
     <string name="title_save">Сохранить</string>
     <string name="title_send">Отправить</string>
@@ -231,7 +231,7 @@
     <string name="title_legend_contacts">Контакты</string>
     <string name="title_legend_synchronize_on">Синхронизация включена</string>
     <string name="title_legend_synchronize_off">Синхронизация выключена</string>
-    <string name="title_legend_primary">Primary/starred</string>
+    <string name="title_legend_primary">Основной аккаунт/отмеченный звездой</string>
     <string name="title_legend_disconnected">Отключено</string>
     <string name="title_legend_connecting">Подключение</string>
     <string name="title_legend_connected">Подключено</string>
@@ -258,8 +258,8 @@
     <string name="title_privacy">Политика конфиденциальности</string>
     <string name="title_privacy_description"><b>SimpleEmail</b> не собирает никакой информации, не требует лишних разрешений и является <b>100% бесплатным программным обеспечением</b>.</string>
     <string name="title_permissions"><b>Какие разрешения необходимы и для чего</b></string>
-    <string name="title_permissions_list"><b>• полный доступ к сети необходим</b> (INTERNET):
-\nдля отправки и получения по электронной почте <b>
+    <string name="title_permissions_list"><b>• полный доступ к сети необходим</b> (Интернет):
+\nдля отправки и получения электронной почты <b>
 \n• просмотр сетевых подключений</b> (ACCESS_NETWORK_STATE):
 \nдля отслеживания изменений Интернет подключений <b>
 \n• выполнение при запуске</b> (RECEIVE_BOOT_COMPLETED):
@@ -283,5 +283,5 @@
     <string name="title_reset">Сброс</string>
     <string name="message_gmail_note">С января 2020 года Gmail ограничил возможности OAuth и теперь требует авторизации для аутентификации, мы ищем лучший способ исправить аутентификацию OAuth без частных библиотек.&lt;br/&gt;&lt;br/&gt;В качестве временного решения вам необходимо разрешить обычную аутентификацию или то, что Google называет &lt;i&gt;Ненадёжными приложениями&lt;/i&gt;.&lt;br/&gt;В настройках безопасности вашей учётной записи называется как &lt;i&gt;Ненадёжные приложения, у которых есть доступ к аккаунту&lt;/i&gt;.&lt;br/&gt;&lt;br/&gt;&lt;b&gt; Инструкции здесь: &lt;/b&gt; https://support.google.com/accounts/answer/6010255&lt;/br&gt;</string>
     <string name="text_gmail_note">Необходимо включить аутентификацию отличную от oAuth. <font color="#0055C7">Больше информации</font></string>
-  <string name="title_attachment_downloading">Downloading attachment: %1$s</string>
+    <string name="title_attachment_downloading">Downloading attachment: %1$s</string>
 </resources>
