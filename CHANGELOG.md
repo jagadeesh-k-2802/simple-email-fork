@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.2](https://framagit.org/dystopia-project/simple-email/compare/v1.5.1...v1.5.2) (2023-09-03)
+
+
+### Bug Fixes
+
+* crash on change between message view ([3523d34](https://framagit.org/dystopia-project/simple-email/commit/3523d341dd6104a84273589af6fd8cc7278c1b91))
+* new permission 'POST_NOTIFICATIONS' required by android >= 13 ([2878d5b](https://framagit.org/dystopia-project/simple-email/commit/2878d5b74c006f53957c61845e146a0b11a07378))
+
 ## [1.5.1](https://framagit.org/dystopia-project/simple-email/compare/v1.5.0...v1.5.1) (2023-08-26)
 
 
