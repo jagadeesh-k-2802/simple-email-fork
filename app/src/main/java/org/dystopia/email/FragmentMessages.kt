@@ -83,18 +83,18 @@ class FragmentMessages : FragmentEx() {
     private var searchCallback: BoundaryCallbackMessages? = null
     private val executor = Executors.newCachedThreadPool(Helper.backgroundThreadFactory)
 
-    private val binding get() = _fragmentMessagesBinding!!
+    private val binding get() = _fragmentMessagesBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         // Get arguments
         val args = arguments
-        account = args!!.getLong("account", -1)
-        folder = args.getLong("folder", -1)
-        folderType = args.getString("folderType")
-        thread = args.getString("thread")
-        search = args.getString("search")
+        account = args?.getLong("account", -1)!!
+        folder = args?.getLong("folder", -1)!!
+        folderType = args?.getString("folderType")
+        thread = args?.getString("thread")
+        search = args?.getString("search")
         viewType = if (TextUtils.isEmpty(search)) {
             if (thread == null) {
                 if (folder < 0) {
@@ -113,7 +113,7 @@ class FragmentMessages : FragmentEx() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         _fragmentMessagesBinding = FragmentMessagesBinding.inflate(inflater, container, false)
-        var view = binding.root
+        var view = binding?.root
 
         //view = inflater.inflate(R.layout.fragment_messages, container, false) as ViewGroup
         setHasOptionsMenu(true)
@@ -124,29 +124,29 @@ class FragmentMessages : FragmentEx() {
         val mSpinnerDistance = (SWIPE_REFRESH_DISTANCE * metrics.density).toInt()
 
         // Wire controls
-        binding.swipeRefresh.setDistanceToTriggerSync(mSpinnerDistance)
-        binding.swipeRefresh.setOnRefreshListener(OnRefreshListener {
+        binding?.swipeRefresh?.setDistanceToTriggerSync(mSpinnerDistance)
+        binding?.swipeRefresh?.setOnRefreshListener(OnRefreshListener {
             val args = Bundle()
             args.putLong("account", account)
             args.putLong("folder", folder)
             onRefreshHandler(args)
         })
-        binding.ibHintSwipe.setOnClickListener(View.OnClickListener {
+        binding?.ibHintSwipe?.setOnClickListener(View.OnClickListener {
             prefs.edit().putBoolean("message_swipe", true).apply()
-            binding.grpHintSwipe.setVisibility(View.GONE)
+            binding?.grpHintSwipe?.setVisibility(View.GONE)
         })
-        binding.ibHintSelect.setOnClickListener(View.OnClickListener {
+        binding?.ibHintSelect?.setOnClickListener(View.OnClickListener {
             prefs.edit().putBoolean("message_select", true).apply()
-            binding.grpHintSelect.setVisibility(View.GONE)
+            binding?.grpHintSelect?.setVisibility(View.GONE)
         })
-        binding.ibHintSupport.setOnClickListener(View.OnClickListener {
+        binding?.ibHintSupport?.setOnClickListener(View.OnClickListener {
             prefs.edit().putBoolean("app_support", true).apply()
-            binding.grpHintSupport.setVisibility(View.GONE)
+            binding?.grpHintSupport?.setVisibility(View.GONE)
         })
-        binding.rvFolder.setHasFixedSize(false)
+        binding?.rvFolder?.setHasFixedSize(false)
 
         val llm = LinearLayoutManager(context)
-        binding.rvFolder.setLayoutManager(llm)
+        binding?.rvFolder?.setLayoutManager(llm)
 
         adapter = AdapterMessage(context, viewLifecycleOwner, fragmentManager, viewType, folder, object : IProperties {
             override fun setExpanded(id: Long, expand: Boolean) {
@@ -198,21 +198,21 @@ class FragmentMessages : FragmentEx() {
                 return images.contains(id)
             }
         })
-        binding.rvFolder.setAdapter(adapter)
+        binding?.rvFolder?.setAdapter(adapter)
         if (viewType == ViewType.FOLDER) {
-            var selectionTracker = SelectionTracker.Builder("messages-selection", binding.rvFolder,
-                    ItemKeyProviderMessage(binding.rvFolder), ItemDetailsLookupMessage(binding.rvFolder),
+            var selectionTracker = SelectionTracker.Builder("messages-selection", binding!!.rvFolder,
+                    ItemKeyProviderMessage(binding?.rvFolder), ItemDetailsLookupMessage(binding?.rvFolder),
                     StorageStrategy.createLongStorage())
-                    .withSelectionPredicate(SelectionPredicateMessage(binding.rvFolder)).build()
+                    .withSelectionPredicate(SelectionPredicateMessage(binding?.rvFolder)).build()
             adapter!!.setSelectionTracker(selectionTracker)
             selectionTracker.addObserver(object : SelectionTracker.SelectionObserver<Any?>() {
                 override fun onSelectionChanged() {
-                    binding.swipeRefresh.setEnabled(false)
+                    binding?.swipeRefresh?.setEnabled(false)
                     if (selectionTracker.hasSelection()) {
-                        binding.fabMove.show()
+                        binding?.fabMove?.show()
                     } else {
-                        binding.fabMove.hide()
-                        binding.swipeRefresh.setEnabled(true)
+                        binding?.fabMove?.hide()
+                        binding?.swipeRefresh?.setEnabled(true)
                     }
                 }
             })
@@ -229,7 +229,7 @@ class FragmentMessages : FragmentEx() {
                 if (pos == RecyclerView.NO_POSITION) {
                     return 0
                 }
-                val message = (binding.rvFolder.getAdapter() as AdapterMessage?)!!.currentList!![pos]
+                val message = (binding?.rvFolder?.getAdapter() as AdapterMessage?)!!.currentList!![pos]
                 if (message == null || expanded.contains(message.id)
                         || EntityFolder.OUTBOX == message.folderType) {
                     return 0
@@ -256,7 +256,7 @@ class FragmentMessages : FragmentEx() {
                 if (pos == RecyclerView.NO_POSITION) {
                     return
                 }
-                val message = (binding.rvFolder.getAdapter() as AdapterMessage?)!!.currentList!![pos]
+                val message = (binding?.rvFolder?.getAdapter() as AdapterMessage?)!!.currentList!![pos]
                         ?: return
                 val toInboxOrArchive = EntityFolder.INBOX != message.folderType
                 val toArchiveOrTrash = EntityFolder.TRASH == message.folderType
@@ -298,7 +298,7 @@ class FragmentMessages : FragmentEx() {
                 if (pos == RecyclerView.NO_POSITION) {
                     return
                 }
-                val currentMessage = (binding.rvFolder.getAdapter() as AdapterMessage?)!!.currentList!![pos]
+                val currentMessage = (binding?.rvFolder?.getAdapter() as AdapterMessage?)!!.currentList!![pos]
                         ?: return
                 Log.i(Helper.TAG, "Swiped dir=" + directionSwiped + " message=" + currentMessage.id)
                 val argsSwiped = Bundle()
@@ -354,7 +354,9 @@ class FragmentMessages : FragmentEx() {
                         return result
                     }
 
-                    protected override fun onLoaded(args: Bundle?, result: MessageTarget?) {
+                    override fun onLoaded(args: Bundle?, result: MessageTarget?) {
+                        if (view == null) return
+
                         // Show undo snackbar
                         val snackbar = Snackbar.make(view,
                                 String.format(getString(R.string.title_moving),
@@ -433,10 +435,10 @@ class FragmentMessages : FragmentEx() {
                 var target: String? = null
                 var display: String? = null
             }
-        }).attachToRecyclerView(binding.rvFolder)
-        binding.bottomNavigation.setOnNavigationItemSelectedListener(
+        }).attachToRecyclerView(binding?.rvFolder)
+        binding?.bottomNavigation?.setOnNavigationItemSelectedListener(
                 BottomNavigationView.OnNavigationItemSelectedListener { menuItem ->
-                    val pn = binding.bottomNavigation.tag as? Array<ViewModelMessages.Target>
+                    val pn = binding?.bottomNavigation?.tag as? Array<ViewModelMessages.Target>
                     val target = if (menuItem.itemId == R.id.action_prev) pn?.get(0) else pn?.get(1)
                     val lbm = LocalBroadcastManager.getInstance(requireContext())
                     if (target != null) {
@@ -446,11 +448,11 @@ class FragmentMessages : FragmentEx() {
                     }
                     false
                 })
-        binding.fab.setOnClickListener(View.OnClickListener {
+        binding?.fab?.setOnClickListener(View.OnClickListener {
             startActivity(Intent(context, ActivityCompose::class.java).putExtra("action", "new")
-                    .putExtra("account", binding.fab.getTag() as Long))
+                    .putExtra("account", binding?.fab?.getTag() as Long))
         })
-        binding.fabMove.setOnClickListener(View.OnClickListener {
+        binding?.fabMove?.setOnClickListener(View.OnClickListener {
             val args = Bundle()
             args.putLong("folder", folder)
             object : SimpleTask<List<EntityFolder?>?>() {
@@ -479,8 +481,9 @@ class FragmentMessages : FragmentEx() {
                     return targets
                 }
 
-                protected override fun onLoaded(args: Bundle?, folders: List<EntityFolder?>?) {
-                    val popupMenu = PopupMenu(context!!, binding.popupAnchor)
+                override fun onLoaded(args: Bundle?, folders: List<EntityFolder?>?) {
+                    if (binding?.popupAnchor == null) return
+                    val popupMenu = PopupMenu(context!!, binding!!.popupAnchor)
                     var order = 0
                     for (folder in folders.orEmpty()) {
                         if (folder == null) return
@@ -489,13 +492,13 @@ class FragmentMessages : FragmentEx() {
                     }
                     popupMenu.setOnMenuItemClickListener { targetInput ->
                         val selection = MutableSelection<Long>()
-                        selectionTracker!!.copySelection(selection)
+                        selectionTracker?.copySelection(selection)
                         val idsInput = LongArray(selection.size())
                         var i = 0
                         for (id in selection) {
                             idsInput[i++] = id
                         }
-                        selectionTracker!!.clearSelection()
+                        selectionTracker?.clearSelection()
                         args?.putLongArray("ids", idsInput)
                         args?.putLong("target", targetInput.itemId.toLong())
                         object : SimpleTask<Void?>() {
@@ -546,14 +549,14 @@ class FragmentMessages : FragmentEx() {
         })
 
         // Initialize
-        binding.swipeRefresh.setEnabled(viewType == ViewType.UNIFIED || viewType == ViewType.FOLDER)
-        binding.tvNoEmail.setVisibility(View.GONE)
-        binding.bottomNavigation.setVisibility(View.GONE)
-        binding.grpReady.setVisibility(View.GONE)
+        binding?.swipeRefresh?.setEnabled(viewType == ViewType.UNIFIED || viewType == ViewType.FOLDER)
+        binding?.tvNoEmail?.setVisibility(View.GONE)
+        binding?.bottomNavigation?.setVisibility(View.GONE)
+        binding?.grpReady?.setVisibility(View.GONE)
         // TODO: implement in load more items
-        binding.pbWait.setVisibility(View.GONE)
-        binding.fab.hide()
-        binding.fabMove.hide()
+        binding?.pbWait?.setVisibility(View.GONE)
+        binding?.fab?.hide()
+        binding?.fabMove?.hide()
         return view
     }
 
@@ -587,9 +590,9 @@ class FragmentMessages : FragmentEx() {
             }
         }
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        binding.grpHintSupport.visibility = if (prefs.getBoolean("app_support", false) || viewType != ViewType.UNIFIED) View.GONE else View.VISIBLE
-        binding.grpHintSwipe.visibility = if (prefs.getBoolean("message_swipe", false) || viewType == ViewType.THREAD) View.GONE else View.VISIBLE
-        binding.grpHintSelect.visibility = if (prefs.getBoolean("message_select", false) || viewType != ViewType.FOLDER) View.GONE else View.VISIBLE
+        binding?.grpHintSupport?.visibility = if (prefs.getBoolean("app_support", false) || viewType != ViewType.UNIFIED) View.GONE else View.VISIBLE
+        binding?.grpHintSwipe?.visibility = if (prefs.getBoolean("message_swipe", false) || viewType == ViewType.THREAD) View.GONE else View.VISIBLE
+        binding?.grpHintSelect?.visibility = if (prefs.getBoolean("message_select", false) || viewType != ViewType.FOLDER) View.GONE else View.VISIBLE
         val db = DB.getInstance(context)
 
         // Primary account
@@ -621,7 +624,7 @@ class FragmentMessages : FragmentEx() {
                                 break
                             }
                         }
-                        binding.swipeRefresh.isRefreshing = isRefreshing
+                        binding?.swipeRefresh?.isRefreshing = isRefreshing
                     })
             ViewType.FOLDER -> db.folder().liveFolderEx(folder).observe(viewLifecycleOwner,
                     Observer { folder ->
@@ -637,10 +640,10 @@ class FragmentMessages : FragmentEx() {
                             outbox = EntityFolder.OUTBOX == folder.type
                             requireActivity().invalidateOptionsMenu()
                         }
-                        binding.swipeRefresh.isRefreshing = folder != null && folder.sync_state != null && "connected" == if (EntityFolder.OUTBOX == folder.type) folder.state else folder.accountState
+                        binding?.swipeRefresh?.isRefreshing = folder != null && folder.sync_state != null && "connected" == if (EntityFolder.OUTBOX == folder.type) folder.state else folder.accountState
                     })
             ViewType.THREAD -> setSubtitle(R.string.title_folder_thread)
-            ViewType.SEARCH -> setSubtitle(getString(R.string.title_searching, search))
+            ViewType.SEARCH -> setSubtitle(String.format(getString(R.string.title_searching), search))
             else -> {}
         }
 
@@ -663,18 +666,18 @@ class FragmentMessages : FragmentEx() {
                     loadMessages()
                 })
         if (selectionTracker != null && selectionTracker!!.hasSelection()) {
-            binding.fabMove.show()
+            binding?.fabMove?.show()
         } else {
-            binding.fabMove.hide()
+            binding?.fabMove?.hide()
         }
         if (viewType == ViewType.THREAD) {
             // Navigation
             val model = ViewModelProviders.of(requireActivity()).get(ViewModelMessages::class.java)
             val pn = model.getPrevNext(thread)
-            binding.bottomNavigation.tag = pn
-            binding.bottomNavigation.menu.findItem(R.id.action_prev).isEnabled = pn[0] != null
-            binding.bottomNavigation.menu.findItem(R.id.action_next).isEnabled = pn[1] != null
-            binding.bottomNavigation.visibility = if (pn[0] == null && pn[1] == null) View.GONE else View.VISIBLE
+            binding?.bottomNavigation?.tag = pn
+            binding?.bottomNavigation?.menu?.findItem(R.id.action_prev)?.isEnabled = pn[0] != null
+            binding?.bottomNavigation?.menu?.findItem(R.id.action_next)?.isEnabled = pn[1] != null
+            binding?.bottomNavigation?.visibility = if (pn[0] == null && pn[1] == null) View.GONE else View.VISIBLE
         } else {
             // Compose FAB
             val args = Bundle()
@@ -691,10 +694,10 @@ class FragmentMessages : FragmentEx() {
                     }
                 }
 
-                protected override fun onLoaded(args: Bundle?, account: Long?) {
+                override fun onLoaded(args: Bundle?, account: Long?) {
                     if (account != null) {
-                        binding.fab.tag = account
-                        binding.fab.show()
+                        binding?.fab?.tag = account
+                        binding?.fab?.show()
                     }
                 }
 
@@ -722,12 +725,12 @@ class FragmentMessages : FragmentEx() {
                         return null
                     }
 
-                    protected override fun onLoaded(args: Bundle?, data: Void?) {
+                    override fun onLoaded(args: Bundle?, data: Void?) {
                         val fragment = FragmentMessages()
                         fragment.arguments = args
-                        val fragmentTransaction = fragmentManager!!.beginTransaction()
-                        fragmentTransaction.replace(R.id.content_frame, fragment).addToBackStack("search")
-                        fragmentTransaction.commit()
+                        val fragmentTransaction = fragmentManager?.beginTransaction()
+                        fragmentTransaction?.replace(R.id.content_frame, fragment)?.addToBackStack("search")
+                        fragmentTransaction?.commit()
                     }
                 }.load(this@FragmentMessages, args)
                 return true
@@ -825,9 +828,9 @@ class FragmentMessages : FragmentEx() {
                 return isConnected
             }
 
-            protected override fun onLoaded(args: Bundle?, isConnected: Boolean?) {
+            override fun onLoaded(args: Bundle?, isConnected: Boolean?) {
                 if (isConnected != true) {
-                    binding.swipeRefresh.isRefreshing = false
+                    binding?.swipeRefresh?.isRefreshing = false
                 }
             }
         }.load(this@FragmentMessages, args)
@@ -890,9 +893,9 @@ class FragmentMessages : FragmentEx() {
             val sort = prefs.getString("sort", "time")
             val browse = prefs.getBoolean("browse", true)
             val debug = prefs.getBoolean("debug", false)
-            if (messages != null) {
-                messages!!.removeObservers(viewLifecycleOwner)
-            }
+
+            messages?.removeObservers(viewLifecycleOwner)
+
             when (viewType) {
                 ViewType.UNIFIED -> messages = LivePagedListBuilder(db.message().pagedUnifiedInbox(sort, debug),
                         LOCAL_PAGE_SIZE).build()
@@ -901,11 +904,11 @@ class FragmentMessages : FragmentEx() {
                         searchCallback = BoundaryCallbackMessages(this, model,
                                 object : IBoundaryCallbackMessages {
                                     override fun onLoading() {
-                                        binding.swipeRefresh.isRefreshing = true
+                                        binding?.swipeRefresh?.isRefreshing = true
                                     }
 
                                     override fun onLoaded() {
-                                        binding.swipeRefresh.isRefreshing = false
+                                        binding?.swipeRefresh?.isRefreshing = false
                                     }
 
                                     override fun onError(context: Context, ex: Throwable) {
@@ -937,14 +940,14 @@ class FragmentMessages : FragmentEx() {
                 searchCallback = BoundaryCallbackMessages(this, model,
                         object : IBoundaryCallbackMessages {
                             override fun onLoading() {
-                                binding.tvNoEmail.visibility = View.GONE
-                                binding.swipeRefresh.isRefreshing = true
+                                binding?.tvNoEmail?.visibility = View.GONE
+                                binding?.swipeRefresh?.isRefreshing = true
                             }
 
                             override fun onLoaded() {
-                                binding.swipeRefresh.isRefreshing = false
-                                if (messages!!.value == null || messages!!.value!!.size == 0) {
-                                    binding.tvNoEmail.visibility = View.VISIBLE
+                                binding?.swipeRefresh?.isRefreshing = false
+                                if (messages?.value?.size == 0) {
+                                    binding?.tvNoEmail?.visibility = View.VISIBLE
                                 }
                             }
 
@@ -1032,17 +1035,17 @@ class FragmentMessages : FragmentEx() {
             adapter!!.submitList(messages)
             val searching = searchCallback != null && searchCallback!!.isSearching
             if (!searching) {
-                binding.swipeRefresh.isRefreshing = false
+                binding?.swipeRefresh?.isRefreshing = false
             }
-            binding.grpReady.visibility = View.VISIBLE
+            binding?.grpReady?.visibility = View.VISIBLE
             if (messages.size == 0) {
                 if (searchCallback == null) {
-                    binding.tvNoEmail.visibility = View.VISIBLE
+                    binding?.tvNoEmail?.visibility = View.VISIBLE
                 }
-                binding.rvFolder.visibility = View.GONE
+                binding?.rvFolder?.visibility = View.GONE
             } else {
-                binding.tvNoEmail.visibility = View.GONE
-                binding.rvFolder.visibility = View.VISIBLE
+                binding?.tvNoEmail?.visibility = View.GONE
+                binding?.rvFolder?.visibility = View.VISIBLE
             }
         })
     }

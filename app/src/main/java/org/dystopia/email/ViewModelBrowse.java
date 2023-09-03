@@ -82,7 +82,7 @@ public class ViewModelBrowse extends ViewModel {
     void load() throws MessagingException, FolderClosedIOException {
         DB db = DB.getInstance(context);
         EntityFolder folder = db.folder().getFolder(fid);
-        if (folder.account == null) // outbox
+        if (folder == null || folder.account == null) // outbox
         {
             return;
         }

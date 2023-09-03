@@ -214,68 +214,22 @@ class ServiceSynchronize : LifecycleService() {
         super.onDestroy()
     }
 
-    override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
-        val action = if (intent == null) null else intent.action
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        val action = intent?.action
         Log.i(Helper.TAG, "Service command intent=$intent action=$action")
         startForeground(NOTIFICATION_SYNCHRONIZE, getNotificationService(null).build())
         super.onStartCommand(intent, flags, startId)
-        if (action != null) {
-            if ("start" == action) {
-                serviceManager.queue_start()
-            } else if ("stop" == action) {
-                serviceManager.queue_stop()
-            } else if ("reload" == action) {
-                serviceManager.queue_reload()
-            } else if ("clear" == action) {
-                object : SimpleTask<Unit>() {
-                    @Throws(Throwable::class)
-                    override fun onLoad(context: Context, args: Bundle) {
-                        DB.getInstance(context).message().ignoreAll()
-                    }
-                }.load(this, Bundle())
-            } else if (action.startsWith("seen:") || action.startsWith("trash:")
-                || action.startsWith("ignored:")
-            ) {
-                val args = Bundle()
-                args.putLong("id", action.split(":".toRegex()).dropLastWhile { it.isEmpty() }
-                    .toTypedArray()[1].toLong())
-                args.putString("action", action.split(":".toRegex()).dropLastWhile { it.isEmpty() }
-                    .toTypedArray()[0])
-                object : SimpleTask<Unit>() {
-                    override fun onLoad(context: Context, args: Bundle) {
-                        val id = args.getLong("id")
-                        val action = args.getString("action")
-                        val db = DB.getInstance(context)
-                        try {
-                            db.beginTransaction()
-                            val message = db.message().getMessage(id)
-                            if ("seen" == action) {
-                                db.message().setMessageUiSeen(message.id, true)
-                                db.message().setMessageUiIgnored(message.id, true)
-                                EntityOperation.queue(db, message, EntityOperation.SEEN, true)
-                            } else if ("trash" == action) {
-                                db.message().setMessageUiHide(message.id, true)
-                                val trash =
-                                    db.folder().getFolderByType(message.account, EntityFolder.TRASH)
-                                if (trash != null) {
-                                    EntityOperation.queue(
-                                        db,
-                                        message,
-                                        EntityOperation.MOVE,
-                                        trash.id
-                                    )
-                                }
-                            } else if ("ignored" == action) {
-                                db.message().setMessageUiIgnored(message.id, true)
-                            }
-                            db.setTransactionSuccessful()
-                        } finally {
-                            db.endTransaction()
-                        }
-                        EntityOperation.process(context)
-                    }
-                }.load(this, args)
-            }
+
+        if (action == null) {
+            return START_STICKY
+        }
+
+        when (action) {
+            "start" -> serviceManager.queue_start()
+            "stop" -> serviceManager.queue_stop()
+            "reload" -> serviceManager.queue_reload()
+            "clear" -> onClearAction()
+            else -> onFlagAction(action)
         }
         return START_STICKY
     }
@@ -325,6 +279,69 @@ class ServiceSynchronize : LifecycleService() {
         }
         lastStats = stats
         return builder
+    }
+
+    private fun onClearAction() {
+        object : SimpleTask<Unit>() {
+            @Throws(Throwable::class)
+            override fun onLoad(context: Context, args: Bundle) {
+                DB.getInstance(context).message().ignoreAll()
+            }
+        }.load(this, Bundle())
+    }
+
+    private fun onFlagAction(actionFlag: String) {
+        if (actionFlag.startsWith("seen:")
+            || actionFlag.startsWith("trash:")
+            || actionFlag.startsWith("ignored:")
+        ) {
+            val args = Bundle()
+            args.putLong("id", actionFlag.split(":".toRegex()).dropLastWhile { it.isEmpty() }
+                .toTypedArray()[1].toLong())
+            args.putString("action", actionFlag.split(":".toRegex()).dropLastWhile { it.isEmpty() }
+                .toTypedArray()[0])
+
+            object : SimpleTask<Unit>() {
+                override fun onLoad(context: Context, args: Bundle) {
+                    val id = args.getLong("id")
+                    val action = args.getString("action")
+                    val db = DB.getInstance(context)
+
+                    try {
+                        db.beginTransaction()
+                        val message = db.message().getMessage(id)
+
+                        when (action) {
+                            "seen" -> {
+                                db.message().setMessageUiSeen(message.id, true)
+                                db.message().setMessageUiIgnored(message.id, true)
+                                EntityOperation.queue(db, message, EntityOperation.SEEN, true)
+                            }
+                            "trash" -> {
+                                db.message().setMessageUiHide(message.id, true)
+                                val trash =
+                                    db.folder().getFolderByType(message.account, EntityFolder.TRASH)
+                                if (trash != null) {
+                                    EntityOperation.queue(
+                                        db,
+                                        message,
+                                        EntityOperation.MOVE,
+                                        trash.id
+                                    )
+                                }
+                            }
+                            "ignored" -> {
+                                db.message().setMessageUiIgnored(message.id, true)
+                            }
+                        }
+                        db.setTransactionSuccessful()
+                    } finally {
+                        db.endTransaction()
+                    }
+                    EntityOperation.process(context)
+                }
+            }.load(this, args)
+        }
     }
 
     /**
@@ -2187,13 +2204,14 @@ ${Log.getStackTraceString(ex)}"""
         const val PI_IGNORED = 4
         const val ACTION_SYNCHRONIZE_FOLDER = BuildConfig.APPLICATION_ID + ".SYNCHRONIZE_FOLDER"
         const val ACTION_PROCESS_OPERATIONS = BuildConfig.APPLICATION_ID + ".PROCESS_OPERATIONS"
+
         @JvmStatic
         @Throws(MessagingException::class, IOException::class)
         fun synchronizeMessage(
-            context: Context, folder: EntityFolder?, ifolder: IMAPFolder?,
+            context: Context?, folder: EntityFolder?, ifolder: IMAPFolder?,
             imessage: IMAPMessage, found: Boolean
         ): Long {
-            val uid = ifolder!!.getUID(imessage)
+            val uid = ifolder?.getUID(imessage)
             if (imessage.isExpunged) {
                 Log.i(Helper.TAG, folder!!.name + " expunged uid=" + uid)
                 throw MessageRemovedException()
@@ -2207,8 +2225,18 @@ ${Log.getStackTraceString(ex)}"""
             val flagged = helper.flagged
             val db = DB.getInstance(context)
 
+            if (folder == null) {
+                Log.w(Helper.TAG, "Invalid folder, folder was null")
+                return throw MessagingException("Invalid Folder, folder is null")
+            }
+
+            if (uid == null) {
+                Log.w(Helper.TAG, "Invalid message UID, it was null")
+                return throw MessagingException("Invalid Message UID, uid is null")
+            }
             // Find message by uid (fast, no headers required)
-            var message = db.message().getMessageByUid(folder!!.id, uid, found)
+            var message = db.message().getMessageByUid(folder.id, uid, found)
+
 
             // Find message by Message-ID (slow, headers required)
             // - messages in inbox have same id as message sent to self
@@ -2254,12 +2282,14 @@ ${Log.getStackTraceString(ex)}"""
                 message.account = folder.account
                 message.folder = folder.id
                 message.uid = uid
+
                 if (EntityFolder.ARCHIVE != folder.type) {
                     message.msgid = helper.messageID
                     if (TextUtils.isEmpty(message.msgid)) {
                         Log.w(Helper.TAG, "No Message-ID id=" + message.id + " uid=" + message.uid)
                     }
                 }
+
                 message.references = TextUtils.join(" ", helper.references)
                 message.inreplyto = helper.inReplyTo
                 message.deliveredto = helper.deliveredTo
@@ -2281,19 +2311,16 @@ ${Log.getStackTraceString(ex)}"""
                 message.ui_hide = false
                 message.ui_found = found
                 message.ui_ignored = false
-                if (ContextCompat.checkSelfPermission(
-                        context,
-                        Manifest.permission.READ_CONTACTS
-                    ) == PackageManager.PERMISSION_GRANTED
-                ) {
+
+                if (hasContactsPermission(context)) {
                     try {
                         if (message.from != null) {
                             for (i in message.from.indices) {
                                 val email = (message.from[i] as InternetAddress).address
                                 var cursor: Cursor? = null
                                 try {
-                                    val resolver = context.contentResolver
-                                    cursor = resolver.query(
+                                    val resolver = context?.contentResolver
+                                    cursor = resolver?.query(
                                         ContactsContract.CommonDataKinds.Email.CONTENT_URI,
                                         arrayOf(
                                             ContactsContract.CommonDataKinds.Photo.CONTACT_ID,
@@ -2383,6 +2410,16 @@ ${Log.getStackTraceString(ex)}"""
                 }
             }
             return message.id
+        }
+
+        private fun hasContactsPermission(context: Context?): Boolean {
+            if (context == null) {
+                return false
+            }
+            return ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.READ_CONTACTS
+            ) == PackageManager.PERMISSION_GRANTED
         }
 
         @Throws(MessagingException::class, IOException::class)
