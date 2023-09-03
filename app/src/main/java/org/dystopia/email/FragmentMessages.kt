@@ -90,11 +90,13 @@ class FragmentMessages : FragmentEx() {
 
         // Get arguments
         val args = arguments
-        account = args?.getLong("account", -1)!!
-        folder = args?.getLong("folder", -1)!!
-        folderType = args?.getString("folderType")
-        thread = args?.getString("thread")
-        search = args?.getString("search")
+        if (args != null) {
+            account = args.getLong("account", -1)
+            folder = args.getLong("folder", -1)
+            folderType = args.getString("folderType")
+            thread = args.getString("thread")
+            search = args.getString("search")
+        }
         viewType = if (TextUtils.isEmpty(search)) {
             if (thread == null) {
                 if (folder < 0) {
@@ -125,12 +127,12 @@ class FragmentMessages : FragmentEx() {
 
         // Wire controls
         binding?.swipeRefresh?.setDistanceToTriggerSync(mSpinnerDistance)
-        binding?.swipeRefresh?.setOnRefreshListener(OnRefreshListener {
+        binding?.swipeRefresh?.setOnRefreshListener {
             val args = Bundle()
             args.putLong("account", account)
             args.putLong("folder", folder)
             onRefreshHandler(args)
-        })
+        }
         binding?.ibHintSwipe?.setOnClickListener(View.OnClickListener {
             prefs.edit().putBoolean("message_swipe", true).apply()
             binding?.grpHintSwipe?.setVisibility(View.GONE)

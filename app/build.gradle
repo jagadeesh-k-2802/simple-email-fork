@@ -25,12 +25,13 @@ android {
     buildTypes {
         debug {
             applicationIdSuffix ".debug"
-            debuggable = true
-            minifyEnabled !rootProject.ext.ci
+            debuggable true
+            shrinkResources false
+            minifyEnabled false
         }
         release {
-            debuggable = false
-            minifyEnabled = true
+            debuggable false
+            minifyEnabled true
             shrinkResources true
         }
     }
