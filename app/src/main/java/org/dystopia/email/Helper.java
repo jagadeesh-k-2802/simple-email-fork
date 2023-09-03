@@ -102,7 +102,7 @@ public class Helper {
 
         // https://developer.chrome.com/multidevice/android/customtabs
         CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-        builder.setToolbarColor(Helper.resolveColor(context, R.attr.colorPrimary));
+        builder.setToolbarColor(Helper.resolveColor(context, androidx.appcompat.R.attr.colorPrimary));
 
         CustomTabsIntent customTabsIntent = builder.build();
         customTabsIntent.launchUrl(context, uri);
