@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.3](https://framagit.org/dystopia-project/simple-email/compare/v1.5.2...v1.5.3) (2023-09-04)
+
+
+### Bug Fixes
+
+* synchronization from message view ([6752a86](https://framagit.org/dystopia-project/simple-email/commit/6752a8618646f2324be89c49ea57929b1c5a56cd))
+
 ## [1.5.2](https://framagit.org/dystopia-project/simple-email/compare/v1.5.1...v1.5.2) (2023-09-03)
 
 
