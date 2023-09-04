@@ -61,7 +61,6 @@ public class EntityOperation {
 
     @NonNull
     public Long folder;
-    @NonNull
     public Long message;
     @NonNull
     public String name;

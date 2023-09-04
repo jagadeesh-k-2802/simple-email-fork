@@ -24,6 +24,7 @@ import android.database.Cursor;
 import android.text.TextUtils;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
@@ -45,7 +46,7 @@ import javax.mail.internet.InternetAddress;
 // https://developer.android.com/topic/libraries/architecture/room.html
 
 @Database(
-    version = 25,
+    version = 26,
     entities = {
         EntityIdentity.class,
         EntityAccount.class,
@@ -111,6 +112,10 @@ public abstract class DB extends RoomDatabase {
         }
     }
 
+    private static void logMigration(int startVersion, int endVersion) {
+        Log.i(Helper.TAG, "DB migration from version " + startVersion + " to " + endVersion);
+    }
+
     private static DB migrate(RoomDatabase.Builder<DB> builder) {
         return builder
             .addCallback(
@@ -125,8 +130,7 @@ public abstract class DB extends RoomDatabase {
                 new Migration(1, 2) {
                     @Override
                     public void migrate(SupportSQLiteDatabase db) {
-                        Log.i(
-                            Helper.TAG, "DB migration from version " + startVersion + " to " + endVersion);
+                        logMigration(startVersion, endVersion);
                         db.execSQL(
                             "ALTER TABLE `account` ADD COLUMN `poll_interval` INTEGER NOT NULL DEFAULT 9");
                     }
@@ -135,8 +139,7 @@ public abstract class DB extends RoomDatabase {
                 new Migration(2, 3) {
                     @Override
                     public void migrate(SupportSQLiteDatabase db) {
-                        Log.i(
-                            Helper.TAG, "DB migration from version " + startVersion + " to " + endVersion);
+                        logMigration(startVersion, endVersion);
                         db.execSQL(
                             "ALTER TABLE `identity` ADD COLUMN `store_sent` INTEGER NOT NULL DEFAULT 0");
                     }
@@ -145,8 +148,7 @@ public abstract class DB extends RoomDatabase {
                 new Migration(3, 4) {
                     @Override
                     public void migrate(SupportSQLiteDatabase db) {
-                        Log.i(
-                            Helper.TAG, "DB migration from version " + startVersion + " to " + endVersion);
+                        logMigration(startVersion, endVersion);
                         db.execSQL(
                             "CREATE TABLE IF NOT EXISTS `answer` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `text` TEXT NOT NULL)");
                     }
@@ -155,8 +157,7 @@ public abstract class DB extends RoomDatabase {
                 new Migration(4, 5) {
                     @Override
                     public void migrate(SupportSQLiteDatabase db) {
-                        Log.i(
-                            Helper.TAG, "DB migration from version " + startVersion + " to " + endVersion);
+                        logMigration(startVersion, endVersion);
                         db.execSQL(
                             "ALTER TABLE `account` ADD COLUMN `auth_type` INTEGER NOT NULL DEFAULT 1");
                         db.execSQL(
@@ -167,8 +168,7 @@ public abstract class DB extends RoomDatabase {
                 new Migration(5, 6) {
                     @Override
                     public void migrate(SupportSQLiteDatabase db) {
-                        Log.i(
-                            Helper.TAG, "DB migration from version " + startVersion + " to " + endVersion);
+                        logMigration(startVersion, endVersion);
                         db.execSQL(
                             "ALTER TABLE `message` ADD COLUMN `ui_found` INTEGER NOT NULL DEFAULT 0");
                     }
@@ -177,8 +177,7 @@ public abstract class DB extends RoomDatabase {
                 new Migration(6, 7) {
                     @Override
                     public void migrate(SupportSQLiteDatabase db) {
-                        Log.i(
-                            Helper.TAG, "DB migration from version " + startVersion + " to " + endVersion);
+                        logMigration(startVersion, endVersion);
                         db.execSQL(
                             "CREATE TABLE IF NOT EXISTS `log` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `time` INTEGER NOT NULL, `data` TEXT NOT NULL)");
                         db.execSQL("CREATE  INDEX `index_log_time` ON `log` (`time`)");
@@ -188,8 +187,7 @@ public abstract class DB extends RoomDatabase {
                 new Migration(7, 8) {
                     @Override
                     public void migrate(SupportSQLiteDatabase db) {
-                        Log.i(
-                            Helper.TAG, "DB migration from version " + startVersion + " to " + endVersion);
+                        logMigration(startVersion, endVersion);
                         db.execSQL("CREATE  INDEX `index_message_ui_found` ON `message` (`ui_found`)");
                     }
                 })
@@ -197,8 +195,7 @@ public abstract class DB extends RoomDatabase {
                 new Migration(8, 9) {
                     @Override
                     public void migrate(SupportSQLiteDatabase db) {
-                        Log.i(
-                            Helper.TAG, "DB migration from version " + startVersion + " to " + endVersion);
+                        logMigration(startVersion, endVersion);
                         db.execSQL("ALTER TABLE `message` ADD COLUMN `headers` TEXT");
                     }
                 })
@@ -206,8 +203,7 @@ public abstract class DB extends RoomDatabase {
                 new Migration(9, 10) {
                     @Override
                     public void migrate(SupportSQLiteDatabase db) {
-                        Log.i(
-                            Helper.TAG, "DB migration from version " + startVersion + " to " + endVersion);
+                        logMigration(startVersion, endVersion);
                         db.execSQL("ALTER TABLE `folder` ADD COLUMN `unified` INTEGER NOT NULL DEFAULT 0");
                         db.execSQL("CREATE  INDEX `index_folder_unified` ON `folder` (`unified`)");
                         db.execSQL(
@@ -218,8 +214,7 @@ public abstract class DB extends RoomDatabase {
                 new Migration(10, 11) {
                     @Override
                     public void migrate(SupportSQLiteDatabase db) {
-                        Log.i(
-                            Helper.TAG, "DB migration from version " + startVersion + " to " + endVersion);
+                        logMigration(startVersion, endVersion);
                         db.execSQL("ALTER TABLE `account` ADD COLUMN `signature` TEXT");
                     }
                 })
@@ -227,8 +222,7 @@ public abstract class DB extends RoomDatabase {
                 new Migration(11, 12) {
                     @Override
                     public void migrate(SupportSQLiteDatabase db) {
-                        Log.i(
-                            Helper.TAG, "DB migration from version " + startVersion + " to " + endVersion);
+                        logMigration(startVersion, endVersion);
                         db.execSQL("ALTER TABLE `message` ADD COLUMN `flagged` INTEGER NOT NULL DEFAULT 0");
                         db.execSQL(
                             "ALTER TABLE `message` ADD COLUMN `ui_flagged` INTEGER NOT NULL DEFAULT 0");
@@ -238,8 +232,7 @@ public abstract class DB extends RoomDatabase {
                 new Migration(12, 13) {
                     @Override
                     public void migrate(SupportSQLiteDatabase db) {
-                        Log.i(
-                            Helper.TAG, "DB migration from version " + startVersion + " to " + endVersion);
+                        logMigration(startVersion, endVersion);
                         db.execSQL("ALTER TABLE `message` ADD COLUMN `avatar` TEXT");
                     }
                 })
@@ -247,8 +240,7 @@ public abstract class DB extends RoomDatabase {
                 new Migration(13, 14) {
                     @Override
                     public void migrate(SupportSQLiteDatabase db) {
-                        Log.i(
-                            Helper.TAG, "DB migration from version " + startVersion + " to " + endVersion);
+                        logMigration(startVersion, endVersion);
                         db.execSQL("ALTER TABLE `account` ADD COLUMN `color` INTEGER");
                     }
                 })
@@ -256,8 +248,7 @@ public abstract class DB extends RoomDatabase {
                 new Migration(14, 15) {
                     @Override
                     public void migrate(SupportSQLiteDatabase db) {
-                        Log.i(
-                            Helper.TAG, "DB migration from version " + startVersion + " to " + endVersion);
+                        logMigration(startVersion, endVersion);
                         db.execSQL("ALTER TABLE `attachment` ADD COLUMN `cid` TEXT");
                         db.execSQL(
                             "CREATE UNIQUE INDEX `index_attachment_message_cid` ON `attachment` (`message`, `cid`)");
@@ -267,8 +258,7 @@ public abstract class DB extends RoomDatabase {
                 new Migration(15, 16) {
                     @Override
                     public void migrate(SupportSQLiteDatabase db) {
-                        Log.i(
-                            Helper.TAG, "DB migration from version " + startVersion + " to " + endVersion);
+                        logMigration(startVersion, endVersion);
                         db.execSQL("ALTER TABLE `message` ADD COLUMN `size` INTEGER");
                         db.execSQL("ALTER TABLE `message` ADD COLUMN `content` INTEGER NOT NULL DEFAULT 1");
                     }
@@ -277,8 +267,7 @@ public abstract class DB extends RoomDatabase {
                 new Migration(16, 17) {
                     @Override
                     public void migrate(SupportSQLiteDatabase db) {
-                        Log.i(
-                            Helper.TAG, "DB migration from version " + startVersion + " to " + endVersion);
+                        logMigration(startVersion, endVersion);
                         db.execSQL("ALTER TABLE `message` ADD COLUMN `deliveredto` TEXT");
                     }
                 })
@@ -286,8 +275,7 @@ public abstract class DB extends RoomDatabase {
                 new Migration(17, 18) {
                     @Override
                     public void migrate(SupportSQLiteDatabase db) {
-                        Log.i(
-                            Helper.TAG, "DB migration from version " + startVersion + " to " + endVersion);
+                        logMigration(startVersion, endVersion);
                         db.execSQL("ALTER TABLE `folder` ADD COLUMN `display` TEXT");
                     }
                 })
@@ -295,8 +283,7 @@ public abstract class DB extends RoomDatabase {
                 new Migration(18, 19) {
                     @Override
                     public void migrate(SupportSQLiteDatabase db) {
-                        Log.i(
-                            Helper.TAG, "DB migration from version " + startVersion + " to " + endVersion);
+                        logMigration(startVersion, endVersion);
                         db.execSQL("ALTER TABLE `folder` ADD COLUMN `hide` INTEGER NOT NULL DEFAULT 0");
                     }
                 })
@@ -304,8 +291,7 @@ public abstract class DB extends RoomDatabase {
                 new Migration(19, 20) {
                     @Override
                     public void migrate(SupportSQLiteDatabase db) {
-                        Log.i(
-                            Helper.TAG, "DB migration from version " + startVersion + " to " + endVersion);
+                        logMigration(startVersion, endVersion);
                         db.execSQL("ALTER TABLE `folder` ADD COLUMN `poll_interval` INTEGER");
                     }
                 })
@@ -313,8 +299,7 @@ public abstract class DB extends RoomDatabase {
                 new Migration(20, 21) {
                     @Override
                     public void migrate(SupportSQLiteDatabase db) {
-                        Log.i(
-                            Helper.TAG, "DB migration from version " + startVersion + " to " + endVersion);
+                        logMigration(startVersion, endVersion);
                         db.execSQL(
                             "ALTER TABLE `message` ADD COLUMN `ui_ignored` INTEGER NOT NULL DEFAULT 0");
                         db.execSQL("CREATE INDEX `index_message_ui_ignored` ON `message` (`ui_ignored`)");
@@ -324,8 +309,7 @@ public abstract class DB extends RoomDatabase {
                 new Migration(21, 22) {
                     @Override
                     public void migrate(SupportSQLiteDatabase db) {
-                        Log.i(
-                            Helper.TAG, "DB migration from version " + startVersion + " to " + endVersion);
+                        logMigration(startVersion, endVersion);
                         db.execSQL("DROP INDEX `index_message_folder_uid`");
                         db.execSQL(
                             "CREATE UNIQUE INDEX `index_message_folder_uid_ui_found` ON `message` (`folder`, `uid`, `ui_found`)");
@@ -338,8 +322,7 @@ public abstract class DB extends RoomDatabase {
                 new Migration(22, 23) {
                     @Override
                     public void migrate(SupportSQLiteDatabase db) {
-                        Log.i(
-                            Helper.TAG, "DB migration from version " + startVersion + " to " + endVersion);
+                        logMigration(startVersion, endVersion);
                         db.execSQL(
                             "ALTER TABLE `account` ADD COLUMN `starttls` INTEGER NOT NULL DEFAULT 0");
                         db.execSQL(
@@ -352,8 +335,7 @@ public abstract class DB extends RoomDatabase {
                 new Migration(23, 24) {
                     @Override
                     public void migrate(SupportSQLiteDatabase db) {
-                        Log.i(
-                            Helper.TAG, "DB migration from version " + startVersion + " to " + endVersion);
+                        logMigration(startVersion, endVersion);
                         db.execSQL("ALTER TABLE `message` ADD COLUMN `account_name` TEXT");
                     }
                 })
@@ -361,11 +343,30 @@ public abstract class DB extends RoomDatabase {
                 new Migration(24, 25) {
                     @Override
                     public void migrate(SupportSQLiteDatabase db) {
-                        Log.i(
-                            Helper.TAG, "DB migration from version " + startVersion + " to " + endVersion);
+                        logMigration(startVersion, endVersion);
                         db.execSQL("ALTER TABLE `folder` ADD COLUMN `sync_state` TEXT");
                     }
                 })
+            .addMigrations(new Migration(25, 26) {
+                @Override
+                public void migrate(@NonNull SupportSQLiteDatabase db) {
+                    logMigration(startVersion, endVersion);
+                    db.execSQL("DROP INDEX `index_operation_folder`");
+                    db.execSQL("DROP INDEX `index_operation_message`");
+                    db.execSQL("DROP TABLE `operation`");
+                    db.execSQL("CREATE TABLE `operation`" +
+                        " (`id` INTEGER PRIMARY KEY AUTOINCREMENT" +
+                        ", `folder` INTEGER NOT NULL" +
+                        ", `message` INTEGER" +
+                        ", `name` TEXT NOT NULL" +
+                        ", `args` TEXT NOT NULL" +
+                        ", `created` INTEGER NOT NULL" +
+                        ", FOREIGN KEY(`folder`) REFERENCES `folder`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE" +
+                        ", FOREIGN KEY(`message`) REFERENCES `message`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE)");
+                    db.execSQL("CREATE INDEX `index_operation_folder` ON `operation` (`folder`)");
+                    db.execSQL("CREATE INDEX `index_operation_message` ON `operation` (`message`)");
+                }
+            })
             .build();
     }
 

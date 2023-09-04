@@ -288,64 +288,66 @@ public class ServiceSynchronize extends LifecycleService {
 
         super.onStartCommand(intent, flags, startId);
 
-        if (action != null) {
-            if ("start".equals(action)) {
-                serviceManager.queue_start();
-            } else if ("stop".equals(action)) {
-                serviceManager.queue_stop();
-            } else if ("reload".equals(action)) {
-                serviceManager.queue_reload();
-            } else if ("clear".equals(action)) {
-                new SimpleTask<Void>() {
-                    @Override
-                    protected Void onLoad(Context context, Bundle args) throws Throwable {
-                        DB.getInstance(context).message().ignoreAll();
-                        return null;
-                    }
-                }.load(this, new Bundle());
-            } else if (action.startsWith("seen:") || action.startsWith("trash:")
-                || action.startsWith("ignored:")) {
-                Bundle args = new Bundle();
-                args.putLong("id", Long.parseLong(action.split(":")[1]));
-                args.putString("action", action.split(":")[0]);
+        if (action == null) {
+            return START_STICKY;
+        }
 
-                new SimpleTask<Void>() {
-                    @Override
-                    protected Void onLoad(Context context, Bundle args) {
-                        long id = args.getLong("id");
-                        String action = args.getString("action");
+        if ("start".equals(action)) {
+            serviceManager.queue_start();
+        } else if ("stop".equals(action)) {
+            serviceManager.queue_stop();
+        } else if ("reload".equals(action)) {
+            serviceManager.queue_reload();
+        } else if ("clear".equals(action)) {
+            new SimpleTask<Void>() {
+                @Override
+                protected Void onLoad(Context context, Bundle args) throws Throwable {
+                    DB.getInstance(context).message().ignoreAll();
+                    return null;
+                }
+            }.load(this, new Bundle());
+        } else if (action.startsWith("seen:") || action.startsWith("trash:")
+            || action.startsWith("ignored:")) {
+            Bundle args = new Bundle();
+            args.putLong("id", Long.parseLong(action.split(":")[1]));
+            args.putString("action", action.split(":")[0]);
 
-                        DB db = DB.getInstance(context);
-                        try {
-                            db.beginTransaction();
+            new SimpleTask<Void>() {
+                @Override
+                protected Void onLoad(Context context, Bundle args) {
+                    long id = args.getLong("id");
+                    String action = args.getString("action");
 
-                            EntityMessage message = db.message().getMessage(id);
-                            if ("seen".equals(action)) {
-                                db.message().setMessageUiSeen(message.id, true);
-                                db.message().setMessageUiIgnored(message.id, true);
-                                EntityOperation.queue(db, message, EntityOperation.SEEN, true);
-                            } else if ("trash".equals(action)) {
-                                db.message().setMessageUiHide(message.id, true);
-                                EntityFolder trash =
-                                    db.folder().getFolderByType(message.account, EntityFolder.TRASH);
+                    DB db = DB.getInstance(context);
+                    try {
+                        db.beginTransaction();
+
+                        EntityMessage message = db.message().getMessage(id);
+                        if ("seen".equals(action)) {
+                            db.message().setMessageUiSeen(message.id, true);
+                            db.message().setMessageUiIgnored(message.id, true);
+                            EntityOperation.queue(db, message, EntityOperation.SEEN, true);
+                        } else if ("trash".equals(action)) {
+                            db.message().setMessageUiHide(message.id, true);
+                            EntityFolder trash =
+                                db.folder().getFolderByType(message.account, EntityFolder.TRASH);
                                 if (trash != null) {
                                     EntityOperation.queue(db, message, EntityOperation.MOVE, trash.id);
                                 }
-                            } else if ("ignored".equals(action)) {
-                                db.message().setMessageUiIgnored(message.id, true);
-                            }
-
-                            db.setTransactionSuccessful();
-                        } finally {
-                            db.endTransaction();
+                        } else if ("ignored".equals(action)) {
+                            db.message().setMessageUiIgnored(message.id, true);
                         }
 
-                        EntityOperation.process(context);
-
-                        return null;
+                        db.setTransactionSuccessful();
+                    } finally {
+                        db.endTransaction();
                     }
-                }.load(this, args);
-            }
+
+                    EntityOperation.process(context);
+
+                    return null;
+                }
+            }.load(this, args);
         }
 
         return START_STICKY;
@@ -1287,7 +1289,12 @@ public class ServiceSynchronize extends LifecycleService {
                         Log.i(Helper.TAG,
                             folder.name + " start op=" + op.id + "/" + op.name + " msg=" + op.message + " args=" + op.args);
 
-                        EntityMessage message = db.message().getMessage(op.message);
+                        // Fetch most recent copy of message
+                        EntityMessage message = null;
+                        if (op.message != null) {
+                            message = db.message().getMessage(op.message);
+                        }
+
                         try {
                             if (message == null) {
                                 throw new MessageRemovedException();

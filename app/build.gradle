@@ -42,7 +42,8 @@ android {
 
     packagingOptions {
         resources {
-            pickFirsts += ['META-INF/LICENSE.txt']
+            pickFirsts += ['META-INF/LICENSE.txt', 'META-INF/LICENSE.md']
+            excludes += 'META-INF/NOTICE.md'
         }
     }
 
@@ -72,7 +73,7 @@ dependencies {
     def lifecycle_version = "2.0.0"
     def room_version = "2.0.0"
     def paging_version = "2.0.0"
-    def javamail_version = "1.6.2"
+    def javamail_version = "1.6.7"
     def jsoup_version = "1.11.3"
     def jcharset_version = "2.0"
     def dnsjava_version = "2.1.8"

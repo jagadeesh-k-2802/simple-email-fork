@@ -18,45 +18,45 @@
 package org.dystopia.email
 
 import android.content.Context
-import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import org.dystopia.email.AdapterMessage.ViewType
-import androidx.recyclerview.selection.SelectionTracker
-import androidx.lifecycle.LiveData
-import androidx.paging.PagedList
-import android.os.Bundle
-import android.text.TextUtils
-import android.preference.PreferenceManager
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
-import androidx.recyclerview.widget.LinearLayoutManager
-import org.dystopia.email.AdapterMessage.IProperties
-import androidx.recyclerview.selection.StorageStrategy
-import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.core.content.ContextCompat
-import com.google.android.material.snackbar.Snackbar
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import android.content.Intent
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.os.Bundle
 import android.os.Handler
+import android.preference.PreferenceManager
+import android.text.TextUtils
 import android.util.Log
 import android.view.*
 import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.SearchView
-import androidx.recyclerview.selection.MutableSelection
-import org.dystopia.email.ActivityBase.IBackPressedListener
-import androidx.lifecycle.ViewModelProviders
-import androidx.paging.LivePagedListBuilder
-import org.dystopia.email.BoundaryCallbackMessages.IBoundaryCallbackMessages
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
+import androidx.recyclerview.selection.MutableSelection
+import androidx.recyclerview.selection.SelectionTracker
+import androidx.recyclerview.selection.StorageStrategy
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.snackbar.Snackbar
+import org.dystopia.email.ActivityBase.IBackPressedListener
+import org.dystopia.email.AdapterMessage.IProperties
+import org.dystopia.email.AdapterMessage.ViewType
+import org.dystopia.email.BoundaryCallbackMessages.IBoundaryCallbackMessages
 import org.dystopia.email.databinding.FragmentMessagesBinding
 import java.io.Serializable
 import java.text.Collator
 import java.util.*
 import java.util.concurrent.Executors
-import kotlin.collections.ArrayList
+
 
 class FragmentMessages : FragmentEx() {
     private var _fragmentMessagesBinding: FragmentMessagesBinding? = null
@@ -129,7 +129,6 @@ class FragmentMessages : FragmentEx() {
         binding?.swipeRefresh?.setDistanceToTriggerSync(mSpinnerDistance)
         binding?.swipeRefresh?.setOnRefreshListener {
             val args = Bundle()
-            args.putLong("account", account)
             args.putLong("folder", folder)
             onRefreshHandler(args)
         }
@@ -802,21 +801,24 @@ class FragmentMessages : FragmentEx() {
     private fun onRefreshHandler(args: Bundle) {
         object : SimpleTask<Boolean?>() {
             override fun onLoad(context: Context, args: Bundle): Boolean {
-                val aid = args.getLong("account")
                 val fid = args.getLong("folder")
                 val db = DB.getInstance(context)
                 var isConnected = false
+                var isOutbox = false
+
                 try {
                     db.beginTransaction()
                     val folders: MutableList<EntityFolder> = ArrayList()
-                    if (aid < 0) {
+                    if (fid < 0) {
                         folders.addAll(db.folder().unifiedFolders)
                     } else {
                         folders.add(db.folder().getFolder(fid))
                     }
+
                     for (folder in folders) {
                         EntityOperation.sync(db, folder.id)
                         isConnected = if (folder.account == null) { // outbox
+                            isOutbox = true
                             "connected" == folder.state
                         } else {
                             val account = db.account().getAccount(folder.account)
@@ -827,13 +829,15 @@ class FragmentMessages : FragmentEx() {
                 } finally {
                     db.endTransaction()
                 }
+
+                if (!isConnected && !isOutbox) {
+                    ServiceSynchronize.reload(context, "refresh")
+                }
                 return isConnected
             }
 
             override fun onLoaded(args: Bundle?, isConnected: Boolean?) {
-                if (isConnected != true) {
-                    binding?.swipeRefresh?.isRefreshing = false
-                }
+                binding?.swipeRefresh?.isRefreshing = false
             }
         }.load(this@FragmentMessages, args)
     }
