@@ -274,7 +274,7 @@
 \nдля использования OAuth вместо паролей</string>
     <string name="title_no_storage_framework">Система хранения недоступна</string>
     <string name="title_show_details">Просмотреть детали</string>
-    <string name="title_no_accounts_yet">У вас еще не настроены учетные записи</string>
+    <string name="title_no_accounts_yet">У вас еще нет учетных записей</string>
     <string name="title_no_identities_yet">У вас еще не настроены идентификаторы</string>
     <string name="title_try_text">Пригласить в:</string>
     <string name="title_try_subject">Попробуйте SimpleEmail</string>
