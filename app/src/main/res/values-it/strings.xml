@@ -4,19 +4,23 @@
     <string name="channel_notification">Notifiche</string>
     <string name="channel_error">Errori</string>
     <plurals name="title_notification_synchronizing">
-        <item quantity="one">Sincronizzazione account %1$d</item>
+        <item quantity="one">Sincronizzazione di %1$d account</item>
+        <item quantity="many">Sincronizzazione di %1$d account</item>
         <item quantity="other">Sincronizzazione di %1$d account</item>
     </plurals>
     <plurals name="title_notification_operations">
         <item quantity="one">%1$d operazione in corso</item>
+        <item quantity="many">%1$d operazioni in corso</item>
         <item quantity="other">%1$d operazioni in corso</item>
     </plurals>
     <plurals name="title_notification_unseen">
         <item quantity="one">%1$d nuovo messaggio</item>
+        <item quantity="many">%1$d nuovi messaggi</item>
         <item quantity="other">%1$d nuovi messaggi</item>
     </plurals>
     <plurals name="title_notification_unsent">
         <item quantity="one">%1$d messaggio non inviato</item>
+        <item quantity="many">%1$d messaggi non inviati</item>
         <item quantity="other">%1$d messaggi non inviati</item>
     </plurals>
     <string name="title_notification_failed">«%1$s» fallito</string>
@@ -179,7 +183,7 @@
     <string name="title_bcc">CCN:</string>
     <string name="title_subject">Oggetto:</string>
     <string name="title_body_hint">Il tuo messaggio</string>
-    <string name="title_discard">Elimina</string>
+    <string name="title_discard">Scarta</string>
     <string name="title_save">Salva</string>
     <string name="title_send">Invia</string>
     <string name="title_clipboard_empty">Appunti vuoti</string>
@@ -275,5 +279,5 @@
     <string name="title_cancel">Annulla</string>
     <string name="title_color">Colore</string>
     <string name="title_reset">Ripristina</string>
-  <string name="title_attachment_downloading">Downloading attachment: %1$s</string>
+    <string name="title_attachment_downloading">Scaricando allegato: %1$s</string>
 </resources>
