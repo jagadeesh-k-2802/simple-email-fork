@@ -10,8 +10,9 @@
     </plurals>
     <plurals name="title_notification_operations">
         <item quantity="one">%1$d oczekująca operacja</item>
-        <item quantity="few">%1$d oczekujących operacji</item>
-        <item quantity="many">%1$d oczekujące operacje</item>
+        <item quantity="few">%1$d oczekujące operacje</item>
+        <item quantity="many">%1$d oczekujących operacji</item>
+        <item quantity="other">%1$d oczekujących operacji</item>
     </plurals>
     <plurals name="title_notification_unseen">
         <item quantity="one">%1$d nowa wiadomość</item>
@@ -20,8 +21,9 @@
     </plurals>
     <plurals name="title_notification_unsent">
         <item quantity="one">%1$d niewysłana wiadomość</item>
-        <item quantity="few">%1$d niewysłanych wiadomości</item>
-        <item quantity="many">%1$d niewysłane wiadomości</item>
+        <item quantity="few">%1$d niewysłane wiadomości</item>
+        <item quantity="many">%1$d niewysłanych wiadomości</item>
+        <item quantity="other">%1$d niewysłanych wiadomości</item>
     </plurals>
     <string name="title_notification_failed">%1$s nie powiodło się</string>
     <string name="menu_setup">Ustawienia</string>
@@ -265,5 +267,9 @@
     <string name="title_no_identities_yet">Nie masz jeszcze skonfigurowanych tożsamości</string>
     <string name="title_try_subject">Wypróbuj SimpleEmail</string>
     <string name="title_try_text">Zapraszam do:</string>
-  <string name="title_attachment_downloading">Downloading attachment: %1$s</string>
+    <string name="title_attachment_downloading">Downloading attachment: %1$s</string>
+    <string name="text_gmail_note">Wymaga włączonego uwierzytelniania innego niż oAuth. <font color="#0055C7">Więcej informacji</font></string>
+    <string name="title_reset">Resetuj</string>
+    <string name="title_cancel">Anuluj</string>
+    <string name="title_color">Kolor</string>
 </resources>
