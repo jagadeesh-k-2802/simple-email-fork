@@ -178,7 +178,7 @@
     <string name="title_ask_delete">Удалить сообщение навсегда\?</string>
     <string name="title_ask_discard">Отменить черновик\?</string>
     <string name="title_ask_spam">Сообщить о сообщении как о спаме\?</string>
-    <string name="title_fix">Fix</string>
+    <string name="title_fix">Исправление</string>
     <string name="title_compose">Написать</string>
     <string name="title_from">От:</string>
     <string name="title_to">Кому:</string>
