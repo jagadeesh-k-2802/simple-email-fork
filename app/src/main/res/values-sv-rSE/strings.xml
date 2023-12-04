@@ -250,7 +250,20 @@
     <string name="title_privacy">Integritetspolicy</string>
     <string name="title_privacy_description"><b>SimpleEmail</b> samlar inte någon information, kräver inte heller onödiga rättigheter och är <b>100% Free Software</b>.</string>
     <string name="title_permissions"><b>Rättigheter behövs och varför</b></string>
-    <string name="title_permissions_list"><b>• have full network access</b> (INTERNET):  to send and receive email <b>\n• view network connections</b> (ACCESS_NETWORK_STATE):  to monitor internet connectivity changes <b>\n• run at startup</b> (RECEIVE_BOOT_COMPLETED):  to start monitoring on device start <b>\n• foreground service</b> (FOREGROUND_SERVICE):  to run a foreground service on Android 9 Pie and later <b>\n• prevent device from sleeping</b> (WAKE_LOCK):  to keep the device awake while synchronizing messages <b>\n• [Optional] read your contacts</b> (READ_CONTACTS):  to autocomplete addresses and to show photos <b>\n• [Optional] find accounts on the device</b> (GET_ACCOUNTS):  to use OAuth instead of passwords</string>
+    <string name="title_permissions_list"><b>• ha full nätverksåtkomst</b> (INTERNET):
+\nför att skicka och ta emot e-post <b>
+\n• visa nätverksanslutningar</b> (ACCESS_NETWORK_STATE):
+\nför att övervaka ändringar i internetanslutningen <b>
+\n• kör vid start</b> (RECEIVE_BOOT_COMPLETED):
+\nför att starta övervakning på enheten starta <b>
+\n• förgrundstjänst</b> (FOREGROUND_SERVICE):
+\nför att köra en förgrundstjänst på Android 9 Pie och senare <b>
+\n• hindra enheten från att sova</b> (WAKE_LOCK):
+\nför att hålla enheten vaken medan du synkroniserar meddelanden <b>
+\n• [Valfritt] läs dina kontakter</b> (READ_CONTACTS):
+\nför att autoslutföra adresser och för att visa foton <b>
+\n• [Valfritt] hitta konton på enheten</b> (GET_ACCOUNTS):
+\nför att använda OAuth istället för lösenord</string>
     <string name="title_no_storage_framework">Ramverk för lagring saknas</string>
     <string name="title_show_details">Se detaljer</string>
     <string name="title_no_accounts_yet">Du hast inga konton konfigurerade än</string>
@@ -261,4 +274,6 @@
     <string name="title_color">Färg</string>
     <string name="title_reset">Återställ</string>
     <string name="title_attachment_downloading">Downloading attachment: %1$s</string>
+    <string name="text_gmail_note">Kräver har icke-oAuth-autentisering aktiverad. <font color="#0055C7">Mer information</font></string>
+    <string name="message_gmail_note">Sedan januari 2020 har Gmail begränsat OAuth-omfattningarna och kräver nu auktorisering för att autentisera. Vi letar efter det bästa sättet att fixa OAuth-autentisering utan privata bibliotek.&lt;br/&gt;&lt;br/&gt; Som en tillfällig lösning måste du tillåta normal autentisering eller vad Google kallar &lt;i&gt;\"mindre säkra appar\"&lt;/i&gt;.&lt;br/&gt;&lt;br/&gt;&lt;b&gt;Instruktioner här:&lt;/b&gt; https://support.google.com/accounts/answer/6010255 &lt;/br&gt;</string>
 </resources>
