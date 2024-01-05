@@ -272,4 +272,5 @@
     <string name="title_reset">Resetuj</string>
     <string name="title_cancel">Anuluj</string>
     <string name="title_color">Kolor</string>
+    <string name="message_gmail_note">Od stycznia 2020 r. Gmail ograniczył zakresy protokołu OAuth i teraz wymaga autoryzacji do uwierzytelnienia. Szukamy najlepszego sposobu na naprawienie uwierzytelniania OAuth bez bibliotek prywatnych.&lt;br/&gt;&lt;br/&gt; Jako rozwiązanie tymczasowe należy zezwolić na normalne uwierzytelnianie lub to, co Google nazywa &lt;i&gt;\"mniej bezpiecznymi aplikacjami\"&lt;/i&gt;.&lt;br/&gt;&lt;br/&gt;&lt;b&gt;Instrukcje:&lt;/b&gt; https://support.google.com/accounts/answer/6010255 &lt;/br&gt;</string>
 </resources>
