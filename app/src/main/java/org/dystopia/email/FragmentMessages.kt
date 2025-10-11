@@ -153,9 +153,13 @@ class FragmentMessages : FragmentEx() {
             override fun setExpanded(id: Long, expand: Boolean) {
                 if (expand) {
                     expanded.add(id)
+                    // Automatically allow loading images when a message is expanded
+                    images.add(id)
                     handleExpand(id)
                 } else {
                     expanded.remove(id)
+                    // Optionally stop showing images when collapsing
+                    images.remove(id)
                 }
             }
 
@@ -1057,6 +1061,10 @@ class FragmentMessages : FragmentEx() {
     }
 
     private fun handleExpand(handleId: Long) {
+        // Ensure images are allowed when expanded via auto-expand paths
+        if (!images.contains(handleId)) {
+            images.add(handleId)
+        }
         val args = Bundle()
         args.putLong("id", handleId)
         object : SimpleTask<Void?>() {

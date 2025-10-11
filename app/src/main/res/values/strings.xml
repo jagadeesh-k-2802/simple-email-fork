@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name" translatable="false">SimpleEmail</string>
     <string name="app_label" translatable="false">Email</string>
-    <string name="app_copyright" translatable="false">Copyright Ⓒ 2018 by M. Bokhorst\nCopyright Ⓒ 2018-2020 by Distopico (dystopia project) and contributors</string>
+    <string name="app_copyright" translatable="false">Copyright Ⓒ 2025 by Jagadeesh K\nCopyright Ⓒ 2018 by M. Bokhorst\nCopyright Ⓒ 2018-2020 by Distopico (dystopia project) and contributors</string>
     <string name="app_eula" translatable="false">This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version. This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See theGNU General Public License for more details. You should have received a copy of the GNU General Public License along with this program. If not, see http://www.gnu.org/licenses.</string>
     <string name="fingerprint" translatable="false">BCB07BD93B29C1959C15F1CF6C3A2619BAF7A17</string>
     <string name="channel_service">Service</string>
@@ -266,6 +266,7 @@
     <string name="title_reset">Reset</string>
     <string name="title_color">Color</string>
     <string name="title_cancel">Cancel</string>
+    <string name="title_message_text_size">Message text size</string>
     <string name="text_gmail_note"><![CDATA[Requires have non-oAuth authentication enabled. <font color=\'#0055C7\'>More info</font>]]></string>
     <string name="message_gmail_note">Since January 2020, Gmail restricted the OAuth scopes, and now requires authorization to authenticate, we are looking for the best way to fix OAuth authentication without private libraries.&lt;br/&gt;&lt;br/&gt; As a temporary solution you need to allow normal authentication or what Google calls &lt;i&gt;\"less secure apps\"&lt;/i&gt;.&lt;br/&gt;&lt;br/&gt;&lt;b&gt;Instructions here:&lt;/b&gt; https://support.google.com/accounts/answer/6010255&lt;/br&gt;</string>
   <string name="title_attachment_downloading">Downloading attachment: %1$s</string>

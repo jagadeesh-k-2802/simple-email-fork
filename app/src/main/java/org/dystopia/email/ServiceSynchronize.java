@@ -365,7 +365,7 @@ public class ServiceSynchronize extends LifecycleService {
         Intent intent = new Intent(this, ActivityView.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         PendingIntent pi = PendingIntent.getActivity(this, ActivityView.REQUEST_UNIFIED, intent,
-            PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
         // Build notification
         Notification.Builder builder = Helper.getNotificationBuilder(this, "service");
@@ -439,12 +439,12 @@ public class ServiceSynchronize extends LifecycleService {
         Intent view = new Intent(this, ActivityView.class);
         view.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         PendingIntent piView = PendingIntent.getActivity(this, ActivityView.REQUEST_UNIFIED, view,
-            PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
         Intent clear = new Intent(this, ServiceSynchronize.class);
         clear.setAction("clear");
         PendingIntent piClear =
-            PendingIntent.getService(this, PI_CLEAR, clear, PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent.getService(this, PI_CLEAR, clear, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
         String summaryText =
             getResources().getQuantityString(R.plurals.title_notification_unseen, size, size);
@@ -480,12 +480,12 @@ public class ServiceSynchronize extends LifecycleService {
         Intent view = new Intent(this, ActivityView.class);
         view.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         PendingIntent piView = PendingIntent.getActivity(this, ActivityView.REQUEST_UNIFIED, view,
-            PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
         Intent clear = new Intent(this, ServiceSynchronize.class);
         clear.setAction("clear");
         PendingIntent piClear =
-            PendingIntent.getService(this, PI_CLEAR, clear, PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent.getService(this, PI_CLEAR, clear, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
         String summaryText =
             getResources().getQuantityString(R.plurals.title_notification_unseen, size, size);
@@ -567,19 +567,19 @@ public class ServiceSynchronize extends LifecycleService {
             thread.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             thread.putExtra("account", message.account);
             PendingIntent piContent = PendingIntent.getActivity(this, ActivityView.REQUEST_THREAD, thread,
-                PendingIntent.FLAG_UPDATE_CURRENT);
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
             Intent ignored = new Intent(this, ServiceSynchronize.class);
             ignored.setAction("ignored:" + message.id);
-            PendingIntent piDelete = PendingIntent.getService(this, PI_IGNORED, ignored, PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent piDelete = PendingIntent.getService(this, PI_IGNORED, ignored, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
             Intent seen = new Intent(this, ServiceSynchronize.class);
             seen.setAction("seen:" + message.id);
-            PendingIntent piSeen = PendingIntent.getService(this, PI_SEEN, seen, PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent piSeen = PendingIntent.getService(this, PI_SEEN, seen, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
             Intent trash = new Intent(this, ServiceSynchronize.class);
             trash.setAction("trash:" + message.id);
-            PendingIntent piTrash = PendingIntent.getService(this, PI_TRASH, trash, PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent piTrash = PendingIntent.getService(this, PI_TRASH, trash, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
             Notification.Action.Builder actionSeen = new Notification.Action.Builder(
                 R.drawable.baseline_visibility_24, getString(R.string.title_seen), piSeen);
@@ -619,7 +619,7 @@ public class ServiceSynchronize extends LifecycleService {
         Intent intent = new Intent(this, ActivityView.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         PendingIntent pi = PendingIntent.getActivity(this, ActivityView.REQUEST_ERROR, intent,
-            PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
         // Build notification
         Notification.Builder builder = Helper.getNotificationBuilder(this, "error");

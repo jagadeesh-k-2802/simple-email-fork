@@ -18,6 +18,9 @@ package org.dystopia.email;
     along with FairEmail.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+import androidx.room.Entity;
+
+@Entity
 public class TupleNotification extends EntityMessage {
     public String accountName;
     public Integer accountColor;

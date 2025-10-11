@@ -4,14 +4,23 @@ apply from: "${rootDir}/dirlocal.gradle"
 
 android {
     namespace 'org.dystopia.email'
-    compileSdkVersion 33
+    compileSdk 33
+
+    signingConfigs {
+        releaseTest {
+            storeFile file('release-test.jks')
+            storePassword '123456'
+            keyAlias 'key0'
+            keyPassword '123456'
+        }
+    }
 
     defaultConfig {
         applicationId "org.dystopia.email"
         minSdkVersion 21
         targetSdkVersion 33
-        versionCode 120
-        versionName "1.5.3"
+        versionCode 121
+        versionName "1.5.4"
         archivesBaseName = "SimpleEmail-v$versionName"
 
         proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -29,10 +38,12 @@ android {
             shrinkResources false
             minifyEnabled false
         }
+
         release {
             debuggable false
             minifyEnabled true
             shrinkResources true
+            signingConfig signingConfigs.releaseTest
         }
     }
 

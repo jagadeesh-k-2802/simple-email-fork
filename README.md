@@ -15,6 +15,12 @@ Alternatively, you can download directly from GitLab [Releases][gitlab-releases]
 * Privacy friendly
 * Simple design
 
+## Fork Changes
+
+* Fixed A12+ Crash on adding a new email account
+* Added text size setting
+* By default 'show images' is enabled in mail
+
 ## Why?
 
 The focus of SimpleEmail is be a privacy-friendly email app with a good UX/UI

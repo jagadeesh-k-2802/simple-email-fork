@@ -28,6 +28,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.Switch;
+import android.widget.Spinner;
+import android.widget.AdapterView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -41,6 +43,7 @@ public class FragmentOptions extends FragmentEx {
     private Switch optCompact;
     private Switch optInsecure;
     private Switch optDebug;
+    private Spinner spnBodyTextSize;
 
     @Override
     @Nullable
@@ -61,6 +64,7 @@ public class FragmentOptions extends FragmentEx {
         optCompact = view.findViewById(R.id.optCompact);
         optInsecure = view.findViewById(R.id.optInsecure);
         optDebug = view.findViewById(R.id.optDebug);
+        spnBodyTextSize = view.findViewById(R.id.spnBodyTextSize);
 
         // Wire controls
 
@@ -143,6 +147,24 @@ public class FragmentOptions extends FragmentEx {
                     ServiceSynchronize.reload(getContext(), "debug=" + checked);
                 }
             });
+
+        // Body text size preference (stored in sp units)
+        // Map Spinner index 0..6 to sp values 12..24; default 16sp (index 2)
+        int defaultSp = 16;
+        int storedSp = prefs.getInt("body_text_size_sp", defaultSp);
+        int index = Math.max(0, Math.min(6, (storedSp - 12) / 2));
+        spnBodyTextSize.setSelection(index);
+
+        spnBodyTextSize.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view1, int position, long id) {
+                int sp = 12 + position * 2;
+                prefs.edit().putInt("body_text_size_sp", sp).apply();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) { }
+        });
 
         optLight.setVisibility(
             android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.O

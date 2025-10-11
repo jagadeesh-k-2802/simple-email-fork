@@ -1,8 +1,8 @@
-
 pluginManagement {
     repositories {
         google()
         jcenter()
+        mavenCentral()
     }
 }
 
@@ -11,12 +11,10 @@ dependencyResolutionManagement {
     repositories {
         google()
         jcenter()
-        maven {
-            url = uri("https://repo1.maven.org/maven2/")
-        }
-        maven {
-            url = uri("https://jitpack.io")
-        }
+        maven { url = uri("https://repo1.maven.org/maven2/") }
+        maven { url = uri("https://jitpack.io") }
+        maven { url = uri("https://artifactory.appodeal.com/appodeal-public/") }
+        mavenCentral()
     }
 }
 
