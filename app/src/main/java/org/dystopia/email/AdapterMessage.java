@@ -118,6 +118,7 @@ public class AdapterMessage extends PagedListAdapter<TupleMessageEx, AdapterMess
     private boolean avatars;
     private boolean compact;
     private boolean debug;
+    private int bodyTextSize;
 
     private SelectionTracker<Long> selectionTracker = null;
 
@@ -237,6 +238,7 @@ public class AdapterMessage extends PagedListAdapter<TupleMessageEx, AdapterMess
             grpExpanded = itemView.findViewById(R.id.grpExpanded);
 
             tvBody.setMovementMethod(new UrlHandler());
+            tvBody.setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, bodyTextSize);
         }
 
         private void wire() {
@@ -1633,6 +1635,7 @@ public class AdapterMessage extends PagedListAdapter<TupleMessageEx, AdapterMess
         this.avatars = (prefs.getBoolean("avatars", true) && this.contacts);
         this.compact = prefs.getBoolean("compact", false);
         this.debug = prefs.getBoolean("debug", false);
+        this.bodyTextSize = prefs.getInt("body_text_size_sp", 16);
     }
 
     private static final DiffUtil.ItemCallback<TupleMessageEx> DIFF_CALLBACK =

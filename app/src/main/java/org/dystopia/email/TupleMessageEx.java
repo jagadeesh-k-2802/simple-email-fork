@@ -20,6 +20,9 @@ package org.dystopia.email;
     Copyright 2018-2020, Distopico (dystopia project) <distopico@riseup.net> and contributors
 */
 
+import androidx.room.Entity;
+
+@Entity
 public class TupleMessageEx extends EntityMessage {
     public String accountName;
     public Integer accountColor;

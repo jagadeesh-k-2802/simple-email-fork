@@ -47,7 +47,7 @@ public class Widget extends AppWidgetProvider {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         PendingIntent pi =
             PendingIntent.getActivity(
-                context, ActivityView.REQUEST_UNIFIED, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                context, ActivityView.REQUEST_UNIFIED, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
         for (int id : appWidgetIds) {
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget);
             views.setOnClickPendingIntent(R.id.widget, pi);

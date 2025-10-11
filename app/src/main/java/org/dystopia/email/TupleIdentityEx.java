@@ -19,6 +19,9 @@ package org.dystopia.email;
     Copyright 2018, Marcel Bokhorst (M66B)
 */
 
+import androidx.room.Entity;
+
+@Entity
 public class TupleIdentityEx extends EntityIdentity {
     public String accountName;
 }
