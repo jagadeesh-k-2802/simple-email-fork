@@ -4,7 +4,16 @@ apply from: "${rootDir}/dirlocal.gradle"
 
 android {
     namespace 'org.dystopia.email'
-    compileSdkVersion 33
+    compileSdk 33
+
+    signingConfigs {
+        releaseTest {
+            storeFile file('release-test.jks')
+            storePassword '123456'
+            keyAlias 'key0'
+            keyPassword '123456'
+        }
+    }
 
     defaultConfig {
         applicationId "org.dystopia.email"
@@ -29,10 +38,12 @@ android {
             shrinkResources false
             minifyEnabled false
         }
+
         release {
             debuggable false
             minifyEnabled true
             shrinkResources true
+            signingConfig signingConfigs.releaseTest
         }
     }
 

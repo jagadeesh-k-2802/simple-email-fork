@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.4] (https://github.com/jagadeesh-k-2802/simple-email-fork/compare/v1.5.3...v1.5.4) (2025-10-11)
+* Fixed A12+ Crash on adding a new email account
+* Added text size setting
+* By default 'show images' is enabled in mail
+* Added `Release Test` gradle config
+
 ## [1.5.3](https://framagit.org/dystopia-project/simple-email/compare/v1.5.2...v1.5.3) (2023-09-04)
 
 
