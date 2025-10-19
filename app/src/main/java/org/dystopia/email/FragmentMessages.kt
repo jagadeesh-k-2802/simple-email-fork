@@ -268,8 +268,13 @@ class FragmentMessages : FragmentEx() {
                 val itemView = viewHolder.itemView
                 val margin = Math.round(12 * resources.displayMetrics.density)
                 val color = Paint()
-                color.color = ContextCompat.getColor(context!!, R.color.colorPrimaryDark)
+                val width = itemView.width.toFloat()
+                val ratio = Math.min(1f, Math.abs(dX) / (width * 0.85f))
+                val alpha = (0.05f + 0.75f * ratio)
                 if (dX > margin) {
+                    val bg = ContextCompat.getColor(context!!, R.color.green)
+                    color.color = bg
+                    color.alpha = (alpha * 255).toInt()
                     canvas.drawRect(itemView.left.toFloat(), itemView.top.toFloat(), dX, itemView.bottom.toFloat(), color)
                     // Right swipe
                     val d = resources.getDrawable(
@@ -282,6 +287,9 @@ class FragmentMessages : FragmentEx() {
                     d.setTint(Color.WHITE)
                     d.draw(canvas)
                 } else if (dX < -margin) {
+                    val bg = ContextCompat.getColor(context!!, if (toArchiveOrTrash) R.color.green else R.color.red)
+                    color.color = bg
+                    color.alpha = (alpha * 255).toInt()
                     canvas.drawRect(itemView.right.toFloat() + dX, itemView.top.toFloat(), itemView.right.toFloat(), itemView.bottom.toFloat(), color)
 
                     // Left swipe
@@ -298,7 +306,23 @@ class FragmentMessages : FragmentEx() {
                 super.onChildDraw(canvas, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
             }
 
+            override fun getSwipeThreshold(viewHolder: RecyclerView.ViewHolder): Float {
+                return 0.5f
+            }
+
+            override fun getSwipeEscapeVelocity(defaultValue: Float): Float {
+                return defaultValue * 1.5f
+            }
+
+            override fun getSwipeVelocityThreshold(defaultValue: Float): Float {
+                return defaultValue * 1.2f
+            }
+
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, directionSwiped: Int) {
+                try {
+                    viewHolder.itemView.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
+                } catch (ignored: Throwable) {
+                }
                 val pos = viewHolder.adapterPosition
                 if (pos == RecyclerView.NO_POSITION) {
                     return
@@ -325,7 +349,7 @@ class FragmentMessages : FragmentEx() {
                             val message = db.message().getMessage(id)
                             val folder = db.folder().getFolder(message.folder)
                             val toInbox = EntityFolder.INBOX != folder.type
-                            val toArchive = EntityFolder.TRASH == folderType
+                            val toArchive = EntityFolder.TRASH == folder.type
                             val inboxFolder = db.folder().getFolderByType(message.account, EntityFolder.INBOX)
                             val archiveFolder = db.folder().getFolderByType(message.account, EntityFolder.ARCHIVE)
                             val trashFolder = db.folder().getFolderByType(message.account, EntityFolder.TRASH)

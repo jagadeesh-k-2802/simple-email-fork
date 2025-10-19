@@ -495,7 +495,7 @@ public class ServiceSynchronize extends LifecycleService {
         Notification.Builder gbuilder = Helper.getNotificationBuilder(this, channelId);
 
         gbuilder.setSmallIcon(R.drawable.ic_mail_icon).setContentTitle(summaryText).setContentIntent(piView)
-            .setNumber(messages.size()).setShowWhen(true).setColor(groupColor).setDeleteIntent(piClear)
+            .setContentText(summaryText).setNumber(messages.size()).setShowWhen(true).setColor(groupColor).setDeleteIntent(piClear)
             .setPriority(Notification.PRIORITY_DEFAULT).setCategory(Notification.CATEGORY_STATUS)
             .setVisibility(Notification.VISIBILITY_PRIVATE).setGroup(groupKey).setGroupSummary(true)
             .setPublicVersion(pbuilder.build());
@@ -600,6 +600,8 @@ public class ServiceSynchronize extends LifecycleService {
             if (!TextUtils.isEmpty(message.subject)) {
                 mbuilder.setContentText(message.subject);
                 mstyle.addLine(message.subject);
+            } else {
+                mbuilder.setContentText(getString(R.string.title_no_subject));
             }
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -1154,7 +1156,12 @@ public class ServiceSynchronize extends LifecycleService {
                     };
 
                     String id = BuildConfig.APPLICATION_ID + ".POLL." + account.id;
-                    PendingIntent pi = PendingIntent.getBroadcast(ServiceSynchronize.this, 0, new Intent(id), PendingIntent.FLAG_IMMUTABLE);
+                    PendingIntent pi = PendingIntent.getBroadcast(
+                        ServiceSynchronize.this,
+                        0,
+                        new Intent(id),
+                        PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+                    );
                     registerReceiver(alarm, new IntentFilter(id));
 
                     // Keep alive

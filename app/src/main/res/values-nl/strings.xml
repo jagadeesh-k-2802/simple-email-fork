@@ -264,4 +264,5 @@
     <string name="title_reset">Standaardwaarden</string>
     <string name="title_attachment_downloading">Downloading attachment: %1$s</string>
     <string name="title_message_text_size">Grootte van berichttekst</string>
+    <string name="title_no_subject">Geen onderwerp</string>
 </resources>
