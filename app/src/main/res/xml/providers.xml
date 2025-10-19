@@ -68,17 +68,6 @@
             port="465"
             starttls="false" />
     </provider>
-       <provider
-        name="Mailfence.com"
-        link="https://clean.email/blog/email-settings/mailfence-email-settings">
-        <imap
-            host="imap.mailfence.com"
-            port="993" />
-        <smtp
-            host="smtp.mailfence.com"
-            port="465"
-            starttls="false" />
-    </provider>
     <!-- no IMAP IDLE -->
     <provider
         name="Yahoo!"
@@ -232,5 +221,16 @@
             host="smtp.1und1.de"
             port="465"
             starttls="false" />
+    </provider>
+    <provider
+      name="Mailfence.com"
+      link="https://clean.email/blog/email-settings/mailfence-email-settings">
+      <imap
+        host="imap.mailfence.com"
+        port="993" />
+      <smtp
+        host="smtp.mailfence.com"
+        port="465"
+        starttls="false" />
     </provider>
 </providers>
