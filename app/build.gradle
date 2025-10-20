@@ -19,8 +19,8 @@ android {
         applicationId "org.dystopia.email"
         minSdkVersion 21
         targetSdkVersion 33
-        versionCode 123
-        versionName "1.5.5"
+        versionCode 124
+        versionName "1.5.6"
         archivesBaseName = "SimpleEmail-v$versionName"
 
         proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'

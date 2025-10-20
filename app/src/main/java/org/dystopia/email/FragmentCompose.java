@@ -55,6 +55,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
 import android.widget.ArrayAdapter;
+import android.content.SharedPreferences;
 import android.widget.EditText;
 import android.widget.FilterQueryProvider;
 import android.widget.ImageView;
@@ -68,6 +69,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.Group;
 import androidx.core.content.ContextCompat;
+import android.preference.PreferenceManager;
 import androidx.cursoradapter.widget.SimpleCursorAdapter;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Lifecycle;
@@ -164,6 +166,10 @@ public class FragmentCompose extends FragmentEx {
         grpAttachments = view.findViewById(R.id.grpAttachments);
 
         // Wire controls
+        // Apply compose body text size from settings (same as message body)
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+        int bodySp = prefs.getInt("body_text_size_sp", 16);
+        etBody.setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, bodySp);
 
         ivIdentityAdd.setOnClickListener(
             new View.OnClickListener() {

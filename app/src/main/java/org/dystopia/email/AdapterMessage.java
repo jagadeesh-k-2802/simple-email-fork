@@ -36,6 +36,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.text.Editable;
@@ -133,9 +134,10 @@ public class AdapterMessage extends PagedListAdapter<TupleMessageEx, AdapterMess
     }
 
     private static final long CACHE_IMAGE_DURATION = 3 * 24 * 3600 * 1000L;
+    private static final int UNDO_TIMEOUT = 5000; // milliseconds
 
-    public class ViewHolder extends RecyclerView.ViewHolder
-        implements View.OnClickListener, BottomNavigationView.OnNavigationItemSelectedListener {
+        public class ViewHolder extends RecyclerView.ViewHolder
+        implements View.OnClickListener, View.OnLongClickListener, BottomNavigationView.OnNavigationItemSelectedListener {
         private View itemView;
         private View vwColor;
         private ImageView ivExpander;
@@ -243,6 +245,7 @@ public class AdapterMessage extends PagedListAdapter<TupleMessageEx, AdapterMess
 
         private void wire() {
             itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(this);
             ivAddContact.setOnClickListener(this);
             bnvActions.setOnNavigationItemSelectedListener(this);
             btnImages.setOnClickListener(this);
@@ -250,6 +253,7 @@ public class AdapterMessage extends PagedListAdapter<TupleMessageEx, AdapterMess
 
         private void unwire() {
             itemView.setOnClickListener(null);
+            itemView.setOnLongClickListener(null);
             ivAddContact.setOnClickListener(null);
             bnvActions.setOnNavigationItemSelectedListener(null);
             btnImages.setOnClickListener(null);
@@ -636,6 +640,213 @@ public class AdapterMessage extends PagedListAdapter<TupleMessageEx, AdapterMess
                     lbm.sendBroadcast(intent);
                 }
             }
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            int pos = getAdapterPosition();
+            if (pos == RecyclerView.NO_POSITION) {
+                return false;
+            }
+
+            final TupleMessageEx message = getItem(pos);
+            if (message == null) {
+                return false;
+            }
+
+            // Show options dialog with Archive / Delete
+            CharSequence[] options = new CharSequence[] {
+                context.getString(R.string.title_delete)
+            };
+            String dlgTitle = TextUtils.isEmpty(message.subject)
+                ? context.getString(R.string.title_select)
+                : message.subject;
+            new DialogBuilderLifecycle(context, owner)
+                .setTitle(dlgTitle)
+                .setItems(options, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (which == 0) {
+                            // Delete: move to trash if possible, else permanent delete
+                            new SimpleTask<Boolean>() {
+                                @Override
+                                protected Boolean onLoad(Context context, Bundle args) {
+                                    boolean inTrash = EntityFolder.TRASH.equals(message.folderType);
+                                    boolean inOutbox = EntityFolder.OUTBOX.equals(message.folderType);
+                                    boolean hasTrash = (DB.getInstance(context).folder()
+                                        .getFolderByType(message.account, EntityFolder.TRASH) != null);
+                                    return !(inTrash || !hasTrash || inOutbox); // true if can move to trash
+                                }
+
+                                @Override
+                                protected void onLoaded(Bundle args, Boolean canMoveToTrash) {
+                                    if (Boolean.TRUE.equals(canMoveToTrash)) {
+                                        moveWithUndo(message, EntityFolder.TRASH);
+                                    } else {
+                                        // Permanent delete confirmation
+                                        new DialogBuilderLifecycle(context, owner)
+                                            .setMessage(R.string.title_ask_delete)
+                                            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    Bundle args = new Bundle();
+                                                    args.putLong("id", message.id);
+                                                    new SimpleTask<Void>() {
+                                                        @Override
+                                                        protected Void onLoad(Context context, Bundle args) {
+                                                            long id = args.getLong("id");
+                                                            DB db = DB.getInstance(context);
+                                                            try {
+                                                                db.beginTransaction();
+                                                                EntityMessage em = db.message().getMessage(id);
+                                                                if (em.uid == null && !TextUtils.isEmpty(em.error)) {
+                                                                    db.message().deleteMessage(id);
+                                                                } else {
+                                                                    db.message().setMessageUiHide(em.id, true);
+                                                                    EntityOperation.queue(db, em, EntityOperation.DELETE);
+                                                                }
+                                                                db.setTransactionSuccessful();
+                                                            } finally {
+                                                                db.endTransaction();
+                                                            }
+                                                            EntityOperation.process(context);
+                                                            return null;
+                                                        }
+
+                                                        @Override
+                                                        protected void onException(Bundle args, Throwable ex) {
+                                                            Helper.unexpectedError(context, ex);
+                                                        }
+                                                    }.load(context, owner, args);
+                                                }
+                                            })
+                                            .setNegativeButton(android.R.string.cancel, null)
+                                            .show();
+                                    }
+                                }
+
+                                @Override
+                                protected void onException(Bundle args, Throwable ex) {
+                                    Helper.unexpectedError(context, ex);
+                                }
+                            }.load(context, owner, new Bundle());
+                        }
+                    }
+                })
+                .setNegativeButton(android.R.string.cancel, null)
+                .show();
+
+            return true;
+        }
+
+        private class MoveTarget {
+            long id;
+            long targetId;
+            String display;
+        }
+
+        private void moveWithUndo(final TupleMessageEx tuple, final String targetType) {
+            Bundle args = new Bundle();
+            args.putLong("id", tuple.id);
+            args.putString("type", targetType);
+            new SimpleTask<MoveTarget>() {
+                @Override
+                protected MoveTarget onLoad(Context context, Bundle args) {
+                    long id = args.getLong("id");
+                    String type = args.getString("type");
+                    DB db = DB.getInstance(context);
+                    MoveTarget result = new MoveTarget();
+                    try {
+                        db.beginTransaction();
+                        EntityMessage em = db.message().getMessage(id);
+                        EntityFolder target = db.folder().getFolderByType(em.account, type);
+                        if (target == null) {
+                            return null;
+                        }
+                        db.message().setMessageUiHide(id, true);
+                        result.id = id;
+                        result.targetId = target.id;
+                        result.display = (target.display == null ? target.name : target.display);
+                        db.setTransactionSuccessful();
+                    } finally {
+                        db.endTransaction();
+                    }
+                    return result;
+                }
+
+                @Override
+                protected void onLoaded(Bundle args, final MoveTarget target) {
+                    if (target == null) {
+                        // No target folder available
+                        return;
+                    }
+                    final Snackbar snackbar = Snackbar.make(
+                        itemView,
+                        String.format(context.getString(R.string.title_moving),
+                            Helper.localizeFolderName(context, target.display)),
+                        Snackbar.LENGTH_INDEFINITE);
+                    snackbar.setAction(R.string.title_undo, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Bundle a = new Bundle();
+                            a.putLong("id", target.id);
+                            new SimpleTask<Void>() {
+                                @Override
+                                protected Void onLoad(Context context, Bundle args) {
+                                    long id = args.getLong("id");
+                                    DB.getInstance(context).message().setMessageUiHide(id, false);
+                                    return null;
+                                }
+                            }.load(context, owner, a);
+                            snackbar.dismiss();
+                        }
+                    });
+                    snackbar.show();
+
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (snackbar.isShown()) {
+                                snackbar.dismiss();
+                            }
+                            // Process move if still hidden
+                            Bundle argsMove = new Bundle();
+                            argsMove.putLong("id", target.id);
+                            argsMove.putLong("target", target.targetId);
+                            new SimpleTask<Void>() {
+                                @Override
+                                protected Void onLoad(Context context, Bundle args) {
+                                    long id = args.getLong("id");
+                                    long targetId = args.getLong("target");
+                                    DB db = DB.getInstance(context);
+                                    try {
+                                        db.beginTransaction();
+                                        EntityMessage em = db.message().getMessage(id);
+                                        if (em != null && em.ui_hide) {
+                                            EntityOperation.queue(db, em, EntityOperation.MOVE, targetId);
+                                        }
+                                        db.setTransactionSuccessful();
+                                    } finally {
+                                        db.endTransaction();
+                                    }
+                                    EntityOperation.process(context);
+                                    return null;
+                                }
+
+                                @Override
+                                protected void onException(Bundle args, Throwable ex) {
+                                    Helper.unexpectedError(context, ex);
+                                }
+                            }.load(context, owner, argsMove);
+                        }
+                    }, UNDO_TIMEOUT);
+                }
+
+                @Override
+                protected void onException(Bundle args, Throwable ex) {
+                    Helper.unexpectedError(context, ex);
+                }
+            }.load(context, owner, args);
         }
 
         private void onAddContact(EntityMessage message) {

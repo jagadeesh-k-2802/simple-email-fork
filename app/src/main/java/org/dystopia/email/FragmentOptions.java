@@ -39,7 +39,6 @@ public class FragmentOptions extends FragmentEx {
     private Switch optAvatars;
     private Switch optLight;
     private Switch optBrowse;
-    private Switch optSwipe;
     private Switch optCompact;
     private Switch optInsecure;
     private Switch optDebug;
@@ -60,7 +59,6 @@ public class FragmentOptions extends FragmentEx {
         optAvatars = view.findViewById(R.id.optAvatars);
         optLight = view.findViewById(R.id.optLight);
         optBrowse = view.findViewById(R.id.optBrowse);
-        optSwipe = view.findViewById(R.id.optSwipe);
         optCompact = view.findViewById(R.id.optCompact);
         optInsecure = view.findViewById(R.id.optInsecure);
         optDebug = view.findViewById(R.id.optDebug);
@@ -111,14 +109,6 @@ public class FragmentOptions extends FragmentEx {
                 }
             });
 
-        optSwipe.setChecked(prefs.getBoolean("swipe", true));
-        optSwipe.setOnCheckedChangeListener(
-            new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
-                    prefs.edit().putBoolean("swipe", checked).apply();
-                }
-            });
 
         optCompact.setChecked(prefs.getBoolean("compact", false));
         optCompact.setOnCheckedChangeListener(
@@ -150,8 +140,7 @@ public class FragmentOptions extends FragmentEx {
 
         // Body text size preference (stored in sp units)
         // Map Spinner index 0..6 to sp values 12..24; default 16sp (index 2)
-        int defaultSp = 16;
-        int storedSp = prefs.getInt("body_text_size_sp", defaultSp);
+        int storedSp = prefs.getInt("body_text_size_sp", 16);
         int index = Math.max(0, Math.min(6, (storedSp - 12) / 2));
         spnBodyTextSize.setSelection(index);
 
